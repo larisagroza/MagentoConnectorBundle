@@ -13,7 +13,7 @@ class CategoryNormalizerSpec extends ObjectBehavior
 {
     protected $globalContext;
 
-    public function let(
+    function let(
         ChannelManager $channelManager,
         CategoryMappingManager $categoryMappingManager,
         MappingCollection $categoryMapping,
@@ -29,10 +29,12 @@ class CategoryNormalizerSpec extends ObjectBehavior
             'categoryMapping'   => $categoryMapping,
             'storeViewMapping'  => $storeViewMapping,
             'defaultStoreView'  => 'default',
+            'urlKey'            => true,
+            'is_anchor'         => 1
         ];
     }
 
-    public function it_normalizes_a_new_category(
+    function it_normalizes_a_new_category(
         Category $category,
         Category $parentCategory,
         $categoryMapping,
@@ -72,7 +74,7 @@ class CategoryNormalizerSpec extends ObjectBehavior
         ]);
     }
 
-    public function it_normalizes_a_updated_category(
+    function it_normalizes_a_updated_category(
         Category $category,
         Category $parentCategory,
         $categoryMapping,
@@ -119,7 +121,7 @@ class CategoryNormalizerSpec extends ObjectBehavior
         ]);
     }
 
-    public function it_normalizes_a_updated_category_who_have_moved(
+    function it_normalizes_a_updated_category_who_have_moved(
         Category $category,
         Category $parentCategory,
         $categoryMapping,
@@ -171,7 +173,7 @@ class CategoryNormalizerSpec extends ObjectBehavior
         ]);
     }
 
-    public function it_normalizes_category_variations(
+    function it_normalizes_category_variations(
         Category $category,
         Category $parentCategory,
         CategoryTranslation $translation,

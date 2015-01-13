@@ -18,9 +18,6 @@ use Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClientParametersRegi
  */
 class AttributeSetWriter extends AbstractWriter
 {
-    const FAMILY_CREATED = 'Families created';
-    const FAMILY_EXISTS  = 'Family already in magento';
-
     /**
      * @var FamilyMappingManager
      */
@@ -61,7 +58,7 @@ class AttributeSetWriter extends AbstractWriter
             try {
                 $this->handleNewFamily($item);
             } catch (SoapCallException $e) {
-                $this->stepExecution->incrementSummaryInfo(self::FAMILY_EXISTS);
+                $this->stepExecution->incrementSummaryInfo('family_exists');
             }
         }
     }
@@ -83,7 +80,7 @@ class AttributeSetWriter extends AbstractWriter
                 $magentoFamilyId,
                 $magentoUrl
             );
-            $this->stepExecution->incrementSummaryInfo(self::FAMILY_CREATED);
+            $this->stepExecution->incrementSummaryInfo('family_created');
         }
     }
 }

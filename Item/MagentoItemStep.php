@@ -407,7 +407,7 @@ abstract class MagentoItemStep extends AbstractConfigurableStepElement implement
     /**
      * Get the magento soap client parameters
      *
-     * @return MagentoSoapClientParametersRegistry
+     * @return MagentoSoapClientParameters
      */
     protected function getClientParameters()
     {

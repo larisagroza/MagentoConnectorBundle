@@ -11,7 +11,7 @@ use PhpSpec\ObjectBehavior;
 
 class ProductAssociationWriterSpec extends ObjectBehavior
 {
-    public function let(
+    function let(
         WebserviceGuesser $webserviceGuesser,
         Webservice $webservice,
         StepExecution $stepExecution,
@@ -25,7 +25,7 @@ class ProductAssociationWriterSpec extends ObjectBehavior
         $this->setStepExecution($stepExecution);
     }
 
-    public function it_sends_remove_and_create_calls_to_the_webservice($webservice)
+    function it_sends_remove_and_create_calls_to_the_webservice($webservice)
     {
         $webservice->removeProductAssociation(['foo'])->shouldBeCalled();
         $webservice->createProductAssociation(['bar'])->shouldBeCalled();
@@ -41,7 +41,7 @@ class ProductAssociationWriterSpec extends ObjectBehavior
         $this->write($productAssociationCallsBatchs);
     }
 
-    public function it_fails_if_an_error_occured_with_remove_call($webservice)
+    function it_fails_if_an_error_occured_with_remove_call($webservice)
     {
         $webservice->removeProductAssociation(['foo'])->willThrow('\Pim\Bundle\MagentoConnectorBundle\Webservice\SoapCallException');
         $webservice->createProductAssociation(['bar'])->shouldNotBeCalled();
@@ -57,7 +57,7 @@ class ProductAssociationWriterSpec extends ObjectBehavior
         $this->shouldThrow('\Akeneo\Bundle\BatchBundle\Item\InvalidItemException')->duringWrite($productAssociationCallsBatchs);
     }
 
-    public function it_fails_if_an_error_occured_with_create_call($webservice)
+    function it_fails_if_an_error_occured_with_create_call($webservice)
     {
         $webservice->removeProductAssociation(['foo'])->shouldBeCalled();
         $webservice->createProductAssociation(['bar'])->willThrow('\Pim\Bundle\MagentoConnectorBundle\Webservice\SoapCallException');

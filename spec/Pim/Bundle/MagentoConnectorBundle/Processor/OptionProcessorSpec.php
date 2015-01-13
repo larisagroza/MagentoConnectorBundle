@@ -19,7 +19,7 @@ use Prophecy\Argument;
 
 class OptionProcessorSpec extends ObjectBehavior
 {
-    public function let(
+    function let(
         LocaleManager $localeManager,
         MagentoMappingMerger $storeViewMappingMerger,
         MagentoMappingMerger $attributeMappingMerger,
@@ -51,7 +51,7 @@ class OptionProcessorSpec extends ObjectBehavior
         $normalizerGuesser->getOptionNormalizer($clientParameters)->willReturn($optionNormalizer);
     }
 
-    public function it_normalizes_given_grouped_options(
+    function it_normalizes_given_grouped_options(
         AttributeOption $optionRed,
         AttributeOption $optionBlue,
         Attribute $attribute,
@@ -76,7 +76,7 @@ class OptionProcessorSpec extends ObjectBehavior
         ])->shouldReturn([['foo'], ['bar']]);
     }
 
-    public function it_raises_an_exception_if_it_can_not_get_option_list_from_webservice(
+    function it_raises_an_exception_if_it_can_not_get_option_list_from_webservice(
         AttributeOption $optionRed,
         Attribute $attribute,
         $optionNormalizer,
@@ -97,7 +97,7 @@ class OptionProcessorSpec extends ObjectBehavior
         $this->shouldThrow('Akeneo\Bundle\BatchBundle\Item\InvalidItemException')->during('process', [[$optionRed]]);
     }
 
-    public function it_raises_an_exception_if_a_error_occure_during_normalization_process(
+    function it_raises_an_exception_if_a_error_occure_during_normalization_process(
         AttributeOption $optionRed,
         Attribute $attribute,
         $optionNormalizer,
@@ -116,7 +116,7 @@ class OptionProcessorSpec extends ObjectBehavior
         $this->shouldThrow('Akeneo\Bundle\BatchBundle\Item\InvalidItemException')->during('process', [[$optionRed]]);
     }
 
-    public function it_gives_a_proper_configuration_for_fields($storeViewMappingMerger, $attributeMappingMerger)
+    function it_gives_a_proper_configuration_for_fields($storeViewMappingMerger, $attributeMappingMerger)
     {
         $storeViewMappingMerger->getConfigurationField()->willReturn(['fooo' => 'baar']);
         $attributeMappingMerger->getConfigurationField()->willReturn(['foo' => 'bar']);

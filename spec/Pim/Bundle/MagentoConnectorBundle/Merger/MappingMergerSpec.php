@@ -8,13 +8,13 @@ use PhpSpec\ObjectBehavior;
 
 class MappingMergerSpec extends ObjectBehavior
 {
-    public function let(Mapper $mapper1, Mapper $mapper2)
+    function let(Mapper $mapper1, Mapper $mapper2)
     {
         $mapper1->getPriority()->willReturn(0);
         $mapper2->getPriority()->willReturn(10);
     }
 
-    public function it_gives_ordered_mapping_from_mappers($mapper1, $mapper2)
+    function it_gives_ordered_mapping_from_mappers($mapper1, $mapper2)
     {
         $this->beConstructedWith(array($mapper2, $mapper1), 'generic', 'export', true);
 
@@ -44,7 +44,7 @@ class MappingMergerSpec extends ObjectBehavior
         ));
     }
 
-    public function it_sets_all_mappers_with_given_mapping($mapper1, $mapper2)
+    function it_sets_all_mappers_with_given_mapping($mapper1, $mapper2)
     {
         $this->beConstructedWith(array($mapper2, $mapper1), 'generic', 'export', true);
 
@@ -54,7 +54,7 @@ class MappingMergerSpec extends ObjectBehavior
         $this->setMapping(array('foo'));
     }
 
-    public function it_gives_a_configuration_field($mapper1, $mapper2)
+    function it_gives_a_configuration_field($mapper1, $mapper2)
     {
         $this->beConstructedWith(array($mapper2, $mapper1), 'generic', 'export', true);
 

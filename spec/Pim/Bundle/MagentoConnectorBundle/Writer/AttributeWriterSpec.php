@@ -20,7 +20,7 @@ use Prophecy\Argument;
 
 class AttributeWriterSpec extends ObjectBehavior
 {
-    public function let(
+    function let(
         WebserviceGuesser $webserviceGuesser,
         FamilyMappingManager $familyMappingManager,
         AttributeMappingManager $attributeMappingManager,
@@ -46,7 +46,7 @@ class AttributeWriterSpec extends ObjectBehavior
         $this->setStepExecution($stepExecution);
     }
 
-    public function it_sends_attribute_to_create_on_magento_webservice(
+    function it_sends_attribute_to_create_on_magento_webservice(
         $webservice,
         AbstractAttribute $attribute,
         AttributeMappingManager $attributeMappingManager,
@@ -81,7 +81,7 @@ class AttributeWriterSpec extends ObjectBehavior
         $this->write($attributes);
     }
 
-    public function it_sends_attribute_with_group_and_family_to_create_on_magento_webservice(
+    function it_sends_attribute_with_group_and_family_to_create_on_magento_webservice(
         $webservice,
         AbstractAttribute $attribute,
         AttributeMappingManager $attributeMappingManager,

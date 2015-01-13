@@ -19,7 +19,7 @@ use Prophecy\Argument;
  */
 class UrlExplorerSpec extends ObjectBehavior
 {
-    public function let(
+    function let(
         ClientInterface                     $client,
         MagentoSoapClientParametersRegistry $clientParametersRegistry,
         MagentoSoapClientParameters         $clientParameters
@@ -29,7 +29,7 @@ class UrlExplorerSpec extends ObjectBehavior
         $clientParametersRegistry->getInstance(null, null, null, null, null, null, null)->willReturn($clientParameters);
     }
 
-    public function it_success_with_valid_soap_url(
+    function it_success_with_valid_soap_url(
         $client,
         $clientParameters,
         Request $request,
@@ -60,7 +60,7 @@ class UrlExplorerSpec extends ObjectBehavior
         $this->getUrlContent($clientParameters)->shouldReturn('<xml>Some xml as a string</xml>');
     }
 
-    public function it_success_with_valid_http_authentication_credentials(
+    function it_success_with_valid_http_authentication_credentials(
         $client,
         $clientParameters,
         Request $request,
@@ -91,7 +91,7 @@ class UrlExplorerSpec extends ObjectBehavior
         $this->getUrlContent($clientParameters)->shouldReturn('<xml>Some xml as a string</xml>');
     }
 
-    public function it_fails_with_invalid_url(
+    function it_fails_with_invalid_url(
         $client,
         $clientParameters,
         Request $request,
@@ -121,7 +121,7 @@ class UrlExplorerSpec extends ObjectBehavior
         $this->shouldThrow('\Pim\Bundle\MagentoConnectorBundle\Validator\Exception\NotReachableUrlException')->duringGetUrlContent($clientParameters);
     }
 
-    public function it_fails_with_invalid_http_authentication_credentials(
+    function it_fails_with_invalid_http_authentication_credentials(
         $client,
         $clientParameters,
         Request $request,

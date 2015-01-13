@@ -3,7 +3,7 @@
 namespace Pim\Bundle\MagentoConnectorBundle\Normalizer;
 
 use Pim\Bundle\CatalogBundle\Manager\ChannelManager;
-use Pim\Bundle\CatalogBundle\Model\ProductMedia;
+use Pim\Bundle\CatalogBundle\Model\AbstractProductMedia;
 use Pim\Bundle\CatalogBundle\Manager\MediaManager;
 use Pim\Bundle\CatalogBundle\Model\ProductInterface;
 use Pim\Bundle\MagentoConnectorBundle\Webservice\Webservice;
@@ -227,7 +227,7 @@ class ProductNormalizer extends AbstractNormalizer implements ProductNormalizerI
     ) {
         $imageValues = $product->getValues()->filter(
             function ($value) {
-                return $value->getData() instanceof ProductMedia &&
+                return $value->getData() instanceof AbstractProductMedia &&
                     in_array($value->getData()->getMimeType(), array('image/jpeg', 'image/png', 'image/gif'));
             }
         );

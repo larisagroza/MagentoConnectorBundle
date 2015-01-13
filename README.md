@@ -15,6 +15,7 @@ Warning: this connector is not production ready and is intended for evaluation a
  - php5-xml
  - php5-soap
  - Akeneo PIM 1.2.x stable
+ - Magento from CE 1.6 to 1.9 and EE 1.11 to 1.14
 
 # Installation instructions
 

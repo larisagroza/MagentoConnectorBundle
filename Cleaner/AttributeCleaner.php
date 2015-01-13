@@ -21,8 +21,6 @@ use Doctrine\ORM\EntityManager;
  */
 class AttributeCleaner extends Cleaner
 {
-    const ATTRIBUTE_DELETED = 'Attribute deleted';
-
     /** @var MagentoMappingMerger */
     protected $attributeCodeMappingMerger;
 
@@ -134,7 +132,7 @@ class AttributeCleaner extends Cleaner
     {
         if ($this->notInPimAnymoreAction === self::DELETE) {
             $this->webservice->deleteAttribute($attribute['code']);
-            $this->stepExecution->incrementSummaryInfo(self::ATTRIBUTE_DELETED);
+            $this->stepExecution->incrementSummaryInfo('attribute_deleted');
         }
     }
 
@@ -158,7 +156,7 @@ class AttributeCleaner extends Cleaner
 
         $configurationFields['notInPimAnymoreAction']['options']['choices'] = [
             Cleaner::DO_NOTHING => 'pim_magento_connector.export.do_nothing.label',
-            Cleaner::DELETE     => 'pim_magento_connector.export.delete.label',
+            Cleaner::DELETE     => 'pim_magento_connector.export.delete.label'
         ];
 
         $configurationFields['notInPimAnymoreAction']['options']['help'] =

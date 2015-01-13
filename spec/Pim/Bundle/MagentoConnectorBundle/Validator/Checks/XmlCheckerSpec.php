@@ -12,7 +12,7 @@ use PhpSpec\ObjectBehavior;
  */
 class XmlCheckerSpec extends ObjectBehavior
 {
-    public function it_fails_with_invalid_xml()
+    function it_fails_with_invalid_xml()
     {
         $exception = new InvalidXmlException();
         $invalidXml = '<note><to>Tove</Tto><from>Jani</Ffrom><heading>Reminder</Hheading><body>Don\'t forget me this weekend!</body>';
@@ -20,7 +20,7 @@ class XmlCheckerSpec extends ObjectBehavior
         $this->shouldThrow($exception)->duringCheckXml($invalidXml);
     }
 
-    public function it_returns_SimpleXMLElement_with_valid_xml()
+    function it_returns_SimpleXMLElement_with_valid_xml()
     {
         $validXml = '<note><to>Tove</to><from>Jani</from><heading>Reminder</heading><body>Don\'t forget me this weekend!</body></note>';
 

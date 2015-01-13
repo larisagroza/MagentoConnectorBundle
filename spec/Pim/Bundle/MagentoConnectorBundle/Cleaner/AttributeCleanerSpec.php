@@ -17,7 +17,7 @@ use Prophecy\Argument;
 
 class AttributeCleanerSpec extends ObjectBehavior
 {
-    public function let(
+    function let(
         WebserviceGuesser $webserviceGuesser,
         MagentoMappingMerger $attributeMappingMerger,
         EntityManager $em,
@@ -38,7 +38,7 @@ class AttributeCleanerSpec extends ObjectBehavior
         $attributeMappingMerger->getMapping()->willReturn($mappingCollection);
     }
 
-    public function it_deletes_attribute_not_in_pim_anymore($webservice, $entityRepository, $mappingCollection)
+    function it_deletes_attribute_not_in_pim_anymore($webservice, $entityRepository, $mappingCollection)
     {
         $this->setNotInPimAnymoreAction('delete');
 
@@ -51,7 +51,7 @@ class AttributeCleanerSpec extends ObjectBehavior
         $this->execute();
     }
 
-    public function it_not_deletes_attribute_not_in_pim_anymore_if_parameters_doesnt_say_to_do_so(
+    function it_not_deletes_attribute_not_in_pim_anymore_if_parameters_doesnt_say_to_do_so(
         $webservice,
         $entityRepository,
         $mappingCollection
@@ -67,7 +67,7 @@ class AttributeCleanerSpec extends ObjectBehavior
         $this->execute();
     }
 
-    public function it_deletes_attribute_not_in_family_anymore(
+    function it_deletes_attribute_not_in_family_anymore(
         $webservice,
         $entityRepository,
         $mappingCollection,
@@ -85,7 +85,7 @@ class AttributeCleanerSpec extends ObjectBehavior
         $this->execute();
     }
 
-    public function it_deletes_attribute_which_got_renamed(
+    function it_deletes_attribute_which_got_renamed(
         $webservice,
         $entityRepository,
         $mappingCollection,
@@ -103,7 +103,7 @@ class AttributeCleanerSpec extends ObjectBehavior
         $this->execute();
     }
 
-    public function it_raises_an_invalid_item_exception_when_something_goes_wrong_with_the_sopa_api(
+    function it_raises_an_invalid_item_exception_when_something_goes_wrong_with_the_sopa_api(
         $webservice,
         $entityRepository,
         $mappingCollection,
@@ -121,7 +121,7 @@ class AttributeCleanerSpec extends ObjectBehavior
         $this->shouldThrow('Akeneo\Bundle\BatchBundle\Item\InvalidItemException')->during('execute');
     }
 
-    public function it_get_attribute_mapping_from_attribute_mapping_merger(
+    function it_get_attribute_mapping_from_attribute_mapping_merger(
         $attributeMappingMerger,
         MappingCollection $mappingCollection
     ) {
@@ -131,7 +131,7 @@ class AttributeCleanerSpec extends ObjectBehavior
         $this->getAttributeCodeMapping()->shouldReturn('[]');
     }
 
-    public function it_sets_attribute_mapping_to_the_attribute_mapping_merger($attributeMappingMerger)
+    function it_sets_attribute_mapping_to_the_attribute_mapping_merger($attributeMappingMerger)
     {
         $attributeMappingMerger->setParameters(Argument::cetera())->shouldBeCalled();
         $attributeMappingMerger->setMapping([])->shouldBeCalled();
@@ -139,7 +139,7 @@ class AttributeCleanerSpec extends ObjectBehavior
         $this->setAttributeCodeMapping('[]');
     }
 
-    public function it_gives_configuration_fields($attributeMappingMerger)
+    function it_gives_configuration_fields($attributeMappingMerger)
     {
         $attributeMappingMerger->getConfigurationField()->willReturn(['attributeMapping' => []]);
 

@@ -14,8 +14,6 @@ use Pim\Bundle\MagentoConnectorBundle\Webservice\SoapCallException;
  */
 class OptionWriter extends AbstractWriter
 {
-    const OPTION_CREATED = 'Option created';
-
     /**
      * {@inheritdoc}
      */
@@ -27,7 +25,7 @@ class OptionWriter extends AbstractWriter
             foreach ($options as $option) {
                 try {
                     $this->webservice->createOption($option);
-                    $this->stepExecution->incrementSummaryInfo(self::OPTION_CREATED);
+                    $this->stepExecution->incrementSummaryInfo('option_created');
                 } catch (SoapCallException $e) {
                     throw new InvalidItemException($e->getMessage(), [json_encode($option)]);
                 }

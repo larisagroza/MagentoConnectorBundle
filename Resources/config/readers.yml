@@ -25,6 +25,7 @@ services:
             - '@doctrine.orm.default_entity_manager'
             - %pim_catalog.entity.category.class%
             - '@pim_magento_connector.repository.category'
+            - '@pim_catalog.manager.channel'
 
     pim_magento_connector.reader.orm.grouped_option:
         class: %pim_magento_connector.reader.orm.grouped_option.class%

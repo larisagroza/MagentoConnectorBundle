@@ -20,12 +20,6 @@ use Akeneo\Bundle\BatchBundle\Item\InvalidItemException;
  */
 class CategoryCleaner extends Cleaner
 {
-    /** @const string */
-    const CATEGORY_DELETED  = 'Category deleted';
-
-    /** @const string */
-    const CATEGORY_DISABLED = 'Category disabled';
-
     /** @var CategoryMappingManager */
     protected $categoryMappingManager;
 
@@ -70,7 +64,7 @@ class CategoryCleaner extends Cleaner
     }
 
     /**
-     * Handle deletion or disableing of categories that are not in PIM anymore
+     * Handle deletion or disabling of categories that are not in PIM anymore
      *
      * @param array $category
      */
@@ -78,13 +72,13 @@ class CategoryCleaner extends Cleaner
     {
         if ($this->notInPimAnymoreAction === self::DISABLE) {
             $this->webservice->disableCategory($category['category_id']);
-            $this->stepExecution->incrementSummaryInfo(self::CATEGORY_DISABLED);
+            $this->stepExecution->incrementSummaryInfo('category_disabled');
         } elseif ($this->notInPimAnymoreAction === self::DELETE) {
             try {
                 $this->webservice->deleteCategory($category['category_id']);
-                $this->stepExecution->incrementSummaryInfo(self::CATEGORY_DELETED);
+                $this->stepExecution->incrementSummaryInfo('category_deleted');
             } catch (SoapCallException $e) {
-                //In any case, if deleteCategory fails, it is due to the parent category has allready been deleted.
+                //In any case, if deleteCategory fails, it is due to the parent category has already been deleted.
             }
         }
     }

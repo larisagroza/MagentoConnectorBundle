@@ -25,7 +25,7 @@ use Prophecy\Argument;
  */
 class HasValidCredentialsValidatorSpec extends ObjectBehavior
 {
-    public function let(
+    function let(
         WebserviceGuesser $webserviceGuesser,
         UrlExplorer $urlExplorer,
         XmlChecker $xmlChecker,
@@ -40,7 +40,7 @@ class HasValidCredentialsValidatorSpec extends ObjectBehavior
         $this->initialize($context);
     }
 
-    public function it_does_nothing_with_something_else_than_magento_item_step(
+    function it_does_nothing_with_something_else_than_magento_item_step(
         $context,
         AbstractConfigurableStepElement $step,
         Constraint $constraint
@@ -50,7 +50,7 @@ class HasValidCredentialsValidatorSpec extends ObjectBehavior
         $this->validate($step, $constraint);
     }
 
-    public function it_success_with_good_credentials_and_valid_soap_url(
+    function it_success_with_good_credentials_and_valid_soap_url(
         $context,
         $clientParameters,
         MagentoItemStep $step,
@@ -63,7 +63,7 @@ class HasValidCredentialsValidatorSpec extends ObjectBehavior
         $this->validate($step, $constraint);
     }
 
-    public function it_fails_if_soap_url_is_not_reachable(
+    function it_fails_if_soap_url_is_not_reachable(
         $clientParameters,
         $context,
         $urlExplorer,
@@ -78,7 +78,7 @@ class HasValidCredentialsValidatorSpec extends ObjectBehavior
         $this->validate($step, $constraint);
     }
 
-    public function it_fails_with_invalid_soap_url_or_wrong_http_authentication_credentials(
+    function it_fails_with_invalid_soap_url_or_wrong_http_authentication_credentials(
         $context,
         $clientParameters,
         $urlExplorer,
@@ -93,7 +93,7 @@ class HasValidCredentialsValidatorSpec extends ObjectBehavior
         $this->validate($step, $constraint);
     }
 
-    public function it_fails_with_invalid_soap_xml_return(
+    function it_fails_with_invalid_soap_xml_return(
         $context,
         $clientParameters,
         $xmlChecker,
@@ -108,7 +108,7 @@ class HasValidCredentialsValidatorSpec extends ObjectBehavior
         $this->validate($step, $constraint);
     }
 
-    public function it_fails_with_invalid_soap_credentials_or_user_has_no_right_on_magento(
+    function it_fails_with_invalid_soap_credentials_or_user_has_no_right_on_magento(
         $context,
         $clientParameters,
         $webserviceGuesser,
@@ -123,7 +123,7 @@ class HasValidCredentialsValidatorSpec extends ObjectBehavior
         $this->validate($step, $constraint);
     }
 
-    public function it_fails_if_an_unknown_error_occured(
+    function it_fails_if_an_unknown_error_occured(
         $context,
         $clientParameters,
         $webserviceGuesser,
@@ -137,7 +137,7 @@ class HasValidCredentialsValidatorSpec extends ObjectBehavior
         $this->validate($step, $constraint);
     }
 
-    public function it_returns_true_with_good_credentials_and_valid_soap_url(
+    function it_returns_true_with_good_credentials_and_valid_soap_url(
         $clientParameters,
         $urlExplorer,
         $webserviceGuesser,
@@ -153,7 +153,7 @@ class HasValidCredentialsValidatorSpec extends ObjectBehavior
         $this->areValidSoapCredentials($clientParameters)->shouldReturn(true);
     }
 
-    public function it_returns_false_with_invalid_soap_url_or_wrong_http_authentication_credentials(
+    function it_returns_false_with_invalid_soap_url_or_wrong_http_authentication_credentials(
         $urlExplorer,
         $clientParameters,
         $webserviceGuesser
@@ -167,7 +167,7 @@ class HasValidCredentialsValidatorSpec extends ObjectBehavior
         $this->areValidSoapCredentials($clientParameters)->shouldReturn(false);
     }
 
-    public function it_returns_false_if_soap_url_is_not_reachable(
+    function it_returns_false_if_soap_url_is_not_reachable(
         $urlExplorer,
         $clientParameters,
         $webserviceGuesser
@@ -181,7 +181,7 @@ class HasValidCredentialsValidatorSpec extends ObjectBehavior
         $this->areValidSoapCredentials($clientParameters)->shouldReturn(false);
     }
 
-    public function it_returns_false_with_invalid_soap_credentials(
+    function it_returns_false_with_invalid_soap_credentials(
         $webserviceGuesser,
         $clientParameters
     ) {
@@ -193,7 +193,7 @@ class HasValidCredentialsValidatorSpec extends ObjectBehavior
         $this->areValidSoapCredentials($clientParameters)->shouldReturn(false);
     }
 
-    public function it_returns_false_if_user_has_no_right_on_magento(
+    function it_returns_false_if_user_has_no_right_on_magento(
         $webserviceGuesser,
         $clientParameters,
         Webservice $webservice
@@ -207,7 +207,7 @@ class HasValidCredentialsValidatorSpec extends ObjectBehavior
         $this->areValidSoapCredentials($clientParameters)->shouldReturn(false);
     }
 
-    public function it_returns_false_if_an_unknown_error_occured(
+    function it_returns_false_if_an_unknown_error_occured(
         $webserviceGuesser,
         $clientParameters
     ) {

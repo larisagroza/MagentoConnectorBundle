@@ -9,12 +9,12 @@ use PhpSpec\ObjectBehavior;
 
 class WebserviceSpec extends ObjectBehavior
 {
-    public function let(MagentoSoapClient $magentoSoapClient)
+    function let(MagentoSoapClient $magentoSoapClient)
     {
         $this->beConstructedWith($magentoSoapClient);
     }
 
-    public function it_calls_soap_client_to_send_new_category($magentoSoapClient)
+    function it_calls_soap_client_to_send_new_category($magentoSoapClient)
     {
         $magentoSoapClient->call(
             Webservice::SOAP_ACTION_CATEGORY_CREATE,
@@ -24,7 +24,7 @@ class WebserviceSpec extends ObjectBehavior
         $this->sendNewCategory(['foo'])->shouldReturn(12);
     }
 
-    public function it_calls_soap_client_to_send_category_update($magentoSoapClient)
+    function it_calls_soap_client_to_send_category_update($magentoSoapClient)
     {
         $magentoSoapClient->call(
             Webservice::SOAP_ACTION_CATEGORY_UPDATE,
@@ -34,7 +34,7 @@ class WebserviceSpec extends ObjectBehavior
         $this->sendUpdateCategory(['foo']);
     }
 
-    public function it_calls_soap_client_to_send_category_move($magentoSoapClient)
+    function it_calls_soap_client_to_send_category_move($magentoSoapClient)
     {
         $magentoSoapClient->call(
             Webservice::SOAP_ACTION_CATEGORY_MOVE,
@@ -44,7 +44,7 @@ class WebserviceSpec extends ObjectBehavior
         $this->sendMoveCategory(['foo']);
     }
 
-    public function it_calls_soap_client_to_get_categories_status($magentoSoapClient)
+    function it_calls_soap_client_to_get_categories_status($magentoSoapClient)
     {
         $tree = [
             'category_id' => 1,
@@ -79,7 +79,7 @@ class WebserviceSpec extends ObjectBehavior
         $this->getCategoriesStatus()->shouldReturn($flattenTree);
     }
 
-    public function it_gets_association_status_for_a_given_product($magentoSoapClient, ProductInterface $product)
+    function it_gets_association_status_for_a_given_product($magentoSoapClient, ProductInterface $product)
     {
         $magentoSoapClient->call('catalog_product_link.list', ['up_sell', 'sku-012', 'sku'])->willReturn('up_sell');
         $magentoSoapClient->call('catalog_product_link.list', ['cross_sell', 'sku-012', 'sku'])->willReturn('cross_sell');
@@ -98,28 +98,28 @@ class WebserviceSpec extends ObjectBehavior
         );
     }
 
-    public function it_send_remove_call($magentoSoapClient)
+    function it_send_remove_call($magentoSoapClient)
     {
         $magentoSoapClient->call('catalog_product_link.remove', ['foo'])->shouldBeCalled();
 
         $this->removeProductAssociation(['foo']);
     }
 
-    public function it_send_create_call($magentoSoapClient)
+    function it_send_create_call($magentoSoapClient)
     {
         $magentoSoapClient->call('catalog_product_link.assign', ['bar'])->shouldBeCalled();
 
         $this->createProductAssociation(['bar']);
     }
 
-    public function it_send_delete_call($magentoSoapClient)
+    function it_send_delete_call($magentoSoapClient)
     {
         $magentoSoapClient->call('catalog_product.delete', ['sku-000'])->shouldBeCalled();
 
         $this->deleteProduct('sku-000');
     }
 
-    public function it_send_disable_call($magentoSoapClient)
+    function it_send_disable_call($magentoSoapClient)
     {
         $magentoSoapClient->call('catalog_product.update', ['sku-001', ['status' => 2]])->shouldBeCalled();
 

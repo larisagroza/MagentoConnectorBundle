@@ -48,6 +48,8 @@ class WebserviceGuesser extends AbstractGuesser
             switch ($magentoVersion) {
                 case AbstractGuesser::MAGENTO_VERSION_1_14:
                 case AbstractGuesser::MAGENTO_VERSION_1_13:
+                case AbstractGuesser::MAGENTO_VERSION_1_12:
+                case AbstractGuesser::MAGENTO_VERSION_1_11:
                     $this->webservice = new WebserviceEE($client);
                     break;
                 case AbstractGuesser::UNKNOWN_VERSION:

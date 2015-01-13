@@ -13,7 +13,7 @@ use Prophecy\Argument;
 
 class CategoryCleanerSpec extends ObjectBehavior
 {
-    public function let(
+    function let(
         WebserviceGuesser $webserviceGuesser,
         CategoryMappingManager $categoryMappingManager,
         Webservice $webservice,
@@ -28,7 +28,7 @@ class CategoryCleanerSpec extends ObjectBehavior
         $webserviceGuesser->getWebservice($clientParameters)->willReturn($webservice);
     }
 
-    public function it_asks_soap_client_to_delete_categories_that_are_not_in_pim_anymore($webservice, $categoryMappingManager)
+    function it_asks_soap_client_to_delete_categories_that_are_not_in_pim_anymore($webservice, $categoryMappingManager)
     {
         $this->setNotInPimAnymoreAction('delete');
 
@@ -49,7 +49,7 @@ class CategoryCleanerSpec extends ObjectBehavior
         $this->execute();
     }
 
-    public function it_asks_soap_client_to_disable_categories_that_are_not_in_pim_anymore($webservice, $categoryMappingManager)
+    function it_asks_soap_client_to_disable_categories_that_are_not_in_pim_anymore($webservice, $categoryMappingManager)
     {
         $this->setNotInPimAnymoreAction('disable');
 
@@ -66,7 +66,7 @@ class CategoryCleanerSpec extends ObjectBehavior
         $this->execute();
     }
 
-    public function it_raises_invalid_item_exception_if_something_goes_wrong_with_the_soap_api($webservice, $categoryMappingManager)
+    function it_raises_invalid_item_exception_if_something_goes_wrong_with_the_soap_api($webservice, $categoryMappingManager)
     {
         $this->setNotInPimAnymoreAction('disable');
 
@@ -83,7 +83,7 @@ class CategoryCleanerSpec extends ObjectBehavior
         $this->shouldThrow('Akeneo\Bundle\BatchBundle\Item\InvalidItemException')->during('execute');
     }
 
-    public function it_is_configurable_via_magento_item_step()
+    function it_is_configurable_via_magento_item_step()
     {
         $this->setSoapUsername('soap');
         $this->getSoapUsername()->shouldReturn('soap');

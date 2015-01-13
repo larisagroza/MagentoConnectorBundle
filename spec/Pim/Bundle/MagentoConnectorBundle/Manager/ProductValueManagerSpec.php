@@ -7,12 +7,12 @@ use PhpSpec\ObjectBehavior;
 
 class ProductValueManagerSpec extends ObjectBehavior
 {
-    public function let()
+    function let()
     {
         $this->beConstructedWith('Pim\Bundle\CatalogBundle\Model\ProductValue');
     }
 
-    public function it_creates_default_product_for_default_option(Attribute $attribute)
+    function it_creates_default_product_for_default_option(Attribute $attribute)
     {
         $attribute->getDefaultValue()->shouldBeCalled()->willReturn(null);
         $this->createProductValueForDefaultOption($attribute)->shouldReturnAnInstanceOf('Pim\Bundle\CatalogBundle\Model\ProductValue');

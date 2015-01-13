@@ -10,7 +10,7 @@ use PhpSpec\ObjectBehavior;
 
 class WebserviceGuesserSpec extends ObjectBehavior
 {
-    public function let(
+    function let(
         MagentoSoapClientFactory $magentoSoapClientFactory,
         MagentoSoapClientParametersRegistry $clientParametersRegistry,
         MagentoSoapClientParameters $clientParameters
@@ -24,7 +24,7 @@ class WebserviceGuesserSpec extends ObjectBehavior
         $clientParameters->getSoapApiKey()->willReturn('soap_api_key');
     }
 
-    public function it_guesses_webservice_for_parameters(
+    function it_guesses_webservice_for_parameters(
         $magentoSoapClientFactory,
         $clientParameters,
         MagentoSoapClient $magentoSoapClient
@@ -36,7 +36,7 @@ class WebserviceGuesserSpec extends ObjectBehavior
         $this->getWebservice($clientParameters)->shouldBeAnInstanceOf('Pim\Bundle\MagentoConnectorBundle\Webservice\Webservice');
     }
 
-    public function it_guesses_an_old_webservice_for_parameters(
+    function it_guesses_an_old_webservice_for_parameters(
         $magentoSoapClientFactory,
         $clientParameters,
         MagentoSoapClient $magentoSoapClient
@@ -48,7 +48,7 @@ class WebserviceGuesserSpec extends ObjectBehavior
         $this->getWebservice($clientParameters)->shouldBeAnInstanceOf('Pim\Bundle\MagentoConnectorBundle\Webservice\Webservice16');
     }
 
-    public function it_raises_an_exception_if_the_version_number_is_not_well_formed(
+    function it_raises_an_exception_if_the_version_number_is_not_well_formed(
         $magentoSoapClientFactory,
         $clientParameters,
         MagentoSoapClient $magentoSoapClient

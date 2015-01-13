@@ -14,8 +14,6 @@ use Akeneo\Bundle\BatchBundle\Item\InvalidItemException;
  */
 class ProductAssociationWriter extends AbstractWriter
 {
-    const PRODUCT_LINKED = 'Product linked';
-
     /**
      * {@inheritdoc}
      */
@@ -25,7 +23,7 @@ class ProductAssociationWriter extends AbstractWriter
 
         foreach ($productAssociationCallsBatchs as $productAssociationCalls) {
             $this->handleProductAssociationCalls($productAssociationCalls);
-            $this->stepExecution->incrementSummaryInfo(self::PRODUCT_LINKED);
+            $this->stepExecution->incrementSummaryInfo('product_linked');
         }
     }
 
@@ -33,7 +31,7 @@ class ProductAssociationWriter extends AbstractWriter
      * Handle product association calls
      * @param array $productAssociationCalls
      *
-     * @throws SopaCallException If a soap call fails
+     * @throws InvalidItemException
      */
     protected function handleProductAssociationCalls(array $productAssociationCalls)
     {

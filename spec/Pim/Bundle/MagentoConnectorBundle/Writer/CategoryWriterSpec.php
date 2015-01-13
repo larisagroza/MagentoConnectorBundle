@@ -14,7 +14,7 @@ use Prophecy\Argument;
 
 class CategoryWriterSpec extends ObjectBehavior
 {
-    public function let(
+    function let(
         WebserviceGuesser $webserviceGuesser,
         CategoryMappingManager $categoryMappingManager,
         Webservice $webservice,
@@ -29,7 +29,7 @@ class CategoryWriterSpec extends ObjectBehavior
         $this->setStepExecution($stepExecution);
     }
 
-    public function it_sends_categories_to_create_on_magento_webservice(
+    function it_sends_categories_to_create_on_magento_webservice(
         Category $category,
         $webservice,
         $categoryMappingManager
@@ -53,7 +53,7 @@ class CategoryWriterSpec extends ObjectBehavior
         $this->write($batches);
     }
 
-    public function it_sends_categories_to_update_on_magento_webservice($webservice)
+    function it_sends_categories_to_update_on_magento_webservice($webservice)
     {
         $batches = [
             [
@@ -68,7 +68,7 @@ class CategoryWriterSpec extends ObjectBehavior
         $this->write($batches);
     }
 
-    public function it_sends_categories_to_move_on_magento_webservice($webservice)
+    function it_sends_categories_to_move_on_magento_webservice($webservice)
     {
         $batches = [
             [
@@ -83,7 +83,7 @@ class CategoryWriterSpec extends ObjectBehavior
         $this->write($batches);
     }
 
-    public function it_sends_categories_to_update_variation_on_magento_webservice(
+    function it_sends_categories_to_update_variation_on_magento_webservice(
         Category $category,
         $webservice,
         $categoryMappingManager
@@ -109,7 +109,7 @@ class CategoryWriterSpec extends ObjectBehavior
         $this->write($batches);
     }
 
-    public function it_throws_an_exception_if_something_went_wrong_with_magento_calls(
+    function it_throws_an_exception_if_something_went_wrong_with_magento_calls(
         Category $category,
         $webservice,
         $categoryMappingManager

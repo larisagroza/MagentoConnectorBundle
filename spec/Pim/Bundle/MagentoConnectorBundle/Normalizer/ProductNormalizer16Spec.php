@@ -11,7 +11,7 @@ use PhpSpec\ObjectBehavior;
 
 class ProductNormalizer16Spec extends ObjectBehavior
 {
-    public function let(
+    function let(
         ChannelManager $channelManager,
         MediaManager $mediaManager,
         ProductValueNormalizer $productValueNormalizer,
@@ -32,7 +32,7 @@ class ProductNormalizer16Spec extends ObjectBehavior
         );
     }
 
-    public function it_is_initializable()
+    function it_is_initializable()
     {
         $this->shouldHaveType('Pim\Bundle\MagentoConnectorBundle\Normalizer\ProductNormalizer16');
     }

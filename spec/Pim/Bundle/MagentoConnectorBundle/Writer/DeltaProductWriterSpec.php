@@ -16,7 +16,7 @@ use PhpSpec\ObjectBehavior;
  */
 class DeltaProductWriterSpec extends ObjectBehavior
 {
-    public function let(
+    function let(
         WebserviceGuesser $webserviceGuesser,
         ChannelManager $channelManager,
         ProductExportManager $productExportManager,
@@ -25,7 +25,7 @@ class DeltaProductWriterSpec extends ObjectBehavior
         $this->beConstructedWith($webserviceGuesser, $channelManager, $productExportManager, $clientParametersRegistry);
     }
 
-    public function it_sets_step_execution(StepExecution $stepExecution, JobExecution $jobExecution)
+    function it_sets_step_execution(StepExecution $stepExecution, JobExecution $jobExecution)
     {
         $stepExecution->getJobExecution()->willReturn($jobExecution);
         $jobExecution->getJobInstance()->shouldBeCalled();

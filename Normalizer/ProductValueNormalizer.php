@@ -5,9 +5,9 @@ namespace Pim\Bundle\MagentoConnectorBundle\Normalizer;
 use Doctrine\Common\Collections\Collection;
 use Pim\Bundle\CatalogBundle\Entity\AttributeOption;
 use Pim\Bundle\CatalogBundle\Model\AbstractAttribute;
-use Pim\Bundle\CatalogBundle\Model\ProductMedia;
-use Pim\Bundle\CatalogBundle\Model\Metric;
-use Pim\Bundle\CatalogBundle\Model\ProductPrice;
+use Pim\Bundle\CatalogBundle\Model\AbstractMetric;
+use Pim\Bundle\CatalogBundle\Model\AbstractProductMedia;
+use Pim\Bundle\CatalogBundle\Model\AbstractProductPrice;
 use Pim\Bundle\CatalogBundle\Model\ProductValueInterface;
 use Pim\Bundle\MagentoConnectorBundle\Mapper\MappingCollection;
 use Pim\Bundle\CustomEntityBundle\Entity\AbstractCustomEntity;
@@ -104,7 +104,7 @@ class ProductValueNormalizer implements NormalizerInterface
             ) &&
             $this->forceLocalization($attributeCode, $onlyLocalized) &&
             $this->attributeIsNotIgnored($attributeCode) &&
-            !($value->getData() instanceof ProductMedia)
+            !($value->getData() instanceof AbstractProductMedia)
         );
     }
 
@@ -338,7 +338,7 @@ class ProductValueNormalizer implements NormalizerInterface
             ],
             [
                 'filter'     => function ($data) {
-                    return $data instanceof Metric;
+                    return $data instanceof AbstractMetric;
                 },
                 'normalizer' => function ($data, $parameters) {
                     return (string) $data->getData();
@@ -451,7 +451,7 @@ class ProductValueNormalizer implements NormalizerInterface
                 $optionCode = $item->getCode();
 
                 $result[] = $this->getOptionId($attributeCode, $optionCode, $magentoAttributesOptions);
-            } elseif ($item instanceof ProductPrice) {
+            } elseif ($item instanceof AbstractProductPrice) {
                 if ($item->getData() !== null &&
                     $item->getCurrency() === $currencyCode
                 ) {

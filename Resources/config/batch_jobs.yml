@@ -44,7 +44,7 @@ connector:
                         cleaner: pim_magento_connector.cleaner.configurable
 
         magento_product_export_delta:
-            title: pim_magento_connector.jobs.product_delta_export.title
+            title: pim_magento_connector.jobs.product_export_delta.title
             type:  export
             templates:
                 show: 'PimMagentoConnectorBundle:Export:show.html.twig'
@@ -106,8 +106,8 @@ connector:
                     services:
                         cleaner: pim_magento_connector.cleaner.category
 
-        magento_full_export:
-            title: pim_magento_connector.jobs.full_export.title
+        magento_attribute_export:
+            title: pim_magento_connector.jobs.attribute_export.title
             type:  export
             templates:
                 show: 'PimMagentoConnectorBundle:Export:show.html.twig'

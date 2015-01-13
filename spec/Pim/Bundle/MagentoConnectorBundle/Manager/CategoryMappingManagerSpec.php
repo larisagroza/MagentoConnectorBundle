@@ -11,7 +11,7 @@ use PhpSpec\ObjectBehavior;
 
 class CategoryMappingManagerSpec extends ObjectBehavior
 {
-    public function let(ObjectManager $objectManager, EntityRepository $entityRepository, MappingCollection $mappingCollection)
+    function let(ObjectManager $objectManager, EntityRepository $entityRepository, MappingCollection $mappingCollection)
     {
         $this->beConstructedWith($objectManager, 'Pim\Bundle\MagentoConnectorBundle\Entity\MagentoCategoryMapping');
         $objectManager->getRepository('Pim\Bundle\MagentoConnectorBundle\Entity\MagentoCategoryMapping')
@@ -20,7 +20,7 @@ class CategoryMappingManagerSpec extends ObjectBehavior
         $mappingCollection->getTarget('default')->willReturn(12);
     }
 
-    public function it_gets_category_from_id(
+    function it_gets_category_from_id(
         $entityRepository,
         MagentoCategoryMapping $categoryMapping,
         Category $category
@@ -33,7 +33,7 @@ class CategoryMappingManagerSpec extends ObjectBehavior
         $this->getCategoryFromId(12, 'magento_url')->shouldReturn($category);
     }
 
-    public function it_gets_null_if_category_mapping_is_not_found($entityRepository)
+    function it_gets_null_if_category_mapping_is_not_found($entityRepository)
     {
         $entityRepository->findOneBy(['magentoCategoryId' => 12, 'magentoUrl' => 'magento_url'])
             ->willReturn(null);
@@ -41,14 +41,14 @@ class CategoryMappingManagerSpec extends ObjectBehavior
         $this->getCategoryFromId(12, 'magento_url')->shouldReturn(null);
     }
 
-    public function it_gets_id_from_root_category_mapping(Category $category, $mappingCollection)
+    function it_gets_id_from_root_category_mapping(Category $category, $mappingCollection)
     {
         $category->getCode()->willReturn('default');
 
         $this->getIdFromCategory($category, '', $mappingCollection)->shouldReturn(12);
     }
 
-    public function it_gets_id_from_category_mapping_stored_in_database(
+    function it_gets_id_from_category_mapping_stored_in_database(
         Category $category,
         $entityRepository,
         MagentoCategoryMapping $categoryMapping,
@@ -70,7 +70,7 @@ class CategoryMappingManagerSpec extends ObjectBehavior
         $this->getIdFromCategory($category, '', $mappingCollection)->shouldReturn(13);
     }
 
-    public function it_returns_null_if_category_is_not_found(
+    function it_returns_null_if_category_is_not_found(
         Category $category,
         $entityRepository,
         $mappingCollection
@@ -89,7 +89,7 @@ class CategoryMappingManagerSpec extends ObjectBehavior
         $this->getIdFromCategory($category, '', $mappingCollection)->shouldReturn(null);
     }
 
-    public function it_tests_if_a_category_exist_from_category_id(
+    function it_tests_if_a_category_exist_from_category_id(
         $entityRepository,
         MagentoCategoryMapping $categoryMapping,
         Category $category
@@ -102,7 +102,7 @@ class CategoryMappingManagerSpec extends ObjectBehavior
         $this->magentoCategoryExists(12, 'magento_url')->shouldReturn(true);
     }
 
-    public function it_registers_mapping(
+    function it_registers_mapping(
         $entityRepository,
         MagentoCategoryMapping $magentoCategoryMapping,
         Category $category,

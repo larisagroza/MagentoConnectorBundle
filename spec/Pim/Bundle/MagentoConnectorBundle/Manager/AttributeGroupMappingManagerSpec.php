@@ -11,7 +11,7 @@ use PhpSpec\ObjectBehavior;
 
 class AttributeGroupMappingManagerSpec extends ObjectBehavior
 {
-    public function let(
+    function let(
         ObjectManager $objectManager,
         EntityRepository $entityRepository,
         Family $family,
@@ -25,7 +25,7 @@ class AttributeGroupMappingManagerSpec extends ObjectBehavior
         $family->getCode()->willReturn(5);
     }
 
-    public function it_returns_id_from_group(
+    function it_returns_id_from_group(
         $entityRepository,
         MagentoGroupMapping $magentoGroupMapping,
         $family,
@@ -39,7 +39,7 @@ class AttributeGroupMappingManagerSpec extends ObjectBehavior
         $this->getIdFromGroup($group, $family, 'magento_url')->shouldReturn(4);
     }
 
-    public function it_gets_null_if_attribute_group_mapping_is_not_found(
+    function it_gets_null_if_attribute_group_mapping_is_not_found(
         $entityRepository,
         MagentoGroupMapping $magentoGroupMapping,
         $family,
@@ -53,7 +53,7 @@ class AttributeGroupMappingManagerSpec extends ObjectBehavior
         $this->getIdFromGroup($group, $family, 'magento_url')->shouldReturn(null);
     }
 
-    public function it_returns_all_mappings(
+    function it_returns_all_mappings(
         $entityRepository,
         MagentoGroupMapping $magentoGroupMapping
     ) {
@@ -61,7 +61,7 @@ class AttributeGroupMappingManagerSpec extends ObjectBehavior
         $this->getAllMappings()->shouldReturn([$magentoGroupMapping]);
     }
 
-    public function it_registers_mapping(
+    function it_registers_mapping(
         $entityRepository,
         MagentoGroupMapping $magentoGroupMapping,
         $group,
@@ -80,7 +80,7 @@ class AttributeGroupMappingManagerSpec extends ObjectBehavior
         $this->registerGroupMapping($group, $family, 3, 'url');
     }
 
-    public function it_returns_null_if_no_mappings_found($entityRepository)
+    function it_returns_null_if_no_mappings_found($entityRepository)
     {
         $entityRepository->findAll()->willReturn([]);
         $this->getAllMappings()->shouldReturn(null);

@@ -7,7 +7,7 @@ use PhpSpec\ObjectBehavior;
 
 class MappingCollectionSpec extends ObjectBehavior
 {
-    public function it_shoulds_add_value_to_the_collection()
+    function it_shoulds_add_value_to_the_collection()
     {
         $this->add(array('source' => 'foo', 'target' => 'bar', 'deletable' => true));
 
@@ -20,7 +20,7 @@ class MappingCollectionSpec extends ObjectBehavior
         ));
     }
 
-    public function it_shoulds_merge_value_that_are_allready_in_collection()
+    function it_shoulds_merge_value_that_are_allready_in_collection()
     {
         $this->add(array('source' => 'foo', 'target' => 'bar', 'deletable' => true));
         $this->add(array('source' => 'foo', 'target' => 'foo', 'deletable' => true));
@@ -34,7 +34,7 @@ class MappingCollectionSpec extends ObjectBehavior
         ));
     }
 
-    public function it_should_retain_the_old_target_value_if_the_new_one_is_empty()
+    function it_should_retain_the_old_target_value_if_the_new_one_is_empty()
     {
         $this->add(array('source' => 'foo', 'target' => 'bar', 'deletable' => true));
         $this->add(array('source' => 'foo', 'target' => '', 'deletable' => true));
@@ -48,7 +48,7 @@ class MappingCollectionSpec extends ObjectBehavior
         ));
     }
 
-    public function it_shoulds_retain_the_deletable_value_if_its_false()
+    function it_shoulds_retain_the_deletable_value_if_its_false()
     {
         $this->add(array('source' => 'foo', 'target' => 'bar', 'deletable' => false));
         $this->add(array('source' => 'foo', 'target' => 'bar', 'deletable' => true));
@@ -62,7 +62,7 @@ class MappingCollectionSpec extends ObjectBehavior
         ));
     }
 
-    public function it_shoulds_merge_two_collection()
+    function it_shoulds_merge_two_collection()
     {
         $collectionToMerge = new MappingCollection(array('bar' => array('source' => 'bar', 'target' => 'foo', 'deletable' => true)));
 
@@ -76,42 +76,42 @@ class MappingCollectionSpec extends ObjectBehavior
         ));
     }
 
-    public function it_shoulds_get_source_for_target()
+    function it_shoulds_get_source_for_target()
     {
         $this->add(array('source' => 'foo', 'target' => 'bar', 'deletable' => true));
 
         $this->getSource('bar')->shouldReturn('foo');
     }
 
-    public function it_shoulds_get_target_for_source()
+    function it_shoulds_get_target_for_source()
     {
         $this->add(array('source' => 'foo', 'target' => 'bar', 'deletable' => true));
 
         $this->getTarget('foo')->shouldReturn('bar');
     }
 
-    public function it_shoulds_get_target_for_not_known_target()
+    function it_shoulds_get_target_for_not_known_target()
     {
         $this->add(array('source' => 'foo', 'target' => 'bar', 'deletable' => true));
 
         $this->getTarget('test')->shouldReturn('test');
     }
 
-    public function it_shoulds_get_source_for_not_known_source()
+    function it_shoulds_get_source_for_not_known_source()
     {
         $this->add(array('source' => 'foo', 'target' => 'bar', 'deletable' => true));
 
         $this->getSource('test')->shouldReturn('test');
     }
 
-    public function it_shoulds_get_null_for_renamed_source()
+    function it_shoulds_get_null_for_renamed_source()
     {
         $this->add(array('source' => 'foo', 'target' => 'bar', 'deletable' => true));
 
         $this->getSource('foo')->shouldReturn(null);
     }
 
-    public function it_shoulds_get_null_for_renamed_target()
+    function it_shoulds_get_null_for_renamed_target()
     {
         $this->add(array('source' => 'foo', 'target' => 'bar', 'deletable' => true));
 

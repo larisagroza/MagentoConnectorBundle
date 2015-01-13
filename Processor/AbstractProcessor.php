@@ -57,7 +57,7 @@ abstract class AbstractProcessor extends MagentoItemStep implements ItemProcesso
 
     /**
      * @param WebserviceGuesser                   $webserviceGuesser
-     * @param ProductNormalizerGuesser            $normalizerGuesser
+     * @param NormalizerGuesser                   $normalizerGuesser
      * @param LocaleManager                       $localeManager
      * @param MagentoMappingMerger                $storeViewMappingMerger
      * @param MagentoSoapClientParametersRegistry $clientParametersRegistry

@@ -7,12 +7,12 @@ use PhpSpec\ObjectBehavior;
 
 class LocaleManagerSpec extends ObjectBehavior
 {
-    public function let(BaseLocaleManager $baseLocaleManager)
+    function let(BaseLocaleManager $baseLocaleManager)
     {
         $this->beConstructedWith($baseLocaleManager);
     }
 
-    public function it_gives_locale_choices($baseLocaleManager)
+    function it_gives_locale_choices($baseLocaleManager)
     {
         $baseLocaleManager->getActiveCodes()->willReturn(['en_us' => 'en_US']);
 

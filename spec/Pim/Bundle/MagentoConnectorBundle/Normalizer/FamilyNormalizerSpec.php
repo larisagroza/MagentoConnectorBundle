@@ -9,7 +9,7 @@ class FamilyNormalizerSpec extends ObjectBehavior
 {
     protected $globalContext;
 
-    public function let()
+    function let()
     {
         $this->globalContext = [
             'magentoFamilies' => [],
@@ -19,7 +19,7 @@ class FamilyNormalizerSpec extends ObjectBehavior
         ];
     }
 
-    public function it_normalizes_a_family(Family $family)
+    function it_normalizes_a_family(Family $family)
     {
         $family->getCode()->willReturn('family_code');
         $this->normalize($family)->shouldReturn(['attributeSetName' => 'family_code']);

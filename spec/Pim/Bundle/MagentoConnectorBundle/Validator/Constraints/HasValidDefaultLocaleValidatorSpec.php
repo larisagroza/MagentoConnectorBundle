@@ -19,13 +19,13 @@ use Pim\Bundle\CatalogBundle\Entity\Locale;
  */
 class HasValidDefaultLocaleValidatorSpec extends ObjectBehavior
 {
-    public function let(ExecutionContextInterface $context, ChannelManager $channelManager)
+    function let(ExecutionContextInterface $context, ChannelManager $channelManager)
     {
         $this->beConstructedWith($channelManager);
         $this->initialize($context);
     }
 
-    public function it_does_nothing_with_something_else_than_abstract_product_element(
+    function it_does_nothing_with_something_else_than_abstract_product_element(
         $context,
         HasValidDefaultLocale $constraint,
         ChannelManager $value
@@ -35,7 +35,7 @@ class HasValidDefaultLocaleValidatorSpec extends ObjectBehavior
         $this->validate($value, $constraint);
     }
 
-    public function it_success_if_the_locale_is_valid(
+    function it_success_if_the_locale_is_valid(
         $context,
         $channelManager,
         AbstractProductProcessor $value,
@@ -54,7 +54,7 @@ class HasValidDefaultLocaleValidatorSpec extends ObjectBehavior
         $this->validate($value, $constraint);
     }
 
-    public function it_fails_if_the_locale_is_not_valid(
+    function it_fails_if_the_locale_is_not_valid(
         $context,
         $channelManager,
         AbstractProductProcessor $value,
@@ -75,7 +75,7 @@ class HasValidDefaultLocaleValidatorSpec extends ObjectBehavior
         $this->validate($value, $constraint);
     }
 
-    public function it_fails_if_no_channel_has_been_found(
+    function it_fails_if_no_channel_has_been_found(
         $context,
         $channelManager,
         AbstractProductProcessor $value,

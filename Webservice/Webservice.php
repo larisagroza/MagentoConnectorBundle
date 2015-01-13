@@ -182,7 +182,7 @@ class Webservice
      *
      * @throws AttributeSetNotFoundException If If the attribute doesn't exist on Magento side
      *
-     * @return void
+     * @return mixed
      */
     public function getAttributeSetId($code)
     {
@@ -777,13 +777,13 @@ class Webservice
      *  Allows you to remove an existing attribute set.
      *
      * @param integer $attributeSetId      Attribute set ID
-     * @param string  $forceProductsRemove Force product remove flag (optional)
+     * @param boolean $forceProductsRemove Force product remove flag (optional)
      *
      * @return boolean True (1) if the attribute set is removed
      */
     public function removeAttributeSet(
         $attributeSetId,
-        $forceProductsRemove = null
+        $forceProductsRemove = false
     ) {
         return $this->client->call(
             self::SOAP_ACTION_PRODUCT_ATTRIBUTE_SET_REMOVE,
@@ -869,7 +869,7 @@ class Webservice
      *
      * @param array $productPart
      *
-     * @return $productPart
+     * @return array
      */
     protected function removeNonUpdatePart(array $productPart)
     {

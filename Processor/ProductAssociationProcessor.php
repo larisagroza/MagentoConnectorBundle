@@ -2,8 +2,8 @@
 
 namespace Pim\Bundle\MagentoConnectorBundle\Processor;
 
+use Pim\Bundle\CatalogBundle\Model\AbstractAssociation;
 use Pim\Bundle\CatalogBundle\Model\ProductInterface;
-use Pim\Bundle\CatalogBundle\Model\Association;
 use Pim\Bundle\MagentoConnectorBundle\Manager\AssociationTypeManager;
 use Pim\Bundle\MagentoConnectorBundle\Guesser\WebserviceGuesser;
 use Pim\Bundle\MagentoConnectorBundle\Guesser\NormalizerGuesser;
@@ -70,7 +70,6 @@ class ProductAssociationProcessor extends AbstractProcessor
     }
 
     /**
-     * Get pimUpSell
      * @return string
      */
     public function getPimUpSell()
@@ -79,7 +78,6 @@ class ProductAssociationProcessor extends AbstractProcessor
     }
 
     /**
-     * Set pimUpSell
      * @param string $pimUpSell
      *
      * @return ProductAssociationProcessor
@@ -92,7 +90,6 @@ class ProductAssociationProcessor extends AbstractProcessor
     }
 
     /**
-     * Get pimCrossSell
      * @return string
      */
     public function getPimCrossSell()
@@ -101,7 +98,6 @@ class ProductAssociationProcessor extends AbstractProcessor
     }
 
     /**
-     * Set pimCrossSell
      * @param string $pimCrossSell
      *
      * @return ProductAssociationProcessor
@@ -114,7 +110,6 @@ class ProductAssociationProcessor extends AbstractProcessor
     }
 
     /**
-     * Get pimRelated
      * @return string
      */
     public function getPimRelated()
@@ -123,7 +118,6 @@ class ProductAssociationProcessor extends AbstractProcessor
     }
 
     /**
-     * Set pimRelated
      * @param string $pimRelated
      *
      * @return ProductAssociationProcessor
@@ -136,7 +130,6 @@ class ProductAssociationProcessor extends AbstractProcessor
     }
 
     /**
-     * Get pimGrouped
      * @return string
      */
     public function getPimGrouped()
@@ -145,7 +138,6 @@ class ProductAssociationProcessor extends AbstractProcessor
     }
 
     /**
-     * Set pimGrouped
      * @param string $pimGrouped
      *
      * @return ProductAssociationProcessor
@@ -210,12 +202,12 @@ class ProductAssociationProcessor extends AbstractProcessor
 
     /**
      * Get create calls
-     * @param ProductInterface $product
-     * @param Association      $association
+     * @param ProductInterface    $product
+     * @param AbstractAssociation $association
      *
      * @return array
      */
-    protected function getCreateCallsForAssociation(ProductInterface $product, Association $association)
+    protected function getCreateCallsForAssociation(ProductInterface $product, AbstractAssociation $association)
     {
         $createAssociationCalls = [];
 
@@ -227,7 +219,7 @@ class ProductAssociationProcessor extends AbstractProcessor
                     'type'           => $this->getAssociationCodeMapping()[$associationType],
                     'product'        => (string) $product->getIdentifier(),
                     'linkedProduct'  => (string) $associatedProduct->getIdentifier(),
-                    'identifierType' => 'sku',
+                    'identifierType' => 'sku'
                 ];
             }
         }
@@ -240,7 +232,7 @@ class ProductAssociationProcessor extends AbstractProcessor
      * @param ProductInterface $product
      * @param array            $associationStatus
      *
-     * @return return array
+     * @return array
      */
     protected function getRemoveCallsForProduct(ProductInterface $product, array $associationStatus)
     {
@@ -252,7 +244,7 @@ class ProductAssociationProcessor extends AbstractProcessor
                     'type'           => $associationType,
                     'product'        => (string) $product->getIdentifier(),
                     'linkedProduct'  => (string) $associatedProduct['sku'],
-                    'identifierType' => 'sku',
+                    'identifierType' => 'sku'
                 ];
             }
         }
@@ -302,9 +294,9 @@ class ProductAssociationProcessor extends AbstractProcessor
                         'help'     => 'pim_magento_connector.export.pimUpSell.help',
                         'label'    => 'pim_magento_connector.export.pimUpSell.label',
                         'attr' => [
-                            'class' => 'select2',
-                        ],
-                    ],
+                            'class' => 'select2'
+                        ]
+                    ]
                 ],
                 'pimCrossSell' => [
                     'type'    => 'choice',
@@ -313,9 +305,9 @@ class ProductAssociationProcessor extends AbstractProcessor
                         'help'     => 'pim_magento_connector.export.pimCrossSell.help',
                         'label'    => 'pim_magento_connector.export.pimCrossSell.label',
                         'attr' => [
-                            'class' => 'select2',
-                        ],
-                    ],
+                            'class' => 'select2'
+                        ]
+                    ]
                 ],
                 'pimRelated' => [
                     'type'    => 'choice',
@@ -324,9 +316,9 @@ class ProductAssociationProcessor extends AbstractProcessor
                         'help'     => 'pim_magento_connector.export.pimRelated.help',
                         'label'    => 'pim_magento_connector.export.pimRelated.label',
                         'attr' => [
-                            'class' => 'select2',
-                        ],
-                    ],
+                            'class' => 'select2'
+                        ]
+                    ]
                 ],
                 'pimGrouped' => [
                     'type'    => 'choice',
@@ -335,9 +327,9 @@ class ProductAssociationProcessor extends AbstractProcessor
                         'help'     => 'pim_magento_connector.export.pimGrouped.help',
                         'label'    => 'pim_magento_connector.export.pimGrouped.label',
                         'attr' => [
-                            'class' => 'select2',
-                        ],
-                    ],
+                            'class' => 'select2'
+                        ]
+                    ]
                 ]
             ]
         );

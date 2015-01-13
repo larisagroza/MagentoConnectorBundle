@@ -24,9 +24,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class ProductCleaner extends Cleaner
 {
-    const PRODUCT_DISABLED = 'Product disabled';
-    const PRODUCT_DELETED  = 'Product deleted';
-
     /**
      * @Assert\NotBlank(groups={"Execution"})
      */
@@ -47,7 +44,7 @@ class ProductCleaner extends Cleaner
      *
      * @param string $channel channel
      *
-     * @return AbstractProcessor
+     * @return ProductCleaner
      */
     public function setChannel($channel)
     {
@@ -84,9 +81,10 @@ class ProductCleaner extends Cleaner
     }
 
     /**
-     * @param WebserviceGuesser $webserviceGuesser
-     * @param ChannelManager    $channelManager
-     * @param ProductManager    $productManager
+     * @param WebserviceGuesser                   $webserviceGuesser
+     * @param ChannelManager                      $channelManager
+     * @param ProductManager                      $productManager
+     * @param MagentoSoapClientParametersRegistry $clientParametersRegistry
      */
     public function __construct(
         WebserviceGuesser $webserviceGuesser,
@@ -113,12 +111,12 @@ class ProductCleaner extends Cleaner
 
         foreach ($magentoProducts as $product) {
             try {
-                if ($product['type'] === AbstractNormalizer::MAGENTO_SIMPLE_PRODUCT_KEY
-                    && !in_array($product['sku'], $pimProducts)) {
-                    $this->handleProductNotInPimAnymore($product);
-                } elseif ($product['type'] === AbstractNormalizer::MAGENTO_SIMPLE_PRODUCT_KEY
-                    && !in_array($product['sku'], $exportedProducts)) {
-                    $this->handleProductNotCompleteAnymore($product);
+                if ($product['type'] === AbstractNormalizer::MAGENTO_SIMPLE_PRODUCT_KEY) {
+                    if (!in_array($product['sku'], $pimProducts)) {
+                        $this->handleProductNotInPimAnymore($product);
+                    } elseif (!in_array($product['sku'], $exportedProducts)) {
+                        $this->handleProductNotCompleteAnymore($product);
+                    }
                 }
             } catch (SoapCallException $e) {
                 throw new InvalidItemException($e->getMessage(), [json_encode($product)]);
@@ -202,10 +200,10 @@ class ProductCleaner extends Cleaner
     {
         if ($action === self::DISABLE) {
             $this->webservice->disableProduct($product['sku']);
-            $this->stepExecution->incrementSummaryInfo(self::PRODUCT_DISABLED);
+            $this->stepExecution->incrementSummaryInfo('product_disabled');
         } elseif ($action === self::DELETE) {
             $this->webservice->deleteProduct($product['sku']);
-            $this->stepExecution->incrementSummaryInfo(self::PRODUCT_DELETED);
+            $this->stepExecution->incrementSummaryInfo('product_deleted');
         }
     }
 

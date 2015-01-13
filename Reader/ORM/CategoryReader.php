@@ -2,34 +2,42 @@
 
 namespace Pim\Bundle\MagentoConnectorBundle\Reader\ORM;
 
-use Pim\Bundle\BaseConnectorBundle\Reader\ORM\EntityReader;
-use Pim\Bundle\MagentoConnectorBundle\Entity\Repository\CategoryRepository;
 use Doctrine\ORM\EntityManager;
+use Pim\Bundle\BaseConnectorBundle\Reader\ORM\EntityReader;
+use Pim\Bundle\CatalogBundle\Manager\ChannelManager;
+use Pim\Bundle\MagentoConnectorBundle\Entity\Repository\CategoryRepository;
 
 /**
  * ORM reader for categories
  *
- * @author    Julien SAnchez <julien@akeneo.com>
+ * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2013 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 class CategoryReader extends EntityReader
 {
-    /**
-     * @var CategoryRepository
-     */
+    /** @var CategoryRepository */
     protected $repository;
 
+    /** @var ChannelManager */
+    protected $channelManager;
+
     /**
-     * @param EntityManager      $em         The entity manager
-     * @param string             $className  The entity class name used
-     * @param CategoryRepository $repository The entity repository
+     * @param EntityManager      $em
+     * @param string             $className
+     * @param CategoryRepository $repository
+     * @param ChannelManager     $channelManager
      */
-    public function __construct(EntityManager $em, $className, CategoryRepository $repository)
-    {
+    public function __construct(
+        EntityManager $em,
+        $className,
+        CategoryRepository $repository,
+        ChannelManager $channelManager
+    ) {
         parent::__construct($em, $className);
 
-        $this->repository = $repository;
+        $this->repository     = $repository;
+        $this->channelManager = $channelManager;
     }
 
     /**
@@ -38,18 +46,55 @@ class CategoryReader extends EntityReader
     public function getQuery()
     {
         if (!$this->query) {
-            $this->query = $this->getRepository()->findOrderedCategories()->getQuery();
+            $channel = $this->channelManager->getChannelByCode($this->channel);
+
+            $this->query = $this->repository
+                ->findOrderedCategories($channel->getCategory())
+                ->getQuery();
         }
 
         return $this->query;
     }
 
     /**
-     * Get the custom category repository
-     * @return CategoryRepository
+     * {@inheritdoc}
      */
-    protected function getRepository()
+    public function getConfigurationFields()
     {
-        return $this->repository;
+        return array_merge(
+            parent::getConfigurationFields(),
+            array(
+                'channel' => array(
+                    'type'    => 'choice',
+                    'options' => array(
+                        'choices'  => $this->channelManager->getChannelChoices(),
+                        'required' => true,
+                        'select2'  => true,
+                        'label'    => 'pim_base_connector.export.channel.label',
+                        'help'     => 'pim_base_connector.export.channel.help'
+                    )
+                )
+            )
+        );
+    }
+
+    /**
+     * Set channel code
+     *
+     * @param string $channel
+     */
+    public function setChannel($channel)
+    {
+        $this->channel = $channel;
+    }
+
+    /**
+     * Get channel code
+     *
+     * @return string
+     */
+    public function getChannel()
+    {
+        return $this->channel;
     }
 }

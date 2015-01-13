@@ -23,8 +23,6 @@ use Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClientParametersRegi
 class AttributeWriter extends AbstractWriter
 {
     const ATTRIBUTE_UPDATE_SIZE = 2;
-    const ATTRIBUTE_UPDATED     = 'Attributes updated';
-    const ATTRIBUTE_CREATED     = 'Attributes created';
 
     /**
      * @var AttributeMappingManager
@@ -112,13 +110,13 @@ class AttributeWriter extends AbstractWriter
             $magentoAttributeId = $this->attributeIdMappingMerger->getMapping()->getTarget($pimAttribute->getCode());
             $this->manageAttributeSet($magentoAttributeId, $pimAttribute);
 
-            $this->stepExecution->incrementSummaryInfo(self::ATTRIBUTE_UPDATED);
+            $this->stepExecution->incrementSummaryInfo('attribute_updated');
         } else {
             $magentoAttributeId = $this->webservice->createAttribute($attribute);
 
             $this->manageAttributeSet($magentoAttributeId, $pimAttribute);
 
-            $this->stepExecution->incrementSummaryInfo(self::ATTRIBUTE_CREATED);
+            $this->stepExecution->incrementSummaryInfo('attribute_created');
 
             $magentoUrl = $this->getSoapUrl();
             $this->attributeMappingManager->registerAttributeMapping(
@@ -132,8 +130,8 @@ class AttributeWriter extends AbstractWriter
     /**
      * Verify if the magento attribute id is null else add the attribute to the attribute set
      *
-     * @param integer $magentoAttributeId
-     * @param array   $pimAttribute
+     * @param integer           $magentoAttributeId
+     * @param AbstractAttribute $pimAttribute
      */
     protected function manageAttributeSet($magentoAttributeId, $pimAttribute)
     {
@@ -167,13 +165,11 @@ class AttributeWriter extends AbstractWriter
     /**
      * Add attribute to corresponding attribute sets
      *
-     * @param integer $magentoAttributeId ID of magento attribute
-     * @param         $pimAttribute
+     * @param integer           $magentoAttributeId ID of magento attribute
+     * @param AbstractAttribute $pimAttribute
      *
      * @throws \Exception
-     * @throws \SoapCallException
-     *
-     * @return void
+     * @throws SoapCallException
      */
     protected function addAttributeToAttributeSet($magentoAttributeId, $pimAttribute)
     {
@@ -183,7 +179,7 @@ class AttributeWriter extends AbstractWriter
             $magentoGroupId  = $this->getGroupId($pimAttribute, $family);
             $magentoFamilyId = $this->familyMappingManager->getIdFromFamily($family, $this->getSoapUrl());
             try {
-                if (null !== $magentoFamilyId || null !== $magentoFamilyId) {
+                if (null !== $magentoFamilyId) {
                     $this->webservice->addAttributeToAttributeSet(
                         $magentoAttributeId,
                         $magentoFamilyId,
@@ -204,9 +200,7 @@ class AttributeWriter extends AbstractWriter
      * @param AbstractAttribute $pimAttribute
      *
      * @throws \Exception
-     * @throws \SoapCallException
-     *
-     * @return void
+     * @throws SoapCallException
      */
     protected function addGroupToAttributeSet($pimAttribute)
     {

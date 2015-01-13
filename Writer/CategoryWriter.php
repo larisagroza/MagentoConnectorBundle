@@ -17,11 +17,6 @@ use Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClientParametersRegi
  */
 class CategoryWriter extends AbstractWriter
 {
-    const CATEGORY_CREATED          = 'Categories created';
-    const CATEGORY_UPDATED          = 'Categories updated';
-    const CATEGORY_MOVED            = 'Categories moved';
-    const CATEGORY_TRANSLATION_SENT = 'Categories translations sent';
-
     /**
      * @var CategoryMappingManager
      */
@@ -82,7 +77,7 @@ class CategoryWriter extends AbstractWriter
                     $magentoUrl
                 );
 
-                $this->stepExecution->incrementSummaryInfo(self::CATEGORY_CREATED);
+                $this->stepExecution->incrementSummaryInfo('category_created');
             }
         }
     }
@@ -97,7 +92,7 @@ class CategoryWriter extends AbstractWriter
             foreach ($batch['update'] as $updateCategory) {
                 $this->webservice->sendUpdateCategory($updateCategory);
 
-                $this->stepExecution->incrementSummaryInfo(self::CATEGORY_UPDATED);
+                $this->stepExecution->incrementSummaryInfo('category_updated');
             }
         }
     }
@@ -112,7 +107,7 @@ class CategoryWriter extends AbstractWriter
             foreach ($batch['move'] as $moveCategory) {
                 $this->webservice->sendMoveCategory($moveCategory);
 
-                $this->stepExecution->incrementSummaryInfo(self::CATEGORY_MOVED);
+                $this->stepExecution->incrementSummaryInfo('category_moved');
             }
         }
     }
@@ -133,7 +128,7 @@ class CategoryWriter extends AbstractWriter
 
                 $this->webservice->sendUpdateCategory($magentoCategory);
 
-                $this->stepExecution->incrementSummaryInfo(self::CATEGORY_TRANSLATION_SENT);
+                $this->stepExecution->incrementSummaryInfo('category_translation_sent');
             }
         }
     }

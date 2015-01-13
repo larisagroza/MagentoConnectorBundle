@@ -1,8 +1,8 @@
 jobs:
-    magento_full_export:
+    magento_attribute_export:
         connector: Magento Connector
-        alias:     magento_full_export
-        label:     Magento full export
+        alias:     magento_attribute_export
+        label:     Magento magento_attribute_export export
         type:      export
         configuration:
             channel:               magento
@@ -55,48 +55,3 @@ jobs:
             storeviewMapping:      ''
             categoryMapping:       'default:2'
             notInPimAnymoreAction: 'disable'
-
-    magento_attribute_export:
-        connector: Magento Connector
-        alias:     magento_attribute_export
-        label:     Magento attribute export
-        type:      export
-        configuration:
-            channel:          magento
-            soapUsername:     soap
-            soapApiKey:       magento1
-            magentoUrl:       http://magento.local
-            wsdlUrl:          /api/soap/?wsdl
-            defaultLocale:    en_US
-            website:          base
-            storeviewMapping: ''
-
-    magento_attributeset_export:
-        connector: Magento Connector
-        alias:     magento_attributeset_export
-        label:     Magento attributeset export
-        type:      export
-        configuration:
-            channel:          magento
-            soapUsername:     soap
-            soapApiKey:       magento1
-            magentoUrl:       http://magento.local
-            wsdlUrl:          /api/soap/?wsdl
-            defaultLocale:    en_US
-            website:          base
-            storeviewMapping: 'default'
-
-    magento_option_export:
-        connector: Magento Connector
-        alias:     magento_option_export
-        label:     Magento option export
-        type:      export
-        configuration:
-            channel:          magento
-            soapUsername:     soap
-            soapApiKey:       magento1
-            magentoUrl:       http://magento.local
-            wsdlUrl:          /api/soap/?wsdl
-            defaultLocale:    en_US
-            website:          base
-            storeviewMapping: ''

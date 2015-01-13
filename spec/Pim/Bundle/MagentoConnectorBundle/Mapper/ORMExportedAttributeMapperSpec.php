@@ -16,7 +16,7 @@ class ORMExportedAttributeMapperSpec extends ObjectBehavior
 {
     protected $clientParameters;
 
-    public function let(
+    function let(
         HasValidCredentialsValidator $hasValidCredentialsValidator,
         AttributeMappingManager $attributeMappingManager,
         MagentoSoapClientParameters $clientParameters,
@@ -34,23 +34,23 @@ class ORMExportedAttributeMapperSpec extends ObjectBehavior
         $attribute->getCode()->willReturn('attribute_code');
     }
 
-    public function it_is_initializable()
+    function it_is_initializable()
     {
         $this->shouldHaveType('Pim\Bundle\MagentoConnectorBundle\Mapper\ORMExportedAttributeMapper');
     }
 
-    public function it_extends_mapper()
+    function it_extends_mapper()
     {
         $this->shouldBeAnInstanceOf('Pim\Bundle\MagentoConnectorBundle\Mapper\Mapper');
     }
 
-    public function it_returns_a_mapping_collection_on_get_mapping(AttributeMappingManager $attributeMappingManager)
+    function it_returns_a_mapping_collection_on_get_mapping(AttributeMappingManager $attributeMappingManager)
     {
         $attributeMappingManager->getAllMagentoAttribute('http://test.dev/api')->willReturn([]);
         $this->getMapping()->shouldReturnAnInstanceOf('Pim\Bundle\MagentoConnectorBundle\Mapper\MappingCollection');
     }
 
-    public function it_gets_mapping_from_exported_attributes_table(
+    function it_gets_mapping_from_exported_attributes_table(
         $attributeMappingManager,
         MappingCollection $mapping,
         $attributeMapping,
@@ -68,7 +68,7 @@ class ORMExportedAttributeMapperSpec extends ObjectBehavior
         $mappingCollection->getTarget('attribute_code')->shouldReturn(12);
     }
 
-    public function it_gets_mapping_from_exported_attributes_table_with_a_mapped_attribute(
+    function it_gets_mapping_from_exported_attributes_table_with_a_mapped_attribute(
         $attributeMappingManager,
         MappingCollection $mapping,
         $attributeMapping,

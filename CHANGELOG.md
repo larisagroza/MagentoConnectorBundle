@@ -1,6 +1,6 @@
-#1.2.0
+# 1.2.0
 ## New feature
- - Delta export on products
+ - Delta Export is directly integrated in MagentoConnector (DeltaExportBundle is now deprecated)
  - Connector Mapping is directly integrated in MagentoConnector (ConnectorMappingBundle is now deprecated)
 
 # Improvements
@@ -13,6 +13,18 @@
  - Inject NormalizerRegistry in the NormalizerGuesser
  - magento_attribute_export, magento_option_export and magento_attributeset_export has been removed. These jobs are deprecated because they should be launch in a specific order
  - Categories export step has been removed from structure export
+ - Inject ChannelManager inside CategoryReader
+ - CategoryRepository::findOrderCategories takes a CategoryInterface
+
+# 1.1.11 (2014-12-29)
+## New features
+ - Add an option to avoid generating category URL_KEY and let Magento handle it.
+ - Add an option to set the is_anchor property for all categories.
+ - Add an option to force attribute set removal.
+
+## Bug fixes
+ - option "Do nothing" didn't prevent removal of empty families, it now does.
+ - job_execution.summary are now displayed correctly during export and in exports history.
 
 # 1.1.8 (2014-12-01)
 ## Bug fixes

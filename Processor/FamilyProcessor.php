@@ -6,7 +6,7 @@ use Akeneo\Bundle\BatchBundle\Item\InvalidItemException;
 use Pim\Bundle\CatalogBundle\Entity\Family;
 use Pim\Bundle\MagentoConnectorBundle\Normalizer\AbstractNormalizer;
 use Pim\Bundle\MagentoConnectorBundle\Normalizer\Exception\NormalizeException;
-use Pim\Bundle\TransformBundle\Normalizer\FamilyNormalizer;
+use Pim\Bundle\TransformBundle\Normalizer\Flat\FamilyNormalizer;
 
 /**
  * Magento family processor

@@ -76,7 +76,7 @@ class CategoryNormalizer extends AbstractNormalizer
             'create'    => [],
             'update'    => [],
             'move'      => [],
-            'variation' => [],
+            'variation' => []
         ];
 
         if ($this->magentoCategoryExists($category, $context['magentoCategories'], $context['magentoUrl'])) {
@@ -127,10 +127,13 @@ class CategoryNormalizer extends AbstractNormalizer
 
     /**
      * Get new normalized categories
+     *
      * @param CategoryInterface $category
      * @param array             $context
      *
      * @return array
+     *
+     * @throws CategoryNotMappedException
      */
     protected function getNormalizedNewCategory(CategoryInterface $category, array $context)
     {
@@ -139,6 +142,18 @@ class CategoryNormalizer extends AbstractNormalizer
             $context['magentoUrl'],
             $context['categoryMapping']
         );
+
+        $magentoCategoryBaseParameters = [
+            'name'              => $this->getCategoryLabel($category, $context['defaultLocale']),
+            'is_active'         => 1,
+            'include_in_menu'   => 1,
+            'available_sort_by' => 1,
+            'default_sort_by'   => 1
+        ];
+
+        if (false === $context['urlKey']) {
+            $magentoCategoryBaseParameters['url_key'] = $this->generateUrlKey($category, $context['defaultLocale']);
+        }
 
         if (null === $parentCategoryId) {
             throw new CategoryNotMappedException(
@@ -155,15 +170,8 @@ class CategoryNormalizer extends AbstractNormalizer
             return [
                 'magentoCategory' => [
                     (string) $parentCategoryId,
-                    [
-                        'name'              => $this->getCategoryLabel($category, $context['defaultLocale']),
-                        'url_key'           => $this->generateUrlKey($category, $context['defaultLocale']),
-                        'is_active'         => 1,
-                        'include_in_menu'   => 1,
-                        'available_sort_by' => 1,
-                        'default_sort_by'   => 1
-                    ],
-                    $context['defaultStoreView'],
+                    $magentoCategoryBaseParameters,
+                    $context['defaultStoreView']
                 ],
                 'pimCategory' => $category
             ];
@@ -179,15 +187,20 @@ class CategoryNormalizer extends AbstractNormalizer
      */
     protected function getNormalizedUpdateCategory(CategoryInterface $category, array $context)
     {
+        $magentoCategoryBaseParameters = [
+            'name'              => $this->getCategoryLabel($category, $context['defaultLocale']),
+            'available_sort_by' => 1,
+            'default_sort_by'   => 1,
+            'is_anchor'         => $context['is_anchor']
+        ];
+
+        if (false === $context['urlKey']) {
+            $magentoCategoryBaseParameters['url_key'] = $this->generateUrlKey($category, $context['defaultLocale']);
+        }
+
         return [
             $this->getMagentoCategoryId($category, $context['magentoUrl']),
-            [
-                'name'              => $this->getCategoryLabel($category, $context['defaultLocale']),
-                'url_key'           => $this->generateUrlKey($category, $context['defaultLocale']),
-                'available_sort_by' => 1,
-                'default_sort_by'   => 1,
-                'is_anchor'         => 1
-            ],
+            $magentoCategoryBaseParameters,
             $context['defaultStoreView']
         ];
     }
@@ -210,7 +223,7 @@ class CategoryNormalizer extends AbstractNormalizer
                     'available_sort_by' => 1,
                     'default_sort_by'   => 1
                 ],
-                $storeViewCode,
+                $storeViewCode
             ],
             'pimCategory' => $category,
         ];

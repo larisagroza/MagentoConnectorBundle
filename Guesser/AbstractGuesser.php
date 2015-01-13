@@ -16,6 +16,8 @@ abstract class AbstractGuesser
 {
     const MAGENTO_VERSION_1_14 = '1.14';
     const MAGENTO_VERSION_1_13 = '1.13';
+    const MAGENTO_VERSION_1_12 = '1.12';
+    const MAGENTO_VERSION_1_11 = '1.11';
     const MAGENTO_VERSION_1_9  = '1.9';
     const MAGENTO_VERSION_1_8  = '1.8';
     const MAGENTO_VERSION_1_7  = '1.7';

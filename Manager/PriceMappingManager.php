@@ -18,6 +18,9 @@ use Pim\Bundle\MagentoConnectorBundle\Mapper\MappingCollection;
  */
 class PriceMappingManager
 {
+    /** @const string Magento price attribute */
+    const MAGENTO_PRICE = 'price';
+
     /** @var string */
     protected $locale;
 
@@ -195,7 +198,7 @@ class PriceMappingManager
 
         $toSubstract = ($lowest * -1) * $toSubstract;
 
-        $priceAttr = $attributeMapping->getSource('price');
+        $priceAttr = $attributeMapping->getSource(self::MAGENTO_PRICE);
 
         $price = $product->getValue($priceAttr, $this->locale, $this->channel);
 

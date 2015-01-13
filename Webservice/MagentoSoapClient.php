@@ -24,8 +24,11 @@ class MagentoSoapClient
     /**
      * Create and init the soap client
      *
-     * @param MagentoSoapClientParametersRegistry $clientParameters
-     * @param SoapClient                          $soapClient
+     * @param MagentoSoapClientParameters $clientParameters
+     * @param \SoapClient                 $soapClient
+     *
+     * @throws ConnectionErrorException
+     * @throws InvalidCredentialException
      */
     public function __construct(MagentoSoapClientParameters $clientParameters, \SoapClient $soapClient = null)
     {
@@ -59,7 +62,7 @@ class MagentoSoapClient
     }
 
     /**
-     * Initialize the soap client with the local informations
+     * Initialize the soap client with the local information
      *
      * @throws InvalidCredentialException If given credentials are invalid
      */
@@ -95,7 +98,10 @@ class MagentoSoapClient
      * @param string $resource
      * @param array  $params
      *
-     * @return mixed
+     * @return array
+     *
+     * @throws NotConnectedException
+     * @throws SoapCallException
      */
     public function call($resource, $params = null)
     {
@@ -116,7 +122,9 @@ class MagentoSoapClient
                             $e->getMessage(),
                             $resource,
                             json_encode($params)
-                        )
+                        ),
+                        $e->getCode(),
+                        $e
                     );
                 } else {
                     throw new SoapCallException(
@@ -125,7 +133,9 @@ class MagentoSoapClient
                             $e->getMessage(),
                             $resource,
                             json_encode($params)
-                        )
+                        ),
+                        $e->getCode(),
+                        $e
                     );
                 }
             }

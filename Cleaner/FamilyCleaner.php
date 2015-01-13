@@ -20,11 +20,13 @@ use Akeneo\Bundle\BatchBundle\Item\InvalidItemException;
  */
 class FamilyCleaner extends Cleaner
 {
-    /** @const string */
-    const FAMILY_DELETED  = 'Family deleted';
+    const SOAP_FAULT_PRODUCTS_IN_SETT = 105;
 
     /** @var FamilyMappingManager */
     protected $familyMappingManager;
+
+    /** @var boolean */
+    protected $forceAttributeSetRemoval;
 
     /**
      * @param WebserviceGuesser                   $webserviceGuesser
@@ -39,6 +41,26 @@ class FamilyCleaner extends Cleaner
         parent::__construct($webserviceGuesser, $clientParametersRegistry);
 
         $this->familyMappingManager = $familyMappingManager;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isForceAttributeSetRemoval()
+    {
+        return $this->forceAttributeSetRemoval;
+    }
+
+    /**
+     * @param boolean $forceAttributeSetRemoval
+     *
+     * @return FamilyCleaner
+     */
+    public function setForceAttributeSetRemoval($forceAttributeSetRemoval)
+    {
+        $this->forceAttributeSetRemoval = $forceAttributeSetRemoval;
+
+        return $this;
     }
 
     /**
@@ -64,13 +86,35 @@ class FamilyCleaner extends Cleaner
      *
      * @param string $name
      * @param int    $id
+     *
+     * @throws InvalidItemException
+     * @throws SoapCallException
      */
     protected function handleFamilyNotInPimAnymore($name, $id)
     {
-        if (!$this->familyMappingManager->magentoFamilyExists($id, $this->getSoapUrl())
-            && !in_array($name, $this->getIgnoredFamilies())) {
-            $this->webservice->removeAttributeSet($id);
-            $this->stepExecution->incrementSummaryInfo(self::FAMILY_DELETED);
+        if (
+            $this->notInPimAnymoreAction === self::DELETE &&
+            !$this->familyMappingManager->magentoFamilyExists($id, $this->getSoapUrl()) &&
+            !in_array($name, $this->getIgnoredFamilies())
+        ) {
+            try {
+                $this->webservice->removeAttributeSet(
+                    $id,
+                    $this->forceAttributeSetRemoval
+                );
+                $this->stepExecution->incrementSummaryInfo('family_deleted');
+            } catch (SoapCallException $e) {
+                if ($e->getPrevious()->faultcode == self::SOAP_FAULT_PRODUCTS_IN_SET) {
+                    throw new InvalidItemException(
+                        'Unable to remove attribute set as it has related products. ' .
+                        'Try to set "Force attribute set removing" if you want to remove ' .
+                        'attribute set and products.',
+                        [$name]
+                    );
+                } else {
+                    throw $e;
+                }
+            }
         }
     }
 
@@ -87,13 +131,20 @@ class FamilyCleaner extends Cleaner
                     'options' => [
                         'choices'  => [
                             Cleaner::DO_NOTHING => 'pim_magento_connector.export.do_nothing.label',
-                            Cleaner::DELETE     => 'pim_magento_connector.export.delete.label',
+                            Cleaner::DELETE     => 'pim_magento_connector.export.delete.label'
                         ],
                         'required' => true,
                         'help'     => 'pim_magento_connector.export.notInPimAnymoreAction.help',
                         'label'    => 'pim_magento_connector.export.notInPimAnymoreAction.label',
-                        'attr'     => ['class' => 'select2'],
-                    ],
+                        'attr'     => ['class' => 'select2']
+                    ]
+                ],
+                'forceAttributeSetRemoval' => [
+                    'type' => 'checkbox',
+                    'options' => [
+                        'help' => 'pim_magento_connector.export.forceAttributeSetRemoval.help',
+                        'label' => 'pim_magento_connector.export.forceAttributeSetRemoval.label'
+                    ]
                 ]
             ]
         );

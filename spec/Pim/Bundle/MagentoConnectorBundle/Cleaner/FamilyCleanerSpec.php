@@ -13,7 +13,7 @@ use Prophecy\Argument;
 
 class FamilyCleanerSpec extends ObjectBehavior
 {
-    public function let(
+    function let(
         WebserviceGuesser $webserviceGuesser,
         FamilyMappingManager $familyMappingManager,
         Webservice $webservice,
@@ -24,13 +24,19 @@ class FamilyCleanerSpec extends ObjectBehavior
         $this->beConstructedWith($webserviceGuesser, $familyMappingManager, $clientParametersRegistry);
         $this->setStepExecution($stepExecution);
 
-        $clientParametersRegistry->getInstance(null, null, null, '/api/soap/?wsdl', 'default', null, null)->willReturn($clientParameters);
-        $webserviceGuesser->getWebservice($clientParameters)->willReturn($webservice);
+        $clientParametersRegistry
+            ->getInstance(null, null, null, '/api/soap/?wsdl', 'default', null, null)
+            ->willReturn($clientParameters);
+
+        $webserviceGuesser
+            ->getWebservice($clientParameters)
+            ->willReturn($webservice);
     }
 
-    public function it_asks_soap_client_to_delete_families_that_are_not_in_pim_anymore($webservice, $familyMappingManager)
+    function it_asks_soap_client_to_delete_families_that_are_not_in_pim_anymore($webservice, $familyMappingManager)
     {
         $this->setNotInPimAnymoreAction('delete');
+        $this->setForceAttributeSetRemoval(true);
 
         $webservice->getAttributeSetList()->willReturn(
             [
@@ -44,7 +50,19 @@ class FamilyCleanerSpec extends ObjectBehavior
         $familyMappingManager->magentoFamilyExists(5, Argument::cetera())->shouldBeCalled()->willReturn(true);
         $familyMappingManager->magentoFamilyExists(151, Argument::cetera())->shouldBeCalled()->willReturn(false);
 
-        $webservice->removeAttributeSet('151')->shouldBeCalled();
+        $webservice->removeAttributeSet('151', true)->shouldBeCalled();
+
+        $this->execute();
+    }
+
+    function it_asks_soap_client_to_delete_families_not_linked_to_products_and_not_in_pim_anymore($webservice, $familyMappingManager)
+    {
+        $this->setNotInPimAnymoreAction('delete');
+        $this->setForceAttributeSetRemoval(false);
+
+        $webservice->getAttributeSetList()->willReturn(['family set name 1' => 1]);
+
+        $webservice->removeAttributeSet('1', false)->shouldBeCalled();
 
         $this->execute();
     }

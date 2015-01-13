@@ -23,6 +23,8 @@ services:
             - '@pim_catalog.manager.channel'
             - '@pim_magento_connector.manager.product_export'
             - '@pim_magento_connector.webservice.magento_soap_client_parameters_registry'
+        calls:
+            - [setEventDispatcher, [@event_dispatcher]]
 
     pim_magento_connector.writer.product_association:
         class: %pim_magento_connector.writer.product_association.class%

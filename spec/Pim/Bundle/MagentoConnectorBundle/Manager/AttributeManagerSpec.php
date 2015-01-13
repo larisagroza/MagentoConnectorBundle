@@ -9,7 +9,7 @@ use PhpSpec\ObjectBehavior;
 
 class AttributeManagerSpec extends ObjectBehavior
 {
-    public function let(
+    function let(
         ObjectManager $objectManager,
         ClassMetadataFactory $classMetadataFactory,
         ClassMetadata $classMetadata

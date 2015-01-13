@@ -9,13 +9,13 @@ use PhpSpec\ObjectBehavior;
 
 class MagentoMappingMergerSpec extends ObjectBehavior
 {
-    public function let(MagentoMapper $mapper1, MagentoMapper $mapper2)
+    function let(MagentoMapper $mapper1, MagentoMapper $mapper2)
     {
         $mapper1->getPriority()->willReturn(0);
         $mapper2->getPriority()->willReturn(10);
     }
 
-    public function it_sets_parameters_to_all_mappers(
+    function it_sets_parameters_to_all_mappers(
         $mapper1,
         $mapper2,
         MagentoSoapClientParametersRegistry $clientParametersRegistry,
@@ -31,7 +31,7 @@ class MagentoMappingMergerSpec extends ObjectBehavior
         $this->setParameters($clientParameters, 'default');
     }
 
-    public function it_gives_a_configuration_field(
+    function it_gives_a_configuration_field(
         $mapper1,
         $mapper2,
         MagentoSoapClientParametersRegistry $clientParametersRegistry,
