@@ -14,6 +14,11 @@ use Pim\Bundle\MagentoConnectorBundle\Item\MagentoItemStep;
 class MagentoSoapClientFactory
 {
     /**
+     * @var boolean
+     */
+    protected $activateLog;
+
+    /**
      * @var string
      */
     protected $logDir;
@@ -26,7 +31,15 @@ class MagentoSoapClientFactory
      */
     public function getMagentoSoapClient(MagentoSoapClientParameters $clientParameters)
     {
-        return new MagentoSoapClient($clientParameters, $this->logDir);
+        return new MagentoSoapClient($clientParameters, $this->logDir, $this->activateLog);
+    }
+
+    /**
+     * @param boolean $activateLog
+     */
+    public function setActivateLog($activateLog)
+    {
+        $this->activateLog = $activateLog;
     }
 
     /**

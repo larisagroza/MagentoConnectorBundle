@@ -17,7 +17,7 @@
 # 1.1.13 (2015-01-30)
 ## New features
  - Add an option to prevent or allow removal of products with type non managed by Akeneo.
- -
+ - Add a log to profile calls to Magento.
 
 ## Bug fixes
  - Fix price computation on configurable product export when variant axis option code is numeric

@@ -26,22 +26,27 @@ class MagentoSoapClient
 
     protected $logDir;
 
+    protected $activateLog;
+
     /**
      * Create and init the soap client
      *
      * @param MagentoSoapClientParameters $clientParameters
      * @param string                      $logDir
+     * @param boolean                     $activateLog
      * @param \SoapClient                 $soapClient
      *
      * @throws ConnectionErrorException
      */
     public function __construct(
         MagentoSoapClientParameters $clientParameters,
-        $logDir,
+        $logDir = '',
+        $activateLog = false,
         \SoapClient $soapClient = null
     ) {
         $this->clientParameters = $clientParameters;
         $this->logDir           = $logDir;
+        $this->activateLog      = $activateLog;
 
         if (!$soapClient) {
             $wsdlUrl     = $this->clientParameters->getSoapUrl();
@@ -150,7 +155,9 @@ class MagentoSoapClient
                 $callStart = microtime(true);
                 $response = $this->client->call($this->session, $resource, $params);
                 $callEnd = microtime(true);
-                $this->logProfileCalls($resource, $callStart, $callEnd);
+                if (true === $this->activateLog) {
+                    $this->logProfileCalls($resource, $callStart, $callEnd);
+                }
             } catch (\SoapFault $e) {
                 if ($resource === 'core_magento.info' && $e->getMessage()
                     === AbstractGuesser::MAGENTO_CORE_ACCESS_DENIED) {

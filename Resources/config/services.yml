@@ -104,6 +104,7 @@ services:
         class: %pim_magento_connector.factory.magento_soap_client.class%
         calls:
             - [setLogDir, ['%kernel.logs_dir%/batch/']]
+            - [setActivateLog, [false]]
 
     pim_magento_connector.twig.configuration_extension:
         class: '%pim_magento_connector.twig.configuration_extension.class%'
