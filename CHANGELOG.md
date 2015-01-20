@@ -1,3 +1,7 @@
+# 1.1.18 (2015-02-xx)
+## New features
+ - Add a log to profile calls to Magento.
+
 # 1.1.17 (2015-02-16)
 ## Bug fixes
  - Prevent error during product creation if sku is a number.
@@ -17,7 +21,6 @@
 # 1.1.13 (2015-01-30)
 ## New features
  - Add an option to prevent or allow removal of products with type non managed by Akeneo.
- - Add a log to profile calls to Magento.
 
 ## Bug fixes
  - Fix price computation on configurable product export when variant axis option code is numeric
