@@ -24,17 +24,24 @@ class MagentoSoapClient
 
     protected $clientParameters;
 
+    protected $logDir;
+
     /**
      * Create and init the soap client
      *
      * @param MagentoSoapClientParameters $clientParameters
+     * @param string                      $logDir
      * @param \SoapClient                 $soapClient
      *
      * @throws ConnectionErrorException
      */
-    public function __construct(MagentoSoapClientParameters $clientParameters, \SoapClient $soapClient = null)
-    {
+    public function __construct(
+        MagentoSoapClientParameters $clientParameters,
+        $logDir,
+        \SoapClient $soapClient = null
+    ) {
         $this->clientParameters = $clientParameters;
+        $this->logDir           = $logDir;
 
         if (!$soapClient) {
             $wsdlUrl     = $this->clientParameters->getSoapUrl();
@@ -140,7 +147,10 @@ class MagentoSoapClient
     {
         if ($this->isConnected()) {
             try {
+                $callStart = microtime(true);
                 $response = $this->client->call($this->session, $resource, $params);
+                $callEnd = microtime(true);
+                $this->logProfileCalls($resource, $callStart, $callEnd);
             } catch (\SoapFault $e) {
                 if ($resource === 'core_magento.info' && $e->getMessage()
                     === AbstractGuesser::MAGENTO_CORE_ACCESS_DENIED) {
@@ -232,5 +242,35 @@ class MagentoSoapClient
 
             $this->calls = [];
         }
+    }
+
+    /**
+     * @param string $resource
+     * @param string $start
+     * @param string $end
+     */
+    protected function logProfileCalls($resource, $start, $end)
+    {
+        $duration = number_format(($end - $start), 3);
+        $stepStartingDate = date("Y-m-d H:i:s", $start);
+        $filePath = $this->logDir.'soap_profile.log';
+        $this->writeCallLog($filePath, $stepStartingDate, $resource, $duration);
+    }
+
+    /**
+     * @param string $filePath
+     * @param string $stepStartingDate
+     * @param string $resource
+     * @param string $duration
+     */
+    protected function writeCallLog($filePath, $stepStartingDate, $resource, $duration)
+    {
+        $log = fopen($filePath, "a");
+
+        if ([] === file($filePath)) {
+            fwrite($log, "datetime;soap_call_resource;type;duration\n");
+        }
+        fwrite($log, $stepStartingDate.';'.$resource.';'.$duration."\n");
+        fclose($log);
     }
 }

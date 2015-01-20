@@ -2,6 +2,8 @@
 
 namespace Pim\Bundle\MagentoConnectorBundle\Webservice;
 
+use Pim\Bundle\MagentoConnectorBundle\Item\MagentoItemStep;
+
 /**
  * A magento soap client factory
  *
@@ -12,13 +14,28 @@ namespace Pim\Bundle\MagentoConnectorBundle\Webservice;
 class MagentoSoapClientFactory
 {
     /**
+     * @var string
+     */
+    protected $logDir;
+
+    /**
      * Get a new magento soap client
-     * @param MagentoSoapClientParametersRegistry $clientParameters
+     * @param MagentoSoapClientParameters $clientParameters
      *
      * @return MagentoSoapClient
      */
     public function getMagentoSoapClient(MagentoSoapClientParameters $clientParameters)
     {
-        return new MagentoSoapClient($clientParameters);
+        return new MagentoSoapClient($clientParameters, $this->logDir);
+    }
+
+    /**
+     * Set log directory.
+     *
+     * @param string $logDir
+     */
+    public function setLogDir($logDir)
+    {
+        $this->logDir = $logDir;
     }
 }
