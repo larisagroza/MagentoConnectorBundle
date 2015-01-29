@@ -17,8 +17,7 @@
         "oro/platform": "1.0.0-beta13@dev",
         "guzzle/service": ">=3.6.0,<3.8.0",
         "knplabs/knp-menu-bundle":"v2.0.0-alpha2",
-        "knplabs/knp-menu":"v2.0.0-alpha2",
-        "gedmo/doctrine-extensions":"2.3.x-dev@dev"
+        "knplabs/knp-menu":"v2.0.0-alpha2"
     },
     "require-dev": {
         "phpspec/phpspec": "2.1.0-RC1",
