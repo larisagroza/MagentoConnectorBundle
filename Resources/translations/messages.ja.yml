@@ -69,8 +69,11 @@ pim_magento_connector:
             label: Magento上のステータス
             help:
         visibility:
-            label: Magento上の表示位置
-            help:
+            label: Magento上の表示方法
+            help: 1: 非表示, 2: カタログ, 3: 検索, 4: カタログ, 検索
+                    variant_member_visibility:
+                        label: コンフィグ商品に紐づくシンプル商品の表示
+                        help: 1: 非表示, 2: カタログ, 3: 検索, 4: カタログ, 検索。 コンフィグ商品に紐づくシンプル商品に対して適用されます。
         website:
             label: ウェブサイト
             help: 商品を登録するMagento上のウェブサイト
@@ -125,3 +128,34 @@ pim_magento_connector:
         thumbnailAttribute:
             label: サムネイル画像属性
             help: Magentoのサムネイル画像に対応するAkeneo上の画像を選択してください
+        isAnchor:
+                    label: アンカー属性
+                    help: カテゴリをアンカーにするか否か
+                forceAttributeSetRemoval:
+                    label: 属性セットを強制削除する
+                    help: 商品が属していない属性セットのみを削除するか、属性セットと所属する商品を削除するかを選択
+                urlKey:
+                    label: Magentoにurl_keyの生成を委任する
+                    help: 注意: Magentoにurl_keyの生成を委任した場合、重複に注意してください。
+
+        job_execution.summary:
+            attribute_created:         作成済み属性
+            attribute_deleted:         削除済み属性
+            attribute_updated:         更新済み属性
+            category_created:          作成済みカテゴリ
+            category_deleted:          削除済みカテゴリ
+            category_disabled:         無効化済みカテゴリ
+            category_moved:            移動済みカテゴリ
+            category_translation_sent: 翻訳送信済みカテゴリ
+            category_updated:          更新済みカテゴリ
+            family_created:            作成済みファミリー
+            family_deleted:            削除済みファミリー
+            family_exists:             Magento登録済みファミリー
+            option_created:            作成済みオプション
+            option_deleted:            削除済みオプション
+            product_deleted:           削除済み商品
+            product_disabled:          無効化済み商品
+            product_linked:            リンク済み商品
+            product_image_sent:        画像送信済み商品
+            product_sent:              送信済み商品
+            product_translation_sent:  翻訳送信済み商品
