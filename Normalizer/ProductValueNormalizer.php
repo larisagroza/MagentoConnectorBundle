@@ -296,7 +296,7 @@ class ProductValueNormalizer implements NormalizerInterface
                     return is_bool($data);
                 },
                 'normalizer' => function ($data, $parameters) {
-                    return ($data) ? 1 : 0;
+                    return ($data) ? true : false;
                 }
             ],
             [
