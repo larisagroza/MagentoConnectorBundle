@@ -33,8 +33,8 @@ attribute type            attribute type
 scope                     scope
 localizable               scope
 locale specific           N.A.
-usable as grid column      ?
-usable as grid filter      ?
+usable as grid column     N.A.
+usable as grid filter     N.A.
 metric family             see below
 created                   N.A.
 updated                   N.A.
@@ -92,7 +92,7 @@ matching the locale in all website.
 
 Akeneo attribute group to Magento attribute group
 -------------------------------------------------
-In Akeneo, attribute groups are attached to attribute whereas in Magento, attribute group is the attached
+In Akeneo, attribute groups are attached to attribute whereas in Magento, attribute group is attached
 to the couple Attribute set and attribute.
 
 Adding attribute to attribute set procedure
@@ -127,6 +127,14 @@ Magento mandatory attributes
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 Some attributes are mandatory in Magento and must be sent with products.
 
+==================  ===========================
+Magento attribute    Akeneo
+==================  ===========================
+   sku               identifier
+   visibility        N.A. Magento Specific
+   tax_class_id      defined by mapping
+==================  ===========================
+
 
 Magento specific
 ^^^^^^^^^^^^^^^^
@@ -136,5 +144,65 @@ Some attributes in Magento don't have their counterparts on Akeneo. Here is how 
 ==================  ===========================
 Magento attribute    Origin
 ==================  ===========================
-   visibility        defined by configuration
+   visibility        defined by configuration (see visibility option in Magento)
 ==================  ===========================
+
+Configurable product
+^^^^^^^^^^^^^^^^^^^^
+Configurable products are the variant group equivalent in Magento.
+But contrary to Akeneo's variant groups, configurable products are real products with real attribute values.
+
+So to generate the content of the configurable product, the attributes of the first product of the variant group
+are extracted and applied to the configurable product, minus the variation axis that are removed.
+
+Price calculation for configurable products
+'''''''''''''''''''''''''''''''''''''''''''
+In Magento, the price of a configurable is based on the following formula:
+price = base_price + sum(axis_value_variations)
+
+The base_price is the lowest price from products of the variant group (as it's used as the "from" price in Magento, used on display list and search engine in Magento.
+
+Then each option value of the variant axis can have a variation (in fixed amount or percentage, negative or positive).
+
+For example, we want to sell Akeneo t-shirt in different color:
+ - base price: 20€
+ - black: +2€
+ - red: +5€
+ - green: +1€
+
+So the black Akeneo T-shirt will be sold at 22€.
+
+Let's complexify the example with the size axis:
+ - XS: -2€
+ - S: 0€
+ - M: 2€
+ - XL: 3€
+
+So the black XS Akeneo T-shirt will be sold at 20€ and the red Akeneo XL T-shirt will be sold at 28€.
+
+Note: The price variation of each option value is defined by configurable product. Thus, the Black option on Akeneo T-shirt can have a different price than the same option Black on another product.
+
+Price calculation from Akeneo
+'''''''''''''''''''''''''''''
+The main problem is that in most case products prices are given final in Akeneo (the aforementioned black XS Akeneo T-shirt will be at 20€ and the red XL one will be at 28€). But we still need to provides to Magento the base price and the variation for each option value.
+
+So the price variation for each option must be calculated from the price of the different products. Moreover, it's possible than no solution exists for the variation option value.
+
+For example:
+Red XL T-shirt: 25€
+Red XS T-shirt: 30€
+Blue XL T-shirt: 15€
+Blue XS T-shirt: 100€
+
+Associations
+^^^^^^^^^^^^
+Magento support linking between products via static association types:
+ - related products
+ - cross-sell
+ - up-sell
+
+The configuration must provide a way to choose which Akeneo's association will map to these static Magento associations.
+
+Stock Management
+----------------
+No stock management are done on Akeneo, so no inventory information will be send during the product export to Magento.

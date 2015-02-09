@@ -26,5 +26,3 @@ Product export
 Export the product themselves and the variant group.
 Variant group are transformed into Magento Configurable Product, as defined in the Mapping Specifications.
 
-
-
