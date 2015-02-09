@@ -3,15 +3,12 @@ List of exports to Magento
 
 Exports overview
 ----------------
-The Magento Connector bundle will provide the following 3 export job.
+The Magento Connector bundle will provide the following 3 export jobs.
 
-=================
-Export List
-=================
-Product Structure Export
-Category Export
-Product Export
-=================
+Export List:
+ - Product Structure Export
+ - Category Export
+ - Product Export
 
 Product Structure Export
 ------------------------
