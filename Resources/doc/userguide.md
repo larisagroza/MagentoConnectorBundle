@@ -61,6 +61,16 @@ Optionally, you can also choose if the product is visible or not on Magento, the
 
 ![More product export configuration](./images/userguide/edit-associations.png)
 
+## Debugging SOAP calls to Magento
+
+If you have unusually long export time, there is a hidden feature, disabled by default, that allow you to log every call made by the Magento connector to the Magento SOAP API, and their duration. It will allow you to know if the problem come from Akeneo export or Magento response time. However, to enable this feature, you will have to dig in the code a little, so do it only if you know what you're doing.
+
+First, locate the Magento connector bundle in your Akeneo installation. It should be in `installation-folder/vendor/akeneo/magento-connector-bundle/Pim/Bundle/MagentoConnectorBundle/` (`installation-folder` being your Akeneo installation). In this folder, find the `MagentoSoapProfiler.php` file, located inside the `Webservice` folder. You're here? Good.
+
+Around line 18, locate the following piece of code: `const IS_LOG_ACTIVE = false;`. You just have to replace the keyword `false` by `true`. Then, a file named `soap_profile.log` will appear in `installation-folder/app/log/batch/`, containing all the SOAP calls and their duration.
+
+Once your debugging done, don't forget to put `IS_LOG_ACTIVE` to `false` again. Furthermore, remove the log file each time you want to log a new export job, otherwise the data of the new export will be log in the wake of the previous one.
+
 # Not supported
 
 ## Attribute groups update
