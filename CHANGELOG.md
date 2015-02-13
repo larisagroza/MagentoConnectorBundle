@@ -1,3 +1,15 @@
+# 1.1.16 (2015-02-13)
+## Bug fixes
+ - Url_key are now correctly handled when multiple magento store views are used.
+
+# 1.1.15 (2015-02-04)
+## Bug fixes
+ - Manage now properly boolean values.
+
+# 1.1.14 (2015-02-04)
+## Bug fixes
+ - Fix summary info on configurable to get variant group id and label.
+
 # 1.1.13 (2015-01-30)
 ## New features
  - Add an option to prevent or allow removal of products with type non managed by Akeneo.

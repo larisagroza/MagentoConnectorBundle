@@ -111,6 +111,12 @@ class ConfigurableNormalizer extends AbstractNormalizer
                     true
                 );
 
+                $values[ProductNormalizer::URL_KEY] = sprintf(
+                    '%s-conf-%s',
+                    $values[ProductNormalizer::URL_KEY],
+                    $group->getId()
+                );
+
                 $processedItem[$storeView['code']] = [
                     $sku,
                     $values,
