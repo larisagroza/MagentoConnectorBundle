@@ -1,3 +1,7 @@
+# 1.1.17 (2015-02-16)
+## Bug fixes
+ - Prevent error during product creation if sku is a number.
+ 
 # 1.1.16 (2015-02-13)
 ## Bug fixes
  - Url_key are now correctly handled when multiple magento store views are used.

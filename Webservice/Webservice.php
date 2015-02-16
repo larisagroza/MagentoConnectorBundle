@@ -891,10 +891,13 @@ class Webservice
      */
     protected function updateProductIfMultipleStoreView(array $productPart)
     {
-        $storeViews = $this->getStoreViewsList();
+        $storeViewList = $this->getStoreViewsList();
 
-        if (count($storeViews) > 1 && count($productPart) === static::CREATE_PRODUCT_SIZE) {
-            $updateProductPart = array_slice($productPart, static::MAGENTO_STATUS_DISABLE);
+        if (count($storeViewList) > 1 && count($productPart) === static::CREATE_PRODUCT_SIZE) {
+            $updateProductPart = array_merge(
+                array_slice($productPart, static::MAGENTO_STATUS_DISABLE),
+                ['sku']
+            );
             $this->client->addCall([static::SOAP_ACTION_CATALOG_PRODUCT_UPDATE, $updateProductPart]);
 
             $updateProductPart[2] = static::ADMIN_STOREVIEW;
