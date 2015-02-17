@@ -1,3 +1,7 @@
+# 1.1.18 (2015-02-17)
+## New features
+ - Add an option to let Magento handle product url keys.
+
 # 1.1.17 (2015-02-16)
 ## Bug fixes
  - Prevent error during product creation if sku is a number.

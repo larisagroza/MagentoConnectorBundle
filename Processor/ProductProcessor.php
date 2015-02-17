@@ -41,6 +41,9 @@ class ProductProcessor extends AbstractProductProcessor
      */
     protected $pimGrouped;
 
+    /** @var boolean */
+    protected $urlKey;
+
     /**
      * @param WebserviceGuesser                   $webserviceGuesser
      * @param NormalizerGuesser                   $normalizerGuesser
@@ -109,14 +112,35 @@ class ProductProcessor extends AbstractProductProcessor
     }
 
     /**
+     * @return boolean
+     */
+    public function isUrlKey()
+    {
+        return $this->urlKey;
+    }
+
+    /**
+     * @param boolean $urlKey
+     *
+     * @return ProductProcessor
+     */
+    public function setUrlKey($urlKey)
+    {
+        $this->urlKey = $urlKey;
+
+        return $this;
+    }
+
+    /**
      * Function called before all process
      */
     protected function beforeExecute()
     {
         parent::beforeExecute();
 
-        $this->globalContext['pimGrouped']          = $this->pimGrouped;
-        $this->globalContext['defaultStoreView']    = $this->getDefaultStoreView();
+        $this->globalContext['pimGrouped']       = $this->pimGrouped;
+        $this->globalContext['defaultStoreView'] = $this->getDefaultStoreView();
+        $this->globalContext['urlKey']           = $this->urlKey;
     }
 
     /**
@@ -258,10 +282,17 @@ class ProductProcessor extends AbstractProductProcessor
                         'help'    => 'pim_magento_connector.export.pimGrouped.help',
                         'label'   => 'pim_magento_connector.export.pimGrouped.label',
                         'attr' => [
-                            'class' => 'select2'
-                        ]
-                    ]
-                ]
+                            'class' => 'select2',
+                        ],
+                    ],
+                ],
+                'urlKey' => [
+                    'type'    => 'checkbox',
+                    'options' => [
+                        'help'  => 'pim_magento_connector.export.urlKey.help',
+                        'label' => 'pim_magento_connector.export.urlKey.label',
+                    ],
+                ],
             ]
         );
     }

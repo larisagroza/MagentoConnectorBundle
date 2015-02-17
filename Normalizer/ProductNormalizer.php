@@ -114,7 +114,8 @@ class ProductNormalizer extends AbstractNormalizer implements ProductNormalizerI
             $context['attributeCodeMapping'],
             $context['pimGrouped'],
             $context['create'],
-            $context['defaultStoreView']
+            $context['defaultStoreView'],
+            $context['urlKey']
         );
 
         $images = $this->getNormalizedImages(
@@ -148,7 +149,8 @@ class ProductNormalizer extends AbstractNormalizer implements ProductNormalizerI
                     $context['categoryMapping'],
                     $context['attributeCodeMapping'],
                     true,
-                    $context['pimGrouped']
+                    $context['pimGrouped'],
+                    $context['urlKey']
                 );
 
                 $processedItem[$storeView['code']] = [
@@ -241,7 +243,8 @@ class ProductNormalizer extends AbstractNormalizer implements ProductNormalizerI
      * @param MappingCollection $attributeMapping         Attribute mapping
      * @param string            $pimGrouped               Pim grouped association code
      * @param bool              $create                   Is it a creation ?
-     * @param array             $context                  Context
+     * @param string            $defaultStoreValue        Default store value
+     * @param string            $urlKey                   Product url key
      *
      * @return array The default product data
      */
@@ -257,7 +260,8 @@ class ProductNormalizer extends AbstractNormalizer implements ProductNormalizerI
         MappingCollection $attributeMapping,
         $pimGrouped,
         $create,
-        $defaultStoreValue
+        $defaultStoreValue,
+        $urlKey
     ) {
         $sku           = (string) $product->getIdentifier();
         $defaultValues = $this->getValues(
@@ -269,7 +273,8 @@ class ProductNormalizer extends AbstractNormalizer implements ProductNormalizerI
             $categoryMapping,
             $attributeMapping,
             false,
-            $pimGrouped
+            $pimGrouped,
+            $urlKey
         );
 
         $defaultValues['websites'] = [$website];
@@ -322,11 +327,12 @@ class ProductNormalizer extends AbstractNormalizer implements ProductNormalizerI
      * @param array             $magentoAttributes        Attribute list from Magento
      * @param array             $magentoAttributesOptions Attribute options list from Magento
      * @param string            $localeCode               The locale to apply
-     * @param string            $scopeCode                The akeneo scope
+     * @param string            $scopeCode                The Akeneo scope
      * @param MappingCollection $categoryMapping          Root category mapping
      * @param MappingCollection $attributeCodeMapping     Attribute mapping
      * @param boolean           $onlyLocalized            If true, only get translatable attributes
      * @param string            $pimGrouped               Pim grouped association code
+     * @param string            $urlKey                   Product url key
      *
      * @return array Computed data
      */
@@ -339,7 +345,8 @@ class ProductNormalizer extends AbstractNormalizer implements ProductNormalizerI
         MappingCollection $categoryMapping,
         MappingCollection $attributeCodeMapping,
         $onlyLocalized,
-        $pimGrouped = null
+        $pimGrouped = null,
+        $urlKey = null
     ) {
         $normalizedValues = [];
 
@@ -369,7 +376,13 @@ class ProductNormalizer extends AbstractNormalizer implements ProductNormalizerI
             $this->getCustomValue(
                 $product,
                 $attributeCodeMapping,
-                ['categoryMapping' => $categoryMapping, 'scopeCode' => $scopeCode, 'localeCode' => $localeCode, 'pimGrouped' => $pimGrouped]
+                [
+                    'categoryMapping' => $categoryMapping,
+                    'scopeCode'       => $scopeCode,
+                    'localeCode'      => $localeCode,
+                    'pimGrouped'      => $pimGrouped,
+                    'urlKey'          => $urlKey,
+                ]
             )
         );
 
@@ -438,14 +451,7 @@ class ProductNormalizer extends AbstractNormalizer implements ProductNormalizerI
             $visibility = $this->visibility;
         }
 
-        return [
-            strtolower($attributeCodeMapping->getTarget(self::URL_KEY))    =>
-                $this->generateUrlKey(
-                    $product,
-                    $attributeCodeMapping,
-                    $parameters['localeCode'],
-                    $parameters['scopeCode']
-                ),
+        $customValue = [
             strtolower($attributeCodeMapping->getTarget(self::VISIBILITY)) => $visibility,
             strtolower($attributeCodeMapping->getTarget(self::ENABLED))    => (string) ($this->enabled) ? 1 : 2,
             strtolower($attributeCodeMapping->getTarget('created_at'))     => $product->getCreated()
@@ -458,6 +464,17 @@ class ProductNormalizer extends AbstractNormalizer implements ProductNormalizerI
                 $parameters['scopeCode']
             )
         ];
+
+        if (false === $parameters['urlKey']) {
+            $customValue[strtolower($attributeCodeMapping->getTarget(self::URL_KEY))] = $this->generateUrlKey(
+                $product,
+                $attributeCodeMapping,
+                $parameters['localeCode'],
+                $parameters['scopeCode']
+            );
+        }
+
+        return $customValue;
     }
 
     /**
