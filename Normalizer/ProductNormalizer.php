@@ -115,7 +115,8 @@ class ProductNormalizer extends AbstractNormalizer implements ProductNormalizerI
             $context['pimGrouped'],
             $context['create'],
             $context['defaultStoreView'],
-            $context['urlKey']
+            $context['urlKey'],
+            $context['skuFirst']
         );
 
         $images = $this->getNormalizedImages(
@@ -150,7 +151,8 @@ class ProductNormalizer extends AbstractNormalizer implements ProductNormalizerI
                     $context['attributeCodeMapping'],
                     true,
                     $context['pimGrouped'],
-                    $context['urlKey']
+                    $context['urlKey'],
+                    $context['skuFirst']
                 );
 
                 $processedItem[$storeView['code']] = [
@@ -244,7 +246,8 @@ class ProductNormalizer extends AbstractNormalizer implements ProductNormalizerI
      * @param string            $pimGrouped               Pim grouped association code
      * @param bool              $create                   Is it a creation ?
      * @param string            $defaultStoreValue        Default store value
-     * @param string            $urlKey                   Product url key
+     * @param boolean           $urlKey                   Product url key
+     * @param boolean           $skuFirst                 Is sku first in url key?
      *
      * @return array The default product data
      */
@@ -261,7 +264,8 @@ class ProductNormalizer extends AbstractNormalizer implements ProductNormalizerI
         $pimGrouped,
         $create,
         $defaultStoreValue,
-        $urlKey
+        $urlKey = false,
+        $skuFirst = false
     ) {
         $sku           = (string) $product->getIdentifier();
         $defaultValues = $this->getValues(
@@ -274,7 +278,8 @@ class ProductNormalizer extends AbstractNormalizer implements ProductNormalizerI
             $attributeMapping,
             false,
             $pimGrouped,
-            $urlKey
+            $urlKey,
+            $skuFirst
         );
 
         $defaultValues['websites'] = [$website];
@@ -332,7 +337,8 @@ class ProductNormalizer extends AbstractNormalizer implements ProductNormalizerI
      * @param MappingCollection $attributeCodeMapping     Attribute mapping
      * @param boolean           $onlyLocalized            If true, only get translatable attributes
      * @param string            $pimGrouped               Pim grouped association code
-     * @param string            $urlKey                   Product url key
+     * @param boolean           $urlKey                   Product url key
+     * @param boolean           $skuFirst                 Is sku first in url key?
      *
      * @return array Computed data
      */
@@ -346,7 +352,8 @@ class ProductNormalizer extends AbstractNormalizer implements ProductNormalizerI
         MappingCollection $attributeCodeMapping,
         $onlyLocalized,
         $pimGrouped = null,
-        $urlKey = null
+        $urlKey = false,
+        $skuFirst = false
     ) {
         $normalizedValues = [];
 
@@ -382,6 +389,7 @@ class ProductNormalizer extends AbstractNormalizer implements ProductNormalizerI
                     'localeCode'      => $localeCode,
                     'pimGrouped'      => $pimGrouped,
                     'urlKey'          => $urlKey,
+                    'skuFirst'        => $skuFirst,
                 ]
             )
         );
@@ -470,7 +478,8 @@ class ProductNormalizer extends AbstractNormalizer implements ProductNormalizerI
                 $product,
                 $attributeCodeMapping,
                 $parameters['localeCode'],
-                $parameters['scopeCode']
+                $parameters['scopeCode'],
+                $parameters['skuFirst']
             );
         }
 
@@ -505,6 +514,7 @@ class ProductNormalizer extends AbstractNormalizer implements ProductNormalizerI
      * @param MappingCollection $attributeCodeMapping
      * @param string            $localeCode
      * @param string            $scopeCode
+     * @param boolean           $skuFirst
      *
      * @return string
      */
@@ -512,14 +522,19 @@ class ProductNormalizer extends AbstractNormalizer implements ProductNormalizerI
         ProductInterface $product,
         MappingCollection $attributeCodeMapping,
         $localeCode,
-        $scopeCode
+        $scopeCode,
+        $skuFirst = false
     ) {
         $identifier = $product->getIdentifier();
         $nameAttribute = $attributeCodeMapping->getSource(self::NAME);
 
         $name = $product->getValue($nameAttribute, $localeCode, $scopeCode);
 
-        $url = Urlizer::urlize($name . '-' . $identifier);
+        if (false === $skuFirst) {
+            $url = Urlizer::urlize($name . '-' . $identifier);
+        } else {
+            $url = Urlizer::urlize($identifier . '-' . $name);
+        }
 
         return $url;
     }

@@ -1,6 +1,7 @@
 # 1.1.18 (2015-02-17)
 ## New features
  - Add an option to let Magento handle product url keys.
+ - Add an option to add sku (for products) / code (for categories) first in the sku, so that even if url key is truncated by Magento, it will still be unique.
 
 # 1.1.17 (2015-02-16)
 ## Bug fixes

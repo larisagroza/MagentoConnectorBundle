@@ -44,6 +44,9 @@ class ProductProcessor extends AbstractProductProcessor
     /** @var boolean */
     protected $urlKey;
 
+    /** @var  boolean */
+    protected $skuFirst;
+
     /**
      * @param WebserviceGuesser                   $webserviceGuesser
      * @param NormalizerGuesser                   $normalizerGuesser
@@ -112,6 +115,8 @@ class ProductProcessor extends AbstractProductProcessor
     }
 
     /**
+     * Get url key
+     *
      * @return boolean
      */
     public function isUrlKey()
@@ -120,6 +125,8 @@ class ProductProcessor extends AbstractProductProcessor
     }
 
     /**
+     * Set url key
+     *
      * @param boolean $urlKey
      *
      * @return ProductProcessor
@@ -127,6 +134,30 @@ class ProductProcessor extends AbstractProductProcessor
     public function setUrlKey($urlKey)
     {
         $this->urlKey = $urlKey;
+
+        return $this;
+    }
+
+    /**
+     * Get skuFirst
+     *
+     * @return boolean
+     */
+    public function isSkuFirst()
+    {
+        return $this->skuFirst;
+    }
+
+    /**
+     * Set skuFirst
+     *
+     * @param boolean $skuFirst
+     *
+     * @return ProductProcessor
+     */
+    public function setSkuFirst($skuFirst)
+    {
+        $this->skuFirst = $skuFirst;
 
         return $this;
     }
@@ -141,6 +172,7 @@ class ProductProcessor extends AbstractProductProcessor
         $this->globalContext['pimGrouped']       = $this->pimGrouped;
         $this->globalContext['defaultStoreView'] = $this->getDefaultStoreView();
         $this->globalContext['urlKey']           = $this->urlKey;
+        $this->globalContext['skuFirst']         = $this->skuFirst;
     }
 
     /**
@@ -291,6 +323,13 @@ class ProductProcessor extends AbstractProductProcessor
                     'options' => [
                         'help'  => 'pim_magento_connector.export.urlKey.help',
                         'label' => 'pim_magento_connector.export.urlKey.label',
+                    ],
+                ],
+                'skuFirst' => [
+                    'type'    => 'checkbox',
+                    'options' => [
+                        'help'  => 'pim_magento_connector.export.skuFirst.help',
+                        'label' => 'pim_magento_connector.export.skuFirst.label',
                     ],
                 ],
             ]
