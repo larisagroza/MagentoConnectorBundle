@@ -30,7 +30,7 @@ attributes:
         useableAsGridFilter: true
         numberMin:           1
         numberMax:           500
-        sortOrder:           1
+        sortOrder:           3
         decimalsAllowed:     true
         localizable:        true
     short_description:
@@ -44,7 +44,7 @@ attributes:
         useableAsGridColumn: true
         useableAsGridFilter: true
         maxCharacters:       100
-        sortOrder:           3
+        sortOrder:           4
     description:
         labels:
             en_US: Description
@@ -56,7 +56,7 @@ attributes:
         useableAsGridColumn: false
         useableAsGridFilter: true
         wysiwygEnabled:      true
-        sortOrder:           4
+        sortOrder:           5
     release_date:
         labels:
             en_US: Release date
@@ -67,7 +67,7 @@ attributes:
         useableAsGridFilter: true
         dateMin:             '2012-01-01'
         dateMax:             '2014-01-01'
-        sortOrder:           5
+        sortOrder:           6
     visibility:
         labels:
             en_US: Visibility
@@ -76,7 +76,7 @@ attributes:
         group: seo
         useableAsGridColumn: true
         useableAsGridFilter: true
-        sortOrder:           1
+        sortOrder:           7
         defaultValue:        4
         localizable:        false
     color:
@@ -87,7 +87,7 @@ attributes:
         group: colors
         useableAsGridColumn: true
         useableAsGridFilter: true
-        sortOrder:           1
+        sortOrder:           8
         localizable:        false
     weight:
         labels:
@@ -97,7 +97,7 @@ attributes:
         group: general
         useableAsGridColumn: true
         useableAsGridFilter: true
-        sortOrder:           10
+        sortOrder:           9
         metricFamily:        Weight
         defaultMetricUnit:   GRAM
         decimalsAllowed:     true
@@ -110,7 +110,7 @@ attributes:
         group: sizes
         useableAsGridColumn: true
         useableAsGridFilter: true
-        sortOrder:           1
+        sortOrder:           10
         defaultValue:        M
         localizable:        false
     unique_color:
@@ -121,7 +121,7 @@ attributes:
         group: colors
         useableAsGridColumn: true
         useableAsGridFilter: true
-        sortOrder:           2
+        sortOrder:           11
     tax_class_id:
         labels:
             en_US: Tax class id
