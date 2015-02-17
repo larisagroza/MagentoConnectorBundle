@@ -63,6 +63,8 @@ class Webservice
 
     const MAGENTO_STATUS_DISABLE                             = 2;
 
+    const MAGENTO_PRODUCT_UPDATE_USELESS                     = 2;
+
     const ADMIN_STOREVIEW                                    = 0;
 
     protected $client;
@@ -335,10 +337,14 @@ class Webservice
      */
     public function sendNewCategory(array $category)
     {
-        return $this->client->call(
+        $categoryId =  $this->client->call(
             self::SOAP_ACTION_CATEGORY_CREATE,
             $category
         );
+
+        $this->updateCategoryIfMultipleStoreView($category, $categoryId);
+
+        return $categoryId;
     }
 
     /**
@@ -895,7 +901,7 @@ class Webservice
 
         if (count($storeViewList) > 1 && count($productPart) === static::CREATE_PRODUCT_SIZE) {
             $updateProductPart = array_merge(
-                array_slice($productPart, static::MAGENTO_STATUS_DISABLE),
+                array_slice($productPart, static::MAGENTO_PRODUCT_UPDATE_USELESS),
                 ['sku']
             );
             $this->client->addCall([static::SOAP_ACTION_CATALOG_PRODUCT_UPDATE, $updateProductPart]);
@@ -903,5 +909,18 @@ class Webservice
             $updateProductPart[2] = static::ADMIN_STOREVIEW;
             $this->client->addCall([static::SOAP_ACTION_CATALOG_PRODUCT_UPDATE, $updateProductPart]);
         }
+    }
+
+    /**
+     * @param array  $category
+     * @param string $categoryId
+     */
+    protected function updateCategoryIfMultipleStoreView($category, $categoryId)
+    {
+        $category[0] = $categoryId;
+        $this->client->addCall([static::SOAP_ACTION_CATEGORY_UPDATE, $category]);
+
+        $category[2] = static::ADMIN_STOREVIEW;
+        $this->client->addCall([static::SOAP_ACTION_CATEGORY_UPDATE, $category]);
     }
 }
