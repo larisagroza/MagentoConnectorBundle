@@ -300,7 +300,6 @@ class Webservice
         ) {
             $resource = self::SOAP_ACTION_CATALOG_PRODUCT_CREATE;
         } else {
-            $productPart = $this->removeNonUpdatePart($productPart);
             $resource = self::SOAP_ACTION_CATALOG_PRODUCT_UPDATE;
         }
 
@@ -874,23 +873,6 @@ class Webservice
     }
 
     /**
-     * Cleanup part of the product data that should not be sent as
-     * update part
-     *
-     * @param array $productPart
-     *
-     * @return array
-     */
-    protected function removeNonUpdatePart(array $productPart)
-    {
-        if (isset($productPart[1]['url_key'])) {
-            unset($productPart[1]['url_key']);
-        }
-
-        return $productPart;
-    }
-
-    /**
      * Update product if there is multiple Magento store views.
      *
      * @param array $productPart
@@ -917,10 +899,14 @@ class Webservice
      */
     protected function updateCategoryIfMultipleStoreView($category, $categoryId)
     {
-        $category[0] = $categoryId;
-        $this->client->addCall([static::SOAP_ACTION_CATEGORY_UPDATE, $category]);
+        $storeViewList = $this->getStoreViewsList();
 
-        $category[2] = static::ADMIN_STOREVIEW;
-        $this->client->addCall([static::SOAP_ACTION_CATEGORY_UPDATE, $category]);
+        if (count($storeViewList) > 1) {
+            $category[0] = $categoryId;
+            $this->client->addCall([static::SOAP_ACTION_CATEGORY_UPDATE, $category]);
+
+            $category[2] = static::ADMIN_STOREVIEW;
+            $this->client->addCall([static::SOAP_ACTION_CATEGORY_UPDATE, $category]);
+        }
     }
 }

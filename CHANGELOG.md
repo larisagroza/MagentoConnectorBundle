@@ -1,10 +1,11 @@
-# 1.1.18 (2015-02-17)
+# 1.1.18 (2015-02-xx)
 ## New features
  - Add an option to let Magento handle product url keys.
- - Add an option to add sku (for products) / code (for categories) first in the sku, so that even if url key is truncated by Magento, it will still be unique.
+ - Add an option to add sku first in the product url key.
 
 ## Bug fixes
  - Category url keys are now correctly handled when multiple magento store views are used.
+ - Url key are now send on product update.
 
 # 1.1.17 (2015-02-16)
 ## Bug fixes
