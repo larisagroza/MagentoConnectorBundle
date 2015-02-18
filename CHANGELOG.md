@@ -15,11 +15,40 @@
  - Inject ChannelManager inside CategoryReader
  - CategoryRepository::findOrderCategories takes a CategoryInterface
 
-# 1.1.11 (2014-12-29)
+# 1.1.17 (2015-02-16)
+## Bug fixes
+ - Prevent error during product creation if sku is a number.
+ 
+# 1.1.16 (2015-02-13)
+## Bug fixes
+ - Url_key are now correctly handled when multiple magento store views are used.
+
+# 1.1.15 (2015-02-04)
+## Bug fixes
+ - Manage now properly boolean values.
+
+# 1.1.14 (2015-02-04)
+## Bug fixes
+ - Fix summary info on configurable to get variant group id and label.
+
+# 1.1.13 (2015-01-30)
+## New features
+ - Add an option to prevent or allow removal of products with type non managed by Akeneo.
+
+## Bug fixes
+ - Fix price computation on configurable product export when variant axis option code is numeric
+
+# 1.1.12 (2015-01-09)
+## Bug fixes
+ - When a category is moved in Akeneo but stay in the same parent category, change is now correctly passed on Magento.
+
+# 1.1.11 (2015-01-06)
 ## New features
  - Add an option to avoid generating category URL_KEY and let Magento handle it.
  - Add an option to set the is_anchor property for all categories.
  - Add an option to force attribute set removal.
+ - Add the SOAP URL to SoapFault error to add further diagnosis if necessary
+ - Only used configurable attributes are now added to build configurable product.
 
 ## Bug fixes
  - option "Do nothing" didn't prevent removal of empty families, it now does.

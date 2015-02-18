@@ -358,12 +358,30 @@ class PriceMappingManager
     {
         if ($product->getValue($attributeCode, $this->locale) !== null) {
             foreach ($attributeMapping as $optionCode => $optionPrice) {
-                if ($product->getValue($attributeCode, $this->locale)->getData()->getCode() === $optionCode) {
+                if ($this->doesOptionCodesMatch(
+                        $product->getValue($attributeCode, $this->locale)->getData()->getCode(),
+                        $optionCode
+                )) {
                     return $optionPrice;
                 }
             }
         }
 
         return 0;
+    }
+
+    /**
+     * @param string $productOptionCode
+     * @param mixed  $mappingOptionCode
+     *
+     * @return boolean
+     */
+    protected function doesOptionCodesMatch($productOptionCode, $mappingOptionCode)
+    {
+        if (is_numeric($productOptionCode)) {
+            return ((int) $productOptionCode) === $mappingOptionCode;
+        }
+
+        return $productOptionCode === $mappingOptionCode;
     }
 }

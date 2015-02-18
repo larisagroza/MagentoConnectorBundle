@@ -57,7 +57,7 @@ class ProductValueNormalizer implements NormalizerInterface
                 $context['currencyCode']
             );
         } else {
-            return;
+            return null;
         }
     }
 
@@ -296,8 +296,8 @@ class ProductValueNormalizer implements NormalizerInterface
                     return is_bool($data);
                 },
                 'normalizer' => function ($data, $parameters) {
-                    return ($data) ? 1 : 0;
-                },
+                    return ($data) ? true : false;
+                }
             ],
             [
                 'filter'     => function ($data) {

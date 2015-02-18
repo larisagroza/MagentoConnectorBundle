@@ -303,6 +303,10 @@ class Webservice
         }
 
         $this->client->addCall([$resource, $productPart]);
+
+        if (self::SOAP_ACTION_CATALOG_PRODUCT_CREATE === $resource) {
+            $this->updateProductIfMultipleStoreView($productPart);
+        }
     }
 
     /**
@@ -878,5 +882,26 @@ class Webservice
         }
 
         return $productPart;
+    }
+
+    /**
+     * Update product if there is multiple Magento store views.
+     *
+     * @param array $productPart
+     */
+    protected function updateProductIfMultipleStoreView(array $productPart)
+    {
+        $storeViewList = $this->getStoreViewsList();
+
+        if (count($storeViewList) > 1 && count($productPart) === static::CREATE_PRODUCT_SIZE) {
+            $updateProductPart = array_merge(
+                array_slice($productPart, static::MAGENTO_STATUS_DISABLE),
+                ['sku']
+            );
+            $this->client->addCall([static::SOAP_ACTION_CATALOG_PRODUCT_UPDATE, $updateProductPart]);
+
+            $updateProductPart[2] = static::ADMIN_STOREVIEW;
+            $this->client->addCall([static::SOAP_ACTION_CATALOG_PRODUCT_UPDATE, $updateProductPart]);
+        }
     }
 }

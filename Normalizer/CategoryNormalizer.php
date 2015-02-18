@@ -27,7 +27,7 @@ class CategoryNormalizer extends AbstractNormalizer
      * @param CategoryMappingManager $categoryMappingManager
      */
     public function __construct(
-        ChannelManager $channelManager,
+        ChannelManager         $channelManager,
         CategoryMappingManager $categoryMappingManager
     ) {
         parent::__construct($channelManager);
@@ -180,6 +180,7 @@ class CategoryNormalizer extends AbstractNormalizer
 
     /**
      * Get update normalized categories
+     *
      * @param CategoryInterface $category
      * @param array             $context
      *
@@ -191,7 +192,8 @@ class CategoryNormalizer extends AbstractNormalizer
             'name'              => $this->getCategoryLabel($category, $context['defaultLocale']),
             'available_sort_by' => 1,
             'default_sort_by'   => 1,
-            'is_anchor'         => $context['is_anchor']
+            'is_anchor'         => $context['is_anchor'],
+            'position'          => $category->getLeft(),
         ];
 
         if (false === $context['urlKey']) {
@@ -238,13 +240,38 @@ class CategoryNormalizer extends AbstractNormalizer
      */
     protected function getNormalizedMoveCategory(CategoryInterface $category, array $context)
     {
-        return [
-            $this->getMagentoCategoryId($category, $context['magentoUrl']),
-            $this->categoryMappingManager->getIdFromCategory(
-                $category->getParent(),
+        $magentoCategoryId = $this->getMagentoCategoryId($category, $context['magentoUrl']);
+
+        $magentoCategoryNewParentId = $this->categoryMappingManager->getIdFromCategory(
+            $category->getParent(),
+            $context['magentoUrl'],
+            $context['categoryMapping']
+        );
+
+        $previousCategory = null;
+        foreach ($category->getParent()->getChildren() as $sibling) {
+            if (
+                $sibling->getLeft() < $category->getLeft() &&
+                $sibling->getLevel() === $category->getLevel() &&
+                (null === $previousCategory || $sibling->getLeft() > $previousCategory->getLeft())
+            ) {
+                $previousCategory = $sibling;
+            }
+        }
+
+        $previousMagentoCategoryId = null;
+        if (null !== $previousCategory) {
+            $previousMagentoCategoryId = $this->categoryMappingManager->getIdFromCategory(
+                $previousCategory,
                 $context['magentoUrl'],
                 $context['categoryMapping']
-            )
+            );
+        }
+
+        return [
+            $magentoCategoryId,
+            $magentoCategoryNewParentId,
+            $previousMagentoCategoryId
         ];
     }
 
