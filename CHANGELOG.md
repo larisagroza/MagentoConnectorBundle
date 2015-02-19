@@ -1,4 +1,4 @@
-# 1.1.18 (2015-02-xx)
+# 1.1.18 (2015-02-19)
 ## Bug fixes
  - Remove useless attributes fields in attribute normalizer
 
