@@ -2,6 +2,7 @@
 
 namespace Pim\Bundle\MagentoConnectorBundle\Normalizer;
 
+use Pim\Bundle\CatalogBundle\Entity\Repository\CategoryRepository;
 use Pim\Bundle\CatalogBundle\Manager\ChannelManager;
 use Pim\Bundle\CatalogBundle\Model\CategoryInterface;
 use Pim\Bundle\MagentoConnectorBundle\Manager\CategoryMappingManager;
@@ -22,17 +23,23 @@ class CategoryNormalizer extends AbstractNormalizer
      */
     protected $categoryMappingManager;
 
+    /** @var   */
+    protected $categoryRepository;
+
     /**
      * @param ChannelManager         $channelManager
      * @param CategoryMappingManager $categoryMappingManager
+     * @param CategoryRepository     $categoryRepository
      */
     public function __construct(
         ChannelManager         $channelManager,
-        CategoryMappingManager $categoryMappingManager
+        CategoryMappingManager $categoryMappingManager,
+        CategoryRepository     $categoryRepository
     ) {
         parent::__construct($channelManager);
 
         $this->categoryMappingManager = $categoryMappingManager;
+        $this->categoryRepository     = $categoryRepository;
     }
 
     /**
@@ -248,19 +255,10 @@ class CategoryNormalizer extends AbstractNormalizer
             $context['categoryMapping']
         );
 
-        $previousCategory = null;
-        foreach ($category->getParent()->getChildren() as $sibling) {
-            if (
-                $sibling->getLeft() < $category->getLeft() &&
-                $sibling->getLevel() === $category->getLevel() &&
-                (null === $previousCategory || $sibling->getLeft() > $previousCategory->getLeft())
-            ) {
-                $previousCategory = $sibling;
-            }
-        }
+        $previousCategory = end($this->categoryRepository->getPrevSiblings($category));
 
         $previousMagentoCategoryId = null;
-        if (null !== $previousCategory) {
+        if ($previousCategory && null !== $previousCategory) {
             $previousMagentoCategoryId = $this->categoryMappingManager->getIdFromCategory(
                 $previousCategory,
                 $context['magentoUrl'],

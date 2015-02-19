@@ -3,6 +3,7 @@
 namespace spec\Pim\Bundle\MagentoConnectorBundle\Normalizer;
 
 use PhpSpec\ObjectBehavior;
+use Pim\Bundle\CatalogBundle\Entity\Attribute;
 use Pim\Bundle\CatalogBundle\Entity\Channel;
 use Pim\Bundle\CatalogBundle\Entity\Group;
 use Pim\Bundle\CatalogBundle\Entity\Locale;
@@ -28,13 +29,18 @@ class ConfigurableNormalizerSpec extends ObjectBehavior
         Channel $channel,
         Locale $localeFR,
         Locale $localeEN,
-        Group $group
+        Group $group,
+        Attribute $attribute
     ) {
         $this->beConstructedWith($channelManager, $productNormalizer, $priceMappingManager, 4);
 
         $this->globalContext = [
             'attributeSetId'           => 0,
-            'magentoAttributes'        => [],
+            'magentoAttributes'        => [
+                'attribute_code' => [
+                    'attribute_id' => 42,
+                ],
+            ],
             'magentoAttributesOptions' => [],
             'storeViewMapping'         => $storeViewMapping,
             'magentoStoreViews'        => [['code' => 'fr_fr']],
@@ -69,10 +75,19 @@ class ConfigurableNormalizerSpec extends ObjectBehavior
         $group->getId()->willReturn(44);
         $group->getCode()->willReturn('group_code');
         $product->getIdentifier()->willReturn('sku-000');
+
+        $attribute->setCode('attribute_code');
+        $group->getAttributes()->willReturn([$attribute]);
+        $attribute->getCode()->willReturn('attribute_code');
+        $attributeMapping->getTarget('attribute_code')->willReturn('attribute_code');
     }
 
-    function it_normalizes_a_new_configurable_product($group, $product, $priceMappingManager, $attributeMapping)
-    {
+    function it_normalizes_a_new_configurable_product(
+        $group,
+        $product,
+        $priceMappingManager,
+        $attributeMapping
+    ) {
         $products = [$product];
 
         $priceMappingManager->getPriceMapping($group, $products, $attributeMapping)->willReturn(
@@ -94,24 +109,25 @@ class ConfigurableNormalizerSpec extends ObjectBehavior
                         0,
                         'conf-group_code',
                         [
-                            'url_key'         => 'my-url-key-conf-44',
-                            'visibility'      => 4,
-                            'price_changes'   => [],
-                            'price'           => [],
-                            'associated_skus' => ['sku-000'],
-                            'websites'        => ['website']
+                            'url_key'                 => 'my-url-key-conf-44',
+                            'visibility'              => 4,
+                            'configurable_attributes' => [42],
+                            'price_changes'           => [],
+                            'price'                   => [],
+                            'associated_skus'         => ['sku-000'],
+                            'websites'                => ['website']
                         ],
                     ],
                     'fr_fr'   => [
                         'conf-group_code',
-                        ['url_key' => 'my-url-key'],
+                        ['url_key' => 'my-url-key-conf-44'],
                         'fr_fr',
                     ],
                 ]
             );
     }
 
-    function it_normalizes_a_updated_configurable_product(
+    function it_normalizes_an_updated_configurable_product(
         $group,
         $product,
         $priceMappingManager,
@@ -135,25 +151,26 @@ class ConfigurableNormalizerSpec extends ObjectBehavior
             'MagentoArray',
             $this->globalContext
         )->shouldReturn(
-                [
-                    'default' => [
-                        'conf-group_code',
-                        [
-                            'url_key'         => 'my-url-key-conf-44',
-                            'visibility'      => 4,
-                            'price_changes'   => [],
-                            'price'           => [],
-                            'associated_skus' => ['sku-000'],
-                            'websites'        => ['website']
-                        ],
+            [
+                'default' => [
+                    'conf-group_code',
+                    [
+                        'url_key'                 => 'my-url-key-conf-44',
+                        'visibility'              => 4,
+                        'configurable_attributes' => [42],
+                        'price_changes'           => [],
+                        'price'                   => [],
+                        'associated_skus'         => ['sku-000'],
+                        'websites'                => ['website']
                     ],
-                    'fr_fr'   => [
-                        'conf-group_code',
-                        ['url_key' => 'my-url-key'],
-                        'fr_fr',
-                    ],
-                ]
-            );
+                ],
+                'fr_fr'   => [
+                    'conf-group_code',
+                    ['url_key' => 'my-url-key-conf-44'],
+                    'fr_fr',
+                ],
+            ]
+        );
     }
 
     function it_raises_an_expcetion_if_the_locale_does_not_have_a_corresponding_storeview(

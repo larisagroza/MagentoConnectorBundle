@@ -20,6 +20,7 @@ services:
         arguments:
             - '@pim_catalog.manager.channel'
             - '@pim_magento_connector.manager.category_mapping'
+            - '@pim_magento_connector.repository.category'
 
     pim_magento_connector.normalizer.family:
         class: %pim_magento_connector.normalizer.family.class%
