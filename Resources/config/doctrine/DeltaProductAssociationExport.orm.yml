@@ -1,6 +1,6 @@
-Pim\Bundle\MagentoConnectorBundle\Entity\DeltaProductExport:
+Pim\Bundle\MagentoConnectorBundle\Entity\DeltaProductAssociationExport:
     type: entity
-    table: pim_magento_delta_product_export
+    table: pim_magento_delta_product_association_export
     indexes:
         searchcode_idx:
             columns:
