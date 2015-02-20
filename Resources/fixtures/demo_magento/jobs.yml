@@ -2,7 +2,7 @@ jobs:
     magento_attribute_export:
         connector: Magento Connector
         alias:     magento_attribute_export
-        label:     Magento magento_attribute_export export
+        label:     Magento attribute export
         type:      export
         configuration:
             channel:               magento
