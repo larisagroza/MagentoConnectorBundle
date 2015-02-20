@@ -111,6 +111,12 @@ abstract class AbstractProductProcessor extends AbstractProcessor
      */
     protected $thumbnailAttribute;
 
+    /** @var boolean */
+    protected $urlKey;
+
+    /** @var  boolean */
+    protected $skuFirst;
+
     /**
      * @param WebserviceGuesser        $webserviceGuesser
      * @param ProductNormalizerGuesser $normalizerGuesser
@@ -412,6 +418,54 @@ abstract class AbstractProductProcessor extends AbstractProcessor
     }
 
     /**
+     * Get url key
+     *
+     * @return boolean
+     */
+    public function isUrlKey()
+    {
+        return $this->urlKey;
+    }
+
+    /**
+     * Set url key
+     *
+     * @param boolean $urlKey
+     *
+     * @return ProductProcessor
+     */
+    public function setUrlKey($urlKey)
+    {
+        $this->urlKey = $urlKey;
+
+        return $this;
+    }
+
+    /**
+     * Get skuFirst
+     *
+     * @return boolean
+     */
+    public function isSkuFirst()
+    {
+        return $this->skuFirst;
+    }
+
+    /**
+     * Set skuFirst
+     *
+     * @param boolean $skuFirst
+     *
+     * @return ProductProcessor
+     */
+    public function setSkuFirst($skuFirst)
+    {
+        $this->skuFirst = $skuFirst;
+
+        return $this;
+    }
+
+    /**
      * Function called before all process
      */
     protected function beforeExecute()
@@ -442,7 +496,9 @@ abstract class AbstractProductProcessor extends AbstractProcessor
                 'attributeCodeMapping'     => $this->attributeMappingMerger->getMapping(),
                 'smallImageAttribute'      => $this->smallImageAttribute,
                 'baseImageAttribute'       => $this->baseImageAttribute,
-                'thumbnailAttribute'       => $this->thumbnailAttribute
+                'thumbnailAttribute'       => $this->thumbnailAttribute,
+                'urlKey'                   => $this->urlKey,
+                'skuFirst'                 => $this->skuFirst,
             ]
         );
     }
@@ -543,6 +599,20 @@ abstract class AbstractProductProcessor extends AbstractProcessor
                             'class' => 'select2'
                         ]
                     ]
+                ],
+                'urlKey' => [
+                    'type'    => 'checkbox',
+                    'options' => [
+                        'help'  => 'pim_magento_connector.export.urlKey.help',
+                        'label' => 'pim_magento_connector.export.urlKey.label',
+                    ],
+                ],
+                'skuFirst' => [
+                    'type'    => 'checkbox',
+                    'options' => [
+                        'help'  => 'pim_magento_connector.export.skuFirst.help',
+                        'label' => 'pim_magento_connector.export.skuFirst.label',
+                    ],
                 ],
             ],
             $this->categoryMappingMerger->getConfigurationField(),

@@ -143,6 +143,9 @@ pim_magento_connector:
         removeProductsNotHandledByPim:
             label: Effacer/désactiver les produits qui ne sont pas gérés par le PIM
             help: Souhaitez-vous effacer/désactiver les produits qui ne sont gérés que par Magento (Virtual, Bundle, Downloadable) ?
+        skuFirst:
+            label: Placer le sku au début de l'url key
+            help: Le code produit (sku) sera placé au début de l'url key plutôt qu'à la fin
 
 job_execution.summary:
     attribute_created:         Attributs créés

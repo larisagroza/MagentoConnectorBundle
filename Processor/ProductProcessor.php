@@ -115,8 +115,8 @@ class ProductProcessor extends AbstractProductProcessor
     {
         parent::beforeExecute();
 
-        $this->globalContext['pimGrouped']          = $this->pimGrouped;
-        $this->globalContext['defaultStoreView']    = $this->getDefaultStoreView();
+        $this->globalContext['pimGrouped']       = $this->pimGrouped;
+        $this->globalContext['defaultStoreView'] = $this->getDefaultStoreView();
     }
 
     /**
@@ -258,9 +258,9 @@ class ProductProcessor extends AbstractProductProcessor
                         'help'    => 'pim_magento_connector.export.pimGrouped.help',
                         'label'   => 'pim_magento_connector.export.pimGrouped.label',
                         'attr' => [
-                            'class' => 'select2'
-                        ]
-                    ]
+                            'class' => 'select2',
+                        ],
+                    ],
                 ]
             ]
         );
