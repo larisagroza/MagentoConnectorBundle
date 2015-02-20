@@ -18,11 +18,9 @@ services:
 
     pim_magento_connector.writer.product_delta:
         class: %pim_magento_connector.writer.product_delta.class%
+        parent: pim_magento_connector.writer.product
         arguments:
-            - '@pim_magento_connector.guesser.magento_webservice'
-            - '@pim_catalog.manager.channel'
-            - '@pim_magento_connector.manager.product_export'
-            - '@pim_magento_connector.webservice.magento_soap_client_parameters_registry'
+            - '@pim_magento_connector.manager.delta_product_export'
         calls:
             - [setEventDispatcher, [@event_dispatcher]]
 
