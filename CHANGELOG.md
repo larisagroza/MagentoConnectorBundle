@@ -1,4 +1,4 @@
-# 1.1.19 (2015-02-xx)
+# 1.1.19 (2015-02-20)
 ## New features
  - Add an option to let Magento handle product url keys.
  - Add an option to add sku first in the product url key.
