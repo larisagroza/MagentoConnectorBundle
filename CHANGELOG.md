@@ -15,6 +15,19 @@
  - Inject ChannelManager inside CategoryReader
  - CategoryRepository::findOrderCategories takes a CategoryInterface
 
+# 1.1.19 (2015-02-20)
+## New features
+ - Add an option to let Magento handle product url keys.
+ - Add an option to add sku first in the product url key.
+
+## Bug fixes
+ - Category url keys are now correctly handled when multiple magento store views are used.
+ - Url key are now send on product update.
+
+# 1.1.18 (2015-02-19)
+## Bug fixes
+ - Remove useless attributes fields in attribute normalizer
+
 # 1.1.17 (2015-02-16)
 ## Bug fixes
  - Prevent error during product creation if sku is a number.

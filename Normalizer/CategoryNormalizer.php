@@ -62,7 +62,8 @@ class CategoryNormalizer extends AbstractNormalizer
                 $normalizedCategory['variation'][] = $this->getNormalizedVariationCategory(
                     $object,
                     $translation->getLocale(),
-                    $storeView['code']
+                    $storeView['code'],
+                    $context['urlKey']
                 );
             }
         }
@@ -219,16 +220,27 @@ class CategoryNormalizer extends AbstractNormalizer
      * @param CategoryInterface $category
      * @param string            $localeCode
      * @param string            $storeViewCode
+     * @param boolean           $urlKey
      *
      * @return array
      */
-    protected function getNormalizedVariationCategory(CategoryInterface $category, $localeCode, $storeViewCode)
-    {
+    protected function getNormalizedVariationCategory(
+        CategoryInterface $category,
+        $localeCode,
+        $storeViewCode,
+        $urlKey = false
+    ) {
+        $categoryUrlKey = '';
+        if (false === $urlKey) {
+            $categoryUrlKey = $this->generateUrlKey($category, $localeCode);
+        }
+
         return [
             'magentoCategory' => [
                 null,
                 [
                     'name'              => $this->getCategoryLabel($category, $localeCode),
+                    'url_key'           => $categoryUrlKey,
                     'available_sort_by' => 1,
                     'default_sort_by'   => 1
                 ],

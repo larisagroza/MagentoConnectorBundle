@@ -53,7 +53,10 @@ class ConfigurableNormalizerSpec extends ObjectBehavior
             'defaultStoreView'         => 'default',
             'smallImageAttribute'      => 'smallImageAttr',
             'baseImageAttribute'       => 'baseImageAttr',
-            'thumbnailAttribute'       => 'thumbnailAttr'
+            'thumbnailAttribute'       => 'thumbnailAttr',
+            'pimGrouped'               => 'grouped_product_code',
+            'urlKey'                   => false,
+            'skuFirst'                 => false,
         ];
 
         $productNormalizer
@@ -127,12 +130,202 @@ class ConfigurableNormalizerSpec extends ObjectBehavior
             );
     }
 
+    function it_normalizes_a_new_configurable_product_without_generating_url_key(
+        $group,
+        $product,
+        $priceMappingManager,
+        $attributeMapping
+    ) {
+        $this->globalContext['urlKey'] = true;
+
+        $products = [$product];
+
+        $priceMappingManager->getPriceMapping($group, $products, $attributeMapping)->willReturn(
+            ['price_changes' => [], 'price' => []]
+        );
+        $priceMappingManager->validatePriceMapping($products, [], [], $attributeMapping)->willReturn(true);
+
+        $this->normalize(
+            [
+                'group'    => $group,
+                'products' => $products,
+            ],
+            'MagentoArray',
+            $this->globalContext
+        )->shouldReturn(
+            [
+                'default' => [
+                    'configurable',
+                    0,
+                    'conf-group_code',
+                    [
+                        'url_key'                 => 'my-url-key-conf-44',
+                        'visibility'              => 4,
+                        'configurable_attributes' => [42],
+                        'price_changes'           => [],
+                        'price'                   => [],
+                        'associated_skus'         => ['sku-000'],
+                        'websites'                => ['website']
+                    ],
+                ],
+                'fr_fr'   => [
+                    'conf-group_code',
+                    ['url_key' => 'my-url-key-conf-44'],
+                    'fr_fr',
+                ],
+            ]
+        );
+    }
+
+    function it_normalizes_a_new_configurable_product_and_put_sku_at_the_beginning_of_the_url_key(
+        $group,
+        $product,
+        $priceMappingManager,
+        $attributeMapping
+    ) {
+        $this->globalContext['skuFirst'] = true;
+
+        $products = [$product];
+
+        $priceMappingManager->getPriceMapping($group, $products, $attributeMapping)->willReturn(
+            ['price_changes' => [], 'price' => []]
+        );
+        $priceMappingManager->validatePriceMapping($products, [], [], $attributeMapping)->willReturn(true);
+
+        $this->normalize(
+            [
+                'group'    => $group,
+                'products' => $products,
+            ],
+            'MagentoArray',
+            $this->globalContext
+        )->shouldReturn(
+            [
+                'default' => [
+                    'configurable',
+                    0,
+                    'conf-group_code',
+                    [
+                        'url_key'                 => 'my-url-key-conf-44',
+                        'visibility'              => 4,
+                        'configurable_attributes' => [42],
+                        'price_changes'           => [],
+                        'price'                   => [],
+                        'associated_skus'         => ['sku-000'],
+                        'websites'                => ['website']
+                    ],
+                ],
+                'fr_fr'   => [
+                    'conf-group_code',
+                    ['url_key' => 'my-url-key-conf-44'],
+                    'fr_fr',
+                ],
+            ]
+        );
+    }
+
     function it_normalizes_an_updated_configurable_product(
         $group,
         $product,
         $priceMappingManager,
         $attributeMapping
     ) {
+        $this->globalContext['create']           = false;
+        $this->globalContext['defaultStoreView'] = 'default';
+
+        $products = [$product];
+
+        $priceMappingManager->getPriceMapping($group, $products, $attributeMapping)->willReturn(
+            ['price_changes' => [], 'price' => []]
+        );
+        $priceMappingManager->validatePriceMapping($products, [], [], $attributeMapping)->willReturn(true);
+
+        $this->normalize(
+            [
+                'group'    => $group,
+                'products' => $products,
+            ],
+            'MagentoArray',
+            $this->globalContext
+        )->shouldReturn(
+            [
+                'default' => [
+                    'conf-group_code',
+                    [
+                        'url_key'                 => 'my-url-key-conf-44',
+                        'visibility'              => 4,
+                        'configurable_attributes' => [42],
+                        'price_changes'           => [],
+                        'price'                   => [],
+                        'associated_skus'         => ['sku-000'],
+                        'websites'                => ['website']
+                    ],
+                ],
+                'fr_fr'   => [
+                    'conf-group_code',
+                    ['url_key' => 'my-url-key-conf-44'],
+                    'fr_fr',
+                ],
+            ]
+        );
+    }
+
+    function it_normalizes_an_updated_configurable_product_without_generating_url_key(
+        $group,
+        $product,
+        $priceMappingManager,
+        $attributeMapping
+    ) {
+        $this->globalContext['urlKey'] = true;
+
+        $this->globalContext['create']           = false;
+        $this->globalContext['defaultStoreView'] = 'default';
+
+        $products = [$product];
+
+        $priceMappingManager->getPriceMapping($group, $products, $attributeMapping)->willReturn(
+            ['price_changes' => [], 'price' => []]
+        );
+        $priceMappingManager->validatePriceMapping($products, [], [], $attributeMapping)->willReturn(true);
+
+        $this->normalize(
+            [
+                'group'    => $group,
+                'products' => $products,
+            ],
+            'MagentoArray',
+            $this->globalContext
+        )->shouldReturn(
+            [
+                'default' => [
+                    'conf-group_code',
+                    [
+                        'url_key'                 => 'my-url-key-conf-44',
+                        'visibility'              => 4,
+                        'configurable_attributes' => [42],
+                        'price_changes'           => [],
+                        'price'                   => [],
+                        'associated_skus'         => ['sku-000'],
+                        'websites'                => ['website']
+                    ],
+                ],
+                'fr_fr'   => [
+                    'conf-group_code',
+                    ['url_key' => 'my-url-key-conf-44'],
+                    'fr_fr',
+                ],
+            ]
+        );
+    }
+
+    function it_normalizes_an_updated_configurable_product_and_put_sku_at_the_beginning_of_the_url_key(
+        $group,
+        $product,
+        $priceMappingManager,
+        $attributeMapping
+    ) {
+        $this->globalContext['skuFirst'] = true;
+
         $this->globalContext['create']           = false;
         $this->globalContext['defaultStoreView'] = 'default';
 

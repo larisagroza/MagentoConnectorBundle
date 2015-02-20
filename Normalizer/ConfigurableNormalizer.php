@@ -75,7 +75,10 @@ class ConfigurableNormalizer extends AbstractNormalizer
             $context['channel'],
             $context['categoryMapping'],
             $context['attributeCodeMapping'],
-            $context['create']
+            $context['create'],
+            $context['pimGrouped'],
+            $context['urlKey'],
+            $context['skuFirst']
         );
 
         $images = $this->productNormalizer->getNormalizedImages(
@@ -108,7 +111,10 @@ class ConfigurableNormalizer extends AbstractNormalizer
                     $context['channel'],
                     $context['categoryMapping'],
                     $context['attributeCodeMapping'],
-                    true
+                    true,
+                    $context['pimGrouped'],
+                    $context['urlKey'],
+                    $context['skuFirst']
                 );
 
                 $values[ProductNormalizer::URL_KEY] = sprintf(
@@ -146,7 +152,10 @@ class ConfigurableNormalizer extends AbstractNormalizer
      * @param string            $channel
      * @param MappingCollection $categoryMapping
      * @param MappingCollection $attributeMapping
-     * @param bool              $create
+     * @param boolean           $create
+     * @param string            $pimGrouped
+     * @param boolean           $urlKey
+     * @param boolean           $skuFirst
      *
      * @return array
      *
@@ -164,7 +173,10 @@ class ConfigurableNormalizer extends AbstractNormalizer
         $channel,
         MappingCollection $categoryMapping,
         MappingCollection $attributeMapping,
-        $create
+        $create,
+        $pimGrouped,
+        $urlKey,
+        $skuFirst
     ) {
         $priceMapping = $this->priceMappingManager->getPriceMapping($group, $products, $attributeMapping);
 
@@ -197,7 +209,10 @@ class ConfigurableNormalizer extends AbstractNormalizer
             $channel,
             $categoryMapping,
             $attributeMapping,
-            false
+            false,
+            $pimGrouped,
+            $urlKey,
+            $skuFirst
         );
 
         $defaultProductValues[ProductNormalizer::VISIBILITY] = $this->visibility;

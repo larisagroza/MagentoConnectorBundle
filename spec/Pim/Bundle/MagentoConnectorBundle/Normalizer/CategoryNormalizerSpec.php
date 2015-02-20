@@ -2,6 +2,7 @@
 
 namespace spec\Pim\Bundle\MagentoConnectorBundle\Normalizer;
 
+use Gedmo\Sluggable\Util\Urlizer;
 use Pim\Bundle\CatalogBundle\Entity\CategoryTranslation;
 use Pim\Bundle\CatalogBundle\Entity\Repository\CategoryRepository;
 use Pim\Bundle\CatalogBundle\Manager\ChannelManager;
@@ -31,7 +32,7 @@ class CategoryNormalizerSpec extends ObjectBehavior
             'categoryMapping'   => $categoryMapping,
             'storeViewMapping'  => $storeViewMapping,
             'defaultStoreView'  => 'default',
-            'urlKey'            => true,
+            'urlKey'            => false,
             'is_anchor'         => 1
         ];
     }
@@ -64,6 +65,7 @@ class CategoryNormalizerSpec extends ObjectBehavior
                             'include_in_menu'   => 1,
                             'available_sort_by' => 1,
                             'default_sort_by'   => 1,
+                            'url_key'           => 'category-label-category-code',
                         ],
                         'default',
                     ],
@@ -115,7 +117,8 @@ class CategoryNormalizerSpec extends ObjectBehavior
                         'available_sort_by' => 1,
                         'default_sort_by'   => 1,
                         'is_anchor'         => 1,
-                        'position'          => 7
+                        'position'          => 7,
+                        'url_key'           => 'category-label-category-code',
                     ],
                     'default',
                 ],
@@ -171,6 +174,7 @@ class CategoryNormalizerSpec extends ObjectBehavior
                             'default_sort_by'   => 1,
                             'is_anchor'         => 1,
                             'position'          => 7,
+                            'url_key'           => 'category-label-category-code',
                         ],
                         'default',
                     ],
@@ -232,6 +236,7 @@ class CategoryNormalizerSpec extends ObjectBehavior
                             'include_in_menu'   => 1,
                             'available_sort_by' => 1,
                             'default_sort_by'   => 1,
+                            'url_key'           => 'libele-de-la-categorie-category-code',
                         ],
                         'default',
                     ],
@@ -246,6 +251,7 @@ class CategoryNormalizerSpec extends ObjectBehavior
                         null,
                         [
                             'name'              => 'Libélé de la catégorie',
+                            'url_key'           => 'libele-de-la-categorie-category-code',
                             'available_sort_by' => 1,
                             'default_sort_by'   => 1,
                         ],

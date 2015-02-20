@@ -21,6 +21,13 @@ class WebserviceSpec extends ObjectBehavior
             ['foo']
         )->willReturn(12);
 
+        $magentoSoapClient->call(Webservice::SOAP_ACTION_STORE_LIST)->willReturn([]);
+
+        $magentoSoapClient->call(
+            Webservice::SOAP_ACTION_CATEGORY_UPDATE,
+            ['foo']
+        )->willReturn(true);
+
         $this->sendNewCategory(['foo'])->shouldReturn(12);
     }
 

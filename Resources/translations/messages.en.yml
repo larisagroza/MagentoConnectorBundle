@@ -140,6 +140,9 @@ pim_magento_connector:
         removeProductsNotHandledByPim:
             label: Delete/disable products not handled by PIM
             help: Choose if you want to delete/disable products handled only by Magento (Virtual, Bundle, Downloadable)
+        skuFirst:
+            label: Set sku at the beginning of the url key
+            help: The product code (sku) will be set at the beginning of the url key rather than at the end
 
 job_execution.summary:
     attribute_created:         Attributes created
