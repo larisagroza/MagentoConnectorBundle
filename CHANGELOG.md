@@ -15,6 +15,10 @@
  - Inject ChannelManager inside CategoryReader
  - CategoryRepository::findOrderCategories takes a CategoryInterface
 
+# 1.1.20 (2015-02-20)
+## Bug fixes
+ - Update product and category url keys in admin store view when multiple magento store views are used.
+
 # 1.1.19 (2015-02-20)
 ## New features
  - Add an option to let Magento handle product url keys.

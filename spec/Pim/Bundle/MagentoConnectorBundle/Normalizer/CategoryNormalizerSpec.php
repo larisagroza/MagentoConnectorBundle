@@ -78,7 +78,49 @@ class CategoryNormalizerSpec extends ObjectBehavior
         ]);
     }
 
-    function it_normalizes_a_updated_category(
+    function it_normalizes_a_new_category_without_generating_an_url_key(
+        Category $category,
+        Category $parentCategory,
+        $categoryMapping,
+        $categoryMappingManager
+    ) {
+        $this->globalContext['urlKey'] = true;
+
+        $category->getParent()->willReturn($parentCategory);
+        $category->getLabel()->willReturn('category_label');
+        $category->setLocale('default_locale')->shouldBeCalled();
+        $category->getTranslations()->willReturn([]);
+        $category->getCode()->willReturn('category_code');
+
+        $categoryMappingManager->getIdFromCategory($category, 'soap_url')->willReturn(null);
+        $categoryMappingManager->getIdFromCategory($parentCategory, 'soap_url', $categoryMapping)->willReturn(3);
+
+        $categoryMapping->getTarget('category_code')->willReturn('category_code');
+
+        $this->normalize($category, 'MagentoArray', $this->globalContext)->shouldReturn([
+            'create'    => [
+                [
+                    'magentoCategory' => [
+                        '3',
+                        [
+                            'name'              => 'category_label',
+                            'is_active'         => 1,
+                            'include_in_menu'   => 1,
+                            'available_sort_by' => 1,
+                            'default_sort_by'   => 1,
+                        ],
+                        'default',
+                    ],
+                    'pimCategory' => $category,
+                ],
+            ],
+            'update'    => [],
+            'move'      => [],
+            'variation' => [],
+        ]);
+    }
+
+    function it_normalizes_an_updated_category(
         Category $category,
         Category $parentCategory,
         $categoryMapping,
@@ -128,7 +170,58 @@ class CategoryNormalizerSpec extends ObjectBehavior
         ]);
     }
 
-    function it_normalizes_a_updated_category_who_have_moved(
+    function it_normalizes_an_updated_category_without_generating_url_key(
+        Category $category,
+        Category $parentCategory,
+        $categoryMapping,
+        $categoryMappingManager
+    ) {
+        $this->globalContext = array_merge(
+            $this->globalContext,
+            [
+                'magentoCategories' => [
+                    4 => ['parent_id' => 3],
+                ],
+                'magentoStoreView' => 'default'
+            ]
+        );
+
+        $this->globalContext['urlKey'] = true;
+
+        $category->getParent()->willReturn($parentCategory);
+        $category->getLabel()->willReturn('category_label');
+        $category->getLeft()->willReturn(7);
+        $category->setLocale('default_locale')->shouldBeCalled();
+        $category->getTranslations()->willReturn([]);
+        $category->getCode()->willReturn('category_code');
+
+        $categoryMappingManager->getIdFromCategory($category, 'soap_url')->willReturn(4);
+        $categoryMappingManager->getIdFromCategory($parentCategory, 'soap_url', $categoryMapping)->willReturn(3);
+        $categoryMappingManager->getIdFromCategory($parentCategory, 'soap_url')->willReturn(3);
+
+        $categoryMapping->getTarget('category_code')->willReturn('category_code');
+
+        $this->normalize($category, 'MagentoArray', $this->globalContext)->shouldReturn([
+            'create'    => [],
+            'update'    => [
+                [
+                    4,
+                    [
+                        'name'              => 'category_label',
+                        'available_sort_by' => 1,
+                        'default_sort_by'   => 1,
+                        'is_anchor'         => 1,
+                        'position'          => 7,
+                    ],
+                    'default',
+                ],
+            ],
+            'move'      => [],
+            'variation' => [],
+        ]);
+    }
+
+    function it_normalizes_an_updated_category_who_have_moved(
         Category $category,
         Category $parentCategory,
         Category $prevCategory,
@@ -175,6 +268,70 @@ class CategoryNormalizerSpec extends ObjectBehavior
                             'is_anchor'         => 1,
                             'position'          => 7,
                             'url_key'           => 'category-label-category-code',
+                        ],
+                        'default',
+                    ],
+                ],
+                'move'      => [
+                    [
+                        4,
+                        9,
+                        5,
+                    ],
+                ],
+                'variation' => [],
+            ]
+        );
+    }
+
+    function it_normalizes_an_updated_category_who_have_moved_without_generating_url_key(
+        Category $category,
+        Category $parentCategory,
+        Category $prevCategory,
+        $categoryMapping,
+        $categoryMappingManager,
+        $categoryRepository
+    ) {
+        $this->globalContext = array_merge(
+            $this->globalContext,
+            [
+                'magentoCategories' => [
+                    4 => ['parent_id' => 3],
+                ],
+                'magentoStoreView' => 'default'
+            ]
+        );
+
+        $this->globalContext['urlKey'] = true;
+
+        $category->getParent()->willReturn($parentCategory);
+        $category->getLabel()->willReturn('category_label');
+        $category->setLocale('default_locale')->shouldBeCalled();
+        $category->getTranslations()->willReturn([]);
+        $category->getCode()->willReturn('category_code');
+        $category->getLeft()->willReturn(7);
+
+        $categoryMappingManager->getIdFromCategory($category, 'soap_url')->willReturn(4);
+        $categoryMappingManager->getIdFromCategory($parentCategory, 'soap_url', $categoryMapping)->willReturn(9);
+        $categoryMappingManager->getIdFromCategory($parentCategory, 'soap_url')->willReturn(3);
+
+        $categoryRepository->getPrevSiblings($category)->willReturn([$prevCategory]);
+        $categoryMappingManager->getIdFromCategory($prevCategory, 'soap_url', $categoryMapping)->willReturn(5);
+
+        $categoryMapping->getTarget('category_code')->willReturn('category_code');
+
+        $this->normalize($category, 'MagentoArray', $this->globalContext)->shouldReturn(
+            [
+                'create'    => [],
+                'update'    => [
+                    [
+                        4,
+                        [
+                            'name'              => 'category_label',
+                            'available_sort_by' => 1,
+                            'default_sort_by'   => 1,
+                            'is_anchor'         => 1,
+                            'position'          => 7,
                         ],
                         'default',
                     ],

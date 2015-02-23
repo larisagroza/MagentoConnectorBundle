@@ -290,23 +290,26 @@ class Webservice
 
     /**
      * Add a call for the given product part
+     *
      * @param array $productPart
      */
     public function sendProduct($productPart)
     {
-        if (count($productPart) == self::CREATE_PRODUCT_SIZE ||
-            count($productPart) == self::CREATE_CONFIGURABLE_SIZE &&
-            $productPart[self::CREATE_CONFIGURABLE_SIZE - 1] != 'sku'
+        $storeViewList = $this->getStoreViewsList();
+
+        if (count($productPart) === static::CREATE_PRODUCT_SIZE ||
+            count($productPart) === static::CREATE_CONFIGURABLE_SIZE &&
+            $productPart[static::CREATE_CONFIGURABLE_SIZE - 1] != 'sku'
         ) {
-            $resource = self::SOAP_ACTION_CATALOG_PRODUCT_CREATE;
+            $this->client->addCall([static::SOAP_ACTION_CATALOG_PRODUCT_CREATE, $productPart]);
+            if (count($storeViewList) > 1 && count($productPart) === static::CREATE_PRODUCT_SIZE) {
+                $this->updateProductInMultipleStoreViews($productPart);
+            }
         } else {
-            $resource = self::SOAP_ACTION_CATALOG_PRODUCT_UPDATE;
-        }
-
-        $this->client->addCall([$resource, $productPart]);
-
-        if (self::SOAP_ACTION_CATALOG_PRODUCT_CREATE === $resource) {
-            $this->updateProductIfMultipleStoreView($productPart);
+            $this->client->addCall([static::SOAP_ACTION_CATALOG_PRODUCT_UPDATE, $productPart]);
+            if (count($storeViewList) > 1) {
+                $this->updateProductInAdminStoreView($productPart);
+            }
         }
     }
 
@@ -341,7 +344,12 @@ class Webservice
             $category
         );
 
-        $this->updateCategoryIfMultipleStoreView($category, $categoryId);
+
+        $storeViewList = $this->getStoreViewsList();
+
+        if (count($storeViewList) > 1) {
+            $this->updateCategoryInAdminStoreView($category, $categoryId);
+        }
 
         return $categoryId;
     }
@@ -877,36 +885,38 @@ class Webservice
      *
      * @param array $productPart
      */
-    protected function updateProductIfMultipleStoreView(array $productPart)
+    protected function updateProductInMultipleStoreViews(array $productPart)
     {
-        $storeViewList = $this->getStoreViewsList();
+        $productPartToUpdate = array_merge(
+            array_slice($productPart, static::MAGENTO_PRODUCT_UPDATE_USELESS),
+            ['sku']
+        );
+        $this->updateProductPart($productPartToUpdate);
 
-        if (count($storeViewList) > 1 && count($productPart) === static::CREATE_PRODUCT_SIZE) {
-            $updateProductPart = array_merge(
-                array_slice($productPart, static::MAGENTO_PRODUCT_UPDATE_USELESS),
-                ['sku']
-            );
-            $this->client->addCall([static::SOAP_ACTION_CATALOG_PRODUCT_UPDATE, $updateProductPart]);
+        $this->updateProductInAdminStoreView($productPartToUpdate);
+    }
 
-            $updateProductPart[2] = static::ADMIN_STOREVIEW;
-            $this->client->addCall([static::SOAP_ACTION_CATALOG_PRODUCT_UPDATE, $updateProductPart]);
-        }
+    /**
+     * Update product in admin store view
+     *
+     * @param array $productPart
+     */
+    protected function updateProductInAdminStoreView(array $productPart)
+    {
+        $productPart[2] = static::ADMIN_STOREVIEW;
+        $this->updateProductPart($productPart);
     }
 
     /**
      * @param array  $category
      * @param string $categoryId
      */
-    protected function updateCategoryIfMultipleStoreView($category, $categoryId)
+    protected function updateCategoryInAdminStoreView($category, $categoryId)
     {
-        $storeViewList = $this->getStoreViewsList();
+        $category[0] = $categoryId;
+        $this->client->addCall([static::SOAP_ACTION_CATEGORY_UPDATE, $category]);
 
-        if (count($storeViewList) > 1) {
-            $category[0] = $categoryId;
-            $this->client->addCall([static::SOAP_ACTION_CATEGORY_UPDATE, $category]);
-
-            $category[2] = static::ADMIN_STOREVIEW;
-            $this->client->addCall([static::SOAP_ACTION_CATEGORY_UPDATE, $category]);
-        }
+        $category[2] = static::ADMIN_STOREVIEW;
+        $this->client->addCall([static::SOAP_ACTION_CATEGORY_UPDATE, $category]);
     }
 }

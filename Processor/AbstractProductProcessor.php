@@ -599,6 +599,20 @@ abstract class AbstractProductProcessor extends AbstractProcessor
                         'label' => 'pim_magento_connector.export.skuFirst.label',
                     ],
                 ],
+                'urlKey' => [
+                    'type'    => 'checkbox',
+                    'options' => [
+                        'help'  => 'pim_magento_connector.export.urlKey.help',
+                        'label' => 'pim_magento_connector.export.urlKey.label',
+                    ],
+                ],
+                'skuFirst' => [
+                    'type'    => 'checkbox',
+                    'options' => [
+                        'help'  => 'pim_magento_connector.export.skuFirst.help',
+                        'label' => 'pim_magento_connector.export.skuFirst.label',
+                    ],
+                ],
             ],
             $this->categoryMappingMerger->getConfigurationField(),
             $this->attributeMappingMerger->getConfigurationField()

@@ -23,7 +23,7 @@ class CategoryNormalizer extends AbstractNormalizer
      */
     protected $categoryMappingManager;
 
-    /** @var   */
+    /** @var  CategoryRepository */
     protected $categoryRepository;
 
     /**
