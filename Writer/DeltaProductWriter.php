@@ -8,7 +8,7 @@ use Pim\Bundle\MagentoConnectorBundle\Guesser\WebserviceGuesser;
 use Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClientParametersRegistry;
 
 /**
- * Write delta published product in Magento
+ * Write delta product in Magento
  *
  * @author    Romain Monceau <romain@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
