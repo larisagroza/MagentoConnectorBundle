@@ -1,8 +1,9 @@
 parameters:
-    pim_magento_connector.factory.magento_soap_client.class: Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClientFactory
-    pim_magento_connector.webservice.url_explorer.class:     Pim\Bundle\MagentoConnectorBundle\Webservice\UrlExplorer
+    pim_magento_connector.factory.magento_soap_client.class:                        Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClientFactory
+    pim_magento_connector.webservice.url_explorer.class:                            Pim\Bundle\MagentoConnectorBundle\Webservice\UrlExplorer
     pim_magento_connector.webservice.magento_soap_client_parameters_registry.class: Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClientParametersRegistry
-    pim_magento_connector.service.guzzle.client.class:       Guzzle\Service\Client
+    pim_magento_connector.webservice.magento_soap_client_profiler.class:            Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClientProfiler
+    pim_magento_connector.service.guzzle.client.class:                              Guzzle\Service\Client
 
 services:
     pim_magento_connector.webservice.url_explorer:
@@ -14,9 +15,14 @@ services:
         class: %pim_magento_connector.webservice.magento_soap_client_parameters_registry.class%
 
     pim_magento_connector.factory.magento_soap_client:
-            class: %pim_magento_connector.factory.magento_soap_client.class%
-            calls:
-                - [setProfiler, [@pim_magento_connector.webservice.magento_soap_client_profiler]]
+        class: %pim_magento_connector.factory.magento_soap_client.class%
+        calls:
+            - [setProfiler, [@pim_magento_connector.webservice.magento_soap_client_profiler]]
+
+    pim_magento_connector.webservice.magento_soap_client_profiler:
+         class: %pim_magento_connector.webservice.magento_soap_client_profiler.class%
+         arguments:
+             - '%kernel.logs_dir%/batch/'
 
     pim_magento_connector.web_client.guzzle:
         class: '%pim_magento_connector.service.guzzle.client.class%'

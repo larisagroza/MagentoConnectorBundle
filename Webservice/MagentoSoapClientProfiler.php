@@ -17,7 +17,7 @@ class MagentoSoapClientProfiler
     const DATE_FORMAT = 'Y-m-d H:i:s';
 
     /** @staticvar boolean */
-    const IS_LOG_ACTIVE = true;
+    const IS_LOG_ACTIVE = false;
 
     /** @staticvar string */
     const LOG_FILE_NAME = 'soap_profile.log';
