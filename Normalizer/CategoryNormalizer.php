@@ -2,6 +2,7 @@
 
 namespace Pim\Bundle\MagentoConnectorBundle\Normalizer;
 
+use Pim\Bundle\CatalogBundle\Entity\Repository\CategoryRepository;
 use Pim\Bundle\CatalogBundle\Manager\ChannelManager;
 use Pim\Bundle\CatalogBundle\Model\CategoryInterface;
 use Pim\Bundle\MagentoConnectorBundle\Manager\CategoryMappingManager;
@@ -22,17 +23,23 @@ class CategoryNormalizer extends AbstractNormalizer
      */
     protected $categoryMappingManager;
 
+    /** @var  CategoryRepository */
+    protected $categoryRepository;
+
     /**
      * @param ChannelManager         $channelManager
      * @param CategoryMappingManager $categoryMappingManager
+     * @param CategoryRepository     $categoryRepository
      */
     public function __construct(
-        ChannelManager $channelManager,
-        CategoryMappingManager $categoryMappingManager
+        ChannelManager         $channelManager,
+        CategoryMappingManager $categoryMappingManager,
+        CategoryRepository     $categoryRepository
     ) {
         parent::__construct($channelManager);
 
         $this->categoryMappingManager = $categoryMappingManager;
+        $this->categoryRepository     = $categoryRepository;
     }
 
     /**
@@ -55,7 +62,8 @@ class CategoryNormalizer extends AbstractNormalizer
                 $normalizedCategory['variation'][] = $this->getNormalizedVariationCategory(
                     $object,
                     $translation->getLocale(),
-                    $storeView['code']
+                    $storeView['code'],
+                    $context['urlKey']
                 );
             }
         }
@@ -180,6 +188,7 @@ class CategoryNormalizer extends AbstractNormalizer
 
     /**
      * Get update normalized categories
+     *
      * @param CategoryInterface $category
      * @param array             $context
      *
@@ -191,7 +200,8 @@ class CategoryNormalizer extends AbstractNormalizer
             'name'              => $this->getCategoryLabel($category, $context['defaultLocale']),
             'available_sort_by' => 1,
             'default_sort_by'   => 1,
-            'is_anchor'         => $context['is_anchor']
+            'is_anchor'         => $context['is_anchor'],
+            'position'          => $category->getLeft(),
         ];
 
         if (false === $context['urlKey']) {
@@ -210,16 +220,27 @@ class CategoryNormalizer extends AbstractNormalizer
      * @param CategoryInterface $category
      * @param string            $localeCode
      * @param string            $storeViewCode
+     * @param boolean           $urlKey
      *
      * @return array
      */
-    protected function getNormalizedVariationCategory(CategoryInterface $category, $localeCode, $storeViewCode)
-    {
+    protected function getNormalizedVariationCategory(
+        CategoryInterface $category,
+        $localeCode,
+        $storeViewCode,
+        $urlKey = false
+    ) {
+        $categoryUrlKey = '';
+        if (false === $urlKey) {
+            $categoryUrlKey = $this->generateUrlKey($category, $localeCode);
+        }
+
         return [
             'magentoCategory' => [
                 null,
                 [
                     'name'              => $this->getCategoryLabel($category, $localeCode),
+                    'url_key'           => $categoryUrlKey,
                     'available_sort_by' => 1,
                     'default_sort_by'   => 1
                 ],
@@ -238,13 +259,29 @@ class CategoryNormalizer extends AbstractNormalizer
      */
     protected function getNormalizedMoveCategory(CategoryInterface $category, array $context)
     {
-        return [
-            $this->getMagentoCategoryId($category, $context['magentoUrl']),
-            $this->categoryMappingManager->getIdFromCategory(
-                $category->getParent(),
+        $magentoCategoryId = $this->getMagentoCategoryId($category, $context['magentoUrl']);
+
+        $magentoCategoryNewParentId = $this->categoryMappingManager->getIdFromCategory(
+            $category->getParent(),
+            $context['magentoUrl'],
+            $context['categoryMapping']
+        );
+
+        $previousCategory = end($this->categoryRepository->getPrevSiblings($category));
+
+        $previousMagentoCategoryId = null;
+        if ($previousCategory && null !== $previousCategory) {
+            $previousMagentoCategoryId = $this->categoryMappingManager->getIdFromCategory(
+                $previousCategory,
                 $context['magentoUrl'],
                 $context['categoryMapping']
-            )
+            );
+        }
+
+        return [
+            $magentoCategoryId,
+            $magentoCategoryNewParentId,
+            $previousMagentoCategoryId
         ];
     }
 

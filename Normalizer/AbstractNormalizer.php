@@ -20,6 +20,9 @@ abstract class AbstractNormalizer implements NormalizerInterface
     const MAGENTO_SIMPLE_PRODUCT_KEY       = 'simple';
     const MAGENTO_CONFIGURABLE_PRODUCT_KEY = 'configurable';
     const MAGENTO_GROUPED_PRODUCT_KEY      = 'grouped';
+    const MAGENTO_BUNDLE_PRODUCT_KEY       = 'bundle';
+    const MAGENTO_DOWNLOADABLE_PRODUCT_KEY = 'downloadable';
+    const MAGENTO_VIRTUAL_PRODUCT_KEY      = 'virtual';
     const DATE_FORMAT                      = 'Y-m-d H:i:s';
 
     const MAGENTO_FORMAT = 'MagentoArray';

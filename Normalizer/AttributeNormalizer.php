@@ -71,12 +71,6 @@ class AttributeNormalizer implements NormalizerInterface
             'is_required'                   => $this->getNormalizedRequired($object),
             'apply_to'                      => '',
             'is_configurable'               => $this->getNormalizedConfigurable($object, $context['axisAttributes']),
-            'is_searchable'                 => '1',
-            'is_visible_in_advanced_search' => '1',
-            'is_comparable'                 => '1',
-            'is_used_for_promo_rules'       => '1',
-            'is_visible_on_front'           => '1',
-            'used_in_product_listing'       => '1',
             'additional_fields'             => [],
             'frontend_label'                => $this->getNormalizedLabels(
                 $object,

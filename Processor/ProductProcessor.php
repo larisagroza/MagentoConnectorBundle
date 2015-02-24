@@ -112,8 +112,8 @@ class ProductProcessor extends AbstractProductProcessor
     {
         parent::beforeExecute();
 
-        $this->globalContext['pimGrouped']          = $this->pimGrouped;
-        $this->globalContext['defaultStoreView']    = $this->getDefaultStoreView();
+        $this->globalContext['pimGrouped']       = $this->pimGrouped;
+        $this->globalContext['defaultStoreView'] = $this->getDefaultStoreView();
     }
 
     /**

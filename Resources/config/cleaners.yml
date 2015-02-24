@@ -9,6 +9,7 @@ parameters:
 services:
     pim_magento_connector.cleaner.product:
         class: %pim_magento_connector.cleaner.product.class%
+        parent: pim_magento_connector.item.magento_item_step
         arguments:
             - '@pim_magento_connector.guesser.magento_webservice'
             - '@pim_catalog.manager.channel'

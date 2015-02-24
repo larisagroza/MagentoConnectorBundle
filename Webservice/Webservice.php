@@ -63,6 +63,8 @@ class Webservice
 
     const MAGENTO_STATUS_DISABLE                             = 2;
 
+    const MAGENTO_PRODUCT_UPDATE_USELESS                     = 2;
+
     const ADMIN_STOREVIEW                                    = 0;
 
     protected $client;
@@ -288,21 +290,27 @@ class Webservice
 
     /**
      * Add a call for the given product part
+     *
      * @param array $productPart
      */
     public function sendProduct($productPart)
     {
-        if (count($productPart) == self::CREATE_PRODUCT_SIZE ||
-            count($productPart) == self::CREATE_CONFIGURABLE_SIZE &&
-            $productPart[self::CREATE_CONFIGURABLE_SIZE - 1] != 'sku'
-        ) {
-            $resource = self::SOAP_ACTION_CATALOG_PRODUCT_CREATE;
-        } else {
-            $productPart = $this->removeNonUpdatePart($productPart);
-            $resource = self::SOAP_ACTION_CATALOG_PRODUCT_UPDATE;
-        }
+        $storeViewList = $this->getStoreViewsList();
 
-        $this->client->addCall([$resource, $productPart]);
+        if (count($productPart) === static::CREATE_PRODUCT_SIZE ||
+            count($productPart) === static::CREATE_CONFIGURABLE_SIZE &&
+            $productPart[static::CREATE_CONFIGURABLE_SIZE - 1] != 'sku'
+        ) {
+            $this->client->addCall([static::SOAP_ACTION_CATALOG_PRODUCT_CREATE, $productPart]);
+            if (count($storeViewList) > 1 && count($productPart) === static::CREATE_PRODUCT_SIZE) {
+                $this->updateProductInMultipleStoreViews($productPart);
+            }
+        } else {
+            $this->client->addCall([static::SOAP_ACTION_CATALOG_PRODUCT_UPDATE, $productPart]);
+            if (count($storeViewList) > 1) {
+                $this->updateProductInAdminStoreView($productPart);
+            }
+        }
     }
 
     /**
@@ -331,10 +339,19 @@ class Webservice
      */
     public function sendNewCategory(array $category)
     {
-        return $this->client->call(
+        $categoryId =  $this->client->call(
             self::SOAP_ACTION_CATEGORY_CREATE,
             $category
         );
+
+
+        $storeViewList = $this->getStoreViewsList();
+
+        if (count($storeViewList) > 1) {
+            $this->updateCategoryInAdminStoreView($category, $categoryId);
+        }
+
+        return $categoryId;
     }
 
     /**
@@ -864,19 +881,42 @@ class Webservice
     }
 
     /**
-     * Cleanup part of the product data that should not be sent as
-     * update part
+     * Update product if there is multiple Magento store views.
      *
      * @param array $productPart
-     *
-     * @return array
      */
-    protected function removeNonUpdatePart(array $productPart)
+    protected function updateProductInMultipleStoreViews(array $productPart)
     {
-        if (isset($productPart[1]['url_key'])) {
-            unset($productPart[1]['url_key']);
-        }
+        $productPartToUpdate = array_merge(
+            array_slice($productPart, static::MAGENTO_PRODUCT_UPDATE_USELESS),
+            ['sku']
+        );
+        $this->updateProductPart($productPartToUpdate);
 
-        return $productPart;
+        $this->updateProductInAdminStoreView($productPartToUpdate);
+    }
+
+    /**
+     * Update product in admin store view
+     *
+     * @param array $productPart
+     */
+    protected function updateProductInAdminStoreView(array $productPart)
+    {
+        $productPart[2] = static::ADMIN_STOREVIEW;
+        $this->updateProductPart($productPart);
+    }
+
+    /**
+     * @param array  $category
+     * @param string $categoryId
+     */
+    protected function updateCategoryInAdminStoreView($category, $categoryId)
+    {
+        $category[0] = $categoryId;
+        $this->client->addCall([static::SOAP_ACTION_CATEGORY_UPDATE, $category]);
+
+        $category[2] = static::ADMIN_STOREVIEW;
+        $this->client->addCall([static::SOAP_ACTION_CATEGORY_UPDATE, $category]);
     }
 }

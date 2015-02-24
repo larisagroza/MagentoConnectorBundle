@@ -125,7 +125,7 @@ class ProductValueNormalizerSpec extends ObjectBehavior
 
         $value->getData()->willReturn(true);
 
-        $this->normalize($value, 'MagentoArray', $this->globalContext)->shouldReturn(['attribute_code' => 1]);
+        $this->normalize($value, 'MagentoArray', $this->globalContext)->shouldReturn(['attribute_code' => true]);
     }
 
     function it_normalizes_a_false_boolean_value($value, $attribute)
@@ -135,7 +135,7 @@ class ProductValueNormalizerSpec extends ObjectBehavior
 
         $value->getData()->willReturn(false);
 
-        $this->normalize($value, 'MagentoArray', $this->globalContext)->shouldReturn(['attribute_code' => 0]);
+        $this->normalize($value, 'MagentoArray', $this->globalContext)->shouldReturn(['attribute_code' => false]);
     }
 
     function it_normalizes_a_date_value($value, $attribute)

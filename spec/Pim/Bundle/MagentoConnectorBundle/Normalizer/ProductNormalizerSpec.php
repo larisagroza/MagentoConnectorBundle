@@ -72,6 +72,8 @@ class ProductNormalizerSpec extends ObjectBehavior
             'smallImageAttribute'      => 'small_image_attribute',
             'baseImageAttribute'       => 'image_attribute',
             'thumbnailAttribute'       => 'image_attribute',
+            'urlKey'                   => false,
+            'skuFirst'                 => false,
         ];
 
         $attributeMapping->getTarget('visibility')->willReturn('visibility');
@@ -138,6 +140,90 @@ class ProductNormalizerSpec extends ObjectBehavior
                         'status'     => 1,
                         'updated_at' => $this->globalContext['updated_date']->format('Y-m-d H:i:s'),
                         'url_key'    => 'my-name-sku-000',
+                        'value'      => 'productValueNormalized',
+                        'visibility' => 4
+                    ],
+                    'fr_fr',
+                    'sku',
+                ],
+            ]
+        );
+    }
+
+    function it_normalizes_the_given_new_product_without_generating_url_key($product)
+    {
+        $this->globalContext['urlKey'] = true;
+
+        $product->getGroups()->willReturn([]);
+        $product->getAssociationForTypeCode('pim_grouped')->willReturn(null);
+
+        $this->normalize($product, 'MagentoArray', $this->globalContext)->shouldReturn(
+            [
+                'default' => [
+                    'simple',
+                    0,
+                    'sku-000',
+                    [
+                        'categories' => [2],
+                        'created_at' => $this->globalContext['created_date']->format('Y-m-d H:i:s'),
+                        'status'     => 1,
+                        'updated_at' => $this->globalContext['updated_date']->format('Y-m-d H:i:s'),
+                        'value'      => 'productValueNormalized',
+                        'visibility' => 4,
+                        'websites'   => ['website']
+                    ],
+                    'default',
+                ],
+                'fr_fr'   => [
+                    'sku-000',
+                    [
+                        'categories' => [2],
+                        'created_at' => $this->globalContext['created_date']->format('Y-m-d H:i:s'),
+                        'status'     => 1,
+                        'updated_at' => $this->globalContext['updated_date']->format('Y-m-d H:i:s'),
+                        'value'      => 'productValueNormalized',
+                        'visibility' => 4
+                    ],
+                    'fr_fr',
+                    'sku',
+                ],
+            ]
+        );
+    }
+
+    function it_normalizes_the_given_new_product_and_put_sku_at_the_beginning_of_the_url_key($product)
+    {
+        $this->globalContext['skuFirst'] = true;
+
+        $product->getGroups()->willReturn([]);
+        $product->getAssociationForTypeCode('pim_grouped')->willReturn(null);
+
+        $this->normalize($product, 'MagentoArray', $this->globalContext)->shouldReturn(
+            [
+                'default' => [
+                    'simple',
+                    0,
+                    'sku-000',
+                    [
+                        'categories' => [2],
+                        'created_at' => $this->globalContext['created_date']->format('Y-m-d H:i:s'),
+                        'status'     => 1,
+                        'updated_at' => $this->globalContext['updated_date']->format('Y-m-d H:i:s'),
+                        'url_key'    => 'sku-000-my-name',
+                        'value'      => 'productValueNormalized',
+                        'visibility' => 4,
+                        'websites'   => ['website']
+                    ],
+                    'default',
+                ],
+                'fr_fr'   => [
+                    'sku-000',
+                    [
+                        'categories' => [2],
+                        'created_at' => $this->globalContext['created_date']->format('Y-m-d H:i:s'),
+                        'status'     => 1,
+                        'updated_at' => $this->globalContext['updated_date']->format('Y-m-d H:i:s'),
+                        'url_key'    => 'sku-000-my-name',
                         'value'      => 'productValueNormalized',
                         'visibility' => 4
                     ],
@@ -253,6 +339,90 @@ class ProductNormalizerSpec extends ObjectBehavior
                         'status'     => 1,
                         'updated_at' => $this->globalContext['updated_date']->format('Y-m-d H:i:s'),
                         'url_key'    => 'my-name-sku-000',
+                        'value'      => 'productValueNormalized',
+                        'visibility' => 4,
+                    ],
+                    'fr_fr',
+                    'sku',
+                ],
+            ]
+        );
+    }
+
+    function it_normalizes_the_given_updated_product_without_generating_url_key($product)
+    {
+        $this->globalContext['urlKey'] = true;
+
+        $this->globalContext['create']           = false;
+        $this->globalContext['defaultStoreView'] = 'default';
+        $product->getGroups()->willReturn([]);
+
+        $this->normalize($product, 'MagentoArray', $this->globalContext)->shouldReturn(
+            [
+                'default' => [
+                    'sku-000',
+                    [
+                        'categories' => [2],
+                        'created_at' => $this->globalContext['created_date']->format('Y-m-d H:i:s'),
+                        'status'     => 1,
+                        'updated_at' => $this->globalContext['updated_date']->format('Y-m-d H:i:s'),
+                        'value'      => 'productValueNormalized',
+                        'visibility' => 4,
+                        'websites'   => ['website'],
+                    ],
+                    'default',
+                    'sku',
+                ],
+                'fr_fr'   => [
+                    'sku-000',
+                    [
+                        'categories' => [2],
+                        'created_at' => $this->globalContext['created_date']->format('Y-m-d H:i:s'),
+                        'status'     => 1,
+                        'updated_at' => $this->globalContext['updated_date']->format('Y-m-d H:i:s'),
+                        'value'      => 'productValueNormalized',
+                        'visibility' => 4,
+                    ],
+                    'fr_fr',
+                    'sku',
+                ],
+            ]
+        );
+    }
+
+    function it_normalizes_the_given_updated_product_and_put_sku_at_the_beginning_of_the_url_key($product)
+    {
+        $this->globalContext['skuFirst'] = true;
+
+        $this->globalContext['create']           = false;
+        $this->globalContext['defaultStoreView'] = 'default';
+        $product->getGroups()->willReturn([]);
+
+        $this->normalize($product, 'MagentoArray', $this->globalContext)->shouldReturn(
+            [
+                'default' => [
+                    'sku-000',
+                    [
+                        'categories' => [2],
+                        'created_at' => $this->globalContext['created_date']->format('Y-m-d H:i:s'),
+                        'status'     => 1,
+                        'updated_at' => $this->globalContext['updated_date']->format('Y-m-d H:i:s'),
+                        'url_key'    => 'sku-000-my-name',
+                        'value'      => 'productValueNormalized',
+                        'visibility' => 4,
+                        'websites'   => ['website'],
+                    ],
+                    'default',
+                    'sku',
+                ],
+                'fr_fr'   => [
+                    'sku-000',
+                    [
+                        'categories' => [2],
+                        'created_at' => $this->globalContext['created_date']->format('Y-m-d H:i:s'),
+                        'status'     => 1,
+                        'updated_at' => $this->globalContext['updated_date']->format('Y-m-d H:i:s'),
+                        'url_key'    => 'sku-000-my-name',
                         'value'      => 'productValueNormalized',
                         'visibility' => 4,
                     ],
