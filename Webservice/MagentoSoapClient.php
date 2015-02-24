@@ -3,6 +3,7 @@
 namespace Pim\Bundle\MagentoConnectorBundle\Webservice;
 
 use Pim\Bundle\MagentoConnectorBundle\Guesser\AbstractGuesser;
+use Symfony\Component\Stopwatch\Stopwatch;
 
 /**
  * A magento soap client to abstract interaction with the php soap client
@@ -24,17 +25,25 @@ class MagentoSoapClient
 
     protected $clientParameters;
 
+    /** @var MagentoSoapClientProfiler */
+    protected $profiler;
+
     /**
      * Create and init the soap client
      *
      * @param MagentoSoapClientParameters $clientParameters
      * @param \SoapClient                 $soapClient
+     * @param MagentoSoapClientProfiler   $profiler
      *
      * @throws ConnectionErrorException
      */
-    public function __construct(MagentoSoapClientParameters $clientParameters, \SoapClient $soapClient = null)
-    {
+    public function __construct(
+        MagentoSoapClientParameters $clientParameters,
+        \SoapClient $soapClient = null,
+        MagentoSoapClientProfiler $profiler = null
+    ) {
         $this->clientParameters = $clientParameters;
+        $this->profiler         = $profiler;
 
         if (!$soapClient) {
             $wsdlUrl     = $this->clientParameters->getSoapUrl();
@@ -140,7 +149,11 @@ class MagentoSoapClient
     {
         if ($this->isConnected()) {
             try {
+                $stopWatch = new Stopwatch(microtime(true));
+                $stopWatch->start('magentoSoapCall');
                 $response = $this->client->call($this->session, $resource, $params);
+                $event = $stopWatch->stop('magentoSoapCall');
+                $this->profiler->logCallDuration($event, $resource);
             } catch (\SoapFault $e) {
                 if ($resource === 'core_magento.info' && $e->getMessage()
                     === AbstractGuesser::MAGENTO_CORE_ACCESS_DENIED) {
