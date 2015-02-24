@@ -14,6 +14,7 @@
  - Categories export step has been removed from structure export
  - Inject ChannelManager inside CategoryReader
  - CategoryRepository::findOrderCategories takes a CategoryInterface
+ - pim_base_connector.reader.doctrine.obsoleteproduct, pim_base_connector.reader.doctrine.obsoleteproduct.class, pim_magento_connector.reader.doctrine.product has been removed from readers.yml because they are unused
 
 # 1.1.20 (2015-02-20)
 ## Bug fixes

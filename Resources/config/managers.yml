@@ -1,17 +1,16 @@
 parameters:
-    pim_magento_connector.manager.locale.class:            Pim\Bundle\MagentoConnectorBundle\Manager\LocaleManager
-    pim_magento_connector.manager.currency.class:          Pim\Bundle\MagentoConnectorBundle\Manager\CurrencyManager
-    pim_magento_connector.manager.category_mapping.class:  Pim\Bundle\MagentoConnectorBundle\Manager\CategoryMappingManager
-    pim_magento_connector.manager.family_mapping.class:    Pim\Bundle\MagentoConnectorBundle\Manager\FamilyMappingManager
-    pim_magento_connector.manager.group_mapping.class:     Pim\Bundle\MagentoConnectorBundle\Manager\AttributeGroupMappingManager
-    pim_magento_connector.manager.attribute_mapping.class: Pim\Bundle\MagentoConnectorBundle\Manager\AttributeMappingManager
-    pim_magento_connector.manager.simple_mapping.class:    Pim\Bundle\MagentoConnectorBundle\Manager\SimpleMappingManager
-    pim_magento_connector.manager.association_type.class:  Pim\Bundle\MagentoConnectorBundle\Manager\AssociationTypeManager
-    pim_magento_connector.manager.product_value.class:     Pim\Bundle\MagentoConnectorBundle\Manager\ProductValueManager
-    pim_magento_connector.manager.attribute.class:         Pim\Bundle\MagentoConnectorBundle\Manager\AttributeManager
-    pim_magento_connector.manager.group.class:             Pim\Bundle\MagentoConnectorBundle\Manager\GroupManager
-    pim_magento_connector.manager.product_export.class:    Pim\Bundle\MagentoConnectorBundle\Manager\ProductExportManager
-    pim_magento_connector.manager.simple_mapping.class:    Pim\Bundle\MagentoConnectorBundle\Manager\SimpleMappingManager
+    pim_magento_connector.manager.locale.class:               Pim\Bundle\MagentoConnectorBundle\Manager\LocaleManager
+    pim_magento_connector.manager.currency.class:             Pim\Bundle\MagentoConnectorBundle\Manager\CurrencyManager
+    pim_magento_connector.manager.category_mapping.class:     Pim\Bundle\MagentoConnectorBundle\Manager\CategoryMappingManager
+    pim_magento_connector.manager.family_mapping.class:       Pim\Bundle\MagentoConnectorBundle\Manager\FamilyMappingManager
+    pim_magento_connector.manager.group_mapping.class:        Pim\Bundle\MagentoConnectorBundle\Manager\AttributeGroupMappingManager
+    pim_magento_connector.manager.attribute_mapping.class:    Pim\Bundle\MagentoConnectorBundle\Manager\AttributeMappingManager
+    pim_magento_connector.manager.simple_mapping.class:       Pim\Bundle\MagentoConnectorBundle\Manager\SimpleMappingManager
+    pim_magento_connector.manager.association_type.class:     Pim\Bundle\MagentoConnectorBundle\Manager\AssociationTypeManager
+    pim_magento_connector.manager.product_value.class:        Pim\Bundle\MagentoConnectorBundle\Manager\ProductValueManager
+    pim_magento_connector.manager.attribute.class:            Pim\Bundle\MagentoConnectorBundle\Manager\AttributeManager
+    pim_magento_connector.manager.group.class:                Pim\Bundle\MagentoConnectorBundle\Manager\GroupManager
+    pim_magento_connector.manager.delta_product_export.class: Pim\Bundle\MagentoConnectorBundle\Manager\DeltaProductExportManager
 
 services:
     # overriden PIM managers
@@ -81,14 +80,10 @@ services:
             - %pim_magento_connector.entity.simple_mapping.class%
 
     # delta entities managers
-    pim_magento_connector.manager.product_export:
-        class: %pim_magento_connector.manager.product_export.class%
+    pim_magento_connector.manager.delta_product_export:
+        class: %pim_magento_connector.manager.delta_product_export.class%
         arguments:
-            - @doctrine.orm.entity_manager
-            - %pim_magento_connector.entity.product_export.class%
-            - %pim_catalog.entity.product.class%
-
-    pim_magento_connector.manager.product_value_export:
-        parent: pim_magento_connector.manager.product_export
-        arguments:
-            - true
+            - '@doctrine.orm.entity_manager'
+            - '@pim_magento_connector.repository.delta_product_export'
+            - '@pim_magento_connector.repository.delta_product_association_export'
+            - '@pim_catalog.repository.product'
