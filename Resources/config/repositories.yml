@@ -4,6 +4,7 @@ parameters:
     pim_magento_connector.repository.group.class:                            Pim\Bundle\MagentoConnectorBundle\Entity\Repository\GroupRepository
     pim_magento_connector.repository.delta_product_export.class:             Doctrine\ORM\EntityRepository
     pim_magento_connector.repository.delta_product_association_export.class: Doctrine\ORM\EntityRepository
+    pim_magento_connector.repository.delta_configurable_export.class:        Doctrine\ORM\EntityRepository
 
 services:
     pim_magento_connector.repository.category:
@@ -25,6 +26,14 @@ services:
         factory_service: doctrine.orm.entity_manager
         factory_method: getRepository
         arguments: [%pim_magento_connector.entity.delta_product_association_export.class%]
+        tags:
+            - { name: 'pim_repository' }
+
+    pim_magento_connector.repository.delta_configurable_export:
+        class: %pim_magento_connector.repository.delta_configurable_export.class%
+        factory_service: doctrine.orm.entity_manager
+        factory_method: getRepository
+        arguments: [%pim_magento_connector.entity.delta_configurable_export.class%]
         tags:
             - { name: 'pim_repository' }
 
