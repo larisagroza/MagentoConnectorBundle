@@ -9,7 +9,6 @@ use Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClientParametersRegi
 use Pim\Bundle\MagentoConnectorBundle\Webservice\Webservice;
 use Pim\Bundle\CatalogBundle\Entity\Category;
 use Akeneo\Bundle\BatchBundle\Entity\StepExecution;
-
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -40,10 +39,10 @@ class CategoryWriterSpec extends ObjectBehavior
                 'create' => [
                     [
                         'pimCategory'     => $category,
-                        'magentoCategory' => ['foo']
-                    ]
-                ]
-            ]
+                        'magentoCategory' => ['foo'],
+                    ],
+                ],
+            ],
         ];
         $webservice->sendNewCategory(['foo'])->willReturn(12);
         $categoryMappingManager
@@ -59,11 +58,12 @@ class CategoryWriterSpec extends ObjectBehavior
         $batches = [
             [
                 'update' => [
-                    ['foo']
-                ]
-            ]
+                    ['foo'],
+                ],
+            ],
         ];
 
+        $webservice->getStoreViewsList()->shouldBeCalled();
         $webservice->sendUpdateCategory(['foo'])->shouldBeCalled();
 
         $this->write($batches);
@@ -74,9 +74,9 @@ class CategoryWriterSpec extends ObjectBehavior
         $batches = [
             [
                 'move' => [
-                    ['foo']
-                ]
-            ]
+                    ['foo'],
+                ],
+            ],
         ];
 
         $webservice->sendMoveCategory(['foo'])->shouldBeCalled();
@@ -94,10 +94,10 @@ class CategoryWriterSpec extends ObjectBehavior
                 'variation' => [
                     [
                         'pimCategory'     => $category,
-                        'magentoCategory' => ['foo']
-                    ]
-                ]
-            ]
+                        'magentoCategory' => ['foo'],
+                    ],
+                ],
+            ],
         ];
 
         $categoryMappingManager
@@ -120,10 +120,10 @@ class CategoryWriterSpec extends ObjectBehavior
                 'create' => [
                     [
                         'pimCategory'     => $category,
-                        'magentoCategory' => ['foo']
-                    ]
-                ]
-            ]
+                        'magentoCategory' => ['foo'],
+                    ],
+                ],
+            ],
         ];
         $webservice->sendNewCategory(['foo'])->willThrow('\Pim\Bundle\MagentoConnectorBundle\Webservice\SoapCallException');
         $categoryMappingManager

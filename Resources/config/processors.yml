@@ -1,14 +1,14 @@
 parameters:
-    pim_magento_connector.processor.product.class: Pim\Bundle\MagentoConnectorBundle\Processor\ProductProcessor
-    pim_magento_connector.processor.configurable.class: Pim\Bundle\MagentoConnectorBundle\Processor\ConfigurableProcessor
+    pim_magento_connector.processor.product.class:             Pim\Bundle\MagentoConnectorBundle\Processor\ProductProcessor
+    pim_magento_connector.processor.configurable.class:        Pim\Bundle\MagentoConnectorBundle\Processor\ConfigurableProcessor
     pim_magento_connector.processor.product_association.class: Pim\Bundle\MagentoConnectorBundle\Processor\ProductAssociationProcessor
-    pim_magento_connector.processor.category.class: Pim\Bundle\MagentoConnectorBundle\Processor\CategoryProcessor
-    pim_magento_connector.processor.attribute.class: Pim\Bundle\MagentoConnectorBundle\Processor\AttributeProcessor
-    pim_magento_connector.processor.option.class: Pim\Bundle\MagentoConnectorBundle\Processor\OptionProcessor
-    pim_magento_connector.processor.family.class: Pim\Bundle\MagentoConnectorBundle\Processor\FamilyProcessor
+    pim_magento_connector.processor.category.class:            Pim\Bundle\MagentoConnectorBundle\Processor\CategoryProcessor
+    pim_magento_connector.processor.attribute.class:           Pim\Bundle\MagentoConnectorBundle\Processor\AttributeProcessor
+    pim_magento_connector.processor.option.class:              Pim\Bundle\MagentoConnectorBundle\Processor\OptionProcessor
+    pim_magento_connector.processor.family.class:              Pim\Bundle\MagentoConnectorBundle\Processor\FamilyProcessor
+    pim_magento_connector.processor.mapping.class:             Pim\Bundle\MagentoConnectorBundle\Processor\MappingProcessor
 
 services:
-    # processors
     pim_magento_connector.processor.product:
         class: %pim_magento_connector.processor.product.class%
         parent: pim_magento_connector.item.magento_item_step
@@ -92,3 +92,6 @@ services:
             - '@pim_magento_connector.manager.locale'
             - '@pim_magento_connector.merger.storeview_mapping'
             - '@pim_magento_connector.webservice.magento_soap_client_parameters_registry'
+
+    pim_magento_connector.processor.mapping:
+        class: %pim_magento_connector.processor.mapping.class%

@@ -53,7 +53,7 @@ class MagentoSoapClient
                 'exceptions' => true,
                 'login'      => $this->clientParameters->getHttpLogin(),
                 'password'   => $this->clientParameters->getHttpPassword(),
-                'cache_wsdl' => WSDL_CACHE_BOTH
+                'cache_wsdl' => WSDL_CACHE_BOTH,
             ];
 
             try {
@@ -191,7 +191,7 @@ class MagentoSoapClient
             if (is_array($response) && isset($response['isFault']) && $response['isFault']) {
                 throw new SoapCallException(
                     sprintf(
-                        'Error on Magento soap call to "%s" : "%s". Called resource : "%s" with parameters : %s.' .
+                        'Error on Magento soap call to "%s" : "%s". Called resource : "%s" with parameters : %s.'.
                         'Response from API : %s',
                         $this->clientParameters->getSoapUrl(),
                         $e->getMessage(),

@@ -4,7 +4,7 @@ Welcome on the Akeneo PIM Magento connector bundle.
 
 This repository is issued to develop the Magento Connector for Akeneo PIM.
 
-Warning : this connector is not production ready and is intended for evaluation and development purposes only!
+Warning: this connector is not production ready and is intended for evaluation and development purposes only!
 
 [![Scrutinizer Quality Score](https://scrutinizer-ci.com/g/akeneo/MagentoConnectorBundle/badges/quality-score.png?s=f2f90f8746e80dc5a1e422156672bd3b0bb6658f)](https://scrutinizer-ci.com/g/akeneo/MagentoConnectorBundle/)
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/2f3066f2-316f-4ed1-8df0-f48d7a1d7f12/mini.png)](https://insight.sensiolabs.com/projects/2f3066f2-316f-4ed1-8df0-f48d7a1d7f12)
@@ -15,6 +15,7 @@ Warning : this connector is not production ready and is intended for evaluation 
  - php5-xml
  - php5-soap
  - Akeneo PIM 1.2.x stable
+ - Magento from CE 1.6 to 1.9 and EE 1.11 to 1.14
 
 # Installation instructions
 
@@ -33,72 +34,75 @@ Get composer:
 
 Install the MagentoConnector with composer:
 
-    $ php composer.phar require akeneo/magento-connector-bundle:1.0.*@stable
+    $ php composer.phar require akeneo/connector-mapping-bundle:v1.0.0-BETA3@dev
+    $ php composer.phar require akeneo/delta-export-bundle:v1.0.0-BETA3@dev
+    $ php composer.phar require akeneo/magento-connector-bundle:1.1.*@stable
 
 Enable bundles in the `app/AppKernel.php` file, in the `registerBundles` function just before the `return $bundles` line:
 
-    $bundles[] = new Pim\Bundle\MagentoConnectorBundle\PimMagentoConnectorBundle();
     $bundles[] = new Pim\Bundle\DeltaExportBundle\PimDeltaExportBundle();
     $bundles[] = new Pim\Bundle\ConnectorMappingBundle\PimConnectorMappingBundle();
+    $bundles[] = new Pim\Bundle\MagentoConnectorBundle\PimMagentoConnectorBundle();
 
-You can now update your database :
+You can now update your database:
 
-    app/console doctrine:schema:update --force
+    php app/console doctrine:schema:update --force
 
-Don't forget to add guzzle in the composer.json of the pim
+Don't forget to reinstall pim assets:
 
-    "require": {
-        "guzzle/service": ">=3.6.0,<3.8.0"
-    },
-
+    php app/console pim:installer:assets
 
 If you want to manage configurable products, you'll need to add [magento-improve-api](https://github.com/jreinke/magento-improve-api) in your Magento installation.
 
-## Installation the Magento Connector in an Akeneo PIM development environment
+## Installing the Magento Connector in an Akeneo PIM development environment (master)
 
-The following installation instructions are meant for development on the Magento Connector itself.
+The following installation instructions are meant for development on the Magento connector itself. Start by setting up a working installation as previously explained, but install only the MagentoConnectorBundle, not the ConnectorMappingBundle and DeltaExportBundle (those two are deprecated and not used anymore in the dev version):
 
-To install the Magento connector for development purposes, the best way is to clone it anywhere on your file system and create a symbolic link to your Akeneo installation's src folder.
+Composer:
 
-After that, add bundles to your `AppKernel.php` :
+    $ php composer.phar require akeneo/magento-connector-bundle:dev-master
+
+In `app/AppKernel.php`:
 
     $bundles[] = new Pim\Bundle\MagentoConnectorBundle\PimMagentoConnectorBundle();
-    $bundles[] = new Pim\Bundle\DeltaExportBundle\PimDeltaExportBundle();
-    $bundles[] = new Pim\Bundle\ConnectorMappingBundle\PimConnectorMappingBundle();
 
-Don't forget to add guzzle in the composer.json of the pim
+Then clone the Magento Connector bundle anywhere on your file system and create a symbolic link to your Akeneo installation's vendor folder (after renaiming/deleting the previous one).
 
-    "require": {
-        "guzzle/service": ">=3.6.0,<3.8.0"
-    },
+Don't forget to reinstall pim assets (again):
 
-# Configuration
+    php app/console pim:installer:assets
+
+# Magento side configuration
 
 In order to export products to Magento, a SOAP user with full rights has to be created on Magento.
 
-After that you can go to `spread > export profiles` on Akeneo PIM and create your first Magento export job.
+For that, in the Magento Admin Panel, access `Web Services > SOAP/XML-RPC - Roles`, then click on `Add New Role` button. Create a role, choose a name, for instance “Soap”, and select `All` in Roles Resources.
 
-*Configuration example* :
+*Role name setup example*:
 
-![Magento connector configuration example](http://i.imgur.com/bmWa8DT.png?1)
+![Magento role name setup](./Resources/doc/images/main/role-name-setup.png)
+
+*Role resources setup example*:
+
+![Magento role resources setup](./Resources/doc/images/main/role-resources-setup.png)
+
+Now you can create a soap user. Go to `Web Services > SOAP/XML-RPC - Users` and click on “Add New User” button. Complete user info at your liking, then select “Soap” role (or whatever name you gave to it) in the User Role section.
+
+*User setup example*:
+
+![Magento soap user setup](./Resources/doc/images/main/user-setup.png)
+
+*User role setup example*:
+
+![Magento soap user role setup](./Resources/doc/images/main/user-role-setup.png)
+
+After that you can go to `Spread > Export profiles` on Akeneo PIM and create your first Magento export job. For more informations, go take a look to the [User Guide](./Resources/doc/userguide.md).
 
 # Demo fixtures
 
 To test the connector with the minimum data requirements, you can load the demo fixtures. Change the `installer_data` line from the `app/config/parameters.yml` file to:
 
-    installer_data: 'PimMagentoConnectorBundle:demo_magento'
-
-# Notes
-
-## Mandatory attributes
-
-The following Magento's attributes are mandatory for Magento and need to be created or mapped in Akeneo :
-
-- name
-- price
-- description
-- short_description
-- tax_class_id
+    installer_data: PimMagentoConnectorBundle:demo_magento
 
 # Bug and issues
 
@@ -106,10 +110,4 @@ This bundle is still under active development. Expect bugs and instabilities. Fe
 
 # Troubleshooting
 
-## Cannot create image
-This error is in fact pretty rarely linked to images themselves. When the Magento Connector Bundle sends the image after the product has been created or updated, Magento goes through the Product save event flow. On this event, the url_key is generated. If a product has already been created with the same name, the url_key cannot be generated and error is issued, triggering an "Cannot create image" error, and losing at the same time the real reason why the image was not created.
-
-To debug, you can add a log in the Mage_Catalog_Model_Product_Attribute_Media_Api class, in the catch(Exception $e) (around line 186, to log what is the real Exception.
-
-## Unable to find category
-If you already sent the categories with the category export or the full export, but the Magento Connector Bundle still tells you that the category must be exported when you export products, there's a high chance that you spell the Magento URL and the WSDL URL differently between the export that sent categories and the product export. Sometimes, you've added a "/" at the end of the Magento URL parameter on one of the export and none on the other. It's enough so for the Magento Connector to believe it's a different Magento so the previously exported categories are not part of the same Magento.
+You can find solutions for some common problems in the [troubleshooting section](./Resources/doc/troubleshooting.md).

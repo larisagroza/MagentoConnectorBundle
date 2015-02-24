@@ -6,7 +6,6 @@ use Pim\Bundle\CatalogBundle\Manager\CurrencyManager as BaseCurrencyManager;
 use Pim\Bundle\CatalogBundle\Entity\Currency;
 use Pim\Bundle\CatalogBundle\Entity\Repository\CurrencyRepository;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 class CurrencyManagerSpec extends ObjectBehavior
 {

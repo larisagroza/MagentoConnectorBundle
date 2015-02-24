@@ -4,7 +4,6 @@ namespace spec\Pim\Bundle\MagentoConnectorBundle\Manager;
 
 use Pim\Bundle\CatalogBundle\Entity\Attribute;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 class ProductValueManagerSpec extends ObjectBehavior
 {

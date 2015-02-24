@@ -19,9 +19,7 @@ class AttributeMappingManager
      */
     protected $objectManager;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $className;
 
     /**
@@ -47,7 +45,7 @@ class AttributeMappingManager
         $magentoAttributeMapping = $this->getEntityRepository()->findOneBy(
             [
                 'magentoAttributeId' => $id,
-                'magentoUrl'         => $magentoUrl
+                'magentoUrl'         => $magentoUrl,
             ]
         );
 
@@ -66,7 +64,7 @@ class AttributeMappingManager
         $attributeMapping = $this->getEntityRepository()->findOneBy(
             [
                 'attribute'   => $attribute,
-                'magentoUrl'  => $magentoUrl
+                'magentoUrl'  => $magentoUrl,
             ]
         );
 
@@ -83,7 +81,7 @@ class AttributeMappingManager
     {
         $attributeMappings = $this->getEntityRepository()->findAll(
             [
-                'magentoUrl' => $magentoUrl
+                'magentoUrl' => $magentoUrl,
             ]
         );
 

@@ -5,7 +5,7 @@ namespace Pim\Bundle\MagentoConnectorBundle\Normalizer;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Pim\Bundle\CatalogBundle\Manager\ChannelManager;
 use Pim\Bundle\MagentoConnectorBundle\Normalizer\Exception\LocaleNotMatchedException;
-use Pim\Bundle\ConnectorMappingBundle\Mapper\MappingCollection;
+use Pim\Bundle\MagentoConnectorBundle\Mapper\MappingCollection;
 use Pim\Bundle\CatalogBundle\Entity\Locale;
 
 /**
@@ -115,7 +115,7 @@ abstract class AbstractNormalizer implements NormalizerInterface
     {
         throw new LocaleNotMatchedException(
             sprintf(
-                'No storeview found for "%s" locale. Please create a storeview named "%s" on your Magento or map ' .
+                'No storeview found for "%s" locale. Please create a storeview named "%s" on your Magento or map '.
                 'this locale to a storeview code. You can also disable this locale in your channel\'s settings if you '.
                 'don\'t want to export it.',
                 $locale->getCode(),

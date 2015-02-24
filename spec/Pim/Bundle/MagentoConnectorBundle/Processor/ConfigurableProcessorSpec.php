@@ -2,26 +2,29 @@
 
 namespace spec\Pim\Bundle\MagentoConnectorBundle\Processor;
 
-use Pim\Bundle\MagentoConnectorBundle\Webservice\Webservice;
-use Pim\Bundle\MagentoConnectorBundle\Guesser\WebserviceGuesser;
-use Pim\Bundle\MagentoConnectorBundle\Guesser\NormalizerGuesser;
-use Pim\Bundle\MagentoConnectorBundle\Manager\GroupManager;
-use Pim\Bundle\MagentoConnectorBundle\Manager\LocaleManager;
-use Pim\Bundle\MagentoConnectorBundle\Manager\CurrencyManager;
-use Pim\Bundle\MagentoConnectorBundle\Merger\MagentoMappingMerger;
-use Pim\Bundle\MagentoConnectorBundle\Normalizer\ProductNormalizer;
-use Pim\Bundle\MagentoConnectorBundle\Normalizer\ConfigurableNormalizer;
-use Pim\Bundle\MagentoConnectorBundle\Entity\Repository\GroupRepository;
-use Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClientParametersRegistry;
-use Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClientParameters;
-use Pim\Bundle\ConnectorMappingBundle\Mapper\MappingCollection;
+use Akeneo\Bundle\BatchBundle\Entity\StepExecution;
+use Akeneo\Bundle\BatchBundle\Event\EventInterface;
+use PhpSpec\ObjectBehavior;
+use Pim\Bundle\CatalogBundle\Entity\Family;
+use Pim\Bundle\CatalogBundle\Entity\Group;
 use Pim\Bundle\CatalogBundle\Manager\ChannelManager;
 use Pim\Bundle\CatalogBundle\Model\Product;
-use Pim\Bundle\CatalogBundle\Entity\Group;
-use Pim\Bundle\CatalogBundle\Entity\Family;
-
+use Pim\Bundle\MagentoConnectorBundle\Entity\Repository\GroupRepository;
+use Pim\Bundle\MagentoConnectorBundle\Guesser\NormalizerGuesser;
+use Pim\Bundle\MagentoConnectorBundle\Guesser\WebserviceGuesser;
+use Pim\Bundle\MagentoConnectorBundle\Manager\AttributeManager;
+use Pim\Bundle\MagentoConnectorBundle\Manager\CurrencyManager;
+use Pim\Bundle\MagentoConnectorBundle\Manager\GroupManager;
+use Pim\Bundle\MagentoConnectorBundle\Manager\LocaleManager;
+use Pim\Bundle\MagentoConnectorBundle\Mapper\MappingCollection;
+use Pim\Bundle\MagentoConnectorBundle\Merger\MagentoMappingMerger;
+use Pim\Bundle\MagentoConnectorBundle\Normalizer\ConfigurableNormalizer;
+use Pim\Bundle\MagentoConnectorBundle\Normalizer\ProductNormalizer;
+use Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClientParameters;
+use Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClientParametersRegistry;
+use Pim\Bundle\MagentoConnectorBundle\Webservice\Webservice;
 use Prophecy\Argument;
-use PhpSpec\ObjectBehavior;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 /**
  * @author    Willy Mesnage <willy.mesnage@akeneo.com>
@@ -40,6 +43,7 @@ class ConfigurableProcessorSpec extends ObjectBehavior
         MagentoMappingMerger $categoryMappingMerger,
         MagentoMappingMerger $attributeMappingMerger,
         GroupManager $groupManager,
+        AttributeManager $attributeManager,
         Webservice $webservice,
         MappingCollection $mappingCollection,
         ProductNormalizer $productNormalizer,
@@ -47,7 +51,9 @@ class ConfigurableProcessorSpec extends ObjectBehavior
         ConfigurableNormalizer $configurableNormalizer,
         Group $group,
         MagentoSoapClientParametersRegistry $clientParametersRegistry,
-        MagentoSoapClientParameters $clientParameters
+        MagentoSoapClientParameters $clientParameters,
+        StepExecution $stepExecution,
+        EventDispatcher $eventDispatcher
     ) {
         $this->beConstructedWith(
             $webserviceGuesser,
@@ -59,10 +65,16 @@ class ConfigurableProcessorSpec extends ObjectBehavior
             $categoryMappingMerger,
             $attributeMappingMerger,
             $groupManager,
-            $clientParametersRegistry
+            $clientParametersRegistry,
+            $attributeManager
         );
 
-        $clientParametersRegistry->getInstance(null, null, null, '/api/soap/?wsdl', 'default', null, null)->willReturn($clientParameters);
+        $this->setStepExecution($stepExecution);
+        $this->setEventDispatcher($eventDispatcher);
+
+        $clientParametersRegistry->getInstance(null, null, null, '/api/soap/?wsdl', 'default', null, null)->willReturn(
+            $clientParameters
+        );
         $webserviceGuesser->getWebservice($clientParameters)->willReturn($webservice);
 
         $storeViewMappingMerger->getMapping()->willReturn($mappingCollection);
@@ -84,21 +96,20 @@ class ConfigurableProcessorSpec extends ObjectBehavior
                     'group_id' => '1',
                     'name' => 'Default Store View',
                     'sort_order' => '0',
-                    'is_active' => '1'
-                ]
+                    'is_active' => '1',
+                ],
             ]
         );
 
         $webservice->getAllAttributes()->willReturn(
             [
-                'name' =>
-                    [
-                        'attribute_id' => '71',
-                        'code' => 'name',
-                        'type' => 'text',
-                        'required' => '1',
-                        'scope' => 'store'
-                    ]
+                'name' => [
+                    'attribute_id' => '71',
+                    'code'         => 'name',
+                    'type'         => 'text',
+                    'required'     => '1',
+                    'scope'        => 'store',
+                ],
             ]
         );
 
@@ -134,7 +145,9 @@ class ConfigurableProcessorSpec extends ObjectBehavior
 
         $configurable = ['group' => $group, 'products' => [$product]];
 
-        $webservice->getConfigurablesStatus(['1' => $configurable])->shouldBeCalled()->willReturn([['sku' => 'conf-abcd']]);
+        $webservice->getConfigurablesStatus(['1' => $configurable])->shouldBeCalled()->willReturn(
+            [['sku' => 'conf-abcd']]
+        );
 
         $configurableNormalizer->normalize($configurable, 'MagentoArray', Argument::any())->shouldBeCalled();
 
@@ -160,7 +173,9 @@ class ConfigurableProcessorSpec extends ObjectBehavior
 
         $configurable = ['group' => $group, 'products' => [$product]];
 
-        $webservice->getConfigurablesStatus(['1' => $configurable])->shouldBeCalled()->willReturn([['sku' => 'conf-adcb']]);
+        $webservice->getConfigurablesStatus(['1' => $configurable])->shouldBeCalled()->willReturn(
+            [['sku' => 'conf-adcb']]
+        );
         $webservice->getAttributeSetId('family_code')->shouldBeCalled()->willReturn('attrSet_code');
 
         $configurableNormalizer->normalize($configurable, 'MagentoArray', Argument::any())->shouldBeCalled();
@@ -168,42 +183,12 @@ class ConfigurableProcessorSpec extends ObjectBehavior
         $this->process([$product]);
     }
 
-    function it_throws_an_exception_if_there_are_products_products_with_different_families(
-        $groupRepository,
-        $webservice,
-        $group,
-        $configurableNormalizer,
-        Product $product,
-        Product $product_2,
-        Family $family,
-        Family $family_2
-    ) {
-        $groupRepository->getVariantGroupIds()->willReturn([0, 1]);
-
-        $product->getGroups()->willReturn([$group]);
-        $product_2->getGroups()->willReturn([$group]);
-        $product->getFamily()->shouldBeCalled()->willReturn($family);
-        $product_2->getFamily()->shouldBeCalled()->willReturn($family_2);
-
-        $group->getCode()->willReturn('abcd');
-
-        $family->getCode()->willReturn('family_code');
-
-        $configurable = ['group' => $group, 'products' => [$product, $product_2]];
-
-        $webservice->getConfigurablesStatus(['1' => $configurable])->shouldBeCalled()->willReturn([['sku' => 'conf-adcb']]);
-        $webservice->getAttributeSetId(Argument::any())->shouldNotBeCalled();
-
-        $configurableNormalizer->normalize(Argument::cetera())->shouldNotBeCalled();
-
-        $this->shouldThrow('\Akeneo\Bundle\BatchBundle\Item\InvalidItemException')->duringProcess([$product, $product_2]);
-    }
-
     function it_throws_an_exception_if_a_normalization_error_occured(
         $groupRepository,
         $webservice,
         $group,
         $configurableNormalizer,
+        $eventDispatcher,
         Product $product,
         Family $family
     ) {
@@ -218,12 +203,23 @@ class ConfigurableProcessorSpec extends ObjectBehavior
 
         $configurable = ['group' => $group, 'products' => [$product]];
 
-        $webservice->getConfigurablesStatus(['1' => $configurable])->shouldBeCalled()->willReturn([['sku' => 'conf-adcb']]);
+        $webservice->getConfigurablesStatus(['1' => $configurable])->shouldBeCalled()->willReturn(
+            [['sku' => 'conf-adcb']]
+        );
         $webservice->getAttributeSetId('family_code')->shouldBeCalled()->willReturn('attrSet_code');
 
-        $configurableNormalizer->normalize($configurable, 'MagentoArray', Argument::any())->willThrow('Pim\Bundle\MagentoConnectorBundle\Normalizer\Exception\NormalizeException');
+        $configurableNormalizer
+            ->normalize($configurable, 'MagentoArray', Argument::any())
+            ->willThrow(
+                'Pim\Bundle\MagentoConnectorBundle\Normalizer\Exception\NormalizeException'
+            );
 
-        $this->shouldThrow('\Akeneo\Bundle\BatchBundle\Item\InvalidItemException')->duringProcess([$product]);
+        $eventDispatcher->dispatch(
+            EventInterface::INVALID_ITEM,
+            Argument::type('Akeneo\Bundle\BatchBundle\Event\InvalidItemEvent')
+        )->shouldBeCalled();
+
+        $this->process([$product]);
     }
 
     function it_throws_an_exception_if_a_soap_call_error_occured_during_normalization(
@@ -245,11 +241,15 @@ class ConfigurableProcessorSpec extends ObjectBehavior
 
         $configurable = ['group' => $group, 'products' => [$product]];
 
-        $webservice->getConfigurablesStatus(['1' => $configurable])->shouldBeCalled()->willReturn([['sku' => 'conf-adcb']]);
+        $webservice->getConfigurablesStatus(['1' => $configurable])->shouldBeCalled()->willReturn(
+            [['sku' => 'conf-adcb']]
+        );
         $webservice->getAttributeSetId('family_code')->shouldBeCalled()->willReturn('attrSet_code');
 
-        $configurableNormalizer->normalize($configurable, 'MagentoArray', Argument::any())->willThrow('Pim\Bundle\MagentoConnectorBundle\Webservice\SoapCallException');
+        $configurableNormalizer->normalize($configurable, 'MagentoArray', Argument::any())->willThrow(
+            'Pim\Bundle\MagentoConnectorBundle\Webservice\SoapCallException'
+        );
 
-        $this->shouldThrow('\Akeneo\Bundle\BatchBundle\Item\InvalidItemException')->duringProcess([$product]);
+        $this->process([$product]);
     }
 }

@@ -1,7 +1,31 @@
 parameters:
-    pim_magento_connector.normalizer.value.class: Pim\Bundle\MagentoConnectorBundle\Normalizer\ProductValueNormalizer
+    pim_magento_connector.normalizer.value.class:  Pim\Bundle\MagentoConnectorBundle\Normalizer\ProductValueNormalizer
+    pim_magento_connector.normalizer.attribute.class: Pim\Bundle\MagentoConnectorBundle\Normalizer\AttributeNormalizer
+    pim_magento_connector.normalizer.category.class: Pim\Bundle\MagentoConnectorBundle\Normalizer\CategoryNormalizer
+    pim_magento_connector.normalizer.family.class: Pim\Bundle\MagentoConnectorBundle\Normalizer\FamilyNormalizer
+    pim_magento_connector.normalizer.option.class: Pim\Bundle\MagentoConnectorBundle\Normalizer\OptionNormalizer
 
 services:
-    # normalizers
     pim_magento_connector.normalizer.value:
         class: %pim_magento_connector.normalizer.value.class%
+
+    pim_magento_connector.normalizer.attribute:
+        class: %pim_magento_connector.normalizer.attribute.class%
+        arguments:
+            - '@pim_magento_connector.normalizer.value'
+            - '@pim_magento_connector.manager.product_value'
+
+    pim_magento_connector.normalizer.category:
+        class: %pim_magento_connector.normalizer.category.class%
+        arguments:
+            - '@pim_catalog.manager.channel'
+            - '@pim_magento_connector.manager.category_mapping'
+            - '@pim_magento_connector.repository.category'
+
+    pim_magento_connector.normalizer.family:
+        class: %pim_magento_connector.normalizer.family.class%
+
+    pim_magento_connector.normalizer.option:
+        class: %pim_magento_connector.normalizer.option.class%
+        arguments:
+            - '@pim_catalog.manager.channel'

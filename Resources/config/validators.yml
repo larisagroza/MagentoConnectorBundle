@@ -1,0 +1,33 @@
+parameters:
+    pim_magento_connector.validator.has_valid_credentials.class:    Pim\Bundle\MagentoConnectorBundle\Validator\Constraints\HasValidCredentialsValidator
+    pim_magento_connector.validator.has_valid_currency.class:       Pim\Bundle\MagentoConnectorBundle\Validator\Constraints\HasValidCurrencyValidator
+    pim_magento_connector.validator.has_valid_default_locale.class: Pim\Bundle\MagentoConnectorBundle\Validator\Constraints\HasValidDefaultLocaleValidator
+    pim_magento_connector.checker.xml.class:                        Pim\Bundle\MagentoConnectorBundle\Validator\Checks\XmlChecker
+
+services:
+    pim_magento_connector.validator.has_valid_credentials:
+        class: %pim_magento_connector.validator.has_valid_credentials.class%
+        arguments:
+            - '@pim_magento_connector.guesser.magento_webservice'
+            - '@pim_magento_connector.webservice.url_explorer'
+            - '@pim_magento_connector.checker.xml'
+            - '@pim_magento_connector.webservice.magento_soap_client_parameters_registry'
+        tags:
+            - { name: validator.constraint_validator, alias: has_valid_magento_credentials }
+
+    pim_magento_connector.validator.has_valid_currency:
+        class: %pim_magento_connector.validator.has_valid_currency.class%
+        arguments:
+            - '@pim_catalog.manager.channel'
+        tags:
+            - { name: validator.constraint_validator, alias: has_valid_currency }
+
+    pim_magento_connector.validator.has_valid_default_locale:
+        class: %pim_magento_connector.validator.has_valid_default_locale.class%
+        arguments:
+            - '@pim_catalog.manager.channel'
+        tags:
+            - { name: validator.constraint_validator, alias: has_valid_default_locale }
+
+    pim_magento_connector.checker.xml:
+        class: %pim_magento_connector.checker.xml.class%

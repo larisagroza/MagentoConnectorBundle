@@ -4,7 +4,7 @@ namespace spec\Pim\Bundle\MagentoConnectorBundle\Processor;
 
 use Pim\Bundle\MagentoConnectorBundle\Manager\LocaleManager;
 use Pim\Bundle\MagentoConnectorBundle\Merger\MagentoMappingMerger;
-use Pim\Bundle\ConnectorMappingBundle\Mapper\MappingCollection;
+use Pim\Bundle\MagentoConnectorBundle\Mapper\MappingCollection;
 use Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClientParametersRegistry;
 use Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClientParameters;
 use Pim\Bundle\MagentoConnectorBundle\Guesser\WebserviceGuesser;
@@ -72,7 +72,7 @@ class OptionProcessorSpec extends ObjectBehavior
 
         $this->process([
             $optionRed,
-            $optionBlue
+            $optionBlue,
         ])->shouldReturn([['foo'], ['bar']]);
     }
 
@@ -126,8 +126,8 @@ class OptionProcessorSpec extends ObjectBehavior
                 'options' => [
                     'required' => true,
                     'help'     => 'pim_magento_connector.export.soapUsername.help',
-                    'label'    => 'pim_magento_connector.export.soapUsername.label'
-                ]
+                    'label'    => 'pim_magento_connector.export.soapUsername.label',
+                ],
             ],
             'soapApiKey'   => [
                 //Should be remplaced by a password formType but who doesn't
@@ -136,37 +136,37 @@ class OptionProcessorSpec extends ObjectBehavior
                 'options' => [
                     'required' => true,
                     'help'     => 'pim_magento_connector.export.soapApiKey.help',
-                    'label'    => 'pim_magento_connector.export.soapApiKey.label'
-                ]
+                    'label'    => 'pim_magento_connector.export.soapApiKey.label',
+                ],
             ],
             'magentoUrl' => [
                 'options' => [
                     'required' => true,
                     'help'     => 'pim_magento_connector.export.magentoUrl.help',
-                    'label'    => 'pim_magento_connector.export.magentoUrl.label'
-                ]
+                    'label'    => 'pim_magento_connector.export.magentoUrl.label',
+                ],
             ],
             'wsdlUrl' => [
                 'options' => [
                     'required' => true,
                     'help'     => 'pim_magento_connector.export.wsdlUrl.help',
                     'label'    => 'pim_magento_connector.export.wsdlUrl.label',
-                    'data'     => MagentoSoapClientParameters::SOAP_WSDL_URL
-                ]
+                    'data'     => MagentoSoapClientParameters::SOAP_WSDL_URL,
+                ],
             ],
             'httpLogin' => [
                 'options' => [
                     'required' => false,
                     'help'     => 'pim_magento_connector.export.httpLogin.help',
-                    'label'    => 'pim_magento_connector.export.httpLogin.label'
-                ]
+                    'label'    => 'pim_magento_connector.export.httpLogin.label',
+                ],
             ],
             'httpPassword' => [
                 'options' => [
                     'required' => false,
                     'help'     => 'pim_magento_connector.export.httpPassword.help',
-                    'label'    => 'pim_magento_connector.export.httpPassword.label'
-                ]
+                    'label'    => 'pim_magento_connector.export.httpPassword.label',
+                ],
             ],
             'defaultStoreView' => [
                 'options' => [
@@ -174,7 +174,7 @@ class OptionProcessorSpec extends ObjectBehavior
                     'help'     => 'pim_magento_connector.export.defaultStoreView.help',
                     'label'    => 'pim_magento_connector.export.defaultStoreView.label',
                     'data'     => $this->getDefaultStoreView(),
-                ]
+                ],
             ],
             'defaultLocale' => [
                 'type' => 'choice',
@@ -183,16 +183,16 @@ class OptionProcessorSpec extends ObjectBehavior
                     'required' => true,
                     'attr' => ['class' => 'select2'],
                     'help'     => 'pim_magento_connector.export.defaultLocale.help',
-                    'label'    => 'pim_magento_connector.export.defaultLocale.label'
-                ]
+                    'label'    => 'pim_magento_connector.export.defaultLocale.label',
+                ],
             ],
             'website' => [
                 'type' => 'text',
                 'options' => [
                     'required' => true,
                     'help'     => 'pim_magento_connector.export.website.help',
-                    'label'    => 'pim_magento_connector.export.website.label'
-                ]
+                    'label'    => 'pim_magento_connector.export.website.label',
+                ],
             ],
             'fooo' => 'baar',
             'foo' => 'bar',

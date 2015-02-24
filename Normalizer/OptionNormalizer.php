@@ -21,12 +21,12 @@ class OptionNormalizer extends AbstractNormalizer
         $label = [
             [
                 'store_id' => '0',
-                'value'    => $object->getCode()
+                'value'    => $object->getCode(),
             ],
             [
                 'store_id' => '1',
                 'value'    => $this->getOptionLabel($object, $context['defaultLocale'])
-            ]
+            ],
         ];
 
         foreach ($this->getOptionLocales($object) as $locale) {
@@ -43,7 +43,7 @@ class OptionNormalizer extends AbstractNormalizer
                         $object,
                         $locale,
                         $context['defaultLocale']
-                    )
+                    ),
                 ];
             }
         }

@@ -4,6 +4,10 @@ namespace spec\Pim\Bundle\MagentoConnectorBundle\Guesser;
 
 use Pim\Bundle\CatalogBundle\Manager\ChannelManager;
 use Pim\Bundle\CatalogBundle\Manager\MediaManager;
+use Pim\Bundle\MagentoConnectorBundle\Normalizer\AttributeNormalizer;
+use Pim\Bundle\MagentoConnectorBundle\Normalizer\CategoryNormalizer;
+use Pim\Bundle\MagentoConnectorBundle\Normalizer\FamilyNormalizer;
+use Pim\Bundle\MagentoConnectorBundle\Normalizer\OptionNormalizer;
 use Pim\Bundle\MagentoConnectorBundle\Normalizer\ProductValueNormalizer;
 use Pim\Bundle\MagentoConnectorBundle\Manager\CategoryMappingManager;
 use Pim\Bundle\MagentoConnectorBundle\Manager\AssociationTypeManager;
@@ -26,12 +30,36 @@ class NormalizerGuesserSpec extends ObjectBehavior
         CategoryMappingManager $categoryMappingManager,
         AssociationTypeManager $associationTypeManager,
         ProductValueManager $productValueManager,
+        AttributeNormalizer $attributeNormalizer,
+        CategoryNormalizer $categoryNormalizer,
+        FamilyNormalizer $familyNormalizer,
+        OptionNormalizer $optionNormalizer,
         MagentoSoapClientParametersRegistry $clientParametersRegistry,
         MagentoSoapClientParameters $clientParameters
     ) {
-        $this->beConstructedWith($magentoSoapClientFactory, $channelManager, $mediaManager, $productValueNormalizer, $categoryMappingManager, $associationTypeManager, $productValueManager);
+        $this->beConstructedWith(
+            $magentoSoapClientFactory,
+            $channelManager,
+            $mediaManager,
+            $productValueNormalizer,
+            $categoryMappingManager,
+            $associationTypeManager,
+            $productValueManager,
+            $attributeNormalizer,
+            $categoryNormalizer,
+            $familyNormalizer,
+            $optionNormalizer
+        );
 
-        $clientParametersRegistry->getInstance('soap_username', 'soap_api_key', 'http://magento.url', '/api/soap/?wsdl', 'default', null, null)->willReturn($clientParameters);
+        $clientParametersRegistry->getInstance(
+            'soap_username',
+            'soap_api_key',
+            'http://magento.url',
+            '/api/soap/?wsdl',
+            'default',
+            null,
+            null
+        )->willReturn($clientParameters);
 
         $clientParameters->getSoapUrl()->willReturn('http://magento.url/api/soap/?wsdl');
         $clientParameters->getSoapUsername()->willReturn('soap_username');

@@ -3,12 +3,11 @@
     "type": "symfony-bundle",
     "description": "Akeneo PIM bundle to export to Magento platform",
     "keywords": ["pim", "akeneo", "ecommerce", "e-commerce", "magento", "connector", "soap", "api"],
-    "homepage": "http://akeneo.com",
+    "homepage": "http://www.akeneo.com",
     "license": "OSL-3.0",
     "authors": [
         {
-            "name":     "Julien Sanchez",
-            "email":    "julien@akeneo.com",
+            "name":     "Akeneo",
             "homepage": "http://www.akeneo.com/"
         }
     ],
@@ -24,9 +23,7 @@
     ],
     "require": {
         "guzzle/service": ">=3.6.0,<3.8.0",
-        "akeneo/pim-community-dev": "1.2.*@stable",
-        "akeneo/delta-export-bundle": "v1.0.0-BETA3",
-        "akeneo/connector-mapping-bundle": "v1.0.0-BETA3"
+        "akeneo/pim-community-dev": "1.2.*@stable"
     },
     "require-dev": {
         "phpspec/phpspec": "2.0.*@dev",

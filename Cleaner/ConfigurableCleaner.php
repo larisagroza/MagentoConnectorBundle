@@ -21,9 +21,7 @@ use Pim\Bundle\MagentoConnectorBundle\Manager\GroupManager;
  */
 class ConfigurableCleaner extends ProductCleaner
 {
-    /**
-     * @var GroupManager
-     */
+    /** @var GroupManager */
     protected $groupManager;
 
     /**
@@ -66,6 +64,7 @@ class ConfigurableCleaner extends ProductCleaner
 
     /**
      * Get all variant group skus
+     *
      * @return array
      */
     protected function getPimConfigurablesSkus()

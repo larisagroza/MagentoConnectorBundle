@@ -2,8 +2,6 @@
 
 namespace Pim\Bundle\MagentoConnectorBundle\Mapper;
 
-use Pim\Bundle\ConnectorMappingBundle\Mapper\Mapper;
-use Pim\Bundle\ConnectorMappingBundle\Mapper\MappingCollection;
 use Pim\Bundle\MagentoConnectorBundle\Manager\AttributeMappingManager;
 use Pim\Bundle\MagentoConnectorBundle\Merger\MagentoMappingMerger;
 use Pim\Bundle\MagentoConnectorBundle\Validator\Constraints\HasValidCredentialsValidator;
@@ -33,14 +31,10 @@ class ORMExportedAttributeMapper extends Mapper
      */
     protected $attributeMappingManager;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $rootIdentifier;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $defaultStoreView;
 
     /**
@@ -86,7 +80,7 @@ class ORMExportedAttributeMapper extends Mapper
                 [
                     'source'    => $attributeCodeMapping->getTarget($pimAttributeCode),
                     'target'    => $magentoAttributeMapping->getMagentoAttributeId(),
-                    'deletable' => true
+                    'deletable' => true,
                 ]
             );
         }

@@ -6,9 +6,8 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Pim\Bundle\CatalogBundle\Entity\Family;
 use Doctrine\ORM\EntityRepository;
 use Pim\Bundle\MagentoConnectorBundle\Entity\MagentoFamilyMapping;
-use Pim\Bundle\ConnectorMappingBundle\Mapper\MappingCollection;
+use Pim\Bundle\MagentoConnectorBundle\Mapper\MappingCollection;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 class FamilyMappingManagerSpec extends ObjectBehavior
 {
@@ -54,7 +53,7 @@ class FamilyMappingManagerSpec extends ObjectBehavior
         $entityRepository->findOneBy(
             [
                 'family'   => $family,
-                'magentoUrl' => ''
+                'magentoUrl' => '',
             ]
         )->willReturn($familyMapping);
 
@@ -75,7 +74,7 @@ class FamilyMappingManagerSpec extends ObjectBehavior
         $entityRepository->findOneBy(
             [
                 'family'   => $family,
-                'magentoUrl' => ''
+                'magentoUrl' => '',
             ]
         )->willReturn(null);
 
@@ -99,7 +98,7 @@ class FamilyMappingManagerSpec extends ObjectBehavior
         $this->magentoFamilyExists(12, 'magento_url')->shouldReturn(true);
     }
 
-    public function it_registers_mapping(
+    function it_registers_mapping(
         EntityRepository $entityRepository,
         MagentoFamilyMapping $magentoFamilyMapping,
         Family $family,

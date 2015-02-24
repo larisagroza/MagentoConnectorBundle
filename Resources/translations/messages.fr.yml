@@ -1,12 +1,9 @@
 pim_magento_connector:
     jobs:
         product_export.title: Export produits vers Magento
-        product_delta_export.title: Export delta des produits vers Magento
+        product_export_delta.title: Export delta des produits vers Magento
         category_export.title: Export catégories vers Magento
-        option_export.title: "Export d'options vers Magento"
-        attribute_export.title: "Export d'attributs vers Magento"
-        attributeset_export.title: Export de familles vers Magento
-        full_export.title: Export complet (sans les produits) vers Magento
+        attribute_export.title: Export des attributs et jeux d'attributs vers Magento
     steps:
         simple_product_export.export.title: Export de produits simples
         configurable_product_export.export.title: Export de produits configurables
@@ -143,6 +140,9 @@ pim_magento_connector:
         removeProductsNotHandledByPim:
             label: Effacer/désactiver les produits qui ne sont pas gérés par le PIM
             help: Souhaitez-vous effacer/désactiver les produits qui ne sont gérés que par Magento (Virtual, Bundle, Downloadable) ?
+        skuFirst:
+            label: Placer le sku au début de l'url key
+            help: Le code produit (sku) sera placé au début de l'url key plutôt qu'à la fin
 
 job_execution.summary:
     attribute_created:         Attributs créés

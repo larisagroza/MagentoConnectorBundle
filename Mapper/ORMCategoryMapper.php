@@ -2,7 +2,7 @@
 
 namespace Pim\Bundle\MagentoConnectorBundle\Mapper;
 
-use Pim\Bundle\ConnectorMappingBundle\Manager\SimpleMappingManager;
+use Pim\Bundle\MagentoConnectorBundle\Manager\SimpleMappingManager;
 use Pim\Bundle\MagentoConnectorBundle\Validator\Constraints\HasValidCredentialsValidator;
 use Pim\Bundle\CatalogBundle\Manager\CategoryManager;
 use Pim\Bundle\CatalogBundle\Model\CategoryInterface;
@@ -54,7 +54,7 @@ class ORMCategoryMapper extends ORMPimMapper
             foreach ($categories as $category) {
                 $sources[] = [
                     'id'   => $category->getCode(),
-                    'text' => sprintf('%s (%s)', $category->getLabel(), $category->getCode())
+                    'text' => sprintf('%s (%s)', $category->getLabel(), $category->getCode()),
                 ];
 
                 $sources = array_merge($sources, $this->getAllSources($category));

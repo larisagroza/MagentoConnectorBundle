@@ -41,13 +41,13 @@ class HasValidCurrencyValidator extends ConstraintValidator
     public function validate($value, Constraint $constraint)
     {
         if (!$value instanceof AbstractProductProcessor) {
-            return null;
+            return;
         }
 
         if ($channel = $this->channelManager->getChannelByCode($value->getChannel())) {
             foreach ($channel->getCurrencies() as $currency) {
                 if ($currency->getCode() === $value->getCurrency()) {
-                    return null;
+                    return;
                 }
             }
         }

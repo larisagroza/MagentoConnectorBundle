@@ -6,9 +6,8 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Pim\Bundle\CatalogBundle\Entity\Category;
 use Doctrine\ORM\EntityRepository;
 use Pim\Bundle\MagentoConnectorBundle\Entity\MagentoCategoryMapping;
-use Pim\Bundle\ConnectorMappingBundle\Mapper\MappingCollection;
+use Pim\Bundle\MagentoConnectorBundle\Mapper\MappingCollection;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 class CategoryMappingManagerSpec extends ObjectBehavior
 {
@@ -58,7 +57,7 @@ class CategoryMappingManagerSpec extends ObjectBehavior
         $entityRepository->findOneBy(
             [
                 'category'   => $category,
-                'magentoUrl' => ''
+                'magentoUrl' => '',
             ]
         )->willReturn($categoryMapping);
 
@@ -79,7 +78,7 @@ class CategoryMappingManagerSpec extends ObjectBehavior
         $entityRepository->findOneBy(
             [
                 'category'   => $category,
-                'magentoUrl' => ''
+                'magentoUrl' => '',
             ]
         )->willReturn(null);
 
@@ -103,7 +102,7 @@ class CategoryMappingManagerSpec extends ObjectBehavior
         $this->magentoCategoryExists(12, 'magento_url')->shouldReturn(true);
     }
 
-    public function it_registers_mapping(
+    function it_registers_mapping(
         $entityRepository,
         MagentoCategoryMapping $magentoCategoryMapping,
         Category $category,

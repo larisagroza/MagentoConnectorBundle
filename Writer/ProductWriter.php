@@ -102,8 +102,8 @@ class ProductWriter extends AbstractWriter
                         'choices'  => $this->channelManager->getChannelChoices(),
                         'required' => true,
                         'help'     => 'pim_magento_connector.export.channel.help',
-                        'label'    => 'pim_magento_connector.export.channel.label'
-                    ]
+                        'label'    => 'pim_magento_connector.export.channel.label',
+                    ],
                 ]
             ]
         );

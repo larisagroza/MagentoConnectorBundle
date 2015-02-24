@@ -8,7 +8,6 @@ use Pim\Bundle\MagentoConnectorBundle\Normalizer\ProductValueNormalizer;
 use Pim\Bundle\MagentoConnectorBundle\Manager\CategoryMappingManager;
 use Pim\Bundle\MagentoConnectorBundle\Manager\AssociationTypeManager;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 class ProductNormalizer16Spec extends ObjectBehavior
 {

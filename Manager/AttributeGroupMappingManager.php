@@ -20,9 +20,7 @@ class AttributeGroupMappingManager
      */
     protected $objectManager;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $className;
 
     /**
@@ -50,7 +48,7 @@ class AttributeGroupMappingManager
             [
                 'pimGroupCode'  => $group->getCode(),
                 'pimFamilyCode' => $family->getCode(),
-                'magentoUrl'    => $magentoUrl
+                'magentoUrl'    => $magentoUrl,
             ]
         );
 
@@ -74,7 +72,7 @@ class AttributeGroupMappingManager
         $groupMapping = $this->getEntityRepository()->findOneBy(
             [
                 'pimGroupCode'  => $pimGroup->getCode(),
-                'pimFamilyCode' => $pimFamily->getCode()
+                'pimFamilyCode' => $pimFamily->getCode(),
             ]
         );
 

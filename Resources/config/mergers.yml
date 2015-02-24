@@ -1,7 +1,7 @@
 parameters:
-    pim_magento_connector.merger.mapping.class: Pim\Bundle\MagentoConnectorBundle\Merger\MagentoMappingMerger
+    pim_magento_connector.merger.mapping.class:        Pim\Bundle\MagentoConnectorBundle\Merger\MagentoMappingMerger
     pim_magento_connector.merger.addition_not_allowed: false
-    pim_magento_connector.merger.addition_allowed: true
+    pim_magento_connector.merger.addition_allowed:     true
 
 services:
     pim_magento_connector.merger.attribute_code_mapping:
@@ -11,6 +11,7 @@ services:
             - 'attributeCode'
             - 'export'
             - %pim_magento_connector.merger.addition_allowed%
+
     pim_magento_connector.merger.attribute_id_mapping:
         class: %pim_magento_connector.merger.mapping.class%
         arguments:
@@ -18,6 +19,7 @@ services:
             - 'attributeId'
             - 'export'
             - %pim_magento_connector.merger.addition_not_allowed%
+
     pim_magento_connector.merger.storeview_mapping:
         class: %pim_magento_connector.merger.mapping.class%
         arguments:
@@ -25,6 +27,7 @@ services:
             - 'storeview'
             - 'export'
             - %pim_magento_connector.merger.addition_allowed%
+
     pim_magento_connector.merger.category_mapping:
         class: %pim_magento_connector.merger.mapping.class%
         arguments:

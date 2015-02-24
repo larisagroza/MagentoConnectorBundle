@@ -2,21 +2,22 @@
 
 namespace spec\Pim\Bundle\MagentoConnectorBundle\Processor;
 
+use Akeneo\Bundle\BatchBundle\Entity\StepExecution;
+use Akeneo\Bundle\BatchBundle\Event\EventInterface;
+use PhpSpec\ObjectBehavior;
+use Pim\Bundle\CatalogBundle\Entity\AssociationType;
+use Pim\Bundle\CatalogBundle\Model\Association;
+use Pim\Bundle\CatalogBundle\Model\ProductInterface;
+use Pim\Bundle\MagentoConnectorBundle\Guesser\NormalizerGuesser;
+use Pim\Bundle\MagentoConnectorBundle\Guesser\WebserviceGuesser;
+use Pim\Bundle\MagentoConnectorBundle\Manager\AssociationTypeManager;
 use Pim\Bundle\MagentoConnectorBundle\Manager\LocaleManager;
 use Pim\Bundle\MagentoConnectorBundle\Merger\MagentoMappingMerger;
-use Pim\Bundle\MagentoConnectorBundle\Guesser\WebserviceGuesser;
-use Pim\Bundle\MagentoConnectorBundle\Guesser\NormalizerGuesser;
-use Pim\Bundle\MagentoConnectorBundle\Manager\AssociationTypeManager;
-use Pim\Bundle\MagentoConnectorBundle\Webservice\Webservice;
 use Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClientParameters;
 use Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClientParametersRegistry;
-use Pim\Bundle\CatalogBundle\Model\ProductInterface;
-use Pim\Bundle\CatalogBundle\Model\Association;
-use Pim\Bundle\CatalogBundle\Entity\AssociationType;
-use Akeneo\Bundle\BatchBundle\Entity\StepExecution;
-
-use PhpSpec\ObjectBehavior;
+use Pim\Bundle\MagentoConnectorBundle\Webservice\Webservice;
 use Prophecy\Argument;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class ProductAssociationProcessorSpec extends ObjectBehavior
 {
@@ -28,6 +29,7 @@ class ProductAssociationProcessorSpec extends ObjectBehavior
         AssociationTypeManager $associationTypeManager,
         Webservice $webservice,
         StepExecution $stepExecution,
+        EventDispatcher $eventDispatcher,
         MagentoSoapClientParametersRegistry $clientParametersRegistry,
         MagentoSoapClientParameters $clientParameters
     ) {
@@ -40,8 +42,11 @@ class ProductAssociationProcessorSpec extends ObjectBehavior
             $clientParametersRegistry
         );
         $this->setStepExecution($stepExecution);
+        $this->setEventDispatcher($eventDispatcher);
 
-        $clientParametersRegistry->getInstance(null, null, null, '/api/soap/?wsdl', 'default', null, null)->willReturn($clientParameters);
+        $clientParametersRegistry->getInstance(null, null, null, '/api/soap/?wsdl', 'default', null, null)->willReturn(
+            $clientParameters
+        );
         $webserviceGuesser->getWebservice($clientParameters)->willReturn($webservice);
 
         $this->setPimUpSell('UPSELL');
@@ -54,7 +59,9 @@ class ProductAssociationProcessorSpec extends ObjectBehavior
         Association $association,
         AssociationType $associationType
     ) {
-        $webservice->getAssociationsStatus($product)->willReturn(['up_sell' => [], 'cross_sell' => [['sku' => 'sku-011']], 'related' => []]);
+        $webservice->getAssociationsStatus($product)->willReturn(
+            ['up_sell' => [], 'cross_sell' => [['sku' => 'sku-011']], 'related' => []]
+        );
 
         $product->getIdentifier()->willReturn('sku-012');
         $product->getAssociations()->willReturn([$association]);
@@ -70,31 +77,41 @@ class ProductAssociationProcessorSpec extends ObjectBehavior
             [
                 'remove' => [
                     [
-                        'type'          => 'cross_sell',
-                        'product'       => 'sku-012',
-                        'linkedProduct' => 'sku-011',
-                        'identifierType' => 'sku'
-                    ]
+                        'type'           => 'cross_sell',
+                        'product'        => 'sku-012',
+                        'linkedProduct'  => 'sku-011',
+                        'identifierType' => 'sku',
+                    ],
                 ],
                 'create' => [
                     [
-                        'type'          => 'up_sell',
-                        'product'       => 'sku-012',
-                        'linkedProduct' => 'sku-011',
-                        'identifierType' => 'sku'
-                    ]
-                ]
+                        'type'           => 'up_sell',
+                        'product'        => 'sku-012',
+                        'linkedProduct'  => 'sku-011',
+                        'identifierType' => 'sku',
+                    ],
+                ],
             ]
         );
     }
 
     function it_throws_an_exception_if_something_went_wrong_with_soap_call(
         $webservice,
+        $eventDispatcher,
         ProductInterface $product
     ) {
-        $webservice->getAssociationsStatus($product)->willThrow('\Pim\Bundle\MagentoConnectorBundle\Webservice\SoapCallException');
+        $webservice
+            ->getAssociationsStatus($product)
+            ->willThrow('\Pim\Bundle\MagentoConnectorBundle\Webservice\SoapCallException');
 
-        $this->shouldThrow('\Akeneo\Bundle\BatchBundle\Item\InvalidItemException')->duringProcess([$product]);
+        $eventDispatcher
+            ->dispatch(
+                EventInterface::INVALID_ITEM,
+                Argument::type('Akeneo\Bundle\BatchBundle\Event\InvalidItemEvent')
+            )
+            ->shouldBeCalled();
+
+        $this->process($product);
     }
 
     function it_is_configurable()

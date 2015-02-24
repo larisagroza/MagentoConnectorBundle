@@ -8,9 +8,8 @@ use Pim\Bundle\CatalogBundle\Entity\Attribute;
 use Pim\Bundle\CatalogBundle\Entity\AttributeOption;
 use Pim\Bundle\CatalogBundle\Model\ProductValue;
 use Pim\Bundle\CatalogBundle\Model\ProductPrice;
-use Pim\Bundle\ConnectorMappingBundle\Mapper\MappingCollection;
+use Pim\Bundle\MagentoConnectorBundle\Mapper\MappingCollection;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 class PriceMappingManagerSpec extends ObjectBehavior
 {
@@ -37,7 +36,7 @@ class PriceMappingManagerSpec extends ObjectBehavior
         ProductPrice $productPrice3,
         MappingCollection $attributeMapping
     ) {
-        $this->beConstructedWith('locale', 'currency');
+        $this->beConstructedWith('locale', 'currency', 'channel');
 
         $group->getAttributes()->willReturn([$attribute1, $attribute2]);
 
@@ -65,23 +64,24 @@ class PriceMappingManagerSpec extends ObjectBehavior
         $productValueOption22->getData()->willReturn($attributeOption22);
 
         //Get product prices
-        $product1->getValue('price', 'locale')->willReturn($productValuePrice1);
+        $product1->getValue('price', 'locale', 'channel')->willReturn($productValuePrice1);
         $product1->getIdentifier()->willReturn('product_1');
         $productValuePrice1->getPrice('currency')->willReturn($productPrice1);
         $productPrice1->getData()->willReturn(5.0);
 
-        $product2->getValue('price', 'locale')->willReturn($productValuePrice2);
+        $product2->getValue('price', 'locale', 'channel')->willReturn($productValuePrice2);
         $product2->getIdentifier()->willReturn('product_2');
         $productValuePrice2->getPrice('currency')->willReturn($productPrice2);
         $productPrice2->getData()->willReturn(15.0);
 
-        $product3->getValue('price', 'locale')->willReturn($productValuePrice3);
+        $product3->getValue('price', 'locale', 'channel')->willReturn($productValuePrice3);
         $product3->getIdentifier()->willReturn('product_3');
         $productValuePrice3->getPrice('currency')->willReturn($productPrice3);
         $productPrice3->getData()->willReturn(10.0);
 
         $attributeMapping->getSource('attribute_1')->willReturn('attribute_1');
         $attributeMapping->getSource('attribute_2')->willReturn('attribute_2');
+        $attributeMapping->getSource('price')->willReturn('price');
         $attributeMapping->getTarget('attribute_1')->willReturn('attribute_1');
         $attributeMapping->getTarget('attribute_2')->willReturn('attribute_2');
     }
@@ -100,13 +100,13 @@ class PriceMappingManagerSpec extends ObjectBehavior
             [
                 'price_changes' => [
                     'attribute_1' => [
-                        'attribute_1_option_1' => 0.0
+                        'attribute_1_option_1' => 0.0,
                     ],
                     'attribute_2' => [
-                        'attribute_2_option_1' => 0.0
-                    ]
+                        'attribute_2_option_1' => 0.0,
+                    ],
                 ],
-                'price' => 5.0
+                'price' => 5.0,
             ]
         );
     }
@@ -144,9 +144,9 @@ class PriceMappingManagerSpec extends ObjectBehavior
                     'attribute_2' => [
                         'attribute_2_option_1' => -10.0,
                         'attribute_2_option_2' => 0.0,
-                    ]
+                    ],
                 ],
-                'price' => 15.0
+                'price' => 15.0,
             ]
         );
 
@@ -186,9 +186,9 @@ class PriceMappingManagerSpec extends ObjectBehavior
                     'attribute_2' => [
                         'attribute_2_option_1' => 0.0,
                         'attribute_2_option_2' => 5.0,
-                    ]
+                    ],
                 ],
-                'price' => 5.0
+                'price' => 5.0,
             ]
         );
 
@@ -228,9 +228,9 @@ class PriceMappingManagerSpec extends ObjectBehavior
                     'attribute_2' => [
                         'attribute_2_option_1' => 0.0,
                         'attribute_2_option_2' => 10.0,
-                    ]
+                    ],
                 ],
-                'price' => 5.0
+                'price' => 5.0,
             ]
         );
 

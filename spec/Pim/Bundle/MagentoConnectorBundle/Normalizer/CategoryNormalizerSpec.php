@@ -2,13 +2,14 @@
 
 namespace spec\Pim\Bundle\MagentoConnectorBundle\Normalizer;
 
+use Gedmo\Sluggable\Util\Urlizer;
 use Pim\Bundle\CatalogBundle\Entity\CategoryTranslation;
+use Pim\Bundle\CatalogBundle\Entity\Repository\CategoryRepository;
 use Pim\Bundle\CatalogBundle\Manager\ChannelManager;
 use Pim\Bundle\MagentoConnectorBundle\Manager\CategoryMappingManager;
-use Pim\Bundle\ConnectorMappingBundle\Mapper\MappingCollection;
+use Pim\Bundle\MagentoConnectorBundle\Mapper\MappingCollection;
 use Pim\Bundle\CatalogBundle\Entity\Category;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 class CategoryNormalizerSpec extends ObjectBehavior
 {
@@ -17,10 +18,11 @@ class CategoryNormalizerSpec extends ObjectBehavior
     function let(
         ChannelManager $channelManager,
         CategoryMappingManager $categoryMappingManager,
+        CategoryRepository $categoryRepository,
         MappingCollection $categoryMapping,
         MappingCollection $storeViewMapping
     ) {
-        $this->beConstructedWith($channelManager, $categoryMappingManager);
+        $this->beConstructedWith($channelManager, $categoryMappingManager, $categoryRepository);
 
         $this->globalContext = [
             'magentoCategories' => [],
@@ -29,7 +31,9 @@ class CategoryNormalizerSpec extends ObjectBehavior
             'magentoStoreViews' => [],
             'categoryMapping'   => $categoryMapping,
             'storeViewMapping'  => $storeViewMapping,
-            'defaultStoreView'  => 'default'
+            'defaultStoreView'  => 'default',
+            'urlKey'            => false,
+            'is_anchor'         => 1
         ];
     }
 
@@ -61,19 +65,62 @@ class CategoryNormalizerSpec extends ObjectBehavior
                             'include_in_menu'   => 1,
                             'available_sort_by' => 1,
                             'default_sort_by'   => 1,
+                            'url_key'           => 'category-label-category-code',
                         ],
-                        'default'
+                        'default',
                     ],
-                    'pimCategory' => $category
-                ]
+                    'pimCategory' => $category,
+                ],
             ],
             'update'    => [],
             'move'      => [],
-            'variation' => []
+            'variation' => [],
         ]);
     }
 
-    function it_normalizes_a_updated_category(
+    function it_normalizes_a_new_category_without_generating_an_url_key(
+        Category $category,
+        Category $parentCategory,
+        $categoryMapping,
+        $categoryMappingManager
+    ) {
+        $this->globalContext['urlKey'] = true;
+
+        $category->getParent()->willReturn($parentCategory);
+        $category->getLabel()->willReturn('category_label');
+        $category->setLocale('default_locale')->shouldBeCalled();
+        $category->getTranslations()->willReturn([]);
+        $category->getCode()->willReturn('category_code');
+
+        $categoryMappingManager->getIdFromCategory($category, 'soap_url')->willReturn(null);
+        $categoryMappingManager->getIdFromCategory($parentCategory, 'soap_url', $categoryMapping)->willReturn(3);
+
+        $categoryMapping->getTarget('category_code')->willReturn('category_code');
+
+        $this->normalize($category, 'MagentoArray', $this->globalContext)->shouldReturn([
+            'create'    => [
+                [
+                    'magentoCategory' => [
+                        '3',
+                        [
+                            'name'              => 'category_label',
+                            'is_active'         => 1,
+                            'include_in_menu'   => 1,
+                            'available_sort_by' => 1,
+                            'default_sort_by'   => 1,
+                        ],
+                        'default',
+                    ],
+                    'pimCategory' => $category,
+                ],
+            ],
+            'update'    => [],
+            'move'      => [],
+            'variation' => [],
+        ]);
+    }
+
+    function it_normalizes_an_updated_category(
         Category $category,
         Category $parentCategory,
         $categoryMapping,
@@ -83,7 +130,7 @@ class CategoryNormalizerSpec extends ObjectBehavior
             $this->globalContext,
             [
                 'magentoCategories' => [
-                    4 => ['parent_id' => 3]
+                    4 => ['parent_id' => 3],
                 ],
                 'magentoStoreView' => 'default'
             ]
@@ -91,6 +138,7 @@ class CategoryNormalizerSpec extends ObjectBehavior
 
         $category->getParent()->willReturn($parentCategory);
         $category->getLabel()->willReturn('category_label');
+        $category->getLeft()->willReturn(7);
         $category->setLocale('default_locale')->shouldBeCalled();
         $category->getTranslations()->willReturn([]);
         $category->getCode()->willReturn('category_code');
@@ -110,17 +158,19 @@ class CategoryNormalizerSpec extends ObjectBehavior
                         'name'              => 'category_label',
                         'available_sort_by' => 1,
                         'default_sort_by'   => 1,
-                        'is_anchor'         => 1
+                        'is_anchor'         => 1,
+                        'position'          => 7,
+                        'url_key'           => 'category-label-category-code',
                     ],
-                    'default'
-                ]
+                    'default',
+                ],
             ],
             'move'      => [],
-            'variation' => []
+            'variation' => [],
         ]);
     }
 
-    function it_normalizes_a_updated_category_who_have_moved(
+    function it_normalizes_an_updated_category_without_generating_url_key(
         Category $category,
         Category $parentCategory,
         $categoryMapping,
@@ -130,14 +180,17 @@ class CategoryNormalizerSpec extends ObjectBehavior
             $this->globalContext,
             [
                 'magentoCategories' => [
-                    4 => ['parent_id' => 5]
+                    4 => ['parent_id' => 3],
                 ],
                 'magentoStoreView' => 'default'
             ]
         );
 
+        $this->globalContext['urlKey'] = true;
+
         $category->getParent()->willReturn($parentCategory);
         $category->getLabel()->willReturn('category_label');
+        $category->getLeft()->willReturn(7);
         $category->setLocale('default_locale')->shouldBeCalled();
         $category->getTranslations()->willReturn([]);
         $category->getCode()->willReturn('category_code');
@@ -157,19 +210,142 @@ class CategoryNormalizerSpec extends ObjectBehavior
                         'name'              => 'category_label',
                         'available_sort_by' => 1,
                         'default_sort_by'   => 1,
-                        'is_anchor'         => 1
+                        'is_anchor'         => 1,
+                        'position'          => 7,
                     ],
-                    'default'
-                ]
+                    'default',
+                ],
             ],
-            'move'      => [
-                [
-                    4,
-                    3
-                ]
-            ],
-            'variation' => []
+            'move'      => [],
+            'variation' => [],
         ]);
+    }
+
+    function it_normalizes_an_updated_category_who_have_moved(
+        Category $category,
+        Category $parentCategory,
+        Category $prevCategory,
+        $categoryMapping,
+        $categoryMappingManager,
+        $categoryRepository
+    ) {
+        $this->globalContext = array_merge(
+            $this->globalContext,
+            [
+                'magentoCategories' => [
+                    4 => ['parent_id' => 3],
+                ],
+                'magentoStoreView' => 'default'
+            ]
+        );
+
+        $category->getParent()->willReturn($parentCategory);
+        $category->getLabel()->willReturn('category_label');
+        $category->setLocale('default_locale')->shouldBeCalled();
+        $category->getTranslations()->willReturn([]);
+        $category->getCode()->willReturn('category_code');
+        $category->getLeft()->willReturn(7);
+
+        $categoryMappingManager->getIdFromCategory($category, 'soap_url')->willReturn(4);
+        $categoryMappingManager->getIdFromCategory($parentCategory, 'soap_url', $categoryMapping)->willReturn(9);
+        $categoryMappingManager->getIdFromCategory($parentCategory, 'soap_url')->willReturn(3);
+
+        $categoryRepository->getPrevSiblings($category)->willReturn([$prevCategory]);
+        $categoryMappingManager->getIdFromCategory($prevCategory, 'soap_url', $categoryMapping)->willReturn(5);
+
+        $categoryMapping->getTarget('category_code')->willReturn('category_code');
+
+        $this->normalize($category, 'MagentoArray', $this->globalContext)->shouldReturn(
+            [
+                'create'    => [],
+                'update'    => [
+                    [
+                        4,
+                        [
+                            'name'              => 'category_label',
+                            'available_sort_by' => 1,
+                            'default_sort_by'   => 1,
+                            'is_anchor'         => 1,
+                            'position'          => 7,
+                            'url_key'           => 'category-label-category-code',
+                        ],
+                        'default',
+                    ],
+                ],
+                'move'      => [
+                    [
+                        4,
+                        9,
+                        5,
+                    ],
+                ],
+                'variation' => [],
+            ]
+        );
+    }
+
+    function it_normalizes_an_updated_category_who_have_moved_without_generating_url_key(
+        Category $category,
+        Category $parentCategory,
+        Category $prevCategory,
+        $categoryMapping,
+        $categoryMappingManager,
+        $categoryRepository
+    ) {
+        $this->globalContext = array_merge(
+            $this->globalContext,
+            [
+                'magentoCategories' => [
+                    4 => ['parent_id' => 3],
+                ],
+                'magentoStoreView' => 'default'
+            ]
+        );
+
+        $this->globalContext['urlKey'] = true;
+
+        $category->getParent()->willReturn($parentCategory);
+        $category->getLabel()->willReturn('category_label');
+        $category->setLocale('default_locale')->shouldBeCalled();
+        $category->getTranslations()->willReturn([]);
+        $category->getCode()->willReturn('category_code');
+        $category->getLeft()->willReturn(7);
+
+        $categoryMappingManager->getIdFromCategory($category, 'soap_url')->willReturn(4);
+        $categoryMappingManager->getIdFromCategory($parentCategory, 'soap_url', $categoryMapping)->willReturn(9);
+        $categoryMappingManager->getIdFromCategory($parentCategory, 'soap_url')->willReturn(3);
+
+        $categoryRepository->getPrevSiblings($category)->willReturn([$prevCategory]);
+        $categoryMappingManager->getIdFromCategory($prevCategory, 'soap_url', $categoryMapping)->willReturn(5);
+
+        $categoryMapping->getTarget('category_code')->willReturn('category_code');
+
+        $this->normalize($category, 'MagentoArray', $this->globalContext)->shouldReturn(
+            [
+                'create'    => [],
+                'update'    => [
+                    [
+                        4,
+                        [
+                            'name'              => 'category_label',
+                            'available_sort_by' => 1,
+                            'default_sort_by'   => 1,
+                            'is_anchor'         => 1,
+                            'position'          => 7,
+                        ],
+                        'default',
+                    ],
+                ],
+                'move'      => [
+                    [
+                        4,
+                        9,
+                        5,
+                    ],
+                ],
+                'variation' => [],
+            ]
+        );
     }
 
     function it_normalizes_category_variations(
@@ -183,7 +359,7 @@ class CategoryNormalizerSpec extends ObjectBehavior
             $this->globalContext,
             [
                 'magentoStoreViews' => [
-                    ['code' => 'fr_fr']
+                    ['code' => 'fr_fr'],
                 ],
                 'magentoStoreView' => 'default'
             ]
@@ -217,11 +393,12 @@ class CategoryNormalizerSpec extends ObjectBehavior
                             'include_in_menu'   => 1,
                             'available_sort_by' => 1,
                             'default_sort_by'   => 1,
+                            'url_key'           => 'libele-de-la-categorie-category-code',
                         ],
-                        'default'
+                        'default',
                     ],
-                    'pimCategory' => $category
-                ]
+                    'pimCategory' => $category,
+                ],
             ],
             'update'    => [],
             'move'      => [],
@@ -231,14 +408,15 @@ class CategoryNormalizerSpec extends ObjectBehavior
                         null,
                         [
                             'name'              => 'Libélé de la catégorie',
+                            'url_key'           => 'libele-de-la-categorie-category-code',
                             'available_sort_by' => 1,
                             'default_sort_by'   => 1,
                         ],
-                        'fr_fr'
+                        'fr_fr',
                     ],
-                    'pimCategory' => $category
-                ]
-            ]
+                    'pimCategory' => $category,
+                ],
+            ],
         ]);
     }
 }

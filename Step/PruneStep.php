@@ -92,7 +92,7 @@ class PruneStep extends AbstractStep
      */
     public function setCleaner(Cleaner $cleaner)
     {
-        $this->cleaner= $cleaner;
+        $this->cleaner = $cleaner;
     }
 
     /**

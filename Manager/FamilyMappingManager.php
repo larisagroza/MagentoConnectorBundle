@@ -19,9 +19,7 @@ class FamilyMappingManager
      */
     protected $objectManager;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $className;
 
     /**
@@ -49,7 +47,7 @@ class FamilyMappingManager
         $magentoFamilyMapping = $this->getEntityRepository()->findOneBy(
             [
                 'magentoFamilyId' => $id,
-                'magentoUrl'      => $magentoUrl
+                'magentoUrl'      => $magentoUrl,
             ]
         );
 
@@ -69,7 +67,7 @@ class FamilyMappingManager
         $familyMapping = $this->getEntityRepository()->findOneBy(
             [
                 'family'     => $family,
-                'magentoUrl' => $magentoUrl
+                'magentoUrl' => $magentoUrl,
             ]
         );
 

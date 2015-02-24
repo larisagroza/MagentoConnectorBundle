@@ -60,12 +60,12 @@ class MagentoMappingMergerSpec extends ObjectBehavior
                         'class' => 'mapping-field',
                         'data-sources' => '{"sources":{"id":"test","text":"Text4"}}',
                         'data-targets' => '{"targets":{"id":"test","text":"Text2"},"allowAddition":true}',
-                        'data-name'    => 'generic'
+                        'data-name'    => 'generic',
                     ],
                     'label' => 'pim_magento_connector.export.genericMapping.label',
-                    'help'  => 'pim_magento_connector.export.genericMapping.help'
-                ]
-            ]
+                    'help'  => 'pim_magento_connector.export.genericMapping.help',
+                ],
+            ],
         ]);
     }
 }

@@ -3,7 +3,6 @@
 namespace Pim\Bundle\MagentoConnectorBundle\Merger;
 
 use Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClientParameters;
-use Pim\Bundle\ConnectorMappingBundle\Merger\MappingMerger;
 
 /**
  * Magento mapping merger
@@ -37,7 +36,7 @@ class MagentoMappingMerger extends MappingMerger
     public function getConfigurationField()
     {
         return [
-            $this->name . 'Mapping' => [
+            $this->name.'Mapping' => [
                 'type'    => 'textarea',
                 'options' => [
                     'required' => false,
@@ -45,11 +44,11 @@ class MagentoMappingMerger extends MappingMerger
                         'class' => 'mapping-field',
                         'data-sources' => json_encode($this->getAllSources()),
                         'data-targets' => json_encode($this->getAllTargets()),
-                        'data-name'    => $this->name
+                        'data-name'    => $this->name,
                     ],
-                    'label' => 'pim_magento_connector.' . $this->direction . '.' . $this->name . 'Mapping.label',
-                    'help'  => 'pim_magento_connector.' . $this->direction . '.' . $this->name . 'Mapping.help'
-                ]
+                    'label' => 'pim_magento_connector.'.$this->direction.'.'.$this->name.'Mapping.label',
+                    'help'  => 'pim_magento_connector.'.$this->direction.'.'.$this->name.'Mapping.help',
+                ],
             ]
         ];
     }

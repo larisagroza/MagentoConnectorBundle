@@ -7,7 +7,7 @@ use Pim\Bundle\CatalogBundle\Model\AbstractAttribute;
 use Pim\Bundle\MagentoConnectorBundle\Normalizer\Exception\InvalidAttributeNameException;
 use Pim\Bundle\MagentoConnectorBundle\Normalizer\Exception\AttributeTypeChangedException;
 use Pim\Bundle\CatalogBundle\Model\ProductValueInterface;
-use Pim\Bundle\ConnectorMappingBundle\Mapper\MappingCollection;
+use Pim\Bundle\MagentoConnectorBundle\Mapper\MappingCollection;
 use Pim\Bundle\CatalogBundle\Entity\AttributeOption;
 use Pim\Bundle\MagentoConnectorBundle\Manager\ProductValueManager;
 
@@ -71,12 +71,6 @@ class AttributeNormalizer implements NormalizerInterface
             'is_required'                   => $this->getNormalizedRequired($object),
             'apply_to'                      => '',
             'is_configurable'               => $this->getNormalizedConfigurable($object, $context['axisAttributes']),
-            'is_searchable'                 => '1',
-            'is_visible_in_advanced_search' => '1',
-            'is_comparable'                 => '1',
-            'is_used_for_promo_rules'       => '1',
-            'is_visible_on_front'           => '1',
-            'used_in_product_listing'       => '1',
             'additional_fields'             => [],
             'frontend_label'                => $this->getNormalizedLabels(
                 $object,
@@ -85,7 +79,7 @@ class AttributeNormalizer implements NormalizerInterface
                 $context['storeViewMapping'],
                 $context['attributeCodeMapping']
             ),
-            'default_value'                 => ''
+            'default_value'                 => '',
         ];
 
         $mappedAttributeType = $this->getNormalizedType($object);
@@ -98,7 +92,6 @@ class AttributeNormalizer implements NormalizerInterface
                 ],
                 $normalizedAttribute
             );
-
         } else {
             $normalizedAttribute['default_value'] = $this->getNormalizedDefaultValue(
                 $object,
@@ -114,8 +107,8 @@ class AttributeNormalizer implements NormalizerInterface
                 !in_array($magentoAttributeCode, $this->getIgnoredAttributesForTypeChangeDetection())) {
                 throw new AttributeTypeChangedException(
                     sprintf(
-                        'The type for the attribute "%s" has changed (Is "%s" in Magento and is %s in Akeneo PIM. ' .
-                        'This operation is not permitted by Magento. Please delete it first on Magento and try to ' .
+                        'The type for the attribute "%s" has changed (Is "%s" in Magento and is %s in Akeneo PIM. '.
+                        'This operation is not permitted by Magento. Please delete it first on Magento and try to '.
                         'export again.',
                         $object->getCode(),
                         $context['magentoAttributes'][$magentoAttributeCode]['type'],
@@ -126,7 +119,7 @@ class AttributeNormalizer implements NormalizerInterface
 
             $normalizedAttribute = [
                 $magentoAttributeCode,
-                $normalizedAttribute
+                $normalizedAttribute,
             ];
         }
 
@@ -183,8 +176,8 @@ class AttributeNormalizer implements NormalizerInterface
         if (preg_match('/^[a-z][a-z_0-9]{0,30}$/', $attributeCode) === 0) {
             throw new InvalidAttributeNameException(
                 sprintf(
-                    'The attribute "%s" have a code that is not compatible with Magento. Please use only' .
-                    ' lowercase letters (a-z), numbers (0-9) or underscore(_). First caracter should also' .
+                    'The attribute "%s" have a code that is not compatible with Magento. Please use only'.
+                    ' lowercase letters (a-z), numbers (0-9) or underscore(_). First caracter should also'.
                     ' be a letter and your attribute codelength must be under 30 characters',
                     $attribute->getCode()
                 )
@@ -230,11 +223,11 @@ class AttributeNormalizer implements NormalizerInterface
             'localeCode'               => $defaultLocale,
             'onlyLocalized'            => false,
             'magentoAttributes'        => [$attributeCode => [
-                'scope' => !$attribute->isLocalizable() ? ProductValueNormalizer::GLOBAL_SCOPE : ''
+                'scope' => !$attribute->isLocalizable() ? ProductValueNormalizer::GLOBAL_SCOPE : '',
             ]],
             'magentoAttributesOptions' => $magentoAttributesOptions,
             'attributeCodeMapping'         => $attributeMapping,
-            'currencyCode'             => ''
+            'currencyCode'             => '',
         ];
 
         if ($attribute->getDefaultValue() instanceof ProductValueInterface) {
@@ -313,7 +306,7 @@ class AttributeNormalizer implements NormalizerInterface
 
             $localizedLabels[] = [
                 'store_id' => $magentoStoreView['store_id'],
-                'label'    => $this->getAttributeTranslation($attribute, $localeCode, $defaultLocale)
+                'label'    => $this->getAttributeTranslation($attribute, $localeCode, $defaultLocale),
             ];
         }
 
@@ -321,8 +314,8 @@ class AttributeNormalizer implements NormalizerInterface
             [
                 [
                     'store_id' => 0,
-                    'label'    => strtolower($attributeMapping->getTarget($attribute->getCode()))
-                ]
+                    'label'    => strtolower($attributeMapping->getTarget($attribute->getCode())),
+                ],
             ],
             $localizedLabels
         );

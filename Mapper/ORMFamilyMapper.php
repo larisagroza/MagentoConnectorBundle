@@ -3,7 +3,7 @@
 namespace Pim\Bundle\MagentoConnectorBundle\Mapper;
 
 use Pim\Bundle\CatalogBundle\Entity\Family;
-use Pim\Bundle\ConnectorMappingBundle\Manager\SimpleMappingManager;
+use Pim\Bundle\MagentoConnectorBundle\Manager\SimpleMappingManager;
 use Pim\Bundle\MagentoConnectorBundle\Manager\FamilyMappingManager;
 use Pim\Bundle\MagentoConnectorBundle\Validator\Constraints\HasValidCredentialsValidator;
 

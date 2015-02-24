@@ -126,4 +126,4 @@ class GroupManager
     {
         return $this->baseGroupManager->getAttributeRepository();
     }
-} 
+}

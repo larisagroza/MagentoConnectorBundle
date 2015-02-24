@@ -7,7 +7,7 @@ use Pim\Bundle\CatalogBundle\Entity\AttributeOption;
 use Pim\Bundle\CatalogBundle\Entity\AttributeOptionValue;
 use Pim\Bundle\CatalogBundle\Entity\Channel;
 use Pim\Bundle\CatalogBundle\Entity\Attribute;
-use Pim\Bundle\ConnectorMappingBundle\Mapper\MappingCollection;
+use Pim\Bundle\MagentoConnectorBundle\Mapper\MappingCollection;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 
@@ -77,7 +77,7 @@ class OptionNormalizerSpec extends ObjectBehavior
                 'label' => [
                     [
                         'store_id' => '0',
-                        'value'    => 'red'
+                        'value'    => 'red',
                     ],
                     [
                         'store_id' => '1',
@@ -93,7 +93,7 @@ class OptionNormalizerSpec extends ObjectBehavior
                     ],
                 ],
                 'order'      => 1
-            ]
+            ],
         ]);
     }
 }

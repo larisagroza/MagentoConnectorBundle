@@ -4,7 +4,6 @@ namespace spec\Pim\Bundle\MagentoConnectorBundle\Manager;
 
 use Pim\Bundle\CatalogBundle\Manager\LocaleManager as BaseLocaleManager;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 class LocaleManagerSpec extends ObjectBehavior
 {

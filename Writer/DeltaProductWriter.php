@@ -4,7 +4,7 @@ namespace Pim\Bundle\MagentoConnectorBundle\Writer;
 
 use Pim\Bundle\MagentoConnectorBundle\Guesser\WebserviceGuesser;
 use Pim\Bundle\CatalogBundle\Manager\ChannelManager;
-use Pim\Bundle\DeltaExportBundle\Manager\ProductExportManager;
+use Pim\Bundle\MagentoConnectorBundle\Manager\ProductExportManager;
 use Akeneo\Bundle\BatchBundle\Entity\StepExecution;
 use Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClientParametersRegistry;
 

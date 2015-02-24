@@ -5,10 +5,9 @@ namespace spec\Pim\Bundle\MagentoConnectorBundle\Processor;
 use PhpSpec\ObjectBehavior;
 use Prophecy\Argument;
 use Pim\Bundle\CatalogBundle\Entity\Category;
-use Pim\Bundle\CatalogBundle\Manager\ChannelManager;
 use Pim\Bundle\MagentoConnectorBundle\Manager\LocaleManager;
 use Pim\Bundle\MagentoConnectorBundle\Merger\MagentoMappingMerger;
-use Pim\Bundle\ConnectorMappingBundle\Mapper\MappingCollection;
+use Pim\Bundle\MagentoConnectorBundle\Mapper\MappingCollection;
 use Pim\Bundle\MagentoConnectorBundle\Guesser\WebserviceGuesser;
 use Pim\Bundle\MagentoConnectorBundle\Guesser\NormalizerGuesser;
 use Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClientParameters;
@@ -17,6 +16,7 @@ use Pim\Bundle\MagentoConnectorBundle\Normalizer\AbstractNormalizer;
 use Pim\Bundle\MagentoConnectorBundle\Normalizer\CategoryNormalizer;
 use Pim\Bundle\MagentoConnectorBundle\Webservice\Webservice;
 use Akeneo\Bundle\BatchBundle\Entity\StepExecution;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class CategoryProcessorSpec extends ObjectBehavior
 {
@@ -30,7 +30,8 @@ class CategoryProcessorSpec extends ObjectBehavior
         CategoryNormalizer $categoryNormalizer,
         StepExecution $stepExecution,
         MagentoSoapClientParametersRegistry $clientParametersRegistry,
-        MagentoSoapClientParameters $clientParameters
+        MagentoSoapClientParameters $clientParameters,
+        EventDispatcher $eventDispatcher
     ) {
         $this->beConstructedWith(
             $webserviceGuesser,
@@ -41,6 +42,7 @@ class CategoryProcessorSpec extends ObjectBehavior
             $clientParametersRegistry
         );
         $this->setStepExecution($stepExecution);
+        $this->setEventDispatcher($eventDispatcher);
 
         $clientParametersRegistry->getInstance(null, null, null, '/api/soap/?wsdl', 'default', null, null)->willReturn($clientParameters);
         $webserviceGuesser->getWebservice($clientParameters)->willReturn($webservice);
@@ -56,15 +58,15 @@ class CategoryProcessorSpec extends ObjectBehavior
     ) {
         $webservice->getCategoriesStatus()->willReturn([
             1 => [
-                'category_id' => 1
-            ]
+                'category_id' => 1,
+            ],
         ]);
 
         $webservice->getStoreViewsList()->willReturn([
             [
                 'store_id' => 10,
-                'code'     => 'fr_fr'
-            ]
+                'code'     => 'fr_fr',
+            ],
         ]);
 
         $category->getParent()->willReturn($parentCategory);
@@ -77,14 +79,14 @@ class CategoryProcessorSpec extends ObjectBehavior
             'create'    => [],
             'update'    => [],
             'move'      => [],
-            'variation' => []
+            'variation' => [],
         ]);
 
         $this->process($category)->shouldReturn([
             'create'    => [],
             'update'    => [],
             'move'      => [],
-            'variation' => []
+            'variation' => [],
         ]);
     }
 
@@ -105,8 +107,8 @@ class CategoryProcessorSpec extends ObjectBehavior
                 'options' => [
                     'required' => true,
                     'help'     => 'pim_magento_connector.export.soapUsername.help',
-                    'label'    => 'pim_magento_connector.export.soapUsername.label'
-                ]
+                    'label'    => 'pim_magento_connector.export.soapUsername.label',
+                ],
             ],
             'soapApiKey'   => [
                 //Should be remplaced by a password formType but who doesn't
@@ -115,37 +117,37 @@ class CategoryProcessorSpec extends ObjectBehavior
                 'options' => [
                     'required' => true,
                     'help'     => 'pim_magento_connector.export.soapApiKey.help',
-                    'label'    => 'pim_magento_connector.export.soapApiKey.label'
-                ]
+                    'label'    => 'pim_magento_connector.export.soapApiKey.label',
+                ],
             ],
             'magentoUrl' => [
                 'options' => [
                     'required' => true,
                     'help'     => 'pim_magento_connector.export.magentoUrl.help',
-                    'label'    => 'pim_magento_connector.export.magentoUrl.label'
-                ]
+                    'label'    => 'pim_magento_connector.export.magentoUrl.label',
+                ],
             ],
             'wsdlUrl' => [
                 'options' => [
                     'required' => true,
                     'help'     => 'pim_magento_connector.export.wsdlUrl.help',
                     'label'    => 'pim_magento_connector.export.wsdlUrl.label',
-                    'data'     => MagentoSoapClientParameters::SOAP_WSDL_URL
-                ]
+                    'data'     => MagentoSoapClientParameters::SOAP_WSDL_URL,
+                ],
             ],
             'httpLogin' => [
                 'options' => [
                     'required' => false,
                     'help'     => 'pim_magento_connector.export.httpLogin.help',
-                    'label'    => 'pim_magento_connector.export.httpLogin.label'
-                ]
+                    'label'    => 'pim_magento_connector.export.httpLogin.label',
+                ],
             ],
             'httpPassword' => [
                 'options' => [
                     'required' => false,
                     'help'     => 'pim_magento_connector.export.httpPassword.help',
-                    'label'    => 'pim_magento_connector.export.httpPassword.label'
-                ]
+                    'label'    => 'pim_magento_connector.export.httpPassword.label',
+                ],
             ],
             'defaultStoreView' => [
                 'options' => [
@@ -153,7 +155,7 @@ class CategoryProcessorSpec extends ObjectBehavior
                     'help'     => 'pim_magento_connector.export.defaultStoreView.help',
                     'label'    => 'pim_magento_connector.export.defaultStoreView.label',
                     'data'     => $this->getDefaultStoreView(),
-                ]
+                ],
             ],
             'defaultLocale' => [
                 'type' => 'choice',
@@ -162,18 +164,32 @@ class CategoryProcessorSpec extends ObjectBehavior
                     'required' => true,
                     'attr' => ['class' => 'select2'],
                     'help'     => 'pim_magento_connector.export.defaultLocale.help',
-                    'label'    => 'pim_magento_connector.export.defaultLocale.label'
-                ]
+                    'label'    => 'pim_magento_connector.export.defaultLocale.label',
+                ],
             ],
             'website' => [
                 'type' => 'text',
                 'options' => [
                     'required' => true,
                     'help'     => 'pim_magento_connector.export.website.help',
-                    'label'    => 'pim_magento_connector.export.website.label'
-                ]
+                    'label'    => 'pim_magento_connector.export.website.label',
+                ],
             ],
             'fooo' => 'baar',
+            'isAnchor' => [
+                'type'    => 'checkbox',
+                'options' => [
+                    'help'  => 'pim_magento_connector.export.isAnchor.help',
+                    'label' => 'pim_magento_connector.export.isAnchor.label'
+                ]
+            ],
+            'urlKey' => [
+                'type'    => 'checkbox',
+                'options' => [
+                    'help'  => 'pim_magento_connector.export.urlKey.help',
+                    'label' => 'pim_magento_connector.export.urlKey.label'
+                ]
+            ],
             'foo' => 'bar',
         ]);
     }

@@ -12,7 +12,6 @@ use Pim\Bundle\MagentoConnectorBundle\Validator\Constraints\HasValidDefaultLocal
 use Pim\Bundle\CatalogBundle\Entity\Channel;
 use Pim\Bundle\CatalogBundle\Entity\Locale;
 
-
 /**
  * @author    Willy Mesnage <willy.mesnage@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)

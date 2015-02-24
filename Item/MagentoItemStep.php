@@ -26,19 +26,13 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
  */
 abstract class MagentoItemStep extends AbstractConfigurableStepElement implements StepExecutionAwareInterface
 {
-    /**
-     * @var Webservice
-     */
+    /** @var Webservice */
     protected $webservice;
 
-    /**
-     * @var StepExecution
-     */
+    /** @var StepExecution */
     protected $stepExecution;
 
-    /**
-     * @var WebserviceGuesser
-     */
+    /** @var WebserviceGuesser */
     protected $webserviceGuesser;
 
     /**
@@ -115,7 +109,7 @@ abstract class MagentoItemStep extends AbstractConfigurableStepElement implement
     }
 
     /**
-     * @param StepExecution $stepExecution
+     * {@inheritdoc}
      */
     public function setStepExecution(StepExecution $stepExecution)
     {
@@ -158,8 +152,8 @@ abstract class MagentoItemStep extends AbstractConfigurableStepElement implement
                 'options' => [
                     'required' => true,
                     'help'     => 'pim_magento_connector.export.soapUsername.help',
-                    'label'    => 'pim_magento_connector.export.soapUsername.label'
-                ]
+                    'label'    => 'pim_magento_connector.export.soapUsername.label',
+                ],
             ],
             'soapApiKey'   => [
                 //Should be replaced by a password formType but which doesn't
@@ -168,45 +162,45 @@ abstract class MagentoItemStep extends AbstractConfigurableStepElement implement
                 'options' => [
                     'required' => true,
                     'help'     => 'pim_magento_connector.export.soapApiKey.help',
-                    'label'    => 'pim_magento_connector.export.soapApiKey.label'
-                ]
+                    'label'    => 'pim_magento_connector.export.soapApiKey.label',
+                ],
             ],
             'magentoUrl' => [
                 'options' => [
                     'required' => true,
                     'help'     => 'pim_magento_connector.export.magentoUrl.help',
-                    'label'    => 'pim_magento_connector.export.magentoUrl.label'
-                ]
+                    'label'    => 'pim_magento_connector.export.magentoUrl.label',
+                ],
             ],
             'wsdlUrl' => [
                 'options' => [
                     'required' => true,
                     'help'     => 'pim_magento_connector.export.wsdlUrl.help',
                     'label'    => 'pim_magento_connector.export.wsdlUrl.label',
-                    'data'     => $this->getWsdlUrl()
-                ]
+                    'data'     => $this->getWsdlUrl(),
+                ],
             ],
             'httpLogin' => [
                 'options' => [
                     'required' => false,
                     'help'     => 'pim_magento_connector.export.httpLogin.help',
-                    'label'    => 'pim_magento_connector.export.httpLogin.label'
-                ]
+                    'label'    => 'pim_magento_connector.export.httpLogin.label',
+                ],
             ],
             'httpPassword' => [
                 'options' => [
                     'required' => false,
                     'help'     => 'pim_magento_connector.export.httpPassword.help',
-                    'label'    => 'pim_magento_connector.export.httpPassword.label'
-                ]
+                    'label'    => 'pim_magento_connector.export.httpPassword.label',
+                ],
             ],
             'defaultStoreView' => [
                 'options' => [
                     'required' => false,
                     'help'     => 'pim_magento_connector.export.defaultStoreView.help',
                     'label'    => 'pim_magento_connector.export.defaultStoreView.label',
-                    'data'     => $this->getDefaultStoreView()
-                ]
+                    'data'     => $this->getDefaultStoreView(),
+                ],
             ]
         ];
     }
@@ -338,7 +332,7 @@ abstract class MagentoItemStep extends AbstractConfigurableStepElement implement
      */
     public function getSoapUrl()
     {
-        return $this->magentoUrl . $this->wsdlUrl;
+        return $this->magentoUrl.$this->wsdlUrl;
     }
 
     /**

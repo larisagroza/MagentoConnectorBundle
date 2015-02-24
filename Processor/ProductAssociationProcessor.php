@@ -30,24 +30,16 @@ class ProductAssociationProcessor extends AbstractProcessor
      */
     protected $associationTypeManager;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $pimUpSell;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $pimCrossSell;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $pimRelated;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $pimGrouped;
 
     /**
@@ -78,7 +70,6 @@ class ProductAssociationProcessor extends AbstractProcessor
     }
 
     /**
-     * Get pimUpSell
      * @return string
      */
     public function getPimUpSell()
@@ -87,7 +78,6 @@ class ProductAssociationProcessor extends AbstractProcessor
     }
 
     /**
-     * Set pimUpSell
      * @param string $pimUpSell
      *
      * @return ProductAssociationProcessor
@@ -100,7 +90,6 @@ class ProductAssociationProcessor extends AbstractProcessor
     }
 
     /**
-     * Get pimCrossSell
      * @return string
      */
     public function getPimCrossSell()
@@ -109,7 +98,6 @@ class ProductAssociationProcessor extends AbstractProcessor
     }
 
     /**
-     * Set pimCrossSell
      * @param string $pimCrossSell
      *
      * @return ProductAssociationProcessor
@@ -122,7 +110,6 @@ class ProductAssociationProcessor extends AbstractProcessor
     }
 
     /**
-     * Get pimRelated
      * @return string
      */
     public function getPimRelated()
@@ -131,7 +118,6 @@ class ProductAssociationProcessor extends AbstractProcessor
     }
 
     /**
-     * Set pimRelated
      * @param string $pimRelated
      *
      * @return ProductAssociationProcessor
@@ -144,7 +130,6 @@ class ProductAssociationProcessor extends AbstractProcessor
     }
 
     /**
-     * Get pimGrouped
      * @return string
      */
     public function getPimGrouped()
@@ -153,7 +138,6 @@ class ProductAssociationProcessor extends AbstractProcessor
     }
 
     /**
-     * Set pimGrouped
      * @param string $pimGrouped
      *
      * @return ProductAssociationProcessor
@@ -248,7 +232,7 @@ class ProductAssociationProcessor extends AbstractProcessor
      * @param ProductInterface $product
      * @param array            $associationStatus
      *
-     * @return return array
+     * @return array
      */
     protected function getRemoveCallsForProduct(ProductInterface $product, array $associationStatus)
     {

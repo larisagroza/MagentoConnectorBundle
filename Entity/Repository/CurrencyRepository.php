@@ -15,9 +15,10 @@ class CurrencyRepository extends BaseCurrencyRepository
 {
     /**
      * Get all categories for the given criterias
+     *
      * @param array $criterias
      *
-     * @return array
+     * @return Currency[]
      */
     public function getCategories(array $criterias)
     {

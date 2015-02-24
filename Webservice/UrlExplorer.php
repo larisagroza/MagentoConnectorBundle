@@ -85,8 +85,8 @@ class UrlExplorer
                 'timeout'         => self::TIMEOUT,
                 'auth'            => [
                     $clientParameters->getHttpLogin(),
-                    $clientParameters->getHttpPassword()
-                ]
+                    $clientParameters->getHttpPassword(),
+                ],
             ];
 
             $request = $this->client->get($clientParameters->getSoapUrl(), [], $guzzleParams);

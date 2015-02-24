@@ -5,7 +5,6 @@ namespace spec\Pim\Bundle\MagentoConnectorBundle\Webservice;
 use Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClient;
 use Pim\Bundle\MagentoConnectorBundle\Webservice\Webservice;
 use Pim\Bundle\CatalogBundle\Model\ProductInterface;
-
 use PhpSpec\ObjectBehavior;
 
 class WebserviceSpec extends ObjectBehavior
@@ -21,6 +20,13 @@ class WebserviceSpec extends ObjectBehavior
             Webservice::SOAP_ACTION_CATEGORY_CREATE,
             ['foo']
         )->willReturn(12);
+
+        $magentoSoapClient->call(Webservice::SOAP_ACTION_STORE_LIST)->willReturn([]);
+
+        $magentoSoapClient->call(
+            Webservice::SOAP_ACTION_CATEGORY_UPDATE,
+            ['foo']
+        )->willReturn(true);
 
         $this->sendNewCategory(['foo'])->shouldReturn(12);
     }
@@ -52,9 +58,9 @@ class WebserviceSpec extends ObjectBehavior
             'children' => [
                 [
                     'category_id' => 3,
-                    'children' => []
-                ]
-            ]
+                    'children' => [],
+                ],
+            ],
         ];
 
         $flattenTree = [
@@ -63,14 +69,14 @@ class WebserviceSpec extends ObjectBehavior
                 'children' => [
                     [
                         'category_id' => 3,
-                        'children' => []
-                    ]
-                ]
+                        'children' => [],
+                    ],
+                ],
             ],
             3 => [
                 'category_id' => 3,
-                'children' => []
-            ]
+                'children' => [],
+            ],
         ];
 
         $magentoSoapClient->call(
@@ -94,7 +100,7 @@ class WebserviceSpec extends ObjectBehavior
                 'up_sell'    => 'up_sell',
                 'cross_sell' => 'cross_sell',
                 'related'    => 'related',
-                'grouped'    => 'grouped'
+                'grouped'    => 'grouped',
             ]
         );
     }

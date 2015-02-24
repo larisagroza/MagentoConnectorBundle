@@ -9,7 +9,7 @@ use Pim\Bundle\CatalogBundle\Model\AbstractMetric;
 use Pim\Bundle\CatalogBundle\Model\AbstractProductMedia;
 use Pim\Bundle\CatalogBundle\Model\AbstractProductPrice;
 use Pim\Bundle\CatalogBundle\Model\ProductValueInterface;
-use Pim\Bundle\ConnectorMappingBundle\Mapper\MappingCollection;
+use Pim\Bundle\MagentoConnectorBundle\Mapper\MappingCollection;
 use Pim\Bundle\CustomEntityBundle\Entity\AbstractCustomEntity;
 use Pim\Bundle\MagentoConnectorBundle\Normalizer\Exception\AttributeNotFoundException;
 use Pim\Bundle\MagentoConnectorBundle\Normalizer\Exception\InvalidOptionException;
@@ -190,7 +190,7 @@ class ProductValueNormalizer implements NormalizerInterface
         if (!isset($magentoAttributes[$attributeCode])) {
             throw new AttributeNotFoundException(
                 sprintf(
-                    'The magento attribute %s doesn\'t exist or isn\'t in the requested attributeSet. You should ' .
+                    'The magento attribute %s doesn\'t exist or isn\'t in the requested attributeSet. You should '.
                     'create it first or adding it to the corresponding attributeSet',
                     $attributeCode
                 )
@@ -249,9 +249,9 @@ class ProductValueNormalizer implements NormalizerInterface
         } else {
             throw new InvalidScopeMatchException(
                 sprintf(
-                    'The scope for the PIM attribute "%s" is not matching the scope of his corresponding Magento ' .
+                    'The scope for the PIM attribute "%s" is not matching the scope of his corresponding Magento '.
                     'attribute. To export the "%s" attribute, you must set the same scope in both Magento and the PIM.'.
-                    "\nMagento scope : %s\n" .
+                    "\nMagento scope : %s\n".
                     "PIM scope : %s",
                     $attributeCode,
                     $attributeCode,
@@ -481,8 +481,8 @@ class ProductValueNormalizer implements NormalizerInterface
             if (!isset($magentoAttributesOptions[$attributeCode][$optionCode])) {
                 throw new InvalidOptionException(
                     sprintf(
-                        'The attribute "%s" doesn\'t have any option named "%s" on ' .
-                        'Magento side. You should add this option in your "%s" attribute on Magento or export' .
+                        'The attribute "%s" doesn\'t have any option named "%s" on '.
+                        'Magento side. You should add this option in your "%s" attribute on Magento or export'.
                         ' the PIM options using this Magento connector.',
                         $attributeCode,
                         $optionCode,

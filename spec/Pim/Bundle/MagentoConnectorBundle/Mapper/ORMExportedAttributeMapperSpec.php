@@ -4,7 +4,7 @@ namespace spec\Pim\Bundle\MagentoConnectorBundle\Mapper;
 
 use PhpSpec\ObjectBehavior;
 use Pim\Bundle\CatalogBundle\Model\AbstractAttribute;
-use Pim\Bundle\ConnectorMappingBundle\Mapper\MappingCollection;
+use Pim\Bundle\MagentoConnectorBundle\Mapper\MappingCollection;
 use Pim\Bundle\MagentoConnectorBundle\Entity\MagentoAttributeMapping;
 use Pim\Bundle\MagentoConnectorBundle\Manager\AttributeMappingManager;
 use Pim\Bundle\MagentoConnectorBundle\Merger\MagentoMappingMerger;
@@ -41,13 +41,13 @@ class ORMExportedAttributeMapperSpec extends ObjectBehavior
 
     function it_extends_mapper()
     {
-        $this->shouldBeAnInstanceOf('Pim\Bundle\ConnectorMappingBundle\Mapper\Mapper');
+        $this->shouldBeAnInstanceOf('Pim\Bundle\MagentoConnectorBundle\Mapper\Mapper');
     }
 
     function it_returns_a_mapping_collection_on_get_mapping(AttributeMappingManager $attributeMappingManager)
     {
         $attributeMappingManager->getAllMagentoAttribute('http://test.dev/api')->willReturn([]);
-        $this->getMapping()->shouldReturnAnInstanceOf('Pim\Bundle\ConnectorMappingBundle\Mapper\MappingCollection');
+        $this->getMapping()->shouldReturnAnInstanceOf('Pim\Bundle\MagentoConnectorBundle\Mapper\MappingCollection');
     }
 
     function it_gets_mapping_from_exported_attributes_table(
@@ -61,7 +61,7 @@ class ORMExportedAttributeMapperSpec extends ObjectBehavior
         $magentoAttributeMappingMerger->getMapping()->willReturn($mapping);
         $mapping->getTarget('attribute_code')->willReturn('attribute_code');
 
-        $this->getMapping()->shouldBeAnInstanceOf('Pim\Bundle\ConnectorMappingBundle\Mapper\MappingCollection');
+        $this->getMapping()->shouldBeAnInstanceOf('Pim\Bundle\MagentoConnectorBundle\Mapper\MappingCollection');
         $mappingCollection = $this->getMapping();
 
         $mappingCollection->getSource(12)->shouldReturn('attribute_code');
@@ -79,7 +79,7 @@ class ORMExportedAttributeMapperSpec extends ObjectBehavior
         $magentoAttributeMappingMerger->getMapping()->willReturn($mapping);
         $mapping->getTarget('attribute_code')->willReturn('attribute_code_mapped');
 
-        $this->getMapping()->shouldBeAnInstanceOf('Pim\Bundle\ConnectorMappingBundle\Mapper\MappingCollection');
+        $this->getMapping()->shouldBeAnInstanceOf('Pim\Bundle\MagentoConnectorBundle\Mapper\MappingCollection');
         $mappingCollection = $this->getMapping();
 
         $mappingCollection->getSource(12)->shouldReturn('attribute_code_mapped');

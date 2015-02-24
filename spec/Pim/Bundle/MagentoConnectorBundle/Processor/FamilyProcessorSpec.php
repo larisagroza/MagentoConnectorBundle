@@ -49,20 +49,19 @@ class FamilyProcessorSpec extends ObjectBehavior
         Webservice $webservice,
         $familyNormalizer
     ) {
-
         $familyNormalizer->normalize(
             $family,
             AbstractNormalizer::MAGENTO_FORMAT,
             Argument::any()
         )->willReturn([
-            'attributeSetName' => 'family_code'
+            'attributeSetName' => 'family_code',
         ]);
         $webservice->getAttributeSetList()->willReturn([]);
         $webservice->getStoreViewsList()->willReturn([]);
         $this->process($family)->shouldReturn([
             'family_object'        => $family,
             'attributes_in_family' => null,
-            'families_to_create'   => ['attributeSetName' => 'family_code']
+            'families_to_create'   => ['attributeSetName' => 'family_code'],
         ]);
     }
 }

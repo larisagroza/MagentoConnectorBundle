@@ -6,7 +6,6 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityRepository;
 use Pim\Bundle\CatalogBundle\Entity\AssociationType;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 class AssociationTypeManagerSpec extends ObjectBehavior
 {

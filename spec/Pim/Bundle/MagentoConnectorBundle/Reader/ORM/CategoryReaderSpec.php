@@ -7,6 +7,9 @@ use Doctrine\ORM\QueryBuilder;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\AbstractQuery;
 use Akeneo\Bundle\BatchBundle\Entity\StepExecution;
+use Pim\Bundle\CatalogBundle\Entity\Category;
+use Pim\Bundle\CatalogBundle\Entity\Channel;
+use Pim\Bundle\CatalogBundle\Manager\ChannelManager;
 use Pim\Bundle\MagentoConnectorBundle\Entity\Repository\CategoryRepository;
 
 class CategoryReaderSpec extends ObjectBehavior
@@ -16,18 +19,27 @@ class CategoryReaderSpec extends ObjectBehavior
     function let(
         EntityManager $em,
         CategoryRepository $repository,
+        ChannelManager $channelManager,
         StepExecution $stepExecution
     ) {
-        $this->beConstructedWith($em, self::CATEGORY_CLASS, $repository);
+        $this->beConstructedWith($em, self::CATEGORY_CLASS, $repository, $channelManager);
         $this->setStepExecution($stepExecution);
     }
 
     function it_reads_categories_with_custom_order_query(
         $repository,
+        $channelManager,
+        Channel $channel,
+        Category $rootCategory,
         QueryBuilder $qb,
         AbstractQuery $query
     ) {
-        $repository->findOrderedCategories()->willReturn($qb);
+        $this->setChannel('channel');
+
+        $channelManager->getChannelByCode('channel')->willReturn($channel);
+        $channel->getCategory()->willReturn($rootCategory);
+        $repository->findOrderedCategories($rootCategory)->willReturn($qb);
+
         $qb->getQuery()->willReturn($query);
         $query->execute()->willReturn(['foo', 'bar']);
 

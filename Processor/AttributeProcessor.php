@@ -32,9 +32,7 @@ class AttributeProcessor extends AbstractProcessor
      */
     protected $groupManager;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $attributeCodeMapping = '';
 
     /**

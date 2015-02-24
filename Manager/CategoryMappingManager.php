@@ -4,7 +4,7 @@ namespace Pim\Bundle\MagentoConnectorBundle\Manager;
 
 use Doctrine\Common\Persistence\ObjectManager;
 use Pim\Bundle\CatalogBundle\Model\CategoryInterface;
-use Pim\Bundle\ConnectorMappingBundle\Mapper\MappingCollection;
+use Pim\Bundle\MagentoConnectorBundle\Mapper\MappingCollection;
 
 /**
  * Category mapping manager
@@ -20,9 +20,7 @@ class CategoryMappingManager
      */
     protected $objectManager;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $className;
 
     /**
@@ -48,7 +46,7 @@ class CategoryMappingManager
         $magentoCategoryMapping = $this->getEntityRepository()->findOneBy(
             [
                 'magentoCategoryId' => $id,
-                'magentoUrl'        => $magentoUrl
+                'magentoUrl'        => $magentoUrl,
             ]
         );
 
@@ -76,7 +74,7 @@ class CategoryMappingManager
             $categoryMapping = $this->getEntityRepository()->findOneBy(
                 [
                     'category'   => $category,
-                    'magentoUrl' => $magentoUrl
+                    'magentoUrl' => $magentoUrl,
                 ]
             );
 

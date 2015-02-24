@@ -10,12 +10,10 @@ use Pim\Bundle\MagentoConnectorBundle\Guesser\WebserviceGuesser;
 use Pim\Bundle\MagentoConnectorBundle\Guesser\NormalizerGuesser;
 use Pim\Bundle\MagentoConnectorBundle\Manager\AttributeManager;
 use Pim\Bundle\MagentoConnectorBundle\Manager\GroupManager;
-use Pim\Bundle\MagentoConnectorBundle\Normalizer\Exception\NormalizeException;
 use Pim\Bundle\MagentoConnectorBundle\Normalizer\AbstractNormalizer;
 use Pim\Bundle\MagentoConnectorBundle\Manager\LocaleManager;
 use Pim\Bundle\MagentoConnectorBundle\Merger\MagentoMappingMerger;
 use Pim\Bundle\MagentoConnectorBundle\Manager\CurrencyManager;
-use Pim\Bundle\MagentoConnectorBundle\Webservice\SoapCallException;
 use Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClientParametersRegistry;
 
 /**
@@ -115,7 +113,6 @@ class ConfigurableProcessor extends AbstractProductProcessor
             }
 
             foreach ($configurables as $configurable) {
-
                 if (empty($configurable['products'])) {
                     $this->addWarning('The variant group is not associated to any products', [], $configurable);
                 }
@@ -143,7 +140,6 @@ class ConfigurableProcessor extends AbstractProductProcessor
                 }
             }
         }
-
 
         return $processedItems;
     }
@@ -206,7 +202,7 @@ class ConfigurableProcessor extends AbstractProductProcessor
         foreach ($configurable['products'] as $product) {
             if ($groupFamily != $product->getFamily()) {
                 $this->addWarning(
-                    'Your variant group contains products from different families. Magento cannot handle ' .
+                    'Your variant group contains products from different families. Magento cannot handle '.
                     'configurable products with heterogen attribute sets',
                     [],
                     $configurable
@@ -237,7 +233,7 @@ class ConfigurableProcessor extends AbstractProductProcessor
                     if (!isset($groups[$groupId])) {
                         $groups[$groupId] = [
                             'group'    => $group,
-                            'products' => []
+                            'products' => [],
                         ];
                     }
 

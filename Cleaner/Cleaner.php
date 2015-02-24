@@ -18,23 +18,22 @@ use Pim\Bundle\MagentoConnectorBundle\Validator\Constraints\HasValidCredentials;
  */
 abstract class Cleaner extends MagentoItemStep implements StepExecutionAwareInterface
 {
+    /** @const string */
     const DO_NOTHING = 'do_nothing';
+
+    /** @const string */
     const DISABLE    = 'disable';
+
+    /** @const string */
     const DELETE     = 'delete';
 
-    /**
-     * @var StepExecution
-     */
+    /** @var StepExecution */
     protected $stepExecution;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $notInPimAnymoreAction;
 
     /**
-     * Get notInPimAnymoreAction
-     *
      * @return string notInPimAnymoreAction
      */
     public function getNotInPimAnymoreAction()
@@ -43,8 +42,6 @@ abstract class Cleaner extends MagentoItemStep implements StepExecutionAwareInte
     }
 
     /**
-     * Set notInPimAnymoreAction
-     *
      * @param string $notInPimAnymoreAction notInPimAnymoreAction
      *
      * @return Cleaner
@@ -83,13 +80,13 @@ abstract class Cleaner extends MagentoItemStep implements StepExecutionAwareInte
                         'choices'  => [
                             Cleaner::DO_NOTHING => 'pim_magento_connector.export.do_nothing.label',
                             Cleaner::DISABLE    => 'pim_magento_connector.export.disable.label',
-                            Cleaner::DELETE     => 'pim_magento_connector.export.delete.label'
+                            Cleaner::DELETE     => 'pim_magento_connector.export.delete.label',
                         ],
                         'required' => true,
                         'help'     => 'pim_magento_connector.export.notInPimAnymoreAction.help',
                         'label'    => 'pim_magento_connector.export.notInPimAnymoreAction.label',
-                        'attr'     => ['class' => 'select2']
-                    ]
+                        'attr'     => ['class' => 'select2'],
+                    ],
                 ]
             ]
         );

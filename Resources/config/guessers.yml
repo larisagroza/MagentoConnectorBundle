@@ -1,0 +1,24 @@
+parameters:
+    pim_magento_connector.guesser.magento_webservice.class: Pim\Bundle\MagentoConnectorBundle\Guesser\WebserviceGuesser
+    pim_magento_connector.guesser.magento_normalizer.class: Pim\Bundle\MagentoConnectorBundle\Guesser\NormalizerGuesser
+
+services:
+    pim_magento_connector.guesser.magento_webservice:
+        class: %pim_magento_connector.guesser.magento_webservice.class%
+        arguments:
+            - '@pim_magento_connector.factory.magento_soap_client'
+
+    pim_magento_connector.guesser.magento_normalizer:
+        class: %pim_magento_connector.guesser.magento_normalizer.class%
+        arguments:
+            - '@pim_magento_connector.factory.magento_soap_client'
+            - '@pim_catalog.manager.channel'
+            - '@pim_catalog.manager.media'
+            - '@pim_magento_connector.normalizer.value'
+            - '@pim_magento_connector.manager.category_mapping'
+            - '@pim_magento_connector.manager.association_type'
+            - '@pim_magento_connector.manager.product_value'
+            - '@pim_magento_connector.normalizer.attribute'
+            - '@pim_magento_connector.normalizer.category'
+            - '@pim_magento_connector.normalizer.family'
+            - '@pim_magento_connector.normalizer.option'

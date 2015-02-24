@@ -1,0 +1,4 @@
+config:
+    paths:
+        mapping-field: pimmagentoconnector/js/mapping-field
+        mapping-view: pimmagentoconnector/js/mapping-view

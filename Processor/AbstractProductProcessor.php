@@ -61,19 +61,13 @@ abstract class AbstractProductProcessor extends AbstractProcessor
      */
     protected $enabled;
 
-    /**
-     * @var integer
-     */
+    /** @var integer */
     protected $visibility = self::MAGENTO_VISIBILITY_CATALOG_SEARCH;
 
-    /**
-     * @var integer
-     */
+    /** @var integer */
     protected $variantMemberVisibility = self::MAGENTO_VISIBILITY_NONE;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $categoryMapping;
 
     /**
@@ -86,9 +80,7 @@ abstract class AbstractProductProcessor extends AbstractProcessor
      */
     protected $attributeManager;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $attributeCodeMapping;
 
     /**
@@ -96,20 +88,20 @@ abstract class AbstractProductProcessor extends AbstractProcessor
      */
     protected $attributeMappingMerger;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $smallImageAttribute;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $baseImageAttribute;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $thumbnailAttribute;
+
+    /** @var boolean */
+    protected $urlKey;
+
+    /** @var  boolean */
+    protected $skuFirst;
 
     /**
      * @param WebserviceGuesser        $webserviceGuesser
@@ -334,7 +326,6 @@ abstract class AbstractProductProcessor extends AbstractProcessor
         return $this;
     }
 
-
     /**
      * get categoryMapping
      *
@@ -412,6 +403,54 @@ abstract class AbstractProductProcessor extends AbstractProcessor
     }
 
     /**
+     * Get url key
+     *
+     * @return boolean
+     */
+    public function isUrlKey()
+    {
+        return $this->urlKey;
+    }
+
+    /**
+     * Set url key
+     *
+     * @param boolean $urlKey
+     *
+     * @return ProductProcessor
+     */
+    public function setUrlKey($urlKey)
+    {
+        $this->urlKey = $urlKey;
+
+        return $this;
+    }
+
+    /**
+     * Get skuFirst
+     *
+     * @return boolean
+     */
+    public function isSkuFirst()
+    {
+        return $this->skuFirst;
+    }
+
+    /**
+     * Set skuFirst
+     *
+     * @param boolean $skuFirst
+     *
+     * @return ProductProcessor
+     */
+    public function setSkuFirst($skuFirst)
+    {
+        $this->skuFirst = $skuFirst;
+
+        return $this;
+    }
+
+    /**
      * Function called before all process
      */
     protected function beforeExecute()
@@ -442,7 +481,9 @@ abstract class AbstractProductProcessor extends AbstractProcessor
                 'attributeCodeMapping'     => $this->attributeMappingMerger->getMapping(),
                 'smallImageAttribute'      => $this->smallImageAttribute,
                 'baseImageAttribute'       => $this->baseImageAttribute,
-                'thumbnailAttribute'       => $this->thumbnailAttribute
+                'thumbnailAttribute'       => $this->thumbnailAttribute,
+                'urlKey'                   => $this->urlKey,
+                'skuFirst'                 => $this->skuFirst,
             ]
         );
     }
@@ -472,32 +513,32 @@ abstract class AbstractProductProcessor extends AbstractProcessor
                         'choices'  => $this->channelManager->getChannelChoices(),
                         'required' => true,
                         'help'     => 'pim_magento_connector.export.channel.help',
-                        'label'    => 'pim_magento_connector.export.channel.label'
-                    ]
+                        'label'    => 'pim_magento_connector.export.channel.label',
+                    ],
                 ],
                 'enabled' => [
                     'type'    => 'switch',
                     'options' => [
                         'required' => true,
                         'help'     => 'pim_magento_connector.export.enabled.help',
-                        'label'    => 'pim_magento_connector.export.enabled.label'
-                    ]
+                        'label'    => 'pim_magento_connector.export.enabled.label',
+                    ],
                 ],
                 'visibility' => [
                     'type'    => 'text',
                     'options' => [
                         'required' => true,
                         'help'     => 'pim_magento_connector.export.visibility.help',
-                        'label'    => 'pim_magento_connector.export.visibility.label'
-                    ]
+                        'label'    => 'pim_magento_connector.export.visibility.label',
+                    ],
                 ],
                 'variantMemberVisibility' => [
                     'type'    => 'text',
                     'options' => [
                         'required' => true,
                         'help'     => 'pim_magento_connector.export.variant_member_visibility.help',
-                        'label'    => 'pim_magento_connector.export.variant_member_visibility.label'
-                    ]
+                        'label'    => 'pim_magento_connector.export.variant_member_visibility.label',
+                    ],
                 ],
                 'currency' => [
                     'type'    => 'choice',
@@ -507,9 +548,9 @@ abstract class AbstractProductProcessor extends AbstractProcessor
                         'help'     => 'pim_magento_connector.export.currency.help',
                         'label'    => 'pim_magento_connector.export.currency.label',
                         'attr' => [
-                            'class' => 'select2'
-                        ]
-                    ]
+                            'class' => 'select2',
+                        ],
+                    ],
                 ],
                 'smallImageAttribute' => [
                     'type' => 'choice',
@@ -518,9 +559,9 @@ abstract class AbstractProductProcessor extends AbstractProcessor
                         'help'    => 'pim_magento_connector.export.smallImageAttribute.help',
                         'label'   => 'pim_magento_connector.export.smallImageAttribute.label',
                         'attr' => [
-                            'class' => 'select2'
-                        ]
-                    ]
+                            'class' => 'select2',
+                        ],
+                    ],
                 ],
                 'baseImageAttribute' => [
                     'type' => 'choice',
@@ -529,9 +570,9 @@ abstract class AbstractProductProcessor extends AbstractProcessor
                         'help'    => 'pim_magento_connector.export.baseImageAttribute.help',
                         'label'   => 'pim_magento_connector.export.baseImageAttribute.label',
                         'attr' => [
-                            'class' => 'select2'
-                        ]
-                    ]
+                            'class' => 'select2',
+                        ],
+                    ],
                 ],
                 'thumbnailAttribute' => [
                     'type' => 'choice',
@@ -540,9 +581,37 @@ abstract class AbstractProductProcessor extends AbstractProcessor
                         'help'    => 'pim_magento_connector.export.thumbnailAttribute.help',
                         'label'   => 'pim_magento_connector.export.thumbnailAttribute.label',
                         'attr' => [
-                            'class' => 'select2'
-                        ]
-                    ]
+                            'class' => 'select2',
+                        ],
+                    ],
+                ],
+                'urlKey' => [
+                    'type'    => 'checkbox',
+                    'options' => [
+                        'help'  => 'pim_magento_connector.export.urlKey.help',
+                        'label' => 'pim_magento_connector.export.urlKey.label',
+                    ],
+                ],
+                'skuFirst' => [
+                    'type'    => 'checkbox',
+                    'options' => [
+                        'help'  => 'pim_magento_connector.export.skuFirst.help',
+                        'label' => 'pim_magento_connector.export.skuFirst.label',
+                    ],
+                ],
+                'urlKey' => [
+                    'type'    => 'checkbox',
+                    'options' => [
+                        'help'  => 'pim_magento_connector.export.urlKey.help',
+                        'label' => 'pim_magento_connector.export.urlKey.label',
+                    ],
+                ],
+                'skuFirst' => [
+                    'type'    => 'checkbox',
+                    'options' => [
+                        'help'  => 'pim_magento_connector.export.skuFirst.help',
+                        'label' => 'pim_magento_connector.export.skuFirst.label',
+                    ],
                 ],
             ],
             $this->categoryMappingMerger->getConfigurationField(),

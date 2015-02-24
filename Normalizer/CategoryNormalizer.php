@@ -2,6 +2,7 @@
 
 namespace Pim\Bundle\MagentoConnectorBundle\Normalizer;
 
+use Pim\Bundle\CatalogBundle\Entity\Repository\CategoryRepository;
 use Pim\Bundle\CatalogBundle\Manager\ChannelManager;
 use Pim\Bundle\CatalogBundle\Model\CategoryInterface;
 use Pim\Bundle\MagentoConnectorBundle\Manager\CategoryMappingManager;
@@ -22,17 +23,23 @@ class CategoryNormalizer extends AbstractNormalizer
      */
     protected $categoryMappingManager;
 
+    /** @var  CategoryRepository */
+    protected $categoryRepository;
+
     /**
      * @param ChannelManager         $channelManager
      * @param CategoryMappingManager $categoryMappingManager
+     * @param CategoryRepository     $categoryRepository
      */
     public function __construct(
         ChannelManager         $channelManager,
-        CategoryMappingManager $categoryMappingManager
+        CategoryMappingManager $categoryMappingManager,
+        CategoryRepository     $categoryRepository
     ) {
         parent::__construct($channelManager);
 
         $this->categoryMappingManager = $categoryMappingManager;
+        $this->categoryRepository     = $categoryRepository;
     }
 
     /**
@@ -55,7 +62,8 @@ class CategoryNormalizer extends AbstractNormalizer
                 $normalizedCategory['variation'][] = $this->getNormalizedVariationCategory(
                     $object,
                     $translation->getLocale(),
-                    $storeView['code']
+                    $storeView['code'],
+                    $context['urlKey']
                 );
             }
         }
@@ -212,16 +220,27 @@ class CategoryNormalizer extends AbstractNormalizer
      * @param CategoryInterface $category
      * @param string            $localeCode
      * @param string            $storeViewCode
+     * @param boolean           $urlKey
      *
      * @return array
      */
-    protected function getNormalizedVariationCategory(CategoryInterface $category, $localeCode, $storeViewCode)
-    {
+    protected function getNormalizedVariationCategory(
+        CategoryInterface $category,
+        $localeCode,
+        $storeViewCode,
+        $urlKey = false
+    ) {
+        $categoryUrlKey = '';
+        if (false === $urlKey) {
+            $categoryUrlKey = $this->generateUrlKey($category, $localeCode);
+        }
+
         return [
             'magentoCategory' => [
                 null,
                 [
                     'name'              => $this->getCategoryLabel($category, $localeCode),
+                    'url_key'           => $categoryUrlKey,
                     'available_sort_by' => 1,
                     'default_sort_by'   => 1
                 ],
@@ -248,19 +267,10 @@ class CategoryNormalizer extends AbstractNormalizer
             $context['categoryMapping']
         );
 
-        $previousCategory = null;
-        foreach ($category->getParent()->getChildren() as $sibling) {
-            if (
-                $sibling->getLeft() < $category->getLeft() &&
-                $sibling->getLevel() === $category->getLevel() &&
-                (null === $previousCategory || $sibling->getLeft() > $previousCategory->getLeft())
-            ) {
-                $previousCategory = $sibling;
-            }
-        }
+        $previousCategory = end($this->categoryRepository->getPrevSiblings($category));
 
         $previousMagentoCategoryId = null;
-        if (null !== $previousCategory) {
+        if ($previousCategory && null !== $previousCategory) {
             $previousMagentoCategoryId = $this->categoryMappingManager->getIdFromCategory(
                 $previousCategory,
                 $context['magentoUrl'],

@@ -4,7 +4,6 @@ namespace spec\Pim\Bundle\MagentoConnectorBundle\Normalizer;
 
 use Pim\Bundle\CatalogBundle\Entity\Family;
 use PhpSpec\ObjectBehavior;
-use Prophecy\Argument;
 
 class FamilyNormalizerSpec extends ObjectBehavior
 {
@@ -16,7 +15,7 @@ class FamilyNormalizerSpec extends ObjectBehavior
             'magentoFamilies' => [],
             'magentoUrl'        => 'soap_url',
             'defaultLocale'     => 'default_locale',
-            'magentoStoreViews' => []
+            'magentoStoreViews' => [],
         ];
     }
 

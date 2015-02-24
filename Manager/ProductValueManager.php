@@ -14,9 +14,7 @@ use Pim\Bundle\CatalogBundle\Model\AbstractProductValue;
  */
 class ProductValueManager
 {
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $className = '';
 
     /**

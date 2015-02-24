@@ -35,14 +35,14 @@ class MagentoStoreViewMapperSpec extends ObjectBehavior
         $webservice->getStoreViewsList()->willReturn([['code' => 'attribute_code']]);
 
         $mapping = $this->getMapping();
-        $mapping->shouldBeAnInstanceOf('Pim\Bundle\ConnectorMappingBundle\Mapper\MappingCollection');
+        $mapping->shouldBeAnInstanceOf('Pim\Bundle\MagentoConnectorBundle\Mapper\MappingCollection');
         $mapping->toArray()->shouldReturn([]);
     }
 
     function it_returns_an_empty_collection_if_parameters_are_not_setted()
     {
         $mapping = $this->getMapping();
-        $mapping->shouldBeAnInstanceOf('Pim\Bundle\ConnectorMappingBundle\Mapper\MappingCollection');
+        $mapping->shouldBeAnInstanceOf('Pim\Bundle\MagentoConnectorBundle\Mapper\MappingCollection');
         $mapping->toArray()->shouldReturn([]);
     }
 

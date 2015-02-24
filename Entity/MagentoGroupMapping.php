@@ -11,34 +11,22 @@ namespace Pim\Bundle\MagentoConnectorBundle\Entity;
  */
 class MagentoGroupMapping
 {
-    /**
-     * @var integer
-     */
+    /** @var integer */
     protected $id;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $magentoUrl;
 
-    /**
-     * @var integer
-     */
+    /** @var integer */
     protected $magentoGroupId;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $pimGroupCode;
 
-    /**
-     * @var integer
-     */
+    /** @var integer */
     protected $pimFamilyCode;
 
     /**
-     * Get id
-     *
      * @return integer
      */
     public function getId()
@@ -47,8 +35,6 @@ class MagentoGroupMapping
     }
 
     /**
-     * Set magentoUrl
-     *
      * @param string $magentoUrl
      *
      * @return MagentoGroupMapping
@@ -61,8 +47,6 @@ class MagentoGroupMapping
     }
 
     /**
-     * Get magentoUrl
-     *
      * @return string
      */
     public function getMagentoUrl()
@@ -71,8 +55,6 @@ class MagentoGroupMapping
     }
 
     /**
-     * Set magentoGroupId
-     *
      * @param string $magentoGroupId
      *
      * @return MagentoGroupMapping
@@ -85,8 +67,6 @@ class MagentoGroupMapping
     }
 
     /**
-     * Get magentoGroupId
-     *
      * @return string
      */
     public function getMagentoGroupId()
@@ -95,8 +75,6 @@ class MagentoGroupMapping
     }
 
     /**
-     * Set pimGroupCode
-     *
      * @param string $pimGroupCode
      *
      * @return MagentoGroupMapping
@@ -109,8 +87,6 @@ class MagentoGroupMapping
     }
 
     /**
-     * Get pimGroupCode
-     *
      * @return string
      */
     public function getPimGroupCode()
@@ -119,8 +95,6 @@ class MagentoGroupMapping
     }
 
     /**
-     * Set pimFamilyCode
-     *
      * @param integer $pimFamilyCode
      *
      * @return MagentoGroupMapping
@@ -133,8 +107,6 @@ class MagentoGroupMapping
     }
 
     /**
-     * Get pimFamilyCode
-     *
      * @return integer
      */
     public function getPimFamilyCode()

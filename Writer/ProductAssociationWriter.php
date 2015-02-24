@@ -41,7 +41,7 @@ class ProductAssociationWriter extends AbstractWriter
             } catch (SoapCallException $e) {
                 throw new InvalidItemException(
                     sprintf(
-                        'An error occured during a product association remove call. This may be due to a linked ' .
+                        'An error occured during a product association remove call. This may be due to a linked '.
                         'product that doesn\'t exist on Magento side. Error message : %s',
                         $e->getMessage()
                     ),
@@ -56,7 +56,7 @@ class ProductAssociationWriter extends AbstractWriter
             } catch (SoapCallException $e) {
                 throw new InvalidItemException(
                     sprintf(
-                        'An error occured during a product association add call. This may be due to a linked ' .
+                        'An error occured during a product association add call. This may be due to a linked '.
                         'product that doesn\'t exist on Magento side. Error message : %s',
                         $e->getMessage()
                     ),

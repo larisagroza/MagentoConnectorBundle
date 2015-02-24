@@ -36,7 +36,7 @@ class CategoryCleanerSpec extends ObjectBehavior
             [
                 ['category_id' => '1'],
                 ['category_id' => '12', 'level' => '0'],
-                ['category_id' => '13', 'level' => '2']
+                ['category_id' => '13', 'level' => '2'],
             ]
         );
 
@@ -55,7 +55,7 @@ class CategoryCleanerSpec extends ObjectBehavior
 
         $webservice->getCategoriesStatus()->willReturn(
             [
-                ['category_id' => '13', 'level' => '2']
+                ['category_id' => '13', 'level' => '2'],
             ]
         );
 
@@ -72,7 +72,7 @@ class CategoryCleanerSpec extends ObjectBehavior
 
         $webservice->getCategoriesStatus()->willReturn(
             [
-                ['category_id' => '13', 'level' => '2']
+                ['category_id' => '13', 'level' => '2'],
             ]
         );
 

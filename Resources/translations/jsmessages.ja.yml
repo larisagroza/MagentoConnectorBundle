@@ -1,18 +1,18 @@
-pim_connector_mapping:
+pim_connector_mapping_bundle:
     mapping:
         attribute:
-            source: Akeneo属性
-            target: Magento属性
+            source: "Akeneoの属性"
+            target: "Magentoの属性"
         storeview:
-            source: Akeneoロケール
-            target: Magentoストアビュー
+            source: "Akeneoのロケール"
+            target: "Magentoのロケール"
         category:
-            source: Akeneoカテゴリ
-            target: Magentoカテゴリ
-            placeholder: 'カテゴリを選択してください'
-            empty: '開始するにはMagentoのルートカテゴリを選択してください。'
-        add: 追加
-        not_blank: 必須項目です
+            source: "Akeneoのカテゴリ"
+            target: "Magentoのカテゴリ"
+            placeholder: 'カテゴリを選択'
+            empty: '開始するにはMagentoのメインカテゴリを作成してください'
+        add: "追加"
+        not_blank: "必須項目です"
         attributeCode:
-            source: Akeneo属性コード
-            target: Magento属性コード
+            source: "Akeneoの属性コード"
+            target: "Magentoの属性コード"

@@ -21,7 +21,7 @@ class ProductAssociationWriterSpec extends ObjectBehavior
         $clientParametersRegistry->getInstance(null, null, null, '/api/soap/?wsdl', 'default', null, null)->willReturn($clientParameters);
         $webserviceGuesser->getWebservice($clientParameters)->willReturn($webservice);
 
-        $this->beConstructedWith($webserviceGuesser,$clientParametersRegistry);
+        $this->beConstructedWith($webserviceGuesser, $clientParametersRegistry);
         $this->setStepExecution($stepExecution);
     }
 
@@ -34,8 +34,8 @@ class ProductAssociationWriterSpec extends ObjectBehavior
             [
                 [
                     'remove' => [['foo']],
-                    'create' => [['bar']]
-                ]
+                    'create' => [['bar']],
+                ],
             ];
 
         $this->write($productAssociationCallsBatchs);
@@ -50,8 +50,8 @@ class ProductAssociationWriterSpec extends ObjectBehavior
             [
                 [
                     'remove' => [['foo']],
-                    'create' => [['bar']]
-                ]
+                    'create' => [['bar']],
+                ],
             ];
 
         $this->shouldThrow('\Akeneo\Bundle\BatchBundle\Item\InvalidItemException')->duringWrite($productAssociationCallsBatchs);
@@ -66,8 +66,8 @@ class ProductAssociationWriterSpec extends ObjectBehavior
             [
                 [
                     'remove' => [['foo']],
-                    'create' => [['bar']]
-                ]
+                    'create' => [['bar']],
+                ],
             ];
 
         $this->shouldThrow('\Akeneo\Bundle\BatchBundle\Item\InvalidItemException')->duringWrite($productAssociationCallsBatchs);

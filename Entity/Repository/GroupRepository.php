@@ -14,10 +14,12 @@ use Pim\Bundle\MagentoConnectorBundle\Webservice\Webservice;
  */
 class GroupRepository extends BaseGroupRepository
 {
+    /** @const string */
     const VARIANT_GROUP_CODE = 'VARIANT';
 
     /**
      * Get all variant groups ids
+     *
      * @return array
      */
     public function getVariantGroupIds()
@@ -39,6 +41,7 @@ class GroupRepository extends BaseGroupRepository
 
     /**
      * Get all variant groups ids
+     *
      * @return array
      */
     public function getVariantGroupSkus()
@@ -60,6 +63,7 @@ class GroupRepository extends BaseGroupRepository
 
     /**
      * Get variant group query builder
+     *
      * @return QueryBuilder
      */
     protected function getVariantGroupsQb()
@@ -73,6 +77,7 @@ class GroupRepository extends BaseGroupRepository
 
     /**
      * Get axis attributes
+     *
      * @return array
      */
     public function getAxisAttributes()

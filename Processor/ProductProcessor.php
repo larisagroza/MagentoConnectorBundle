@@ -13,7 +13,6 @@ use Pim\Bundle\MagentoConnectorBundle\Manager\CurrencyManager;
 use Pim\Bundle\MagentoConnectorBundle\Manager\LocaleManager;
 use Pim\Bundle\MagentoConnectorBundle\Merger\MagentoMappingMerger;
 use Pim\Bundle\MagentoConnectorBundle\Normalizer\AbstractNormalizer;
-use Pim\Bundle\MagentoConnectorBundle\Normalizer\Exception\NormalizeException;
 use Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClientParametersRegistry;
 use Pim\Bundle\TransformBundle\Converter\MetricConverter;
 
@@ -36,9 +35,7 @@ class ProductProcessor extends AbstractProductProcessor
      */
     protected $associationTypeManager;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $pimGrouped;
 
     /**
@@ -115,8 +112,8 @@ class ProductProcessor extends AbstractProductProcessor
     {
         parent::beforeExecute();
 
-        $this->globalContext['pimGrouped']          = $this->pimGrouped;
-        $this->globalContext['defaultStoreView']    = $this->getDefaultStoreView();
+        $this->globalContext['pimGrouped']       = $this->pimGrouped;
+        $this->globalContext['defaultStoreView'] = $this->getDefaultStoreView();
     }
 
     /**
@@ -143,8 +140,8 @@ class ProductProcessor extends AbstractProductProcessor
             if ($this->magentoProductExists($product, $magentoProducts)) {
                 if ($this->attributeSetChanged($product, $magentoProducts)) {
                     $this->addWarning(
-                        'The product family has changed of this product. This modification cannot be applied to ' .
-                        'magento. In order to change the family of this product, please manualy delete this product ' .
+                        'The product family has changed of this product. This modification cannot be applied to '.
+                        'magento. In order to change the family of this product, please manualy delete this product '.
                         'in magento and re-run this connector.',
                         [],
                         [
@@ -176,7 +173,6 @@ class ProductProcessor extends AbstractProductProcessor
                     ]
                 );
             }
-
         }
 
         return $processedItems;
@@ -190,7 +186,7 @@ class ProductProcessor extends AbstractProductProcessor
      *
      * @throws InvalidItemException If a normalization error occurs
      *
-     * @return array                processed item
+     * @return array processed item
      */
     protected function normalizeProduct(ProductInterface $product, $context)
     {
@@ -258,9 +254,9 @@ class ProductProcessor extends AbstractProductProcessor
                         'help'    => 'pim_magento_connector.export.pimGrouped.help',
                         'label'   => 'pim_magento_connector.export.pimGrouped.label',
                         'attr' => [
-                            'class' => 'select2'
-                        ]
-                    ]
+                            'class' => 'select2',
+                        ],
+                    ],
                 ]
             ]
         );

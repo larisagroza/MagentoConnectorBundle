@@ -13,24 +13,16 @@ use Pim\Bundle\CatalogBundle\Entity\Family;
  */
 class MagentoFamilyMapping
 {
-    /**
-     * @var integer
-     */
+    /** @var integer */
     protected $id;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $magentoUrl;
 
-    /**
-     * @var integer
-     */
+    /** @var integer */
     protected $magentoFamilyId;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $pimFamilyCode;
 
     /**

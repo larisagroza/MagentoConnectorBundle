@@ -39,7 +39,7 @@ class UrlExplorerSpec extends ObjectBehavior
         $guzzleParams = [
             'connect_timeout' => UrlExplorer::CONNECT_TIMEOUT,
             'timeout'         => UrlExplorer::TIMEOUT,
-            'auth'            => [null, null]
+            'auth'            => [null, null],
         ];
 
         $clientParameters->getHash()->willReturn('some_hash');
@@ -70,7 +70,7 @@ class UrlExplorerSpec extends ObjectBehavior
         $guzzleParams = [
             'connect_timeout' => UrlExplorer::CONNECT_TIMEOUT,
             'timeout'         => UrlExplorer::TIMEOUT,
-            'auth'            => ['http_login', 'password']
+            'auth'            => ['http_login', 'password'],
         ];
 
         $clientParameters->getHash()->willReturn('some_hash');
@@ -101,7 +101,7 @@ class UrlExplorerSpec extends ObjectBehavior
         $guzzleParams = [
             'connect_timeout' => UrlExplorer::CONNECT_TIMEOUT,
             'timeout'         => UrlExplorer::TIMEOUT,
-            'auth'            => [null, null]
+            'auth'            => [null, null],
         ];
 
         $clientParameters->getHash()->willReturn('some_hash');
@@ -131,7 +131,7 @@ class UrlExplorerSpec extends ObjectBehavior
         $guzzleParams = [
             'connect_timeout' => UrlExplorer::CONNECT_TIMEOUT,
             'timeout'         => UrlExplorer::TIMEOUT,
-            'auth'            => ['bad_login', 'passwd']
+            'auth'            => ['bad_login', 'passwd'],
         ];
 
         $clientParameters->getHash()->willReturn('some_hash');

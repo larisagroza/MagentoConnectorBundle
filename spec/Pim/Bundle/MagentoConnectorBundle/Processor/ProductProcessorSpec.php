@@ -2,6 +2,8 @@
 
 namespace spec\Pim\Bundle\MagentoConnectorBundle\Processor;
 
+use Akeneo\Bundle\BatchBundle\Entity\StepExecution;
+use Akeneo\Bundle\BatchBundle\Event\EventInterface;
 use PhpSpec\ObjectBehavior;
 use Pim\Bundle\CatalogBundle\Entity\Channel;
 use Pim\Bundle\CatalogBundle\Entity\Family;
@@ -9,13 +11,13 @@ use Pim\Bundle\CatalogBundle\Manager\ChannelManager;
 use Pim\Bundle\CatalogBundle\Model\AbstractAttribute;
 use Pim\Bundle\CatalogBundle\Model\Product;
 use Pim\Bundle\CatalogBundle\Model\ProductValue;
-use Pim\Bundle\ConnectorMappingBundle\Mapper\MappingCollection;
 use Pim\Bundle\MagentoConnectorBundle\Guesser\NormalizerGuesser;
 use Pim\Bundle\MagentoConnectorBundle\Guesser\WebserviceGuesser;
 use Pim\Bundle\MagentoConnectorBundle\Manager\AssociationTypeManager;
 use Pim\Bundle\MagentoConnectorBundle\Manager\AttributeManager;
 use Pim\Bundle\MagentoConnectorBundle\Manager\CurrencyManager;
 use Pim\Bundle\MagentoConnectorBundle\Manager\LocaleManager;
+use Pim\Bundle\MagentoConnectorBundle\Mapper\MappingCollection;
 use Pim\Bundle\MagentoConnectorBundle\Merger\MagentoMappingMerger;
 use Pim\Bundle\MagentoConnectorBundle\Normalizer\ProductNormalizer;
 use Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClientParameters;
@@ -23,6 +25,7 @@ use Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClientParametersRegi
 use Pim\Bundle\MagentoConnectorBundle\Webservice\Webservice;
 use Pim\Bundle\TransformBundle\Converter\MetricConverter;
 use Prophecy\Argument;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 /**
  * @author    Willy Mesnage <willy.mesnage@akeneo.com>
@@ -50,7 +53,9 @@ class ProductProcessorSpec extends ObjectBehavior
         Channel $channel,
         MagentoSoapClientParametersRegistry $clientParametersRegistry,
         MagentoSoapClientParameters $clientParameters,
-        AttributeManager $attributeManager
+        AttributeManager $attributeManager,
+        EventDispatcher $eventDispatcher,
+        StepExecution $stepExecution
     ) {
         $this->beConstructedWith(
             $webserviceGuesser,
@@ -66,8 +71,12 @@ class ProductProcessorSpec extends ObjectBehavior
             $clientParametersRegistry,
             $attributeManager
         );
+        $this->setStepExecution($stepExecution);
+        $this->setEventDispatcher($eventDispatcher);
 
-        $clientParametersRegistry->getInstance(null, null, null, '/api/soap/?wsdl', 'default', null, null)->willReturn($clientParameters);
+        $clientParametersRegistry->getInstance(null, null, null, '/api/soap/?wsdl', 'default', null, null)->willReturn(
+            $clientParameters
+        );
         $webserviceGuesser->getWebservice($clientParameters)->willReturn($webservice);
 
         $storeViewMappingMerger->getMapping()->willReturn($mappingCollection);
@@ -75,14 +84,14 @@ class ProductProcessorSpec extends ObjectBehavior
         $webservice->getStoreViewsList()->willReturn(
             [
                 [
-                    'store_id' => '1',
-                    'code' => 'default',
+                    'store_id'   => '1',
+                    'code'       => 'default',
                     'website_id' => '1',
-                    'group_id' => '1',
-                    'name' => 'Default Store View',
+                    'group_id'   => '1',
+                    'name'       => 'Default Store View',
                     'sort_order' => '0',
-                    'is_active' => '1'
-                ]
+                    'is_active'  => '1',
+                ],
             ]
         );
 
@@ -90,11 +99,11 @@ class ProductProcessorSpec extends ObjectBehavior
             [
                 'name' => [
                     'attribute_id' => '71',
-                    'code' => 'name',
-                    'type' => 'text',
-                    'required' => '1',
-                    'scope' => 'store'
-                ]
+                    'code'         => 'name',
+                    'type'         => 'text',
+                    'required'     => '1',
+                    'scope'        => 'store',
+                ],
             ]
         );
 
@@ -105,20 +114,20 @@ class ProductProcessorSpec extends ObjectBehavior
             1,
             null
         )
-        ->willReturn($productNormalizer);
+            ->willReturn($productNormalizer);
 
         $webservice->getAllAttributesOptions()->willReturn([]);
         $webservice->getProductsStatus([$product])->willReturn(
             [
                 [
-                    'product_id' => '1',
-                    'sku' => 'sku-000',
-                    'name' => 'Product example',
-                    'set' => '4',
-                    'type' => 'simple',
+                    'product_id'   => '1',
+                    'sku'          => 'sku-000',
+                    'name'         => 'Product example',
+                    'set'          => '4',
+                    'type'         => 'simple',
                     'category_ids' => ['207'],
-                    'website_ids' => ['1']
-                ]
+                    'website_ids'  => ['1'],
+                ],
             ]
         );
 
@@ -178,7 +187,11 @@ class ProductProcessorSpec extends ObjectBehavior
 
         $metricConverter->convert($product, $channel)->shouldBeCalled();
 
-        $productNormalizer->normalize(Argument::type('\Pim\Bundle\CatalogBundle\Model\Product'), 'MagentoArray', Argument::type('array'))->shouldBeCalled();
+        $productNormalizer->normalize(
+            Argument::type('\Pim\Bundle\CatalogBundle\Model\Product'),
+            'MagentoArray',
+            Argument::type('array')
+        )->shouldBeCalled();
 
         $this->process($product);
     }
@@ -208,43 +221,13 @@ class ProductProcessorSpec extends ObjectBehavior
 
         $metricConverter->convert($product, $channel)->shouldBeCalled();
 
-        $productNormalizer->normalize(Argument::type('\Pim\Bundle\CatalogBundle\Model\Product'), 'MagentoArray', Argument::type('array'))->shouldBeCalled();
+        $productNormalizer->normalize(
+            Argument::type('\Pim\Bundle\CatalogBundle\Model\Product'),
+            'MagentoArray',
+            Argument::type('array')
+        )->shouldBeCalled();
 
         $this->process($product);
-    }
-
-    function it_throws_an_exception_if_family_has_changed_of_the_product(
-        $webservice,
-        $attributeMappingMerger,
-        $categoryMappingMerger,
-        $productNormalizer,
-        $mappingCollection,
-        Product $product,
-        Family $family,
-        MetricConverter $metricConverter,
-        AbstractAttribute $skuAttribute,
-        ProductValue $sku
-    ) {
-        $categoryMappingMerger->getMapping()->willReturn($mappingCollection);
-        $attributeMappingMerger->getMapping()->willReturn($mappingCollection);
-
-        $product->getFamily()->shouldBeCalled()->willReturn($family);
-        $family->getCode()->shouldBeCalled()->willReturn('family_code');
-
-        $webservice->getAttributeSetId('family_code')->shouldBeCalled()->willReturn('5');
-
-        $product->getIdentifier()->shouldBeCalled()->willReturn($sku);
-        $sku->getData()->willReturn('sku-000');
-        $sku->getAttribute()->willReturn($skuAttribute);
-        $skuAttribute->getCode()->willReturn('SKU');
-        $product->getId()->willReturn(12);
-        $product->getLabel()->willReturn('my product');
-
-        $metricConverter->convert(Argument::cetera())->shouldNotBeCalled();
-
-        $productNormalizer->normalize(Argument::cetera())->shouldNotBeCalled();
-
-        $this->shouldThrow('\Akeneo\Bundle\BatchBundle\Item\InvalidItemException')->duringProcess($product);
     }
 
     function it_throws_an_exception_if_something_went_wrong_during_normalization(
@@ -253,6 +236,7 @@ class ProductProcessorSpec extends ObjectBehavior
         $categoryMappingMerger,
         $productNormalizer,
         $mappingCollection,
+        EventDispatcher $eventDispatcher,
         Product $product,
         Channel $channel,
         Family $family,
@@ -278,14 +262,20 @@ class ProductProcessorSpec extends ObjectBehavior
 
         $metricConverter->convert($product, $channel)->shouldBeCalled();
 
-        $productNormalizer->normalize(
-            Argument::type('\Pim\Bundle\CatalogBundle\Model\Product'),
-            'MagentoArray',
-            Argument::type('array')
-        )
-        ->shouldBeCalled()
-        ->willThrow('\Pim\Bundle\MagentoConnectorBundle\Normalizer\Exception\NormalizeException');
+        $productNormalizer
+            ->normalize(
+                Argument::type('\Pim\Bundle\CatalogBundle\Model\Product'),
+                'MagentoArray',
+                Argument::type('array')
+            )
+            ->shouldBeCalled()
+            ->willThrow('\Pim\Bundle\MagentoConnectorBundle\Normalizer\Exception\NormalizeException');
 
-        $this->shouldThrow('\Akeneo\Bundle\BatchBundle\Item\InvalidItemException')->duringProcess($product);
+        $eventDispatcher->dispatch(
+            EventInterface::INVALID_ITEM,
+            Argument::type('Akeneo\Bundle\BatchBundle\Event\InvalidItemEvent')
+        )->shouldBeCalled();
+
+        $this->process($product);
     }
 }

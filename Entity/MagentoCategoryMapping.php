@@ -13,29 +13,19 @@ use Pim\Bundle\CatalogBundle\Model\CategoryInterface;
  */
 class MagentoCategoryMapping
 {
-    /**
-     * @var integer
-     */
+    /** @var integer */
     protected $id;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $magentoUrl;
 
-    /**
-     * @var integer
-     */
+    /** @var integer */
     protected $magentoCategoryId;
 
-    /**
-     * @var CategoryInterface
-     */
+    /** @var CategoryInterface */
     protected $category;
 
     /**
-     * Get id
-     *
      * @return integer
      */
     public function getId()
@@ -44,8 +34,6 @@ class MagentoCategoryMapping
     }
 
     /**
-     * Set magentoUrl
-     *
      * @param string $magentoUrl
      *
      * @return MagentoCategoryMapping
@@ -58,8 +46,6 @@ class MagentoCategoryMapping
     }
 
     /**
-     * Get magentoUrl
-     *
      * @return string
      */
     public function getMagentoUrl()
@@ -68,8 +54,6 @@ class MagentoCategoryMapping
     }
 
     /**
-     * Set magentoCategoryId
-     *
      * @param string $magentoCategoryId
      *
      * @return MagentoCategoryMapping
@@ -82,8 +66,6 @@ class MagentoCategoryMapping
     }
 
     /**
-     * Get magentoCategoryId
-     *
      * @return string
      */
     public function getMagentoCategoryId()
@@ -92,8 +74,6 @@ class MagentoCategoryMapping
     }
 
     /**
-     * Set category
-     *
      * @param CategoryInterface $category
      *
      * @return MagentoCategoryMapping
@@ -106,8 +86,6 @@ class MagentoCategoryMapping
     }
 
     /**
-     * Get category
-     *
      * @return CategoryInterface
      */
     public function getCategory()

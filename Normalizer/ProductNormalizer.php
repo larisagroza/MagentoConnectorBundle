@@ -10,7 +10,7 @@ use Pim\Bundle\MagentoConnectorBundle\Webservice\Webservice;
 use Pim\Bundle\MagentoConnectorBundle\Manager\CategoryMappingManager;
 use Pim\Bundle\MagentoConnectorBundle\Manager\AssociationTypeManager;
 use Pim\Bundle\MagentoConnectorBundle\Normalizer\Exception\CategoryNotFoundException;
-use Pim\Bundle\ConnectorMappingBundle\Mapper\MappingCollection;
+use Pim\Bundle\MagentoConnectorBundle\Mapper\MappingCollection;
 use Gedmo\Sluggable\Util\Urlizer;
 
 /**
@@ -37,9 +37,7 @@ class ProductNormalizer extends AbstractNormalizer implements ProductNormalizerI
      */
     protected $visibility;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $currencyCode;
 
     /**
@@ -114,7 +112,9 @@ class ProductNormalizer extends AbstractNormalizer implements ProductNormalizerI
             $context['attributeCodeMapping'],
             $context['pimGrouped'],
             $context['create'],
-            $context['defaultStoreView']
+            $context['defaultStoreView'],
+            $context['urlKey'],
+            $context['skuFirst']
         );
 
         $images = $this->getNormalizedImages(
@@ -148,14 +148,16 @@ class ProductNormalizer extends AbstractNormalizer implements ProductNormalizerI
                     $context['categoryMapping'],
                     $context['attributeCodeMapping'],
                     true,
-                    $context['pimGrouped']
+                    $context['pimGrouped'],
+                    $context['urlKey'],
+                    $context['skuFirst']
                 );
 
                 $processedItem[$storeView['code']] = [
                     (string) $object->getIdentifier(),
                     $values,
                     $storeView['code'],
-                    'sku'
+                    'sku',
                 ];
             } else {
                 if ($locale->getCode() !== $context['defaultLocale']) {
@@ -211,7 +213,7 @@ class ProductNormalizer extends AbstractNormalizer implements ProductNormalizerI
                         'file' => [
                             'name'    => $data->getFilename(),
                             'content' => $imageData,
-                            'mime'    => $data->getMimeType()
+                            'mime'    => $data->getMimeType(),
                         ],
                         'label'    => $data->getFilename(),
                         'position' => 0,
@@ -219,7 +221,7 @@ class ProductNormalizer extends AbstractNormalizer implements ProductNormalizerI
                         'exclude'  => 0
                     ],
                     0,
-                    'sku'
+                    'sku',
                 ];
             }
         }
@@ -241,7 +243,9 @@ class ProductNormalizer extends AbstractNormalizer implements ProductNormalizerI
      * @param MappingCollection $attributeMapping         Attribute mapping
      * @param string            $pimGrouped               Pim grouped association code
      * @param bool              $create                   Is it a creation ?
-     * @param array             $context                  Context
+     * @param string            $defaultStoreValue        Default store value
+     * @param boolean           $urlKey                   Product url key
+     * @param boolean           $skuFirst                 Is sku first in url key?
      *
      * @return array The default product data
      */
@@ -257,7 +261,9 @@ class ProductNormalizer extends AbstractNormalizer implements ProductNormalizerI
         MappingCollection $attributeMapping,
         $pimGrouped,
         $create,
-        $defaultStoreValue
+        $defaultStoreValue,
+        $urlKey = false,
+        $skuFirst = false
     ) {
         $sku           = (string) $product->getIdentifier();
         $defaultValues = $this->getValues(
@@ -269,7 +275,9 @@ class ProductNormalizer extends AbstractNormalizer implements ProductNormalizerI
             $categoryMapping,
             $attributeMapping,
             false,
-            $pimGrouped
+            $pimGrouped,
+            $urlKey,
+            $skuFirst
         );
 
         $defaultValues['websites'] = [$website];
@@ -287,14 +295,14 @@ class ProductNormalizer extends AbstractNormalizer implements ProductNormalizerI
                 $attributeSetId,
                 $sku,
                 $defaultValues,
-                $defaultStoreValue
+                $defaultStoreValue,
             ];
         } else {
             $defaultProduct = [
                 $sku,
                 $defaultValues,
                 $defaultStoreValue,
-                'sku'
+                'sku',
             ];
         }
 
@@ -322,11 +330,13 @@ class ProductNormalizer extends AbstractNormalizer implements ProductNormalizerI
      * @param array             $magentoAttributes        Attribute list from Magento
      * @param array             $magentoAttributesOptions Attribute options list from Magento
      * @param string            $localeCode               The locale to apply
-     * @param string            $scopeCode                The akeneo scope
+     * @param string            $scopeCode                The Akeneo scope
      * @param MappingCollection $categoryMapping          Root category mapping
      * @param MappingCollection $attributeCodeMapping     Attribute mapping
      * @param boolean           $onlyLocalized            If true, only get translatable attributes
      * @param string            $pimGrouped               Pim grouped association code
+     * @param boolean           $urlKey                   Product url key
+     * @param boolean           $skuFirst                 Is sku first in url key?
      *
      * @return array Computed data
      */
@@ -339,7 +349,9 @@ class ProductNormalizer extends AbstractNormalizer implements ProductNormalizerI
         MappingCollection $categoryMapping,
         MappingCollection $attributeCodeMapping,
         $onlyLocalized,
-        $pimGrouped = null
+        $pimGrouped = null,
+        $urlKey = false,
+        $skuFirst = false
     ) {
         $normalizedValues = [];
 
@@ -351,7 +363,7 @@ class ProductNormalizer extends AbstractNormalizer implements ProductNormalizerI
             'magentoAttributes'        => $magentoAttributes,
             'magentoAttributesOptions' => $magentoAttributesOptions,
             'attributeCodeMapping'     => $attributeCodeMapping,
-            'currencyCode'             => $this->currencyCode
+            'currencyCode'             => $this->currencyCode,
         ];
 
         foreach ($product->getValues() as $value) {
@@ -369,7 +381,14 @@ class ProductNormalizer extends AbstractNormalizer implements ProductNormalizerI
             $this->getCustomValue(
                 $product,
                 $attributeCodeMapping,
-                ['categoryMapping' => $categoryMapping, 'scopeCode' => $scopeCode, 'localeCode' => $localeCode, 'pimGrouped' => $pimGrouped]
+                [
+                    'categoryMapping' => $categoryMapping,
+                    'scopeCode'       => $scopeCode,
+                    'localeCode'      => $localeCode,
+                    'pimGrouped'      => $pimGrouped,
+                    'urlKey'          => $urlKey,
+                    'skuFirst'        => $skuFirst,
+                ]
             )
         );
 
@@ -403,7 +422,7 @@ class ProductNormalizer extends AbstractNormalizer implements ProductNormalizerI
                 if (!$magentoCategoryId) {
                     throw new CategoryNotFoundException(
                         sprintf(
-                            'The category %s was not found. Please export categories first or add it to the root ' .
+                            'The category %s was not found. Please export categories first or add it to the root '.
                             'category mapping',
                             $category->getLabel()
                         )
@@ -438,14 +457,7 @@ class ProductNormalizer extends AbstractNormalizer implements ProductNormalizerI
             $visibility = $this->visibility;
         }
 
-        return [
-            strtolower($attributeCodeMapping->getTarget(self::URL_KEY))    =>
-                $this->generateUrlKey(
-                    $product,
-                    $attributeCodeMapping,
-                    $parameters['localeCode'],
-                    $parameters['scopeCode']
-                ),
+        $customValue = [
             strtolower($attributeCodeMapping->getTarget(self::VISIBILITY)) => $visibility,
             strtolower($attributeCodeMapping->getTarget(self::ENABLED))    => (string) ($this->enabled) ? 1 : 2,
             strtolower($attributeCodeMapping->getTarget('created_at'))     => $product->getCreated()
@@ -458,6 +470,18 @@ class ProductNormalizer extends AbstractNormalizer implements ProductNormalizerI
                 $parameters['scopeCode']
             )
         ];
+
+        if (false === $parameters['urlKey']) {
+            $customValue[strtolower($attributeCodeMapping->getTarget(self::URL_KEY))] = $this->generateUrlKey(
+                $product,
+                $attributeCodeMapping,
+                $parameters['localeCode'],
+                $parameters['scopeCode'],
+                $parameters['skuFirst']
+            );
+        }
+
+        return $customValue;
     }
 
     /**
@@ -488,6 +512,7 @@ class ProductNormalizer extends AbstractNormalizer implements ProductNormalizerI
      * @param MappingCollection $attributeCodeMapping
      * @param string            $localeCode
      * @param string            $scopeCode
+     * @param boolean           $skuFirst
      *
      * @return string
      */
@@ -495,14 +520,19 @@ class ProductNormalizer extends AbstractNormalizer implements ProductNormalizerI
         ProductInterface $product,
         MappingCollection $attributeCodeMapping,
         $localeCode,
-        $scopeCode
+        $scopeCode,
+        $skuFirst = false
     ) {
         $identifier = $product->getIdentifier();
         $nameAttribute = $attributeCodeMapping->getSource(self::NAME);
 
         $name = $product->getValue($nameAttribute, $localeCode, $scopeCode);
 
-        $url = Urlizer::urlize($name . '-' . $identifier);
+        if (false === $skuFirst) {
+            $url = Urlizer::urlize($name . '-' . $identifier);
+        } else {
+            $url = Urlizer::urlize($identifier . '-' . $name);
+        }
 
         return $url;
     }

@@ -147,7 +147,7 @@ class MagentoSoapClientParameters
      */
     public function getSoapUrl()
     {
-        return $this->magentoUrl . $this->wsdlUrl;
+        return $this->magentoUrl.$this->wsdlUrl;
     }
 
     /**

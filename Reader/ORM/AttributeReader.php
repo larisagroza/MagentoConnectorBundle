@@ -6,7 +6,7 @@ use Pim\Bundle\BaseConnectorBundle\Reader\ORM\EntityReader;
 use Pim\Bundle\CatalogBundle\Model\AbstractAttribute;
 use Doctrine\ORM\EntityManager;
 use Pim\Bundle\MagentoConnectorBundle\Merger\MagentoMappingMerger;
-use Pim\Bundle\ConnectorMappingBundle\Mapper\MappingCollection;
+use Pim\Bundle\MagentoConnectorBundle\Mapper\MappingCollection;
 
 /**
  * ORM reader for product
@@ -24,9 +24,7 @@ class AttributeReader extends EntityReader
      */
     protected $attributeCodeMappingMerger;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $attributeCodeMapping = '';
 
     /**

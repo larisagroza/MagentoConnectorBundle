@@ -1,12 +1,13 @@
 parameters:
     pim_magento_connector.mapper.magento_attribute_code.class: Pim\Bundle\MagentoConnectorBundle\Mapper\MagentoAttributeCodeMapper
-    pim_magento_connector.mapper.magento_storeview.class: Pim\Bundle\MagentoConnectorBundle\Mapper\MagentoStoreViewMapper
-    pim_magento_connector.mapper.magento_category.class: Pim\Bundle\MagentoConnectorBundle\Mapper\MagentoCategoryMapper
-    pim_magento_connector.mapper.magento_attribute_id.class: Pim\Bundle\MagentoConnectorBundle\Mapper\MagentoAttributeIdMapper
-    pim_magento_connector.mapper.orm_attribute_code.class: Pim\Bundle\MagentoConnectorBundle\Mapper\ORMAttributeCodeMapper
-    pim_magento_connector.mapper.orm_storeview.class: Pim\Bundle\MagentoConnectorBundle\Mapper\ORMStoreViewMapper
-    pim_magento_connector.mapper.orm_category.class: Pim\Bundle\MagentoConnectorBundle\Mapper\ORMCategoryMapper
+    pim_magento_connector.mapper.magento_storeview.class:      Pim\Bundle\MagentoConnectorBundle\Mapper\MagentoStoreViewMapper
+    pim_magento_connector.mapper.magento_category.class:       Pim\Bundle\MagentoConnectorBundle\Mapper\MagentoCategoryMapper
+    pim_magento_connector.mapper.magento_attribute_id.class:   Pim\Bundle\MagentoConnectorBundle\Mapper\MagentoAttributeIdMapper
+    pim_magento_connector.mapper.orm_attribute_code.class:     Pim\Bundle\MagentoConnectorBundle\Mapper\ORMAttributeCodeMapper
+    pim_magento_connector.mapper.orm_storeview.class:          Pim\Bundle\MagentoConnectorBundle\Mapper\ORMStoreViewMapper
+    pim_magento_connector.mapper.orm_category.class:           Pim\Bundle\MagentoConnectorBundle\Mapper\ORMCategoryMapper
     pim_magento_connector.mapper.orm_exported_attribute.class: Pim\Bundle\MagentoConnectorBundle\Mapper\ORMExportedAttributeMapper
+    pim_magento_connector.mapper.orm.class:                    Pim\Bundle\MagentoConnectorBundle\Mapper\ORMMapper
 
 services:
     pim_magento_connector.mapper.magento_attribute_code:
@@ -14,16 +15,19 @@ services:
         arguments:
             - '@pim_magento_connector.validator.has_valid_credentials'
             - '@pim_magento_connector.guesser.magento_webservice'
+
     pim_magento_connector.mapper.magento_attribute_id:
         class: %pim_magento_connector.mapper.magento_attribute_id.class%
         arguments:
             - '@pim_magento_connector.validator.has_valid_credentials'
             - '@pim_magento_connector.guesser.magento_webservice'
+
     pim_magento_connector.mapper.magento_storeview:
         class: %pim_magento_connector.mapper.magento_storeview.class%
         arguments:
             - '@pim_magento_connector.validator.has_valid_credentials'
             - '@pim_magento_connector.guesser.magento_webservice'
+
     pim_magento_connector.mapper.magento_category:
         class: %pim_magento_connector.mapper.magento_category.class%
         arguments:
@@ -34,23 +38,26 @@ services:
         class: %pim_magento_connector.mapper.orm_attribute_code.class%
         arguments:
             - '@pim_magento_connector.validator.has_valid_credentials'
-            - '@pim_connector_mapping.manager.simple_mapping'
+            - '@pim_magento_connector.manager.simple_mapping'
             - 'attribute'
             - '@pim_magento_connector.manager.attribute'
+
     pim_magento_connector.mapper.orm_storeview:
         class: %pim_magento_connector.mapper.orm_storeview.class%
         arguments:
             - '@pim_magento_connector.validator.has_valid_credentials'
-            - '@pim_connector_mapping.manager.simple_mapping'
+            - '@pim_magento_connector.manager.simple_mapping'
             - 'storeview'
             - '@pim_magento_connector.manager.locale'
+
     pim_magento_connector.mapper.orm_category:
         class: %pim_magento_connector.mapper.orm_category.class%
         arguments:
             - '@pim_magento_connector.validator.has_valid_credentials'
-            - '@pim_connector_mapping.manager.simple_mapping'
+            - '@pim_magento_connector.manager.simple_mapping'
             - 'category'
             - '@pim_catalog.manager.category'
+
     pim_magento_connector.mapper.orm_exported_attribute:
         class: %pim_magento_connector.mapper.orm_exported_attribute.class%
         arguments:
@@ -58,3 +65,9 @@ services:
             - '@pim_magento_connector.manager.attribute_mapping'
             - '@pim_magento_connector.merger.attribute_code_mapping'
             - 'attribute_id'
+
+    pim_magento_connector.mapper.orm_product:
+        class: %pim_magento_connector.mapper.orm.class%
+        arguments:
+            - '@pim_magento_connector.manager.simple_mapping'
+            - 'product'

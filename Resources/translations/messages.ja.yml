@@ -1,12 +1,9 @@
 pim_magento_connector:
     jobs:
         product_export.title: Magentoに商品をエクスポート
-        product_delta_export.title: 商品の差分エクスポート
+        product_export_delta.title: 商品の差分エクスポート
         category_export.title: Magentoにカテゴリをエクスポート
-        option_export.title: Magentoにオプションをエクスポート
-        attribute_export.title: Magentoに属性をエクスポート
-        attributeset_export.title: Magentoにファミリーをエクスポート
-        full_export.title: Magentoに商品以外をエクスポート
+        attribute_export.title: Magentoに商品以外をエクスポート
     steps:
         simple_product_export.export.title: シンプル商品をエクスポート
         configurable_product_export.export.title: コンフィグ商品をエクスポート
@@ -128,4 +125,3 @@ pim_magento_connector:
         thumbnailAttribute:
             label: サムネイル画像属性
             help: Magentoのサムネイル画像に対応するAkeneo上の画像を選択してください
-

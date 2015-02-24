@@ -7,6 +7,7 @@ use Pim\Bundle\MagentoConnectorBundle\Manager\CategoryMappingManager;
 use Akeneo\Bundle\BatchBundle\Item\InvalidItemException;
 use Pim\Bundle\MagentoConnectorBundle\Webservice\SoapCallException;
 use Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClientParametersRegistry;
+use Pim\Bundle\MagentoConnectorBundle\Webservice\Webservice;
 
 /**
  * Magento category writer
@@ -89,12 +90,28 @@ class CategoryWriter extends AbstractWriter
     protected function handleUpdateCategory(array $batch)
     {
         if (isset($batch['update'])) {
-            foreach ($batch['update'] as $updateCategory) {
-                $this->webservice->sendUpdateCategory($updateCategory);
+            foreach ($batch['update'] as $categoryToUpdate) {
+                $this->webservice->sendUpdateCategory($categoryToUpdate);
+
+                $storeViewList = $this->webservice->getStoreViewsList();
+                if (count($storeViewList) > 1) {
+                    $this->updateAdminStoreView($categoryToUpdate);
+                }
 
                 $this->stepExecution->incrementSummaryInfo('category_updated');
             }
         }
+    }
+
+    /**
+     * Update category in admin store view
+     *
+     * @param array $categoryToUpdate
+     */
+    protected function updateAdminStoreView(array $categoryToUpdate)
+    {
+        $categoryToUpdate[2] = Webservice::ADMIN_STOREVIEW;
+        $this->webservice->sendUpdateCategory($categoryToUpdate);
     }
 
     /**

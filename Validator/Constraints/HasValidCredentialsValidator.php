@@ -4,7 +4,6 @@ namespace Pim\Bundle\MagentoConnectorBundle\Validator\Constraints;
 
 use Symfony\Component\Validator\Constraint;
 use Symfony\Component\Validator\ConstraintValidator;
-
 use Pim\Bundle\MagentoConnectorBundle\Guesser\WebserviceGuesser;
 use Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClientParametersRegistry;
 use Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClientParameters;
@@ -75,7 +74,7 @@ class HasValidCredentialsValidator extends ConstraintValidator
     public function validate($protocol, Constraint $constraint)
     {
         if (!$protocol instanceof MagentoItemStep) {
-            return null;
+            return;
         }
 
         $clientParameters = $this->clientParametersRegistry->getInstance(
@@ -99,13 +98,13 @@ class HasValidCredentialsValidator extends ConstraintValidator
                 $clientParameters->setValidation(false);
                 $this->context->addViolationAt(
                     'wsdlUrl',
-                    $constraint->messageUrlNotReachable . ' "' . $e->getMessage() . '"'
+                    $constraint->messageUrlNotReachable.' "'.$e->getMessage().'"'
                 );
             } catch (InvalidSoapUrlException $e) {
                 $clientParameters->setValidation(false);
                 $this->context->addViolationAt(
                     'wsdlUrl',
-                    $constraint->messageSoapNotValid . ' "' . $e->getMessage() . '"'
+                    $constraint->messageSoapNotValid.' "'.$e->getMessage().'"'
                 );
             } catch (InvalidXmlException $e) {
                 $clientParameters->setValidation(false);

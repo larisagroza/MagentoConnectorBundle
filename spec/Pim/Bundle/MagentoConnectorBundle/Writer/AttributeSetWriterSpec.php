@@ -2,16 +2,15 @@
 
 namespace spec\Pim\Bundle\MagentoConnectorBundle\Writer;
 
+use Akeneo\Bundle\BatchBundle\Entity\StepExecution;
+use PhpSpec\ObjectBehavior;
+use Pim\Bundle\CatalogBundle\Entity\Family;
 use Pim\Bundle\MagentoConnectorBundle\Guesser\WebserviceGuesser;
 use Pim\Bundle\MagentoConnectorBundle\Manager\AttributeMappingManager;
 use Pim\Bundle\MagentoConnectorBundle\Manager\FamilyMappingManager;
-use Pim\Bundle\MagentoConnectorBundle\Webservice\Webservice;
 use Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClientParameters;
 use Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClientParametersRegistry;
-use Pim\Bundle\CatalogBundle\Entity\Family;
-use Akeneo\Bundle\BatchBundle\Entity\StepExecution;
-
-use PhpSpec\ObjectBehavior;
+use Pim\Bundle\MagentoConnectorBundle\Webservice\Webservice;
 use Prophecy\Argument;
 
 class AttributeSetWriterSpec extends ObjectBehavior
@@ -25,10 +24,17 @@ class AttributeSetWriterSpec extends ObjectBehavior
         MagentoSoapClientParametersRegistry $clientParametersRegistry,
         MagentoSoapClientParameters $clientParameters
     ) {
-        $clientParametersRegistry->getInstance(null, null, null, '/api/soap/?wsdl', 'default', null, null)->willReturn($clientParameters);
+        $clientParametersRegistry->getInstance(null, null, null, '/api/soap/?wsdl', 'default', null, null)->willReturn(
+            $clientParameters
+        );
         $webserviceGuesser->getWebservice($clientParameters)->willReturn($webservice);
 
-        $this->beConstructedWith($webserviceGuesser, $familyMappingManager, $attributeMappingManager, $clientParametersRegistry);
+        $this->beConstructedWith(
+            $webserviceGuesser,
+            $familyMappingManager,
+            $attributeMappingManager,
+            $clientParametersRegistry
+        );
         $this->setStepExecution($stepExecution);
     }
 
@@ -40,10 +46,10 @@ class AttributeSetWriterSpec extends ObjectBehavior
         $batches = [
             [
                 'families_to_create' => [
-                    'attributeSetName' => 'family_code'
+                    'attributeSetName' => 'family_code',
                 ],
-                'family_object' => $family,
-            ]
+                'family_object'      => $family,
+            ],
         ];
 
         $webservice->createAttributeSet('family_code')->willReturn(12);
@@ -64,15 +70,19 @@ class AttributeSetWriterSpec extends ObjectBehavior
         $batches = [
             [
                 'families_to_create' => [
-                    'attributeSetName' => 'family_code'
+                    'attributeSetName' => 'family_code',
                 ],
-                'family_object' => $family,
-            ]
+                'family_object'      => $family,
+            ],
         ];
 
-        $webservice->createAttributeSet('family_code')->willThrow('\Pim\Bundle\MagentoConnectorBundle\Webservice\SoapCallException');
+        $webservice
+            ->createAttributeSet('family_code')
+            ->willThrow(
+                '\Pim\Bundle\MagentoConnectorBundle\Webservice\SoapCallException'
+            );
         $familyMappingManager->registerFamilyMapping(Argument::cetera())->shouldNotBeCalled();
-        $stepExecution->incrementSummaryInfo('Family already in magento')->shouldBeCalled();
+        $stepExecution->incrementSummaryInfo('family_exists')->shouldBeCalled();
 
         $this->write($batches);
     }

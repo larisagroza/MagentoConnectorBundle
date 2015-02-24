@@ -169,7 +169,6 @@ class ProductCleaner extends Cleaner
      */
     protected function getExportedProductsSkus()
     {
-
         return $this->productManager->getProductRepository()
             ->buildByChannelAndCompleteness($this->channelManager->getChannelByCode($this->channel))
             ->select('Value.varchar as sku')

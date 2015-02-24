@@ -13,29 +13,19 @@ use Pim\Bundle\CatalogBundle\Model\AbstractAttribute;
  */
 class MagentoAttributeMapping
 {
-    /**
-     * @var integer
-     */
+    /** @var integer */
     protected $id;
 
-    /**
-     * @var string
-     */
+    /** @var string */
     protected $magentoUrl;
 
-    /**
-     * @var integer
-     */
+    /** @var integer */
     protected $magentoAttributeId;
 
-    /**
-     * @var AbstractAttribute
-     */
+    /** @var AbstractAttribute */
     protected $attribute;
 
     /**
-     * Get id
-     *
      * @return integer
      */
     public function getId()
@@ -44,8 +34,6 @@ class MagentoAttributeMapping
     }
 
     /**
-     * Set magento url
-     *
      * @param string $magentoUrl
      *
      * @return MagentoAttributeMapping
@@ -58,8 +46,6 @@ class MagentoAttributeMapping
     }
 
     /**
-     * Get magento url
-     *
      * @return string
      */
     public function getMagentoUrl()
@@ -68,8 +54,6 @@ class MagentoAttributeMapping
     }
 
     /**
-     * Set magento attribute id
-     *
      * @param string $magentoAttributeId
      *
      * @return MagentoAttributeMapping
@@ -82,8 +66,6 @@ class MagentoAttributeMapping
     }
 
     /**
-     * Get magento attribute id
-     *
      * @return string
      */
     public function getMagentoAttributeId()
@@ -92,8 +74,6 @@ class MagentoAttributeMapping
     }
 
     /**
-     * Set attribute
-     *
      * @param AbstractAttribute $attribute
      *
      * @return MagentoAttributeMapping
@@ -106,8 +86,6 @@ class MagentoAttributeMapping
     }
 
     /**
-     * Get attribute
-     *
      * @return AbstractAttribute
      */
     public function getAttribute()

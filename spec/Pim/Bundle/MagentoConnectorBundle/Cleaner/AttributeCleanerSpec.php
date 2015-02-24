@@ -8,7 +8,7 @@ use Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClientParametersRegi
 use Pim\Bundle\MagentoConnectorBundle\Webservice\Webservice;
 use Doctrine\ORM\EntityManager;
 use Pim\Bundle\MagentoConnectorBundle\Merger\MagentoMappingMerger;
-use Pim\Bundle\ConnectorMappingBundle\Mapper\MappingCollection;
+use Pim\Bundle\MagentoConnectorBundle\Mapper\MappingCollection;
 use Doctrine\ORM\EntityRepository;
 use Pim\Bundle\CatalogBundle\Entity\Attribute;
 use Akeneo\Bundle\BatchBundle\Entity\StepExecution;
@@ -149,45 +149,45 @@ class AttributeCleanerSpec extends ObjectBehavior
                     'options' => [
                         'required' => true,
                         'help'     => 'pim_magento_connector.export.soapUsername.help',
-                        'label'    => 'pim_magento_connector.export.soapUsername.label'
-                    ]
+                        'label'    => 'pim_magento_connector.export.soapUsername.label',
+                    ],
                 ],
                 'soapApiKey'   => [
                     'type'    => 'text',
                     'options' => [
                         'required' => true,
                         'help'     => 'pim_magento_connector.export.soapApiKey.help',
-                        'label'    => 'pim_magento_connector.export.soapApiKey.label'
-                    ]
+                        'label'    => 'pim_magento_connector.export.soapApiKey.label',
+                    ],
                 ],
                 'magentoUrl' => [
                     'options' => [
                         'required' => true,
                         'help'     => 'pim_magento_connector.export.magentoUrl.help',
-                        'label'    => 'pim_magento_connector.export.magentoUrl.label'
-                    ]
+                        'label'    => 'pim_magento_connector.export.magentoUrl.label',
+                    ],
                 ],
                 'wsdlUrl' => [
                     'options' => [
                         'required' => true,
                         'help'     => 'pim_magento_connector.export.wsdlUrl.help',
                         'label'    => 'pim_magento_connector.export.wsdlUrl.label',
-                        'data'     => MagentoSoapClientParameters::SOAP_WSDL_URL
-                    ]
+                        'data'     => MagentoSoapClientParameters::SOAP_WSDL_URL,
+                    ],
                 ],
                 'httpLogin' => [
                     'options' => [
                         'required' => false,
                         'help'     => 'pim_magento_connector.export.httpLogin.help',
-                        'label'    => 'pim_magento_connector.export.httpLogin.label'
-                    ]
+                        'label'    => 'pim_magento_connector.export.httpLogin.label',
+                    ],
                 ],
                 'httpPassword' => [
                     'options' => [
                         'required' => false,
                         'help'     => 'pim_magento_connector.export.httpPassword.help',
-                        'label'    => 'pim_magento_connector.export.httpPassword.label'
-                    ]
+                        'label'    => 'pim_magento_connector.export.httpPassword.label',
+                    ],
                 ],
                 'defaultStoreView' => [
                     'options' => [
@@ -195,24 +195,24 @@ class AttributeCleanerSpec extends ObjectBehavior
                         'help'     => 'pim_magento_connector.export.defaultStoreView.help',
                         'label'    => 'pim_magento_connector.export.defaultStoreView.label',
                         'data'     => $this->getDefaultStoreView(),
-                    ]
+                    ],
                 ],
                 'notInPimAnymoreAction' => [
                     'type'    => 'choice',
                     'options' => [
                         'choices'  => [
                             'do_nothing' => 'pim_magento_connector.export.do_nothing.label',
-                            'delete'     => 'pim_magento_connector.export.delete.label'
+                            'delete'     => 'pim_magento_connector.export.delete.label',
                         ],
                         'required' => true,
                         'help'     => 'pim_magento_connector.export.notInPimAnymoreAction.help',
                         'label'    => 'pim_magento_connector.export.notInPimAnymoreAction.label',
                         'attr' => [
-                            'class' => 'select2'
-                        ]
-                    ]
+                            'class' => 'select2',
+                        ],
+                    ],
                 ],
-                'attributeMapping' => []
+                'attributeMapping' => [],
             ]
         );
     }

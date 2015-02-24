@@ -1,6 +1,37 @@
-# 1.1.18 (2015-02-xx)
+# 1.2.0
+## New feature
+ - Delta Export is directly integrated in MagentoConnector (DeltaExportBundle is now deprecated)
+ - Connector Mapping is directly integrated in MagentoConnector (ConnectorMappingBundle is now deprecated)
+ - Attribute, Category, Family and Option normalizers are now in the DI
+ - Category export only create/update categories from the exported channel
+ - Make it compatible with EE-1.11 and EE-1.12
+ - Add a log to profile calls to Magento
+
+## BC Breaks
+ - All DeltaExportBundle dependencies should be replaced by MagentoConnectorBundle ones
+ - All ConnectorMappingBundle dependencies should be replaced by MagentoConnectorBundle ones
+ - Inject AttributeNormalizer, CategoryNormalizer, FamilyNormalizer and OptionNormalizer in the NormalizerGuesser (MC-98)
+ - magento_attribute_export, magento_option_export and magento_attributeset_export has been removed. These jobs are deprecated because they should be launch in a specific order
+ - Categories export step has been removed from structure export
+ - Inject ChannelManager inside CategoryReader
+ - CategoryRepository::findOrderCategories takes a CategoryInterface
+
+# 1.1.20 (2015-02-20)
+## Bug fixes
+ - Update product and category url keys in admin store view when multiple magento store views are used.
+
+# 1.1.19 (2015-02-20)
 ## New features
- - Add a log to profile calls to Magento.
+ - Add an option to let Magento handle product url keys.
+ - Add an option to add sku first in the product url key.
+
+## Bug fixes
+ - Category url keys are now correctly handled when multiple magento store views are used.
+ - Url key are now send on product update.
+
+# 1.1.18 (2015-02-19)
+## Bug fixes
+ - Remove useless attributes fields in attribute normalizer
 
 # 1.1.17 (2015-02-16)
 ## Bug fixes
