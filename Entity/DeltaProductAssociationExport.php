@@ -20,8 +20,8 @@ class DeltaProductAssociationExport
     /** @var \DateTime */
     protected $lastExport;
 
-    /** @var ProductInterface */
-    protected $product;
+    /** @var string|int */
+    protected $productId;
 
     /** @var JobInstance */
     protected $jobInstance;
@@ -55,23 +55,23 @@ class DeltaProductAssociationExport
     }
 
     /**
-     * @param ProductInterface $product
+     * @param string|int $productId
      *
      * @return DeltaProductAssociationExport
      */
-    public function setProduct(ProductInterface $product = null)
+    public function setProductId($productId)
     {
-        $this->product = $product;
+        $this->productId = $productId;
 
         return $this;
     }
 
     /**
-     * @return ProductInterface
+     * @return string|int
      */
-    public function getProduct()
+    public function getProductId()
     {
-        return $this->product;
+        return $this->productId;
     }
 
     /**
