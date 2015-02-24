@@ -3,12 +3,11 @@
     "type": "symfony-bundle",
     "description": "Akeneo PIM bundle to export to Magento platform",
     "keywords": ["pim", "akeneo", "ecommerce", "e-commerce", "magento", "connector", "soap", "api"],
-    "homepage": "http://akeneo.com",
+    "homepage": "http://www.akeneo.com",
     "license": "OSL-3.0",
     "authors": [
         {
-            "name":     "Julien Sanchez",
-            "email":    "julien@akeneo.com",
+            "name":     "Akeneo",
             "homepage": "http://www.akeneo.com/"
         }
     ],
