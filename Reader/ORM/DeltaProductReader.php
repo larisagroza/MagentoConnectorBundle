@@ -5,7 +5,7 @@ namespace Pim\Bundle\MagentoConnectorBundle\Reader\ORM;
 use Pim\Bundle\BaseConnectorBundle\Reader\Doctrine\ORMProductReader;
 
 /**
- * Delta Published product reader
+ * Delta product reader
  *
  * @author    Romain Monceau <romain@akeneo.com>
  * @copyright 2015 Akeneo SAS (http://www.akeneo.com)
