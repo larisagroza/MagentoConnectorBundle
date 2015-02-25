@@ -59,8 +59,7 @@ class DeltaConfigurableReader extends ORMProductReader
             INNER JOIN pim_catalog_completeness comp
                 ON comp.product_id = p.id AND comp.channel_id = $channelId AND comp.ratio = 100
             INNER JOIN pim_catalog_category_product cp ON p.id = cp.product_id
-            INNER JOIN pim_catalog_category c ON c.id = cp.category_id AND c.discr IN ('category')
-              AND c.root = $treeId
+            INNER JOIN pim_catalog_category c ON c.id = cp.category_id AND c.root = $treeId
 
             INNER JOIN pim_catalog_group_product gp ON gp.product_id = p.id
             INNER JOIN pim_catalog_group g ON g.id = gp.group_id
