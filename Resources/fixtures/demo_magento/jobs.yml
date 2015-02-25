@@ -2,7 +2,7 @@ jobs:
     magento_attribute_export:
         connector: Magento Connector
         alias:     magento_attribute_export
-        label:     Magento magento_attribute_export export
+        label:     Magento attribute export
         type:      export
         configuration:
             channel:               magento
@@ -55,3 +55,28 @@ jobs:
             storeviewMapping:      ''
             categoryMapping:       'default:2'
             notInPimAnymoreAction: 'disable'
+
+    magento_product_export_delta:
+        connector: Magento Connector
+        alias:     magento_product_export_delta
+        label:     Magento product export delta
+        type:      export
+        configuration:
+            channel:                  magento
+            soapUsername:             soap
+            soapApiKey:               magento1
+            magentoUrl:               http://magento.local
+            wsdlUrl:                  /api/soap/?wsdl
+            defaultLocale:            en_US
+            website:                  base
+            enabled:                  true
+            storeviewMapping:         ''
+            visibility:               4
+            currency:                 EUR
+            categoryMapping:          'default:2'
+            pimGrouped:               'PACK'
+            pimUpSell:                'UPSELL'
+            pimCrossSell:             'X_SELL'
+            pimRelated:               'RELATED'
+            notCompleteAnymoreAction: 'disable'
+            notInPimAnymoreAction:    'disable'

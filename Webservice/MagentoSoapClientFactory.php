@@ -11,14 +11,28 @@ namespace Pim\Bundle\MagentoConnectorBundle\Webservice;
  */
 class MagentoSoapClientFactory
 {
+    /* @var MagentoSoapClientProfiler */
+    protected $profiler;
+
     /**
-     * Get a new magento soap client
-     * @param MagentoSoapClientParametersRegistry $clientParameters
+     * Get a new magento soap client.
+     *
+     * @param MagentoSoapClientParameters $clientParameters
      *
      * @return MagentoSoapClient
      */
     public function getMagentoSoapClient(MagentoSoapClientParameters $clientParameters)
     {
-        return new MagentoSoapClient($clientParameters);
+        return new MagentoSoapClient($clientParameters, null, $this->profiler);
+    }
+
+    /**
+     * Set MagentoSoapClientProfiler.
+     *
+     * @param MagentoSoapClientProfiler $profiler
+     */
+    public function setProfiler(MagentoSoapClientProfiler $profiler)
+    {
+        $this->profiler = $profiler;
     }
 }

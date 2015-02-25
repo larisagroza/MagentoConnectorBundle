@@ -5,6 +5,7 @@
  - Attribute, Category, Family and Option normalizers are now in the DI
  - Category export only create/update categories from the exported channel
  - Make it compatible with EE-1.11 and EE-1.12
+ - Add a log to profile calls to Magento
  - MongoDB compliance
 
 ## BC Breaks
@@ -16,7 +17,7 @@
  - Inject ChannelManager inside CategoryReader
  - CategoryRepository::findOrderCategories takes a CategoryInterface
  - pim_base_connector.reader.doctrine.obsoleteproduct, pim_base_connector.reader.doctrine.obsoleteproduct.class, pim_magento_connector.reader.doctrine.product has been removed from readers.yml because they are unused
-
+ - Remove defaultLocale argument from OptionNormalizer::getOptionLabel
  - Rename parameter `pim_magento_connector.reader.orm.delta_product.class` by `pim_magento_connector.reader.delta_product.class`
  - Rename parameter `pim_magento_connector.reader.orm.delta_product_association.class` by `pim_magento_connector.reader.delta_product_association.class`
  - Rename parameter `pim_magento_connector.reader.orm.delta_product.class` by `pim_magento_connector.reader.delta_product.class`
@@ -41,7 +42,7 @@
 # 1.1.17 (2015-02-16)
 ## Bug fixes
  - Prevent error during product creation if sku is a number.
-
+ 
 # 1.1.16 (2015-02-13)
 ## Bug fixes
  - Url_key are now correctly handled when multiple magento store views are used.
