@@ -4,7 +4,7 @@ namespace Pim\Bundle\MagentoConnectorBundle\DependencyInjection;
 
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Loader;
+use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\Config\FileLocator;
 
 /**
@@ -22,9 +22,9 @@ class PimMagentoConnectorExtension extends Extension
     public function load(array $configs, ContainerBuilder $container)
     {
         $configuration = new Configuration();
-        $this->processConfiguration($configuration, $configs);
+        $config = $this->processConfiguration($configuration, $configs);
 
-        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('cleaners.yml');
         $loader->load('entities.yml');
         $loader->load('guessers.yml');
@@ -40,5 +40,11 @@ class PimMagentoConnectorExtension extends Extension
         $loader->load('validators.yml');
         $loader->load('webservices.yml');
         $loader->load('writers.yml');
+
+        $storageDriver = $container->getParameter('pim_catalog_storage_driver');
+        $storageConfig = sprintf('storage_driver/%s.yml', $storageDriver);
+        if (file_exists(__DIR__ . '/../Resources/config/' . $storageConfig)) {
+            $loader->load($storageConfig);
+        }
     }
 }
