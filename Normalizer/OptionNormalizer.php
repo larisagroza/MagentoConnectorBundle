@@ -41,8 +41,7 @@ class OptionNormalizer extends AbstractNormalizer
                     'store_id' => (string) $storeView['store_id'],
                     'value'    => $this->getOptionLabel(
                         $object,
-                        $locale,
-                        $context['defaultLocale']
+                        $locale
                     ),
                 ];
             }
@@ -78,22 +77,13 @@ class OptionNormalizer extends AbstractNormalizer
      * Get option translation for given locale code
      * @param AttributeOption $option
      * @param string          $locale
-     * @param string          $defaultLocale
      *
      * @return mixed
      */
-    protected function getOptionLabel(AttributeOption $option, $locale, $defaultLocale = null)
+    protected function getOptionLabel(AttributeOption $option, $locale)
     {
         $optionValue = $option->setLocale($locale)->getOptionValue();
 
-        if (!$optionValue) {
-            if ($defaultLocale) {
-                return $this->getOptionTranslation($option, $defaultLocale);
-            } else {
-                return $option->getCode();
-            }
-        } else {
-            return $optionValue->getLabel();
-        }
+        return $optionValue ? $optionValue->getLabel() : $option->getCode();
     }
 }
