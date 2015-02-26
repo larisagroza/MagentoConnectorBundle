@@ -1,3 +1,7 @@
+# 1.1.21
+## Bug fixes
+ - Fix mapping management to handle multiple magento environment on the same PIM application installation.
+
 # 1.1.20 (2015-02-20)
 ## Bug fixes
  - Update product and category url keys in admin store view when multiple magento store views are used.

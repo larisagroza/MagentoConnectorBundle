@@ -74,7 +74,8 @@ class AttributeGroupMappingManager
         $groupMapping = $this->getEntityRepository()->findOneBy(
             [
                 'pimGroupCode'  => $pimGroup->getCode(),
-                'pimFamilyCode' => $pimFamily->getCode()
+                'pimFamilyCode' => $pimFamily->getCode(),
+                'magentoUrl'    => $magentoUrl,
             ]
         );
 
