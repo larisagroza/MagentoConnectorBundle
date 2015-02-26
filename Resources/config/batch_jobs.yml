@@ -62,7 +62,7 @@ connector:
                     title:     pim_magento_connector.steps.configurable_product_export.export.title
                     services:
                         reader:    pim_magento_connector.reader.delta_configurable
-                        processor: pim_magento_connector.processor.delta_configurable
+                        processor: pim_magento_connector.processor.configurable
                         writer:    pim_magento_connector.writer.delta_configurable
                     parameters:
                         batch_size: 1

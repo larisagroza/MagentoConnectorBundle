@@ -66,13 +66,10 @@ class DeltaConfigurableReader extends ORMProductReader
             INNER JOIN pim_catalog_group g ON g.id = gp.group_id
             INNER JOIN pim_catalog_group_type gt ON gt.id = g.type_id AND gt.is_variant = 1
 
-            INNER JOIN pim_versioning_version v ON v.resource_id = p.id
-                AND v.resource_name = "Pim\\\\Bundle\\\\CatalogBundle\\\\Model\\\\Product"
-
             LEFT JOIN pim_magento_delta_configurable_export de ON de.product_id = p.id
             LEFT JOIN akeneo_batch_job_instance j ON j.id = de.job_instance_id AND j.id = $jobInstanceId
 
-            WHERE v.logged_at > de.last_export OR de.last_export IS NULL
+            WHERE p.updated > de.last_export OR de.last_export IS NULL
             AND p.is_enabled = 1
 
             GROUP BY p.id
