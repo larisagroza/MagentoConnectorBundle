@@ -1,5 +1,5 @@
 # 1.1.21
-## Bug fixes
+## BC Breaks
  - Fix mapping management to handle multiple magento environment on the same PIM application installation.
 
 # 1.1.20 (2015-02-20)
