@@ -73,7 +73,7 @@ class DeltaProductExportManager
         if ($product) {
             $productExport = $this->productExportRepository->findOneBy(
                 [
-                    'product'     => $product,
+                    'productId'   => $product->getId(),
                     'jobInstance' => $jobInstance,
                 ]
             );
@@ -100,7 +100,7 @@ class DeltaProductExportManager
         if ($product) {
             $productAssoExport = $this->assoExportRepository->findOneBy(
                 [
-                    'product'     => $product,
+                    'productId'     => $product->getId(),
                     'jobInstance' => $jobInstance,
                 ]
             );

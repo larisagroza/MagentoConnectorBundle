@@ -54,7 +54,7 @@ class DeltaConfigurableExportManager
         if ($variantGroup) {
             foreach ($variantGroup->getProducts() as $product) {
                 $deltaConfig = $this->configExportRepository->findOneBy([
-                    'product'     => $product,
+                    'productId'     => $product->getId(),
                     'jobInstance' => $jobInstance
                 ]);
 
