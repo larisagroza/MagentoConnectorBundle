@@ -4,17 +4,16 @@ namespace Pim\Bundle\MagentoConnectorBundle\Purger;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityNotFoundException;
-use Doctrine\ORM\QueryBuilder;
 use Pim\Bundle\ImportExportBundle\Entity\Repository\JobInstanceRepository;
 
 /**
- * Purge mapping from database helper
+ * Purge delta table in terms of job instance
  *
  * @author    Willy Mesnage <willy.mesnage@akeneo.com>
  * @copyright 2015 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class MappingPurger implements PurgerInterface
+class DeltaTablePurger implements PurgerInterface
 {
     /** @var JobInstanceRepository */
     protected $jobInstanceRepository;
@@ -36,9 +35,7 @@ class MappingPurger implements PurgerInterface
     }
 
     /**
-     * Set mapping classes
-     *
-     * @param array $mappingClasses
+     * {@inheritdoc}
      */
     public function setClassesToPurge(array $classesToPurge)
     {
@@ -46,11 +43,7 @@ class MappingPurger implements PurgerInterface
     }
 
     /**
-     * Remove mapping from database
-     *
-     * @param string $jobInstanceCode
-     *
-     * @throws EntityNotFoundException
+     * {@inheritdoc}
      */
     public function purge($jobInstanceCode)
     {
@@ -62,25 +55,24 @@ class MappingPurger implements PurgerInterface
             );
         }
 
-        $rawConfiguration = $jobInstance->getRawConfiguration();
-        $soapUrl = $rawConfiguration['magentoUrl'] . $rawConfiguration['wsdlUrl'];
+        $jobId = $jobInstance->getId();
         foreach ($this->classesToPurge as $class) {
-            $this->purgeMapping($soapUrl, $class);
+            $this->purgeDelta($jobId, $class);
         }
     }
 
     /**
      * Execute purge
      *
-     * @param string $soapUrl
+     * @param int    $id
      * @param string $class
      */
-    protected function purgeMapping($soapUrl, $class)
+    protected function purgeDelta($id, $class)
     {
         $qb = $this->entityManager->createQueryBuilder();
         $qb->delete($class, 'c')
-            ->where($qb->expr()->eq('c.magentoUrl', ':magentoUrl'))
-            ->setParameter(':magentoUrl', $soapUrl)
+            ->where($qb->expr()->eq('c.jobInstance', ':jobInstance'))
+            ->setParameter(':jobInstance', $id)
             ->getQuery()
             ->execute();
     }
