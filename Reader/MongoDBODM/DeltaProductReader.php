@@ -104,9 +104,6 @@ class DeltaProductReader extends ODMProductReader
      */
     protected function needsUpdate(ProductInterface $product)
     {
-        var_dump($product->getId());
-        var_dump($this->stepExecution->getJobExecution()->getJobInstance()->getCode());
-
         $delta = $this->deltaRepository->findOneBy(
             [
                 'productId' => $product->getId(),
