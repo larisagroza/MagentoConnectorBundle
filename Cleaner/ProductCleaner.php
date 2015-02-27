@@ -20,25 +20,20 @@ use Pim\Bundle\MagentoConnectorBundle\Webservice\SoapCallException;
  */
 class ProductCleaner extends Cleaner
 {
+    /** @var string Channel Code */
     protected $channel;
 
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $productTypesNotHandledByPim = [
         AbstractNormalizer::MAGENTO_BUNDLE_PRODUCT_KEY,
         AbstractNormalizer::MAGENTO_DOWNLOADABLE_PRODUCT_KEY,
         AbstractNormalizer::MAGENTO_VIRTUAL_PRODUCT_KEY,
     ];
 
-    /**
-     * @var string
-     */
+    /**  @var string */
     protected $notCompleteAnymoreAction;
 
-    /**
-     * @var boolean
-     */
+    /** @var boolean */
     protected $removeProductsNotHandledByPim;
 
     /**
