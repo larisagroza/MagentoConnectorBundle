@@ -5,7 +5,6 @@ namespace Pim\Bundle\MagentoConnectorBundle\Cleaner;
 use Akeneo\Bundle\BatchBundle\Step\StepExecutionAwareInterface;
 use Akeneo\Bundle\BatchBundle\Entity\StepExecution;
 use Pim\Bundle\MagentoConnectorBundle\Item\MagentoItemStep;
-use Pim\Bundle\MagentoConnectorBundle\Validator\Constraints\HasValidCredentials;
 
 /**
  * Magento item cleaner
@@ -13,8 +12,6 @@ use Pim\Bundle\MagentoConnectorBundle\Validator\Constraints\HasValidCredentials;
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- *
- * @HasValidCredentials()
  */
 abstract class Cleaner extends MagentoItemStep implements StepExecutionAwareInterface
 {
