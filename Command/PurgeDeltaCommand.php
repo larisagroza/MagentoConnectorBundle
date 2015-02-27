@@ -45,7 +45,7 @@ class PurgeDeltaCommand extends ContainerAwareCommand
         try {
             $deltaTablePurger->purge($jobInstanceCode);
             $output->writeln(
-                sprintf('<info>Delta related to "%s" job instance has been purge.<info>', $jobInstanceCode)
+                sprintf('<info>Delta related to "%s" job instance has been purged.<info>', $jobInstanceCode)
             );
         } catch (\Exception $e) {
             $output->writeln(

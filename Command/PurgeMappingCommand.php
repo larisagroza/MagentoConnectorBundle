@@ -45,7 +45,7 @@ class PurgeMappingCommand extends ContainerAwareCommand
         try {
             $mappingPurger->purge($jobInstanceCode);
             $output->writeln(
-                sprintf('<info>Mapping related to "%s" job instance has been purge.<info>', $jobInstanceCode)
+                sprintf('<info>Mapping related to "%s" job instance has been purged.<info>', $jobInstanceCode)
             );
         } catch (\Exception $e) {
             $output->writeln(
