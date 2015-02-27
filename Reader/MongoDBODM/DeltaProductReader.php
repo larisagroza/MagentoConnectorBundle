@@ -13,8 +13,11 @@ use Pim\Bundle\TransformBundle\Converter\MetricConverter;
 
 /**
  * Delta product reader for MongoDB
+ * This class is used for associations too
  *
- * @author Romain Monceau <romain@akeneo.com>
+ * @author    Romain Monceau <romain@akeneo.com>
+ * @copyright 2015 Akeneo SAS (http://www.akeneo.com)
+ * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 class DeltaProductReader extends ODMProductReader
 {
@@ -37,7 +40,7 @@ class DeltaProductReader extends ODMProductReader
         MetricConverter $metricConverter,
         DocumentManager $documentManager,
         $missingCompleteness = true,
-        EntityRepository $deltaRepository = null
+        EntityRepository $deltaRepository
     ) {
         parent::__construct(
             $repository,
