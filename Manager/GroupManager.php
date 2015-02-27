@@ -116,14 +116,4 @@ class GroupManager
     {
         return $this->baseGroupManager->getProductList($group, $maxResults);
     }
-
-    /**
-     * Get the attribute repository
-     *
-     * @return \Pim\Bundle\CatalogBundle\Entity\Repository\AttributeRepository
-     */
-    protected function getAttributeRepository()
-    {
-        return $this->baseGroupManager->getAttributeRepository();
-    }
 }
