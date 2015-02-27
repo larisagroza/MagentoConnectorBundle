@@ -71,9 +71,7 @@ class DeltaProductReader extends ODMProductReader
                 $this->completenessManager->generateMissingForChannel($this->channel);
             }
 
-            $this->query = $this->repository
-                ->buildByChannelAndCompleteness($this->channel)
-                ->getQuery();
+            $this->query = $this->prepareQB()->getQuery();
 
             $this->products = $this->getQuery()->execute();
 
@@ -98,6 +96,14 @@ class DeltaProductReader extends ODMProductReader
         }
 
         return $result;
+    }
+
+    /**
+     * @return \Doctrine\MongoDB\Query\Builder
+     */
+    protected function prepareQB()
+    {
+        return $this->repository->buildByChannelAndCompleteness($this->channel);
     }
 
     /**
