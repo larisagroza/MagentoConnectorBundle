@@ -5,7 +5,6 @@ jobs:
         label:     Magento attribute export
         type:      export
         configuration:
-            channel:               magento
             soapUsername:          soap
             soapApiKey:            magento1
             magentoUrl:            http://magento.local
