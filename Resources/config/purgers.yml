@@ -1,11 +1,20 @@
 parameters:
     pim_magento_connector.purger.mapping.class: Pim\Bundle\MagentoConnectorBundle\Purger\MappingPurger
+    pim_magento_connector.purger.delta.class:   Pim\Bundle\MagentoConnectorBundle\Purger\DeltaTablePurger
 
 services:
+    pim_magento_connector.purger.delta:
+        class: %pim_magento_connector.purger.delta.class%
+        arguments:
+            - '@doctrine.orm.entity_manager'
+            - '@pim_import_export.repository.job_instance'
+        calls:
+            - [setClassesToPurge, [[%pim_magento_connector.entity.delta_product_export.class%, %pim_magento_connector.entity.delta_product_association_export.class%, %pim_magento_connector.entity.delta_configurable_export.class%]]]
+
     pim_magento_connector.purger.mapping:
         class: %pim_magento_connector.purger.mapping.class%
         arguments:
             - '@doctrine.orm.entity_manager'
             - '@pim_import_export.repository.job_instance'
         calls:
-            - [setMappingClasses, [{%pim_magento_connector.entity.category_mapping.class%, %pim_magento_connector.entity.family_mapping.class%, %pim_magento_connector.entity.group_mapping.class%, %pim_magento_connector.entity.attribute_mapping.class%}]]
+            - [setClassesToPurge, [[%pim_magento_connector.entity.category_mapping.class%, %pim_magento_connector.entity.family_mapping.class%, %pim_magento_connector.entity.group_mapping.class%, %pim_magento_connector.entity.attribute_mapping.class%]]]
