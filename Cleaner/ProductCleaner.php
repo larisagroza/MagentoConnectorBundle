@@ -7,11 +7,9 @@ use Doctrine\ORM\Query;
 use Pim\Bundle\CatalogBundle\Manager\ChannelManager;
 use Pim\Bundle\CatalogBundle\Manager\ProductManager;
 use Pim\Bundle\MagentoConnectorBundle\Guesser\WebserviceGuesser;
-use Pim\Bundle\MagentoConnectorBundle\Validator\Constraints\HasValidCredentials;
 use Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClientParametersRegistry;
 use Pim\Bundle\MagentoConnectorBundle\Normalizer\AbstractNormalizer;
 use Pim\Bundle\MagentoConnectorBundle\Webservice\SoapCallException;
-use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Magento product cleaner
@@ -19,14 +17,9 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- *
- * @HasValidCredentials()
  */
 class ProductCleaner extends Cleaner
 {
-    /**
-     * @Assert\NotBlank(groups={"Execution"})
-     */
     protected $channel;
 
     /**
