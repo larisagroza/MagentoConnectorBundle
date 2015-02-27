@@ -1,13 +1,18 @@
 Pim\Bundle\MagentoConnectorBundle\Entity\MagentoCategoryMapping:
     type: entity
     table: pim_magento_category_mapping
+    uniqueConstraints:
+        pim_magento_category_mapping_uc:
+            columns:
+                - category_id
+                - magento_url
     id:
         id:
             type: integer
             generator: { strategy: AUTO }
     fields:
         magentoUrl:
-            type: text
+            type: string
             length: 255
             column: magento_url
         magentoCategoryId:
@@ -21,4 +26,3 @@ Pim\Bundle\MagentoConnectorBundle\Entity\MagentoCategoryMapping:
                 name: category_id
                 referencedColumnName: id
                 onDelete: 'CASCADE'
-                unique: true

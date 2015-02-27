@@ -95,7 +95,10 @@ class CategoryMappingManager
         $magentoCategoryId,
         $magentoUrl
     ) {
-        $categoryMapping = $this->getEntityRepository()->findOneBy(['category' => $pimCategory]);
+        $categoryMapping = $this->getEntityRepository()->findOneBy([
+            'category'   => $pimCategory,
+            'magentoUrl' => $magentoUrl,
+        ]);
         $magentoCategoryMapping = new $this->className();
 
         if ($categoryMapping) {
