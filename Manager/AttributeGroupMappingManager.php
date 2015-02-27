@@ -73,6 +73,7 @@ class AttributeGroupMappingManager
             [
                 'pimGroupCode'  => $pimGroup->getCode(),
                 'pimFamilyCode' => $pimFamily->getCode(),
+                'magentoUrl'    => $magentoUrl,
             ]
         );
 

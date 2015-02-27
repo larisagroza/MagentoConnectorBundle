@@ -68,7 +68,9 @@ class AttributeGroupMappingManagerSpec extends ObjectBehavior
         $family,
         $objectManager
     ) {
-        $entityRepository->findOneBy(['pimGroupCode' => 12, 'pimFamilyCode' => 5])->willReturn($magentoGroupMapping);
+        $entityRepository
+            ->findOneBy(['pimGroupCode' => 12, 'pimFamilyCode' => 5, 'magentoUrl' => 'url'])
+            ->willReturn($magentoGroupMapping);
         $magentoGroupMapping->setPimGroupCode(12)->shouldBeCalled();
         $magentoGroupMapping->setPimFamilyCode(5)->shouldBeCalled();
         $magentoGroupMapping->setMagentoGroupId(3)->shouldBeCalled();

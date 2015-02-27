@@ -2,20 +2,19 @@
 
 namespace Pim\Bundle\MagentoConnectorBundle\Command;
 
-use Doctrine\ORM\EntityNotFoundException;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Purge mapping database for a given job instance code
+ * Purge delta tables for a given job instance code
  *
  * @author    Willy Mesnage <willy.mesnage@akeneo.com>
  * @copyright 2015 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class PurgeMappingCommand extends ContainerAwareCommand
+class PurgeDeltaCommand extends ContainerAwareCommand
 {
     /**
      * {@inheritdoc}
@@ -23,8 +22,8 @@ class PurgeMappingCommand extends ContainerAwareCommand
     protected function configure()
     {
         $this
-            ->setName('magento-connector:mapping:purge')
-            ->setDescription('Purges mapping from database for a given job instance code.')
+            ->setName('magento-connector:delta:purge')
+            ->setDescription('Purges delta table from database for a given job instance code.')
             ->addArgument(
                 'job_instance_code',
                 InputArgument::REQUIRED,
@@ -32,20 +31,21 @@ class PurgeMappingCommand extends ContainerAwareCommand
             );
     }
 
+
     /**
      * {@inheritdoc}
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        $mappingPurger   = $this->getMappingPurger();
-        $jobInstanceCode = $input->getArgument('job_instance_code');
+        $deltaTablePurger = $this->getDeltaTablePurger();
+        $jobInstanceCode  = $input->getArgument('job_instance_code');
 
         $output->writeln(sprintf('<info>Executing command for "%s" job instance.<info>', $jobInstanceCode));
 
         try {
-            $mappingPurger->purge($jobInstanceCode);
+            $deltaTablePurger->purge($jobInstanceCode);
             $output->writeln(
-                sprintf('<info>Mapping related to "%s" job instance has been purged.<info>', $jobInstanceCode)
+                sprintf('<info>Delta related to "%s" job instance has been purged.<info>', $jobInstanceCode)
             );
         } catch (\Exception $e) {
             $output->writeln(
@@ -61,10 +61,10 @@ class PurgeMappingCommand extends ContainerAwareCommand
     /**
      * Get the mapping purger
      *
-     * @return \Pim\Bundle\MagentoConnectorBundle\Purger\MappingPurger
+     * @return \Pim\Bundle\MagentoConnectorBundle\Purger\DeltaTablePurger
      */
-    protected function getMappingPurger()
+    protected function getDeltaTablePurger()
     {
-        return $this->getContainer()->get('pim_magento_connector.purger.mapping');
+        return $this->getContainer()->get('pim_magento_connector.purger.delta');
     }
 }
