@@ -1,6 +1,19 @@
 # 1.1.21
-## BC Breaks
+## Bug fixes
  - Fix mapping management to handle multiple magento environment on the same PIM application installation.
+
+## BC Breaks
+ - The structure of the mapping tables (`pim_magento_attribute_mapping`, `pim_magento_category_mapping`,
+`pim_magento_family_mapping`, `pim_magento_group_mapping`) in the database have been changed:
+    - For each of them the `magento_url` column has been changed from `tinytext` to a `varchar(255)`
+    - For the `pim_magento_attribute_mapping` the index on `attribute_id` has been replaced by an index on
+`attribute_id` and `magento_url`
+    - For the `pim_magento_category_mapping` the index on `category_id` has been replaced by an index on
+`category_id` and `magento_url`
+    - For the `pim_magento_family_mapping` the index on `family_id` has been replaced by an index on
+`family_id` and `magento_url`
+    - For the `pim_magento_group_mapping` an index has been added on `pim_group_code`, `pim_family_code` and
+`magento_url`
 
 # 1.1.20 (2015-02-20)
 ## Bug fixes
