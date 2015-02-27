@@ -1,4 +1,4 @@
-# 1.1.21
+# 1.1.21 (2015-02-27)
 ## Bug fixes
  - Fix mapping management to handle multiple magento environment on the same PIM application installation.
 
