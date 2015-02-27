@@ -83,7 +83,9 @@ class AttributeMappingManagerSpec extends ObjectBehavior
         $attribute,
         $objectManager
 ) {
-        $entityRepository->findOneBy(['attribute' => $attribute])->willReturn($magentoAttributeMapping);
+        $entityRepository
+            ->findOneBy(['attribute' => $attribute, 'magentoUrl' => 'url'])
+            ->willReturn($magentoAttributeMapping);
         $magentoAttributeMapping->setAttribute($attribute);
         $magentoAttributeMapping->setMagentoAttributeId(12);
         $magentoAttributeMapping->setMagentoUrl('url');

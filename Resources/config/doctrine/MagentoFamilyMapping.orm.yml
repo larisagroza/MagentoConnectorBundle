@@ -1,13 +1,18 @@
 Pim\Bundle\MagentoConnectorBundle\Entity\MagentoFamilyMapping:
     type: entity
     table: pim_magento_family_mapping
+    uniqueConstraints:
+        pim_magento_family_mapping_uc:
+            columns:
+                - family_id
+                - magento_url
     id:
         id:
             type: integer
             generator: { strategy: AUTO }
     fields:
         magentoUrl:
-            type: text
+            type: string
             length: 255
             column: magento_url
         magentoFamilyId:
@@ -21,4 +26,3 @@ Pim\Bundle\MagentoConnectorBundle\Entity\MagentoFamilyMapping:
                 name: family_id
                 referencedColumnName: id
                 onDelete: 'CASCADE'
-                unique: true
