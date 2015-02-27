@@ -57,7 +57,7 @@ class DeltaProductReader extends ORMProductReader
 
             INNER JOIN pim_catalog_category_product ccp ON ccp.product_id = cp.id
             INNER JOIN pim_catalog_category c
-                ON c.id = ccp.category_id AND c.discr IN ('category') AND c.root = $treeId
+                ON c.id = ccp.category_id AND c.root = $treeId
 
             LEFT JOIN pim_magento_delta_product_export dpe ON dpe.product_id = cp.id
             LEFT JOIN akeneo_batch_job_instance j
