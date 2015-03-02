@@ -20,25 +20,17 @@ class DeltaConfigurableExportManager
     /** @var \Doctrine\ORM\EntityManager */
     protected $em;
 
-    /** @var EntityRepository */
-    protected $configExportRepository;
-
     /** @var GroupRepository */
     protected $groupRepository;
 
     /**
      * @param EntityManager    $em
-     * @param EntityRepository $configExportRepository
      * @param GroupRepository  $groupRepository
      */
-    public function __construct(
-        EntityManager $em,
-        EntityRepository $configExportRepository,
-        GroupRepository $groupRepository
-    ) {
-        $this->em                     = $em;
-        $this->configExportRepository = $configExportRepository;
-        $this->groupRepository        = $groupRepository;
+    public function __construct(EntityManager $em, GroupRepository $groupRepository)
+    {
+        $this->em              = $em;
+        $this->groupRepository = $groupRepository;
     }
 
     /**
@@ -50,25 +42,13 @@ class DeltaConfigurableExportManager
     public function setLastExportDate(JobInstance $jobInstance, $identifier)
     {
         $variantGroup = $this->groupRepository->findOneBy(['code' => $identifier]);
-
         if ($variantGroup) {
             foreach ($variantGroup->getProducts() as $product) {
-                $deltaConfig = $this->configExportRepository->findOneBy([
-                    'productId'     => $product->getId(),
-                    'jobInstance' => $jobInstance
-                ]);
-
-                if (null === $deltaConfig) {
-                    $sql = <<<SQL
-                      INSERT INTO pim_magento_delta_configurable_export (product_id, job_instance_id, last_export)
-                      VALUES (:product_id, :job_instance_id, :last_export)
+                $sql = <<<SQL
+                  INSERT INTO pim_magento_delta_configurable_export (product_id, job_instance_id, last_export)
+                  VALUES (:product_id, :job_instance_id, :last_export)
+                  ON DUPLICATE KEY UPDATE last_export = :last_export
 SQL;
-                } else {
-                    $sql = <<<SQL
-                      UPDATE pim_magento_delta_configurable_export SET last_export = :last_export
-                      WHERE product_id = :product_id AND job_instance_id = :job_instance_id
-SQL;
-                }
 
                 $connection = $this->em->getConnection();
                 $query      = $connection->prepare($sql);
