@@ -10,7 +10,7 @@ use Pim\Bundle\MagentoConnectorBundle\Normalizer\AbstractNormalizer;
 use Pim\Bundle\MagentoConnectorBundle\Manager\GroupManager;
 
 /**
- * Magento configurable cleaner
+ * Magento configurable cleaner for ORM implementation
  *
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
@@ -68,37 +68,4 @@ class ConfigurableCleaner extends AbstractProductCleaner
     {
         return $this->groupManager->getRepository()->getVariantGroupSkus();
     }
-
-    /**
-     * {@inheritdoc}
-     * TODO: Move in specific class
-     */
-    protected function getExportedProductsSkus()
-    {
-        return $this->productManager->getProductRepository()
-            ->buildByChannelAndCompleteness($this->getChannelByCode())
-            ->select('Value.varchar as sku')
-            ->andWhere('Attribute.attributeType = :identifier_type')
-            ->setParameter(':identifier_type', 'pim_catalog_identifier')
-            ->getQuery()
-            ->setHydrationMode(Query::HYDRATE_ARRAY)
-            ->getResult();
-    }
-
-    /**
-     * {@inheritdoc}
-     * TODO: Move in specific class
-     */
-    protected function getPimProductsSkus()
-    {
-        return $this->productManager->getProductRepository()
-            ->buildByScope($this->channel)
-            ->select('Value.varchar as sku')
-            ->andWhere('Attribute.attributeType = :identifier_type')
-            ->setParameter(':identifier_type', 'pim_catalog_identifier')
-            ->getQuery()
-            ->setHydrationMode(Query::HYDRATE_ARRAY)
-            ->getResult();
-    }
-
 }
