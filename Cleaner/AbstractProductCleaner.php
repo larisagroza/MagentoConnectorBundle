@@ -156,20 +156,14 @@ abstract class AbstractProductCleaner extends Cleaner
      *
      * @return array
      */
-    protected function getExportedProductsSkus()
-    {
-        return [];
-    }
+    abstract protected function getExportedProductsSkus();
 
     /**
      * Get all products' skus
      *
      * @return array
      */
-    protected function getPimProductsSkus()
-    {
-        return [];
-    }
+    abstract protected function getPimProductsSkus();
 
     /**
      * Handle products that are not in pim anymore

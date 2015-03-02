@@ -60,6 +60,22 @@ class ConfigurableCleaner extends AbstractProductCleaner
     }
 
     /**
+     * {@inheritdoc}
+     */
+    protected function getExportedProductsSkus()
+    {
+        return [];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getPimProductsSkus()
+    {
+        return [];
+    }
+
+    /**
      * Get all variant group skus
      *
      * @return array

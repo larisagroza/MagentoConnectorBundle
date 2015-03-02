@@ -20,9 +20,10 @@
  - CategoryRepository::findOrderCategories takes a CategoryInterface
  - pim_base_connector.reader.doctrine.obsoleteproduct, pim_base_connector.reader.doctrine.obsoleteproduct.class, pim_magento_connector.reader.doctrine.product has been removed from readers.yml because they are unused
  - Remove defaultLocale argument from OptionNormalizer::getOptionLabel
- - Rename parameter `pim_magento_connector.reader.orm.delta_product.class` by `pim_magento_connector.reader.delta_product.class`
- - Rename parameter `pim_magento_connector.reader.orm.delta_product_association.class` by `pim_magento_connector.reader.delta_product_association.class`
- - Rename parameter `pim_magento_connector.reader.orm.delta_product.class` by `pim_magento_connector.reader.delta_product.class`
+ - Rename parameter `pim_magento_connector.reader.orm.delta_product.class` to `pim_magento_connector.reader.delta_product.class`
+ - Rename parameter `pim_magento_connector.reader.orm.delta_product_association.class` to `pim_magento_connector.reader.delta_product_association.class`
+ - Rename parameter `pim_magento_connector.reader.orm.delta_product.class` to `pim_magento_connector.reader.delta_product.class`
+ - Set ProductCleaner parameters in a better order
 
 
 # 1.1.21 (2015-02-27)
