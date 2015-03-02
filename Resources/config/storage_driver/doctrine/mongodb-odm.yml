@@ -1,4 +1,5 @@
 parameters:
+    pim_magento_connector.cleaner.product.class:                  Pim\Bundle\MagentoConnectorBundle\Cleaner\MongoDBODM\ProductCleaner
     pim_magento_connector.reader.delta_product.class:             Pim\Bundle\MagentoConnectorBundle\Reader\MongoDBODM\DeltaProductReader
     pim_magento_connector.reader.delta_product_association.class: Pim\Bundle\MagentoConnectorBundle\Reader\MongoDBODM\DeltaProductReader
     pim_magento_connector.reader.delta_configurable.class:        Pim\Bundle\MagentoConnectorBundle\Reader\MongoDBODM\DeltaConfigurableReader
@@ -25,3 +26,13 @@ services:
             - true
             - '@pim_magento_connector.repository.delta_configurable_export'
             - '@pim_magento_connector.repository.group'
+
+    pim_magento_connector.cleaner.product:
+        class: %pim_magento_connector.cleaner.product.class%
+        parent: pim_magento_connector.item.magento_item_step
+        arguments:
+            - '@pim_magento_connector.guesser.magento_webservice'
+            - '@pim_catalog.manager.channel'
+            - '@pim_catalog.manager.product'
+            - '@pim_magento_connector.webservice.magento_soap_client_parameters_registry'
+            - '@pim_catalog.repository.attribute'

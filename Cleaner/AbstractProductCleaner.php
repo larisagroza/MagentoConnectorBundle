@@ -3,7 +3,6 @@
 namespace Pim\Bundle\MagentoConnectorBundle\Cleaner;
 
 use Akeneo\Bundle\BatchBundle\Item\InvalidItemException;
-use Doctrine\ORM\Query;
 use Pim\Bundle\CatalogBundle\Manager\ChannelManager;
 use Pim\Bundle\CatalogBundle\Manager\ProductManager;
 use Pim\Bundle\MagentoConnectorBundle\Guesser\WebserviceGuesser;
@@ -13,12 +12,13 @@ use Pim\Bundle\MagentoConnectorBundle\Webservice\SoapCallException;
 
 /**
  * Magento product cleaner
+ * Abstract class used for ORM and MongoDB support
  *
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class ProductCleaner extends Cleaner
+abstract class AbstractProductCleaner extends Cleaner
 {
     /** @var string Channel Code */
     protected $channel;
@@ -35,6 +35,57 @@ class ProductCleaner extends Cleaner
 
     /** @var boolean */
     protected $removeProductsNotHandledByPim;
+
+    /**
+     * @param WebserviceGuesser                   $webserviceGuesser
+     * @param ChannelManager                      $channelManager
+     * @param ProductManager                      $productManager
+     * @param MagentoSoapClientParametersRegistry $clientParametersRegistry
+     */
+    public function __construct(
+        WebserviceGuesser $webserviceGuesser,
+        ChannelManager $channelManager,
+        ProductManager $productManager,
+        MagentoSoapClientParametersRegistry $clientParametersRegistry
+    ) {
+        parent::__construct($webserviceGuesser, $clientParametersRegistry);
+
+        $this->channelManager = $channelManager;
+        $this->productManager = $productManager;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function execute()
+    {
+        parent::beforeExecute();
+
+        $magentoProducts  = $this->webservice->getProductsStatus();
+        $exportedProducts = $this->getProductsSkus(
+            $this->getExportedProductsSkus()
+        );
+        $pimProducts      = $this->getProductsSkus(
+            $this->getPimProductsSkus()
+        );
+
+        foreach ($magentoProducts as $product) {
+            try {
+                if (
+                    AbstractNormalizer::MAGENTO_SIMPLE_PRODUCT_KEY === $product['type'] ||
+                    in_array($product['type'], $this->productTypesNotHandledByPim)
+                ) {
+                    if (!in_array($product['sku'], $pimProducts)) {
+                        $this->handleProductNotInPimAnymore($product);
+                    } elseif (!in_array($product['sku'], $exportedProducts)) {
+                        $this->handleProductNotCompleteAnymore($product);
+                    }
+                }
+            } catch (SoapCallException $e) {
+                throw new InvalidItemException($e->getMessage(), [json_encode($product)]);
+            }
+        }
+    }
 
     /**
      * get channel
@@ -105,100 +156,28 @@ class ProductCleaner extends Cleaner
     }
 
     /**
-     * @param WebserviceGuesser                   $webserviceGuesser
-     * @param ChannelManager                      $channelManager
-     * @param ProductManager                      $productManager
-     * @param MagentoSoapClientParametersRegistry $clientParametersRegistry
-     */
-    public function __construct(
-        WebserviceGuesser $webserviceGuesser,
-        ChannelManager $channelManager,
-        ProductManager $productManager,
-        MagentoSoapClientParametersRegistry $clientParametersRegistry
-    ) {
-        parent::__construct($webserviceGuesser, $clientParametersRegistry);
-
-        $this->channelManager = $channelManager;
-        $this->productManager = $productManager;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function execute()
-    {
-        parent::beforeExecute();
-
-        $magentoProducts  = $this->webservice->getProductsStatus();
-        $exportedProducts = $this->getProductsSkus($this->getExportedProductsSkus());
-        $pimProducts      = $this->getProductsSkus($this->getPimProductsSkus());
-
-        foreach ($magentoProducts as $product) {
-            try {
-                if (
-                    AbstractNormalizer::MAGENTO_SIMPLE_PRODUCT_KEY === $product['type'] ||
-                    in_array($product['type'], $this->productTypesNotHandledByPim)
-                ) {
-                    if (!in_array($product['sku'], $pimProducts)) {
-                        $this->handleProductNotInPimAnymore($product);
-                    } elseif (!in_array($product['sku'], $exportedProducts)) {
-                        $this->handleProductNotCompleteAnymore($product);
-                    }
-                }
-            } catch (SoapCallException $e) {
-                throw new InvalidItemException($e->getMessage(), [json_encode($product)]);
-            }
-        }
-    }
-
-    /**
      * Get all products' skus in channel
-     * @return array
-     */
-    protected function getExportedProductsSkus()
-    {
-        return $this->productManager->getProductRepository()
-            ->buildByChannelAndCompleteness($this->channelManager->getChannelByCode($this->channel))
-            ->select('Value.varchar as sku')
-            ->andWhere('Attribute.attributeType = :identifier_type')
-            ->setParameter(':identifier_type', 'pim_catalog_identifier')
-            ->getQuery()
-            ->setHydrationMode(Query::HYDRATE_ARRAY)
-            ->getResult();
-    }
-
-    /**
-     * Get all products' skus
-     * @return array
-     */
-    protected function getPimProductsSkus()
-    {
-        return $this->productManager->getProductRepository()
-            ->buildByScope($this->channel)
-            ->select('Value.varchar as sku')
-            ->andWhere('Attribute.attributeType = :identifier_type')
-            ->setParameter(':identifier_type', 'pim_catalog_identifier')
-            ->getQuery()
-            ->setHydrationMode(Query::HYDRATE_ARRAY)
-            ->getResult();
-    }
-
-    /**
-     * Get skus for the given products
-     * @param array $products
      *
      * @return array
      */
-    protected function getProductsSkus(array $products)
-    {
-        $productsSkus = [];
+    abstract protected function getExportedProductsSkus();
 
-        foreach ($products as $product) {
-            $productsSkus[] = (string) reset($product);
-        };
+    /**
+     * Get all products' skus
+     *
+     * @return array
+     */
+    abstract protected function getPimProductsSkus();
 
-        return $productsSkus;
-    }
+
+    /**
+     * Get skus of query result
+     *
+     * @param array $products
+     *
+     * @return string[]
+     */
+    abstract protected function getProductsSkus(array $products);
 
     /**
      * Handle products that are not in pim anymore
@@ -291,5 +270,13 @@ class ProductCleaner extends Cleaner
                 ]
             ]
         );
+    }
+
+    /**
+     * @return \Pim\Bundle\CatalogBundle\Entity\Channel
+     */
+    protected function getChannelByCode()
+    {
+        return $this->channelManager->getChannelByCode($this->channel);
     }
 }
