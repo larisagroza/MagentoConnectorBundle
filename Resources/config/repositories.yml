@@ -9,9 +9,11 @@ parameters:
 services:
     pim_magento_connector.repository.category:
         class: %pim_magento_connector.repository.category.class%
-        arguments:
-            - '@doctrine.orm.entity_manager'
-            - '@pim_magento_connector.metadata.category'
+        factory_service: doctrine.orm.entity_manager
+        factory_method: getRepository
+        arguments: [%pim_catalog.entity.category.class%]
+        tags:
+            - { name: 'pim_repository' }
 
     pim_magento_connector.repository.delta_product_export:
         class: %pim_magento_connector.repository.delta_product_export.class%
@@ -39,24 +41,8 @@ services:
 
     pim_magento_connector.repository.group:
         class: %pim_magento_connector.repository.group.class%
-        arguments:
-            - '@doctrine.orm.entity_manager'
-            - '@pim_magento_connector.metadata.group'
-
-    pim_magento_connector.metadata.category:
-        public: false
-        class: Doctrine\ORM\Mapping\ClassMetaData
-        arguments:
-            name: %pim_catalog.entity.category.class%
-
-    pim_magento_connector.metadata.currency:
-        public: false
-        class: Doctrine\ORM\Mapping\ClassMetaData
-        arguments:
-            name: %pim_catalog.entity.currency.class%
-
-    pim_magento_connector.metadata.group:
-        public: false
-        class: Doctrine\ORM\Mapping\ClassMetaData
-        arguments:
-            name: %pim_catalog.entity.group.class%
+        factory_service: doctrine.orm.entity_manager
+        factory_method: getRepository
+        arguments: [%pim_catalog.entity.group.class%]
+        tags:
+            - { name: 'pim_repository' }
