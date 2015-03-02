@@ -7,7 +7,7 @@ use Akeneo\Bundle\BatchBundle\Entity\StepExecution;
 use Pim\Bundle\MagentoConnectorBundle\Item\MagentoItemStep;
 
 /**
- * Magento item cleaner
+ * Magento cleaner item step
  *
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)

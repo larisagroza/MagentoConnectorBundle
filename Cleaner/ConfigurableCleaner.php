@@ -23,19 +23,19 @@ class ConfigurableCleaner extends AbstractProductCleaner
 
     /**
      * @param WebserviceGuesser                   $webserviceGuesser
+     * @param MagentoSoapClientParametersRegistry $clientParametersRegistry
      * @param ChannelManager                      $channelManager
      * @param ProductManager                      $productManager
      * @param GroupManager                        $groupManager
-     * @param MagentoSoapClientParametersRegistry $clientParametersRegistry
      */
     public function __construct(
         WebserviceGuesser $webserviceGuesser,
+        MagentoSoapClientParametersRegistry $clientParametersRegistry,
         ChannelManager $channelManager,
         ProductManager $productManager,
-        GroupManager $groupManager,
-        MagentoSoapClientParametersRegistry $clientParametersRegistry
+        GroupManager $groupManager
     ) {
-        parent::__construct($webserviceGuesser, $channelManager, $productManager, $clientParametersRegistry);
+        parent::__construct($webserviceGuesser, $clientParametersRegistry, $channelManager, $productManager);
 
         $this->groupManager = $groupManager;
     }
@@ -101,17 +101,4 @@ class ConfigurableCleaner extends AbstractProductCleaner
             ->getResult();
     }
 
-    /**
-     * {@inheritdoc}
-     * TODO: Move in specific class
-     */
-    protected function getProductsSkus(array $products)
-    {
-        $productsSkus = [];
-        foreach ($products as $product) {
-            $productsSkus[] = (string) reset($product);
-        };
-
-        return $productsSkus;
-    }
 }

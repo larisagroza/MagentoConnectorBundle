@@ -38,15 +38,15 @@ abstract class AbstractProductCleaner extends Cleaner
 
     /**
      * @param WebserviceGuesser                   $webserviceGuesser
+     * @param MagentoSoapClientParametersRegistry $clientParametersRegistry
      * @param ChannelManager                      $channelManager
      * @param ProductManager                      $productManager
-     * @param MagentoSoapClientParametersRegistry $clientParametersRegistry
      */
     public function __construct(
         WebserviceGuesser $webserviceGuesser,
+        MagentoSoapClientParametersRegistry $clientParametersRegistry,
         ChannelManager $channelManager,
-        ProductManager $productManager,
-        MagentoSoapClientParametersRegistry $clientParametersRegistry
+        ProductManager $productManager
     ) {
         parent::__construct($webserviceGuesser, $clientParametersRegistry);
 
@@ -62,12 +62,8 @@ abstract class AbstractProductCleaner extends Cleaner
         parent::beforeExecute();
 
         $magentoProducts  = $this->webservice->getProductsStatus();
-        $exportedProducts = $this->getProductsSkus(
-            $this->getExportedProductsSkus()
-        );
-        $pimProducts      = $this->getProductsSkus(
-            $this->getPimProductsSkus()
-        );
+        $exportedProducts = $this->getExportedProductsSkus();
+        $pimProducts      = $this->getPimProductsSkus();
 
         foreach ($magentoProducts as $product) {
             try {
@@ -168,16 +164,6 @@ abstract class AbstractProductCleaner extends Cleaner
      * @return array
      */
     abstract protected function getPimProductsSkus();
-
-
-    /**
-     * Get skus of query result
-     *
-     * @param array $products
-     *
-     * @return string[]
-     */
-    abstract protected function getProductsSkus(array $products);
 
     /**
      * Handle products that are not in pim anymore

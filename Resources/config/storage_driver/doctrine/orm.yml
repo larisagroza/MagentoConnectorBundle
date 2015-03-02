@@ -22,6 +22,6 @@ services:
         parent: pim_magento_connector.item.magento_item_step
         arguments:
             - '@pim_magento_connector.guesser.magento_webservice'
+            - '@pim_magento_connector.webservice.magento_soap_client_parameters_registry'
             - '@pim_catalog.manager.channel'
             - '@pim_catalog.manager.product'
-            - '@pim_magento_connector.webservice.magento_soap_client_parameters_registry'

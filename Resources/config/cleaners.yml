@@ -10,10 +10,10 @@ services:
         class: %pim_magento_connector.cleaner.configurable.class%
         arguments:
             - '@pim_magento_connector.guesser.magento_webservice'
+            - '@pim_magento_connector.webservice.magento_soap_client_parameters_registry'
             - '@pim_catalog.manager.channel'
             - '@pim_catalog.manager.product'
             - '@pim_magento_connector.manager.group'
-            - '@pim_magento_connector.webservice.magento_soap_client_parameters_registry'
 
     pim_magento_connector.cleaner.category:
         class: %pim_magento_connector.cleaner.category.class%

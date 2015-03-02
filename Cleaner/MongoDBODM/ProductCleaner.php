@@ -2,6 +2,7 @@
 
 namespace Pim\Bundle\MagentoConnectorBundle\Cleaner\MongoDBODM;
 
+use Doctrine\ODM\MongoDB\Query\Builder;
 use Pim\Bundle\CatalogBundle\Entity\Repository\AttributeRepository;
 use Pim\Bundle\CatalogBundle\Manager\ChannelManager;
 use Pim\Bundle\CatalogBundle\Manager\ProductManager;
@@ -23,69 +24,61 @@ class ProductCleaner extends AbstractProductCleaner
 
     /**
      * @param WebserviceGuesser                   $webserviceGuesser
+     * @param MagentoSoapClientParametersRegistry $clientParametersRegistry
      * @param ChannelManager                      $channelManager
      * @param ProductManager                      $productManager
-     * @param MagentoSoapClientParametersRegistry $clientParametersRegistry
      * @param AttributeRepository                 $attributeRepository
      */
     public function __construct(
         WebserviceGuesser $webserviceGuesser,
+        MagentoSoapClientParametersRegistry $clientParametersRegistry,
         ChannelManager $channelManager,
         ProductManager $productManager,
-        MagentoSoapClientParametersRegistry $clientParametersRegistry,
         AttributeRepository $attributeRepository
     ) {
-        parent::__construct($webserviceGuesser, $channelManager, $productManager, $clientParametersRegistry);
+        parent::__construct($webserviceGuesser, $clientParametersRegistry, $channelManager, $productManager);
 
         $this->attributeRepository = $attributeRepository;
     }
+
     /**
      * {@inheritdoc}
-     * TODO: Move in specific class
      */
     protected function getExportedProductsSkus()
     {
         $identifierCode = $this->getIdentifierAttributeCode();
 
-        return $this->productManager->getProductRepository()
+        $qb = $this->productManager->getProductRepository()
             ->buildByChannelAndCompleteness($this->getChannelByCode())
-            ->select([sprintf("normalizedData.%s", $identifierCode)])
-            ->hydrate(false)
-            ->getQuery()
-            ->execute()
-            ->toArray();
+            ->select([sprintf("normalizedData.%s", $identifierCode)]);
+
+        return $this->getProductsSkus($qb, $identifierCode);
     }
 
     /**
      * {@inheritdoc}
-     * TODO: Move in specific class
      */
     protected function getPimProductsSkus()
     {
         $identifierCode = $this->getIdentifierAttributeCode();
-
         $qb = $this->productManager->getProductRepository()->createQueryBuilder('p');
-        /** @var \Doctrine\ODM\MongoDB\Query\Builder $qb */
-        return $qb
+
+        $qb
             ->addAnd($qb->expr()->field('enabled')->equals(true))
-            ->select([sprintf("normalizedData.%s", $identifierCode)])
-            ->hydrate(false)
-            ->getQuery()
-            ->execute()
-            ->toArray();
+            ->select([sprintf("normalizedData.%s", $identifierCode)]);
+
+        return $this->getProductsSkus($qb, $identifierCode);
     }
 
     /**
      * {@inheritdoc}
-     * TODO: Move in specific class
      */
-    protected function getProductsSkus(array $products)
+    protected function getProductsSkus(Builder $qb, $identifierCode)
     {
-        $identifierCode = $this->getIdentifierAttributeCode();
-
+        $results = $qb->hydrate(false)->getQuery()->execute()->toArray();
         $skus = [];
-        foreach ($products as $product) {
-            $skus[] = $product['normalizedData'][$identifierCode];
+        foreach ($results as $result) {
+            $skus[] = $result['normalizedData'][$identifierCode];
         }
 
         return $skus;

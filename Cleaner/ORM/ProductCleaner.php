@@ -3,6 +3,7 @@
 namespace Pim\Bundle\MagentoConnectorBundle\Cleaner\ORM;
 
 use Doctrine\ORM\Query;
+use Doctrine\ORM\QueryBuilder;
 
 /**
  * Magento product cleaner for ORM
@@ -18,14 +19,13 @@ class ProductCleaner extends AbstractProductCleaner
      */
     protected function getExportedProductsSkus()
     {
-        return $this->productManager->getProductRepository()
+        $qb = $this->productManager->getProductRepository()
             ->buildByChannelAndCompleteness($this->getChannelByCode())
             ->select('Value.varchar as sku')
             ->andWhere('Attribute.attributeType = :identifier_type')
-            ->setParameter(':identifier_type', 'pim_catalog_identifier')
-            ->getQuery()
-            ->setHydrationMode(Query::HYDRATE_ARRAY)
-            ->getResult();
+            ->setParameter(':identifier_type', 'pim_catalog_identifier');
+
+        return $this->getProductsSkus($qb);
     }
 
     /**
@@ -33,26 +33,29 @@ class ProductCleaner extends AbstractProductCleaner
      */
     protected function getPimProductsSkus()
     {
-        return $this->productManager->getProductRepository()
+        $qb = $this->productManager->getProductRepository()
             ->buildByScope($this->channel)
             ->select('Value.varchar as sku')
             ->andWhere('Attribute.attributeType = :identifier_type')
-            ->setParameter(':identifier_type', 'pim_catalog_identifier')
-            ->getQuery()
-            ->setHydrationMode(Query::HYDRATE_ARRAY)
-            ->getResult();
+            ->setParameter(':identifier_type', 'pim_catalog_identifier');
+
+        return $this->getProductsSkus($qb);
     }
 
     /**
      * {@inheritdoc}
      */
-    protected function getProductsSkus(array $products)
+    protected function getProductsSkus(QueryBuilder $qb)
     {
-        $productsSkus = [];
-        foreach ($products as $product) {
-            $productsSkus[] = (string) reset($product);
+        $results = $qb->getQuery()
+            ->setHydrationMode(Query::HYDRATE_ARRAY)
+            ->getResult();
+
+        $skus = [];
+        foreach ($results as $result) {
+            $skus[] = (string) reset($result);
         };
 
-        return $productsSkus;
+        return $skus;
     }
 }
