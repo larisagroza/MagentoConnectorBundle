@@ -172,11 +172,6 @@ class ConfigurableProcessor extends AbstractProductProcessor
     protected function processConfigurable(array $configurable, array $magentoConfigurables)
     {
         if (empty($configurable['products'])) {
-            $this->addWarning(
-                'The variant group is not associated to any products or product has already been send.',
-                [],
-                $configurable
-            );
             return;
         }
 

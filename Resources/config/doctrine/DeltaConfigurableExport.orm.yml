@@ -9,6 +9,8 @@ Pim\Bundle\MagentoConnectorBundle\Entity\DeltaConfigurableExport:
         searchunique_idx:
             columns:
                 - id
+        product_job_idx:
+            columns: [ product_id, job_instance_id ]
     fields:
         id:
             type: integer
@@ -18,13 +20,10 @@ Pim\Bundle\MagentoConnectorBundle\Entity\DeltaConfigurableExport:
         lastExport:
             type: datetime
             column: last_export
+        productId:
+            type: string
+            column: product_id
     manyToOne:
-        product:
-            targetEntity: Pim\Bundle\CatalogBundle\Model\ProductInterface
-            joinColumns:
-                product_id:
-                    referencedColumnName: id
-                    onDelete: CASCADE
         jobInstance:
             targetEntity: Akeneo\Bundle\BatchBundle\Entity\JobInstance
             joinColumns:
