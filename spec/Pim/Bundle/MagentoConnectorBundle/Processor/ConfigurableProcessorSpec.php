@@ -5,17 +5,15 @@ namespace spec\Pim\Bundle\MagentoConnectorBundle\Processor;
 use Akeneo\Bundle\BatchBundle\Entity\StepExecution;
 use Akeneo\Bundle\BatchBundle\Event\EventInterface;
 use Akeneo\Bundle\BatchBundle\Item\InvalidItemException;
-use Doctrine\Common\Collections\ArrayCollection;
 use PhpSpec\ObjectBehavior;
-use Pim\Bundle\CatalogBundle\Entity\Category;
 use Pim\Bundle\CatalogBundle\Entity\Channel;
 use Pim\Bundle\CatalogBundle\Entity\Family;
 use Pim\Bundle\CatalogBundle\Entity\Group;
 use Pim\Bundle\CatalogBundle\Manager\ChannelManager;
-use Pim\Bundle\CatalogBundle\Model\Completeness;
 use Pim\Bundle\CatalogBundle\Model\Product;
 use Pim\Bundle\CatalogBundle\Model\ProductInterface;
 use Pim\Bundle\MagentoConnectorBundle\Entity\Repository\GroupRepository;
+use Pim\Bundle\MagentoConnectorBundle\Filter\ExportableProductFilter;
 use Pim\Bundle\MagentoConnectorBundle\Guesser\NormalizerGuesser;
 use Pim\Bundle\MagentoConnectorBundle\Guesser\WebserviceGuesser;
 use Pim\Bundle\MagentoConnectorBundle\Manager\AssociationTypeManager;
@@ -51,7 +49,8 @@ class ConfigurableProcessorSpec extends ObjectBehavior
         MagentoSoapClientParametersRegistry $clientParametersRegistry,
         AttributeManager $attributeManager,
         AssociationTypeManager $associationTypeManager,
-        GroupManager $groupManager
+        GroupManager $groupManager,
+        ExportableProductFilter $productFilter
     ) {
         $this->beConstructedWith(
             $webserviceGuesser,
@@ -65,7 +64,8 @@ class ConfigurableProcessorSpec extends ObjectBehavior
             $clientParametersRegistry,
             $attributeManager,
             $associationTypeManager,
-            $groupManager
+            $groupManager,
+            $productFilter
         );
     }
 
@@ -132,16 +132,12 @@ class ConfigurableProcessorSpec extends ObjectBehavior
         $normalizerGuesser,
         $groupManager,
         $channelManager,
+        $productFilter,
         Group $group,
         Channel $channel,
         ProductInterface $product1,
         ProductInterface $product2,
         ProductInterface $product3,
-        Category $rootCategory,
-        Category $productCategory,
-        Completeness $completeness,
-        ArrayCollection $productCategories,
-        ArrayCollection $completenessCollection,
         MagentoSoapClientParameters $clientParameters,
         WebserviceGuesser $webserviceGuesser,
         Webservice $webservice,
@@ -193,35 +189,19 @@ class ConfigurableProcessorSpec extends ObjectBehavior
         $groupRepository->getVariantGroupIds()->willReturn([1]);
 
         $channelManager->getChannelByCode('magento')->willReturn($channel);
-        $channel->getCategory()->willReturn($rootCategory);
-        $channel->getId()->willReturn(3);
 
         $group->getId()->willReturn(1);
         $group->getProducts()->willReturn([$product1, $product2, $product3]);
         $group->getCode()->willReturn('groupCode');
 
         $product1->getGroups()->willReturn([$group]);
-        $product1->getCategories()->willReturn($productCategories);
-        $product1->getCompletenesses()->willReturn($completenessCollection);
         $product1->getId()->willReturn(10);
-
-        $product2->getCategories()->willReturn($productCategories);
-        $product2->getCompletenesses()->willReturn($completenessCollection);
         $product2->getId()->willReturn(11);
-
-        $product3->getCategories()->willReturn($productCategories);
-        $product3->getCompletenesses()->willReturn($completenessCollection);
         $product3->getId()->willReturn(12);
 
-        $productCategories->toArray()->willReturn([$rootCategory, $productCategory]);
-
-        $rootCategory->getId()->willReturn(1);
-        $rootCategory->getRoot()->willReturn(1);
-        $productCategory->getRoot()->willReturn(1);
-
-        $completenessCollection->toArray()->willReturn([$completeness]);
-        $completeness->getChannel()->willReturn($channel);
-        $completeness->getRatio()->willReturn(100);
+        $productFilter
+            ->apply($channel, [$product1, $product2, $product3])
+            ->willReturn([$product1, $product2, $product3]);
 
         $configurableNormalizer->normalize(Argument::cetera())->willReturn(['bar']);
 
@@ -234,16 +214,12 @@ class ConfigurableProcessorSpec extends ObjectBehavior
         $normalizerGuesser,
         $groupManager,
         $channelManager,
+        $productFilter,
         Group $group,
         Channel $channel,
         ProductInterface $product1,
         ProductInterface $product2,
         ProductInterface $product3,
-        Category $rootCategory,
-        Category $productCategory,
-        Completeness $completeness,
-        ArrayCollection $productCategories,
-        ArrayCollection $completenessCollection,
         MagentoSoapClientParameters $clientParameters,
         WebserviceGuesser $webserviceGuesser,
         Webservice $webservice,
@@ -287,7 +263,6 @@ class ConfigurableProcessorSpec extends ObjectBehavior
         $groupRepository->getVariantGroupIds()->willReturn([1]);
 
         $channelManager->getChannelByCode('magento')->willReturn($channel);
-        $channel->getCategory()->willReturn($rootCategory);
         $channel->getId()->willReturn(3);
 
         $group->getId()->willReturn(1);
@@ -295,32 +270,18 @@ class ConfigurableProcessorSpec extends ObjectBehavior
         $group->getCode()->willReturn('groupCode');
 
         $product1->getGroups()->willReturn([$group]);
-        $product1->getCategories()->willReturn($productCategories);
-        $product1->getCompletenesses()->willReturn($completenessCollection);
         $product1->getId()->willReturn(10);
         $product1->getFamily()->willReturn($family);
-
-        $product2->getCategories()->willReturn($productCategories);
-        $product2->getCompletenesses()->willReturn($completenessCollection);
         $product2->getId()->willReturn(11);
         $product2->getFamily()->willReturn($family);
-
-        $product3->getCategories()->willReturn($productCategories);
-        $product3->getCompletenesses()->willReturn($completenessCollection);
         $product3->getId()->willReturn(12);
         $product3->getFamily()->willReturn($family);
 
         $family->getCode()->willReturn('familyCode');
 
-        $productCategories->toArray()->willReturn([$rootCategory, $productCategory]);
-
-        $rootCategory->getId()->willReturn(1);
-        $rootCategory->getRoot()->willReturn(1);
-        $productCategory->getRoot()->willReturn(1);
-
-        $completenessCollection->toArray()->willReturn([$completeness]);
-        $completeness->getChannel()->willReturn($channel);
-        $completeness->getRatio()->willReturn(100);
+        $productFilter
+            ->apply($channel, [$product1, $product2, $product3])
+            ->willReturn([$product1, $product2, $product3]);
 
         $configurableNormalizer->normalize(Argument::cetera())->willReturn(['bar']);
 
@@ -333,16 +294,12 @@ class ConfigurableProcessorSpec extends ObjectBehavior
         $normalizerGuesser,
         $groupManager,
         $channelManager,
+        $productFilter,
         Group $group,
         Channel $channel,
         ProductInterface $product1,
         ProductInterface $product2,
         ProductInterface $product3,
-        Category $rootCategory,
-        Category $productCategory,
-        Completeness $completeness,
-        ArrayCollection $productCategories,
-        ArrayCollection $completenessCollection,
         MagentoSoapClientParameters $clientParameters,
         WebserviceGuesser $webserviceGuesser,
         Webservice $webservice,
@@ -409,7 +366,6 @@ class ConfigurableProcessorSpec extends ObjectBehavior
         $groupRepository->getVariantGroupIds()->willReturn([1]);
 
         $channelManager->getChannelByCode('magento')->willReturn($channel);
-        $channel->getCategory()->willReturn($rootCategory);
         $channel->getId()->willReturn(3);
 
         $group->getId()->willReturn(1);
@@ -417,28 +373,15 @@ class ConfigurableProcessorSpec extends ObjectBehavior
         $group->getCode()->willReturn('groupCode');
 
         $product1->getGroups()->willReturn([$group]);
-        $product1->getCategories()->willReturn($productCategories);
-        $product1->getCompletenesses()->willReturn($completenessCollection);
         $product1->getId()->willReturn(10);
 
         $product2->getGroups()->willReturn([$group]);
-        $product2->getCategories()->willReturn($productCategories);
-        $product2->getCompletenesses()->willReturn($completenessCollection);
         $product2->getId()->willReturn(11);
-
-        $product3->getCategories()->willReturn($productCategories);
-        $product3->getCompletenesses()->willReturn($completenessCollection);
         $product3->getId()->willReturn(12);
 
-        $productCategories->toArray()->willReturn([$rootCategory, $productCategory]);
-
-        $rootCategory->getId()->willReturn(1);
-        $rootCategory->getRoot()->willReturn(1);
-        $productCategory->getRoot()->willReturn(1);
-
-        $completenessCollection->toArray()->willReturn([$completeness]);
-        $completeness->getChannel()->willReturn($channel);
-        $completeness->getRatio()->willReturn(100);
+        $productFilter
+            ->apply($channel, [$product1, $product2, $product3])
+            ->willReturn([$product1, $product2, $product3]);
 
         $configurableNormalizer->normalize(Argument::cetera())->willReturn(['normalizedConfigurable']);
 
@@ -454,18 +397,12 @@ class ConfigurableProcessorSpec extends ObjectBehavior
         $normalizerGuesser,
         $groupManager,
         $channelManager,
+        $productFilter,
         Group $group,
         Channel $channel,
         ProductInterface $product1,
         ProductInterface $product2,
         ProductInterface $product3,
-        Category $rootCategory,
-        Category $productCategory,
-        Completeness $completeness,
-        Completeness $completenessNotComplete,
-        ArrayCollection $productCategories,
-        ArrayCollection $completenessCollection,
-        ArrayCollection $completenessCollection2,
         MagentoSoapClientParameters $clientParameters,
         WebserviceGuesser $webserviceGuesser,
         Webservice $webservice,
@@ -519,7 +456,6 @@ class ConfigurableProcessorSpec extends ObjectBehavior
         $groupRepository->getVariantGroupIds()->willReturn([1]);
 
         $channelManager->getChannelByCode('magento')->willReturn($channel);
-        $channel->getCategory()->willReturn($rootCategory);
         $channel->getId()->willReturn(3);
 
         $group->getId()->willReturn(1);
@@ -527,30 +463,13 @@ class ConfigurableProcessorSpec extends ObjectBehavior
         $group->getCode()->willReturn('groupCode');
 
         $product1->getGroups()->willReturn([$group]);
-        $product1->getCategories()->willReturn($productCategories);
-        $product1->getCompletenesses()->willReturn($completenessCollection);
         $product1->getId()->willReturn(10);
-
-        $product2->getCategories()->willReturn($productCategories);
-        $product2->getCompletenesses()->willReturn($completenessCollection);
         $product2->getId()->willReturn(11);
-
-        $product3->getCategories()->willReturn($productCategories);
-        $product3->getCompletenesses()->willReturn($completenessCollection2);
         $product3->getId()->willReturn(12);
 
-        $productCategories->toArray()->willReturn([$rootCategory, $productCategory]);
-
-        $rootCategory->getId()->willReturn(1);
-        $rootCategory->getRoot()->willReturn(1);
-        $productCategory->getRoot()->willReturn(1);
-
-        $completenessCollection->toArray()->willReturn([$completeness]);
-        $completenessCollection2->toArray()->willReturn([$completenessNotComplete]);
-        $completeness->getChannel()->willReturn($channel);
-        $completeness->getRatio()->willReturn(100);
-        $completenessNotComplete->getChannel()->willReturn($channel);
-        $completenessNotComplete->getRatio()->willReturn(50);
+        $productFilter
+            ->apply($channel, [$product1, $product2, $product3])
+            ->willReturn([$product1, $product2]);
 
         $configurableNormalizer
             ->normalize(
@@ -571,18 +490,12 @@ class ConfigurableProcessorSpec extends ObjectBehavior
         $normalizerGuesser,
         $groupManager,
         $channelManager,
+        $productFilter,
         Group $group,
         Channel $channel,
         ProductInterface $product1,
         ProductInterface $product2,
         ProductInterface $product3,
-        Category $rootCategory,
-        Category $productCategory,
-        Category $productCategoryNotInChannel,
-        Completeness $completeness,
-        ArrayCollection $productCategories,
-        ArrayCollection $productCategories2,
-        ArrayCollection $completenessCollection,
         MagentoSoapClientParameters $clientParameters,
         WebserviceGuesser $webserviceGuesser,
         Webservice $webservice,
@@ -636,7 +549,6 @@ class ConfigurableProcessorSpec extends ObjectBehavior
         $groupRepository->getVariantGroupIds()->willReturn([1]);
 
         $channelManager->getChannelByCode('magento')->willReturn($channel);
-        $channel->getCategory()->willReturn($rootCategory);
         $channel->getId()->willReturn(3);
 
         $group->getId()->willReturn(1);
@@ -644,30 +556,13 @@ class ConfigurableProcessorSpec extends ObjectBehavior
         $group->getCode()->willReturn('groupCode');
 
         $product1->getGroups()->willReturn([$group]);
-        $product1->getCategories()->willReturn($productCategories);
-        $product1->getCompletenesses()->willReturn($completenessCollection);
         $product1->getId()->willReturn(10);
-
-        $product2->getCategories()->willReturn($productCategories);
-        $product2->getCompletenesses()->willReturn($completenessCollection);
         $product2->getId()->willReturn(11);
-
-        $product3->getCategories()->willReturn($productCategories2);
-        $product3->getCompletenesses()->willReturn($completenessCollection);
         $product3->getId()->willReturn(12);
 
-        $productCategories->toArray()->willReturn([$rootCategory, $productCategory]);
-        $productCategories2->toArray()->willReturn([$productCategoryNotInChannel]);
-
-        $productCategory->getRoot()->willReturn(1);
-        $productCategoryNotInChannel->getRoot()->willReturn(2);
-
-        $rootCategory->getId()->willReturn(1);
-        $rootCategory->getRoot()->willReturn(1);
-
-        $completenessCollection->toArray()->willReturn([$completeness]);
-        $completeness->getChannel()->willReturn($channel);
-        $completeness->getRatio()->willReturn(100);
+        $productFilter
+            ->apply($channel, [$product1, $product2, $product3])
+            ->willReturn([$product1, $product2]);
 
         $configurableNormalizer
             ->normalize(
