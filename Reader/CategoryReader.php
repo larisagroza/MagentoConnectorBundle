@@ -1,6 +1,6 @@
 <?php
 
-namespace Pim\Bundle\MagentoConnectorBundle\Reader\ORM;
+namespace Pim\Bundle\MagentoConnectorBundle\Reader;
 
 use Doctrine\ORM\EntityManager;
 use Pim\Bundle\BaseConnectorBundle\Reader\ORM\EntityReader;
@@ -10,7 +10,7 @@ use Pim\Bundle\MagentoConnectorBundle\Entity\Repository\CategoryRepository;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * ORM reader for categories
+ * Reader for categories
  *
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2013 Akeneo SAS (http://www.akeneo.com)

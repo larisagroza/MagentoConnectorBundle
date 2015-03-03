@@ -1,5 +1,4 @@
 parameters:
-    pim_magento_connector.reader.orm.bulk_entity.class:               Pim\Bundle\MagentoConnectorBundle\Reader\ORM\BulkEntityReader
     pim_magento_connector.reader.orm.category.class:                  Pim\Bundle\MagentoConnectorBundle\Reader\ORM\CategoryReader
     pim_magento_connector.reader.orm.grouped_option.class:            Pim\Bundle\MagentoConnectorBundle\Reader\ORM\GroupedOptionReader
     pim_magento_connector.reader.orm.attribute.class:                 Pim\Bundle\MagentoConnectorBundle\Reader\ORM\AttributeReader

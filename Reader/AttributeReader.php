@@ -1,6 +1,6 @@
 <?php
 
-namespace Pim\Bundle\MagentoConnectorBundle\Reader\ORM;
+namespace Pim\Bundle\MagentoConnectorBundle\Reader;
 
 use Pim\Bundle\BaseConnectorBundle\Reader\ORM\EntityReader;
 use Pim\Bundle\CatalogBundle\Model\AbstractAttribute;
@@ -9,7 +9,7 @@ use Pim\Bundle\MagentoConnectorBundle\Merger\MagentoMappingMerger;
 use Pim\Bundle\MagentoConnectorBundle\Mapper\MappingCollection;
 
 /**
- * ORM reader for product
+ * Attribute reader
  *
  * @author    Julien SAnchez <julien@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)

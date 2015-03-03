@@ -1,6 +1,6 @@
 <?php
 
-namespace spec\Pim\Bundle\MagentoConnectorBundle\Reader\ORM;
+namespace spec\Pim\Bundle\MagentoConnectorBundle\Reader;
 
 use PhpSpec\ObjectBehavior;
 use Doctrine\ORM\QueryBuilder;

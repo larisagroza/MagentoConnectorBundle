@@ -1,6 +1,8 @@
 <?php
 
-namespace Pim\Bundle\MagentoConnectorBundle\Reader\ORM;
+namespace Pim\Bundle\MagentoConnectorBundle\Reader;
+
+use Pim\Bundle\BaseConnectorBundle\Reader\ORM\EntityReader;
 
 /**
  * Reads group option for attributes at once
@@ -9,7 +11,7 @@ namespace Pim\Bundle\MagentoConnectorBundle\Reader\ORM;
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class GroupedOptionReader extends BulkEntityReader
+class GroupedOptionReader extends EntityReader
 {
     /**
      * @var array
@@ -22,9 +24,12 @@ class GroupedOptionReader extends BulkEntityReader
     public function read()
     {
         if (!$this->groupedOptions) {
-            $options = parent::read();
+            $options = [];
+            while ($option = parent::read()) {
+                $options[] = $option;
+            }
 
-            if (!is_array($options)) {
+            if (!empty($options)) {
                 return $options;
             }
 
