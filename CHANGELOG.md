@@ -10,6 +10,9 @@
  - Add a command to purge Delta in database
  - MongoDB compliance
 
+## Bug fixes
+ - Connector send products only with complete locales
+
 ## BC Breaks
  - All DeltaExportBundle dependencies should be replaced by MagentoConnectorBundle ones
  - All ConnectorMappingBundle dependencies should be replaced by MagentoConnectorBundle ones
@@ -24,6 +27,9 @@
  - Rename parameter `pim_magento_connector.reader.orm.delta_product_association.class` to `pim_magento_connector.reader.delta_product_association.class`
  - Rename parameter `pim_magento_connector.reader.orm.delta_product.class` to `pim_magento_connector.reader.delta_product.class`
  - Set ProductCleaner parameters in a better order
+ - Add ExportableLocaleFilter parameter in ProductNormalizer
+ - Add ExportableLocaleFilter parameter in ProductNormalizer16
+ - Add ExportableLocaleFilter parameter in NormalizerGuesser
 
 
 # 1.1.21 (2015-02-27)
