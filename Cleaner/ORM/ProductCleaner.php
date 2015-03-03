@@ -4,6 +4,7 @@ namespace Pim\Bundle\MagentoConnectorBundle\Cleaner\ORM;
 
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
+use Pim\Bundle\MagentoConnectorBundle\Cleaner\AbstractProductCleaner;
 
 /**
  * Magento product cleaner for ORM
