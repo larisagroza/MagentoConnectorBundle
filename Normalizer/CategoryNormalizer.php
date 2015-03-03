@@ -267,7 +267,8 @@ class CategoryNormalizer extends AbstractNormalizer
             $context['categoryMapping']
         );
 
-        $previousCategory = end($this->categoryRepository->getPrevSiblings($category));
+        $previousCategories = $this->categoryRepository->getPrevSiblings($category);
+        $previousCategory = end($previousCategories);
 
         $previousMagentoCategoryId = null;
         if ($previousCategory && null !== $previousCategory) {
