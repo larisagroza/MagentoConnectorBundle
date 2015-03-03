@@ -2,6 +2,7 @@
 
 namespace Pim\Bundle\MagentoConnectorBundle\Guesser;
 
+use Pim\Bundle\MagentoConnectorBundle\Filter\ExportableLocaleFilter;
 use Pim\Bundle\MagentoConnectorBundle\Normalizer\AbstractNormalizer;
 use Pim\Bundle\MagentoConnectorBundle\Normalizer\ProductNormalizer;
 use Pim\Bundle\MagentoConnectorBundle\Normalizer\ProductNormalizer16;
@@ -60,6 +61,9 @@ class NormalizerGuesser extends AbstractGuesser
     /** @var \Pim\Bundle\MagentoConnectorBundle\Normalizer\OptionNormalizer */
     protected $optionNormalizer;
 
+    /** @var ExportableLocaleFilter */
+    protected $localeFilter;
+
     /**
      * Constructor
      * @param MagentoSoapClientFactory $magentoSoapClientFactory
@@ -72,6 +76,7 @@ class NormalizerGuesser extends AbstractGuesser
      * @param CategoryNormalizer       $categoryNormalizer
      * @param FamilyNormalizer         $familyNormalizer
      * @param OptionNormalizer         $optionNormalizer
+     * @param ExportableLocaleFilter   $localeFilter
      */
     public function __construct(
         MagentoSoapClientFactory $magentoSoapClientFactory,
@@ -84,7 +89,8 @@ class NormalizerGuesser extends AbstractGuesser
         AttributeNormalizer $attributeNormalizer,
         CategoryNormalizer $categoryNormalizer,
         FamilyNormalizer $familyNormalizer,
-        OptionNormalizer $optionNormalizer
+        OptionNormalizer $optionNormalizer,
+        ExportableLocaleFilter $localeFilter
     ) {
         $this->magentoSoapClientFactory = $magentoSoapClientFactory;
         $this->channelManager           = $channelManager;
@@ -97,6 +103,7 @@ class NormalizerGuesser extends AbstractGuesser
         $this->categoryNormalizer       = $categoryNormalizer;
         $this->familyNormalizer         = $familyNormalizer;
         $this->optionNormalizer         = $optionNormalizer;
+        $this->localeFilter             = $localeFilter;
     }
 
     /**
@@ -134,6 +141,7 @@ class NormalizerGuesser extends AbstractGuesser
                     $this->productValueNormalizer,
                     $this->categoryMappingManager,
                     $this->associationTypeManager,
+                    $this->localeFilter,
                     $enabled,
                     $visibility,
                     $variantMemberVisibility,
@@ -147,6 +155,7 @@ class NormalizerGuesser extends AbstractGuesser
                     $this->productValueNormalizer,
                     $this->categoryMappingManager,
                     $this->associationTypeManager,
+                    $this->localeFilter,
                     $enabled,
                     $visibility,
                     $variantMemberVisibility,

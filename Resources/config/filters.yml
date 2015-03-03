@@ -1,6 +1,10 @@
 parameters:
     pim_magento_connector.filters.exportable_product.class: Pim\Bundle\MagentoConnectorBundle\Filter\ExportableProductFilter
+    pim_magento_connector.filters.exportable_locale.class:  Pim\Bundle\MagentoConnectorBundle\Filter\ExportableLocaleFilter
 
 services:
     pim_magento_connector.filters.exportable_product:
         class: %pim_magento_connector.filters.exportable_product.class%
+
+    pim_magento_connector.filters.exportable_locale:
+        class: %pim_magento_connector.filters.exportable_locale.class%

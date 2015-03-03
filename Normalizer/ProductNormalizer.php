@@ -6,6 +6,7 @@ use Pim\Bundle\CatalogBundle\Manager\ChannelManager;
 use Pim\Bundle\CatalogBundle\Model\AbstractProductMedia;
 use Pim\Bundle\CatalogBundle\Manager\MediaManager;
 use Pim\Bundle\CatalogBundle\Model\ProductInterface;
+use Pim\Bundle\MagentoConnectorBundle\Filter\ExportableLocaleFilter;
 use Pim\Bundle\MagentoConnectorBundle\Webservice\Webservice;
 use Pim\Bundle\MagentoConnectorBundle\Manager\CategoryMappingManager;
 use Pim\Bundle\MagentoConnectorBundle\Manager\AssociationTypeManager;
@@ -55,6 +56,9 @@ class ProductNormalizer extends AbstractNormalizer implements ProductNormalizerI
      */
     protected $productValueNormalizer;
 
+    /** @var ExportableLocaleFilter */
+    protected $localeFilter;
+
     /**
      * Constructor
      * @param ChannelManager         $channelManager
@@ -62,6 +66,7 @@ class ProductNormalizer extends AbstractNormalizer implements ProductNormalizerI
      * @param ProductValueNormalizer $productValueNormalizer
      * @param CategoryMappingManager $categoryMappingManager
      * @param AssociationTypeManager $associationTypeManager
+     * @param ExportableLocaleFilter $localeFilter
      * @param bool                   $enabled
      * @param bool                   $visibility
      * @param bool                   $variantMemberVisibility
@@ -74,6 +79,7 @@ class ProductNormalizer extends AbstractNormalizer implements ProductNormalizerI
         ProductValueNormalizer $productValueNormalizer,
         CategoryMappingManager $categoryMappingManager,
         AssociationTypeManager $associationTypeManager,
+        ExportableLocaleFilter $localeFilter,
         $enabled,
         $visibility,
         $variantMemberVisibility,
@@ -86,6 +92,7 @@ class ProductNormalizer extends AbstractNormalizer implements ProductNormalizerI
         $this->productValueNormalizer  = $productValueNormalizer;
         $this->categoryMappingManager  = $categoryMappingManager;
         $this->associationTypeManager  = $associationTypeManager;
+        $this->localeFilter            = $localeFilter;
         $this->enabled                 = $enabled;
         $this->visibility              = $visibility;
         $this->variantMemberVisibility = $variantMemberVisibility;
@@ -129,8 +136,10 @@ class ProductNormalizer extends AbstractNormalizer implements ProductNormalizerI
             $processedItem[Webservice::IMAGES] = $images;
         }
 
+        $channel = $this->channelManager->getChannelByCode($context['channel']);
+        $exportableLocales = $this->localeFilter->apply($object, $channel);
         //For each storeview, we update the product only with localized attributes
-        foreach ($this->getPimLocales($context['channel']) as $locale) {
+        foreach ($exportableLocales as $locale) {
             $storeView = $this->getStoreViewForLocale(
                 $locale->getCode(),
                 $context['magentoStoreViews'],
