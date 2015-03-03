@@ -1,7 +1,7 @@
 parameters:
-    pim_magento_connector.reader.orm.category.class:                  Pim\Bundle\MagentoConnectorBundle\Reader\ORM\CategoryReader
-    pim_magento_connector.reader.orm.grouped_option.class:            Pim\Bundle\MagentoConnectorBundle\Reader\ORM\GroupedOptionReader
-    pim_magento_connector.reader.orm.attribute.class:                 Pim\Bundle\MagentoConnectorBundle\Reader\ORM\AttributeReader
+    pim_magento_connector.reader.category.class:                  Pim\Bundle\MagentoConnectorBundle\Reader\CategoryReader
+    pim_magento_connector.reader.grouped_option.class:            Pim\Bundle\MagentoConnectorBundle\Reader\GroupedOptionReader
+    pim_magento_connector.reader.attribute.class:                 Pim\Bundle\MagentoConnectorBundle\Reader\AttributeReader
 
 services:
     pim_magento_connector.reader.doctrine.bulk_simple_product:
@@ -17,7 +17,7 @@ services:
         class: %pim_base_connector.reader.doctrine.bulk_product.class%
 
     pim_magento_connector.reader.orm.category:
-        class: %pim_magento_connector.reader.orm.category.class%
+        class: %pim_magento_connector.reader.category.class%
         arguments:
             - '@doctrine.orm.default_entity_manager'
             - %pim_catalog.entity.category.class%
@@ -25,13 +25,13 @@ services:
             - '@pim_catalog.manager.channel'
 
     pim_magento_connector.reader.orm.grouped_option:
-        class: %pim_magento_connector.reader.orm.grouped_option.class%
+        class: %pim_magento_connector.reader.grouped_option.class%
         arguments:
             - '@doctrine.orm.default_entity_manager'
             - %pim_catalog.entity.attribute_option.class%
 
     pim_magento_connector.reader.orm.attribute:
-        class: %pim_magento_connector.reader.orm.attribute.class%
+        class: %pim_magento_connector.reader.attribute.class%
         arguments:
             - '@doctrine.orm.default_entity_manager'
             - %pim_catalog.entity.attribute.class%
