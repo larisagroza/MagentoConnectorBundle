@@ -48,7 +48,8 @@ class DeltaConfigurableWriter extends ProductWriter
         parent::computeProduct($product);
 
         $sku = substr($sku, 5); // due to "conf-" prefix for configurables
-        $this->configExportManager->setLastExportDate($this->getJobInstance(), $sku);
+        $channel = $this->channelManager->getChannelByCode($this->getChannel());
+        $this->configExportManager->setLastExportDate($channel, $this->getJobInstance(), $sku);
     }
 
     /**

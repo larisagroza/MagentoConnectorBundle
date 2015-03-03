@@ -160,7 +160,9 @@ class ProductWriter extends AbstractWriter
     {
         $defaultStoreViewProduct = $product[$this->getDefaultStoreView()];
 
-        if (count($defaultStoreViewProduct) == Webservice::CREATE_PRODUCT_SIZE) {
+        if (count($defaultStoreViewProduct) == Webservice::CREATE_PRODUCT_SIZE ||
+            'configurable' === $defaultStoreViewProduct[0]
+        ) {
             return (string) $defaultStoreViewProduct[2];
         } else {
             return (string) $defaultStoreViewProduct[0];
