@@ -38,7 +38,6 @@ class ExportableProductFilter
         }
 
         return $exportableProducts;
-
     }
 
     /**
@@ -54,13 +53,13 @@ class ExportableProductFilter
         $completenesses = $product->getCompletenesses()->toArray();
         foreach ($completenesses as $completeness) {
             if ($completeness->getChannel()->getId() === $channel->getId() &&
-                $completeness->getRatio() < 100
+                $completeness->getRatio() === 100
             ) {
-                return false;
+                return true;
             }
         }
 
-        return true;
+        return false;
     }
 
     /**
