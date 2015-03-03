@@ -6,7 +6,9 @@ use Akeneo\Bundle\BatchBundle\Entity\JobInstance;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use PDO;
+use Pim\Bundle\CatalogBundle\Entity\Channel;
 use Pim\Bundle\MagentoConnectorBundle\Entity\Repository\GroupRepository;
+use Pim\Bundle\MagentoConnectorBundle\Filter\ExportableProductFilter;
 
 /**
  * Manage DeltaConfigurableExport entities
@@ -26,35 +28,43 @@ class DeltaConfigurableExportManager
     /** @var GroupRepository */
     protected $groupRepository;
 
+    /** @var ExportableProductFilter */
+    protected $productFilter;
+
     /**
-     * @param EntityManager    $em
-     * @param EntityRepository $configExportRepository
-     * @param GroupRepository  $groupRepository
+     * @param EntityManager           $em
+     * @param EntityRepository        $configExportRepository
+     * @param GroupRepository         $groupRepository
+     * @param ExportableProductFilter $productFilter
      */
     public function __construct(
         EntityManager $em,
         EntityRepository $configExportRepository,
-        GroupRepository $groupRepository
+        GroupRepository $groupRepository,
+        ExportableProductFilter $productFilter
     ) {
         $this->em                     = $em;
         $this->configExportRepository = $configExportRepository;
         $this->groupRepository        = $groupRepository;
+        $this->productFilter          = $productFilter;
     }
 
     /**
      * Update configurable delta export
      *
+     * @param Channel     $channel
      * @param JobInstance $jobInstance
      * @param string      $identifier
      */
-    public function setLastExportDate(JobInstance $jobInstance, $identifier)
+    public function setLastExportDate(Channel $channel, JobInstance $jobInstance, $identifier)
     {
         $variantGroup = $this->groupRepository->findOneBy(['code' => $identifier]);
 
         if ($variantGroup) {
-            foreach ($variantGroup->getProducts() as $product) {
+            $exportableProducts = $this->productFilter->apply($channel, $variantGroup->getProducts());
+            foreach ($exportableProducts as $product) {
                 $deltaConfig = $this->configExportRepository->findOneBy([
-                    'productId'     => $product->getId(),
+                    'productId'   => $product->getId(),
                     'jobInstance' => $jobInstance
                 ]);
 

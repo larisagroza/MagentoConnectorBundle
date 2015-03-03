@@ -95,3 +95,4 @@ services:
             - '@doctrine.orm.entity_manager'
             - '@pim_magento_connector.repository.delta_configurable_export'
             - '@pim_magento_connector.repository.group'
+            - '@pim_magento_connector.filters.exportable_product'

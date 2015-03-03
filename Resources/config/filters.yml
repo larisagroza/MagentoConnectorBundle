@@ -1,0 +1,6 @@
+parameters:
+    pim_magento_connector.filters.exportable_product.class: Pim\Bundle\MagentoConnectorBundle\Filter\ExportableProductFilter
+
+services:
+    pim_magento_connector.filters.exportable_product:
+        class: %pim_magento_connector.filters.exportable_product.class%

@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\Collection;
 use Pim\Bundle\CatalogBundle\Entity\Channel;
 use Pim\Bundle\CatalogBundle\Manager\ChannelManager;
 use Pim\Bundle\CatalogBundle\Model\ProductInterface;
+use Pim\Bundle\MagentoConnectorBundle\Filter\ExportableProductFilter;
 use Pim\Bundle\MagentoConnectorBundle\Manager\AssociationTypeManager;
 use Pim\Bundle\MagentoConnectorBundle\Webservice\Webservice;
 use Pim\Bundle\MagentoConnectorBundle\Manager\PriceMappingManager;
@@ -44,6 +45,9 @@ class ConfigurableProcessor extends AbstractProductProcessor
     /** @var string */
     protected $pimGrouped;
 
+    /** @var ExportableProductFilter */
+    protected $productFilter;
+
     /**
      * @param WebserviceGuesser                   $webserviceGuesser
      * @param NormalizerGuesser                   $normalizerGuesser
@@ -57,6 +61,7 @@ class ConfigurableProcessor extends AbstractProductProcessor
      * @param AttributeManager                    $attributeManager
      * @param AssociationTypeManager              $associationTypeManager
      * @param GroupManager                        $groupManager
+     * @param ExportableProductFilter             $productFilter
      */
     public function __construct(
         WebserviceGuesser $webserviceGuesser,
@@ -70,7 +75,8 @@ class ConfigurableProcessor extends AbstractProductProcessor
         MagentoSoapClientParametersRegistry $clientParametersRegistry,
         AttributeManager $attributeManager,
         AssociationTypeManager $associationTypeManager,
-        GroupManager $groupManager
+        GroupManager $groupManager,
+        ExportableProductFilter $productFilter
     ) {
         parent::__construct(
             $webserviceGuesser,
@@ -87,6 +93,7 @@ class ConfigurableProcessor extends AbstractProductProcessor
 
         $this->associationTypeManager = $associationTypeManager;
         $this->groupManager           = $groupManager;
+        $this->productFilter          = $productFilter;
     }
 
     /**
@@ -281,7 +288,7 @@ class ConfigurableProcessor extends AbstractProductProcessor
 
                 if (in_array($groupId, $groupsIds)) {
                     $groupProducts = $group->getProducts();
-                    $exportableProducts = $this->getExportableProducts(
+                    $exportableProducts = $this->productFilter->apply(
                         $channel,
                         $groupProducts
                     );
@@ -309,76 +316,6 @@ class ConfigurableProcessor extends AbstractProductProcessor
         }
 
         return $groups;
-    }
-
-    /**
-     *
-     * Returns ready to export variant group products
-     *
-     * @param Channel          $channel
-     * @param Collection|array $groupProducts
-     *
-     * @return array
-     */
-    protected function getExportableProducts(Channel $channel, $groupProducts)
-    {
-        $exportableProducts = [];
-        $rootCategoryId     = $channel->getCategory()->getId();
-
-        foreach ($groupProducts as $product) {
-            $productCategories = $product->getCategories()->toArray();
-            if ($this->isProductComplete($product, $channel) &&
-                false !== $productCategories &&
-                $this->doesProductBelongToChannel($productCategories, $rootCategoryId)
-            ) {
-                $exportableProducts[] = $product;
-            }
-        }
-
-        return $exportableProducts;
-
-    }
-
-    /**
-     * Is the given product complete for the given channel?
-     *
-     * @param ProductInterface $product
-     * @param Channel $channel
-     *
-     * @return bool
-     */
-    protected function isProductComplete(ProductInterface $product, Channel $channel)
-    {
-        $completenesses = $product->getCompletenesses()->toArray();
-        foreach ($completenesses as $completeness) {
-            if ($completeness->getChannel()->getId() === $channel->getId() &&
-                $completeness->getRatio() < 100
-            ) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    /**
-     * Compute the belonging of a product to a channel.
-     * Validating one of its categories has the same root as the channel root category.
-     *
-     * @param \ArrayIterator|array $productCategories
-     * @param int                  $rootCategoryId
-     *
-     * @return bool
-     */
-    protected function doesProductBelongToChannel($productCategories, $rootCategoryId)
-    {
-        foreach ($productCategories as $category) {
-            if ($category->getRoot() === $rootCategoryId) {
-                return true;
-            }
-        }
-
-        return false;
     }
 
     /**
