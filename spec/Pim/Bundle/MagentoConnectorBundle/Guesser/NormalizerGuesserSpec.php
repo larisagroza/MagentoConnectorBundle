@@ -4,6 +4,7 @@ namespace spec\Pim\Bundle\MagentoConnectorBundle\Guesser;
 
 use Pim\Bundle\CatalogBundle\Manager\ChannelManager;
 use Pim\Bundle\CatalogBundle\Manager\MediaManager;
+use Pim\Bundle\MagentoConnectorBundle\Filter\ExportableLocaleFilter;
 use Pim\Bundle\MagentoConnectorBundle\Normalizer\AttributeNormalizer;
 use Pim\Bundle\MagentoConnectorBundle\Normalizer\CategoryNormalizer;
 use Pim\Bundle\MagentoConnectorBundle\Normalizer\FamilyNormalizer;
@@ -35,7 +36,8 @@ class NormalizerGuesserSpec extends ObjectBehavior
         FamilyNormalizer $familyNormalizer,
         OptionNormalizer $optionNormalizer,
         MagentoSoapClientParametersRegistry $clientParametersRegistry,
-        MagentoSoapClientParameters $clientParameters
+        MagentoSoapClientParameters $clientParameters,
+        ExportableLocaleFilter $localeFilter
     ) {
         $this->beConstructedWith(
             $magentoSoapClientFactory,
@@ -48,7 +50,8 @@ class NormalizerGuesserSpec extends ObjectBehavior
             $attributeNormalizer,
             $categoryNormalizer,
             $familyNormalizer,
-            $optionNormalizer
+            $optionNormalizer,
+            $localeFilter
         );
 
         $clientParametersRegistry->getInstance(

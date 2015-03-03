@@ -4,6 +4,7 @@ namespace spec\Pim\Bundle\MagentoConnectorBundle\Normalizer;
 
 use Pim\Bundle\CatalogBundle\Manager\ChannelManager;
 use Pim\Bundle\CatalogBundle\Manager\MediaManager;
+use Pim\Bundle\MagentoConnectorBundle\Filter\ExportableLocaleFilter;
 use Pim\Bundle\MagentoConnectorBundle\Normalizer\ProductValueNormalizer;
 use Pim\Bundle\MagentoConnectorBundle\Manager\CategoryMappingManager;
 use Pim\Bundle\MagentoConnectorBundle\Manager\AssociationTypeManager;
@@ -16,7 +17,8 @@ class ProductNormalizer16Spec extends ObjectBehavior
         MediaManager $mediaManager,
         ProductValueNormalizer $productValueNormalizer,
         CategoryMappingManager $categoryMappingManager,
-        AssociationTypeManager $associationTypeManager
+        AssociationTypeManager $associationTypeManager,
+        ExportableLocaleFilter $localeFilter
     ) {
         $this->beConstructedWith(
             $channelManager,
@@ -24,6 +26,7 @@ class ProductNormalizer16Spec extends ObjectBehavior
             $productValueNormalizer,
             $categoryMappingManager,
             $associationTypeManager,
+            $localeFilter,
             1,
             4,
             1,
