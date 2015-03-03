@@ -23,7 +23,7 @@
     ],
     "require": {
         "guzzle/service": ">=3.6.0,<3.8.0",
-        "akeneo/pim-community-dev": "1.2.*@stable"
+        "akeneo/pim-community-dev": "~1.2@stable,<1.4"
     },
     "require-dev": {
         "phpspec/phpspec": "2.0.*@dev",
