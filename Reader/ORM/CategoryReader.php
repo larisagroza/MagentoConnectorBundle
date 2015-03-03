@@ -4,8 +4,10 @@ namespace Pim\Bundle\MagentoConnectorBundle\Reader\ORM;
 
 use Doctrine\ORM\EntityManager;
 use Pim\Bundle\BaseConnectorBundle\Reader\ORM\EntityReader;
+use Pim\Bundle\BaseConnectorBundle\Validator\Constraints\Channel as ChannelConstraint;
 use Pim\Bundle\CatalogBundle\Manager\ChannelManager;
 use Pim\Bundle\MagentoConnectorBundle\Entity\Repository\CategoryRepository;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * ORM reader for categories
@@ -18,6 +20,14 @@ class CategoryReader extends EntityReader
 {
     /** @var CategoryRepository */
     protected $repository;
+
+    /**
+     * @var string
+     *
+     * @Assert\NotBlank(groups={"Execution"})
+     * @ChannelConstraint
+     */
+    protected $channel;
 
     /** @var ChannelManager */
     protected $channelManager;

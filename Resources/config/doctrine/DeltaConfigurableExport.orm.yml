@@ -9,6 +9,8 @@ Pim\Bundle\MagentoConnectorBundle\Entity\DeltaConfigurableExport:
         searchunique_idx:
             columns:
                 - id
+        product_job_idx:
+            columns: [ product_id, job_instance_id ]
     fields:
         id:
             type: integer

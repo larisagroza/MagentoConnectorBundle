@@ -6,6 +6,8 @@
  - Category export only create/update categories from the exported channel
  - Make it compatible with EE-1.11 and EE-1.12
  - Add a log to profile calls to Magento
+ - Add a command to purge Mapping in database
+ - Add a command to purge Delta in database
  - MongoDB compliance
 
 ## BC Breaks
@@ -18,9 +20,28 @@
  - CategoryRepository::findOrderCategories takes a CategoryInterface
  - pim_base_connector.reader.doctrine.obsoleteproduct, pim_base_connector.reader.doctrine.obsoleteproduct.class, pim_magento_connector.reader.doctrine.product has been removed from readers.yml because they are unused
  - Remove defaultLocale argument from OptionNormalizer::getOptionLabel
- - Rename parameter `pim_magento_connector.reader.orm.delta_product.class` by `pim_magento_connector.reader.delta_product.class`
- - Rename parameter `pim_magento_connector.reader.orm.delta_product_association.class` by `pim_magento_connector.reader.delta_product_association.class`
- - Rename parameter `pim_magento_connector.reader.orm.delta_product.class` by `pim_magento_connector.reader.delta_product.class`
+ - Rename parameter `pim_magento_connector.reader.orm.delta_product.class` to `pim_magento_connector.reader.delta_product.class`
+ - Rename parameter `pim_magento_connector.reader.orm.delta_product_association.class` to `pim_magento_connector.reader.delta_product_association.class`
+ - Rename parameter `pim_magento_connector.reader.orm.delta_product.class` to `pim_magento_connector.reader.delta_product.class`
+ - Set ProductCleaner parameters in a better order
+
+
+# 1.1.21 (2015-02-27)
+## Bug fixes
+ - Fix mapping management to handle multiple magento environment on the same PIM application installation.
+
+## BC Breaks
+ - The structure of the mapping tables (`pim_magento_attribute_mapping`, `pim_magento_category_mapping`,
+`pim_magento_family_mapping`, `pim_magento_group_mapping`) in the database have been changed:
+    - For each of them the `magento_url` column has been changed from `tinytext` to a `varchar(255)`
+    - For the `pim_magento_attribute_mapping` the index on `attribute_id` has been replaced by an index on
+`attribute_id` and `magento_url`
+    - For the `pim_magento_category_mapping` the index on `category_id` has been replaced by an index on
+`category_id` and `magento_url`
+    - For the `pim_magento_family_mapping` the index on `family_id` has been replaced by an index on
+`family_id` and `magento_url`
+    - For the `pim_magento_group_mapping` an index has been added on `pim_group_code`, `pim_family_code` and
+`magento_url`
 
 # 1.1.20 (2015-02-20)
 ## Bug fixes

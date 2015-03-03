@@ -1,13 +1,18 @@
 Pim\Bundle\MagentoConnectorBundle\Entity\MagentoAttributeMapping:
     type: entity
     table: pim_magento_attribute_mapping
+    uniqueConstraints:
+        pim_magento_attribute_mapping_uc:
+            columns:
+                - attribute_id
+                - magento_url
     id:
         id:
             type: integer
             generator: { strategy: AUTO }
     fields:
         magentoUrl:
-            type: text
+            type: string
             length: 255
             column: magento_url
         magentoAttributeId:
@@ -21,4 +26,3 @@ Pim\Bundle\MagentoConnectorBundle\Entity\MagentoAttributeMapping:
                 name: attribute_id
                 referencedColumnName: id
                 onDelete: 'CASCADE'
-                unique: true

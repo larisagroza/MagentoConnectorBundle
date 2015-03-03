@@ -27,6 +27,9 @@ class AttributeProcessor extends AbstractProcessor
      */
     protected $attributeMappingMerger;
 
+    /** @var  AttributeNormalizer */
+    protected $attributeNormalizer;
+
     /**
      * @var GroupManager
      */
@@ -119,9 +122,11 @@ class AttributeProcessor extends AbstractProcessor
     public function process($attribute)
     {
         $this->beforeExecute();
-        $magentoAttributes = $this->webservice->getAllAttributes();
 
-        $this->globalContext['create'] = !$this->magentoAttributeExists($attribute, $magentoAttributes);
+        $this->globalContext['create'] = !$this->magentoAttributeExists(
+            $attribute,
+            $this->globalContext['magentoAttributes']
+        );
         $result = [$attribute, $this->normalizeAttribute($attribute, $this->globalContext)];
 
         return $result;
