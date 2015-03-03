@@ -39,7 +39,11 @@ class PimMagentoConnectorExtension extends Extension
         $loader->load('webservices.yml');
         $loader->load('writers.yml');
 
-        $storageDriver = $container->getParameter('pim_catalog_storage_driver');
+        if ($container->hasParameter('pim_catalog_storage_driver')) {
+            $storageDriver = $container->getParameter('pim_catalog_storage_driver');
+        } else {
+            $storageDriver = $container->getParameter('pim_catalog_product_storage_driver');
+        }
         $storageConfig = sprintf('storage_driver/%s.yml', $storageDriver);
         if (file_exists(__DIR__ . '/../Resources/config/' . $storageConfig)) {
             $loader->load($storageConfig);
