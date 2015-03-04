@@ -230,21 +230,21 @@ class CategoryNormalizer extends AbstractNormalizer
         $storeViewCode,
         $urlKey = false
     ) {
-        $categoryUrlKey = '';
+        $magentoCategoryData = [
+            'name'              => $this->getCategoryLabel($category, $localeCode),
+            'available_sort_by' => 1,
+            'default_sort_by'   => 1,
+        ];
+
         if (false === $urlKey) {
-            $categoryUrlKey = $this->generateUrlKey($category, $localeCode);
+            $magentoCategoryData['url_key'] = $this->generateUrlKey($category, $localeCode);
         }
 
         return [
             'magentoCategory' => [
                 null,
-                [
-                    'name'              => $this->getCategoryLabel($category, $localeCode),
-                    'url_key'           => $categoryUrlKey,
-                    'available_sort_by' => 1,
-                    'default_sort_by'   => 1
-                ],
-                $storeViewCode
+                $magentoCategoryData,
+                $storeViewCode,
             ],
             'pimCategory' => $category,
         ];
