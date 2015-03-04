@@ -86,6 +86,10 @@ services:
         arguments:
             - '@doctrine.orm.entity_manager'
             - '@pim_catalog.repository.product'
+            - false
+            - '@pim_magento_connector.builder.table_name'
+            - pim_magento_connector.entity.delta_product_export.class
+            - pim_magento_connector.entity.delta_product_association_export.class
 
     pim_magento_connector.manager.delta_configurable_export:
         class: %pim_magento_connector.manager.delta_configurable_export.class%
@@ -93,3 +97,5 @@ services:
             - '@doctrine.orm.entity_manager'
             - '@pim_magento_connector.repository.group'
             - '@pim_magento_connector.filters.exportable_product'
+            - '@pim_magento_connector.builder.table_name'
+            - pim_magento_connector.entity.delta_configurable_export.class

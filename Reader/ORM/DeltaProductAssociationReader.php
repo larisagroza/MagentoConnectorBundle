@@ -19,17 +19,30 @@ class DeltaProductAssociationReader extends DeltaProductReader
      */
     protected function getSQLQuery($channelId, $treeId, $jobInstanceId)
     {
-        return <<<SQL
-            SELECT cp.id FROM pim_catalog_product cp
+        $productTable = $this->tableNameBuilder->getTableName($this->catalogProductParamName);
+        $completenessesTable = $this->tableNameBuilder->getTableName(
+            $this->catalogProductParamName,
+            'completenesses'
+        );
+        $categoryProductTable = $this->tableNameBuilder->getTableName(
+            $this->catalogProductParamName,
+            'categories',
+            true
+        );
+        $categoryTable = $this->tableNameBuilder->getTableName($this->categoryParamName);
+        $deltaProductAssoExportTable = $this->tableNameBuilder->getTableName($this->deltaParamName);
 
-            INNER JOIN pim_catalog_completeness comp
+        return <<<SQL
+            SELECT cp.id FROM $productTable cp
+
+            INNER JOIN $completenessesTable comp
                 ON comp.product_id = cp.id AND comp.channel_id = $channelId AND comp.ratio = 100
 
-            INNER JOIN pim_catalog_category_product ccp ON ccp.product_id = cp.id
-            INNER JOIN pim_catalog_category c
+            INNER JOIN $categoryProductTable ccp ON ccp.product_id = cp.id
+            INNER JOIN $categoryTable c
                 ON c.id = ccp.category_id AND c.root = $treeId
 
-            LEFT JOIN pim_magento_delta_product_association_export dpae ON dpae.product_id = cp.id
+            LEFT JOIN $deltaProductAssoExportTable dpae ON dpae.product_id = cp.id
             LEFT JOIN akeneo_batch_job_instance j
                 ON j.id = dpae.job_instance_id AND j.id = $jobInstanceId
 

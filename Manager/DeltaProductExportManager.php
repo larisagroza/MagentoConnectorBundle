@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManager;
 use Akeneo\Bundle\BatchBundle\Entity\JobInstance;
 use Pim\Bundle\CatalogBundle\Model\ProductInterface;
 use Pim\Bundle\CatalogBundle\Repository\ProductRepositoryInterface;
+use Pim\Bundle\MagentoConnectorBundle\Builder\TableNameBuilder;
 
 /**
  * Delta product export manager to update and create product export entities
@@ -18,12 +19,6 @@ use Pim\Bundle\CatalogBundle\Repository\ProductRepositoryInterface;
  */
 class DeltaProductExportManager
 {
-    /** @staticvar string */
-    const DELTA_PRODUCT_TABLE = 'pim_magento_delta_product_export';
-
-    /** @staticvar string */
-    const DELTA_ASSOCIATION_TABLE = 'pim_magento_delta_product_association_export';
-
     /** @var boolean */
     protected $productValueDelta;
 
@@ -33,19 +28,37 @@ class DeltaProductExportManager
     /** @var ProductRepositoryInterface */
     protected $productRepository;
 
+    /** @var TableNameBuilder */
+    protected $tableNameBuilder;
+
+    /** @var string */
+    protected $deltaProductParamName;
+
+    /** @var string */
+    protected $deltaProductAssoParamName;
+
     /**
-     * @param EntityManager                $entityManager           Entity manager for other entities
-     * @param ProductRepositoryInterface   $productRepository       Product repository
-     * @param boolean                      $productValueDelta       Should we do a delta on product values
+     * @param EntityManager              $entityManager             Entity manager for other entities
+     * @param ProductRepositoryInterface $productRepository         Product repository
+     * @param boolean                    $productValueDelta         Should we do a delta on product values
+     * @param TableNameBuilder           $tableNameBuilder          Table name builder
+     * @param string                     $deltaProductParamName     Delta product export entity parameter name
+     * @param string                     $deltaProductAssoParamName Delta product association export entity param name
      */
     public function __construct(
         EntityManager $entityManager,
         ProductRepositoryInterface $productRepository,
-        $productValueDelta = false
+        $productValueDelta = false,
+        TableNameBuilder $tableNameBuilder,
+        $deltaProductParamName,
+        $deltaProductAssoParamName
     ) {
-        $this->entityManager           = $entityManager;
-        $this->productRepository       = $productRepository;
-        $this->productValueDelta       = $productValueDelta;
+        $this->entityManager             = $entityManager;
+        $this->productRepository         = $productRepository;
+        $this->productValueDelta         = $productValueDelta;
+        $this->tableNameBuilder          = $tableNameBuilder;
+        $this->deltaProductParamName     = $deltaProductParamName;
+        $this->deltaProductAssoParamName = $deltaProductAssoParamName;
     }
 
     /**
@@ -61,7 +74,7 @@ class DeltaProductExportManager
             $this->updateExport(
                 $product,
                 $jobInstance,
-                static::DELTA_PRODUCT_TABLE
+                $this->tableNameBuilder->getTableName($this->deltaProductParamName)
             );
         }
     }
@@ -79,7 +92,7 @@ class DeltaProductExportManager
             $this->updateExport(
                 $product,
                 $jobInstance,
-                static::DELTA_ASSOCIATION_TABLE
+                $this->tableNameBuilder->getTableName($this->deltaProductAssoParamName)
             );
         }
     }
