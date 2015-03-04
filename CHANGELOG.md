@@ -1,3 +1,7 @@
+# 1.1.22 (2015-03-04)
+## Bug fix
+ - Prevent empty url_key field in normalized category
+
 # 1.1.21 (2015-02-27)
 ## Bug fixes
  - Fix mapping management to handle multiple magento environment on the same PIM application installation.
