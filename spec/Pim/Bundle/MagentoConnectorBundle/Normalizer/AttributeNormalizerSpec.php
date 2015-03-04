@@ -20,7 +20,6 @@ class AttributeNormalizerSpec extends ObjectBehavior
         'is_configurable'   => '0',
         'additional_fields' => [],
         'frontend_label'    => [['store_id' => 0, 'label' => 'attribute_code_mapped']],
-        'default_value'     => '',
     ];
 
     protected $baseContext = [

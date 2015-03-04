@@ -34,12 +34,10 @@ class AttributeNormalizer implements NormalizerInterface
     protected $supportedFormats = [self::MAGENTO_FORMAT];
 
     /**
-     * Constructor
      * @param ProductValueNormalizer $productValueNormalizer
      */
-    public function __construct(
-        ProductValueNormalizer $productValueNormalizer
-    ) {
+    public function __construct(ProductValueNormalizer $productValueNormalizer)
+    {
         $this->productValueNormalizer = $productValueNormalizer;
     }
 
@@ -70,7 +68,6 @@ class AttributeNormalizer implements NormalizerInterface
                 $context['storeViewMapping'],
                 $context['attributeCodeMapping']
             ),
-            'default_value'                 => '',
         ];
 
         $mappedAttributeType = $this->getNormalizedType($object);
