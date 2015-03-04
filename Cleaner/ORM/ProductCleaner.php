@@ -34,10 +34,23 @@ class ProductCleaner extends AbstractProductCleaner
      */
     protected function getPimProductsSkus()
     {
-        $qb = $this->productManager->getProductRepository()
-            ->buildByScope($this->channel)
+        $qb = $this->productManager->getProductRepository()->createQueryBuilder('Entity');
+        $qb
             ->select('Value.varchar as sku')
+            ->leftJoin('Entity.values', 'Value')
+            ->leftJoin('Value.attribute', 'Attribute')
             ->andWhere('Attribute.attributeType = :identifier_type')
+            ->andWhere(
+                $qb->expr()->eq('Entity.enabled', ':enabled')
+            )
+            ->andWhere(
+                $qb->expr()->orX(
+                    $qb->expr()->eq('Value.scope', ':scope'),
+                    $qb->expr()->isNull('Value.scope')
+                )
+            )
+            ->setParameter('enabled', true)
+            ->setParameter('scope', $this->channel)
             ->setParameter(':identifier_type', 'pim_catalog_identifier');
 
         return $this->getProductsSkus($qb);
