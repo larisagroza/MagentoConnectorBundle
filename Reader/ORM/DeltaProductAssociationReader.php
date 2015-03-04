@@ -19,18 +19,20 @@ class DeltaProductAssociationReader extends DeltaProductReader
      */
     protected function getSQLQuery($channelId, $treeId, $jobInstanceId)
     {
-        $productTable = $this->tableNameBuilder->getTableName($this->catalogProductParamName);
+        $productTable = $this->tableNameBuilder->getTableName('pim_catalog.entity.product.class');
         $completenessesTable = $this->tableNameBuilder->getTableName(
-            $this->catalogProductParamName,
+            'pim_catalog.entity.product.class',
             'completenesses'
         );
         $categoryProductTable = $this->tableNameBuilder->getTableName(
-            $this->catalogProductParamName,
+            'pim_catalog.entity.product.class',
             'categories',
             true
         );
-        $categoryTable = $this->tableNameBuilder->getTableName($this->categoryParamName);
-        $deltaProductAssoExportTable = $this->tableNameBuilder->getTableName($this->deltaParamName);
+        $categoryTable = $this->tableNameBuilder->getTableName('pim_catalog.entity.category.class');
+        $deltaProductAssoExportTable = $this->tableNameBuilder->getTableName(
+            'pim_magento_connector.entity.delta_product_association_export.class'
+        );
 
         return <<<SQL
             SELECT cp.id FROM $productTable cp

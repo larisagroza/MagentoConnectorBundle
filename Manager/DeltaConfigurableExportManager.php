@@ -32,28 +32,22 @@ class DeltaConfigurableExportManager
     /** @var TableNameBuilder */
     protected $tableNameBuilder;
 
-    /** @var string */
-    protected $deltaConfigurableParamName;
-
     /**
      * @param EntityManager           $em
      * @param GroupRepository         $groupRepository
      * @param ExportableProductFilter $productFilter
      * @param TableNameBuilder        $tableNameBuilder
-     * @param string                  $deltaConfigurableParamName
      */
     public function __construct(
         EntityManager $em,
         GroupRepository $groupRepository,
         ExportableProductFilter $productFilter,
-        TableNameBuilder $tableNameBuilder,
-        $deltaConfigurableParamName
+        TableNameBuilder $tableNameBuilder
     ) {
-        $this->em                         = $em;
-        $this->groupRepository            = $groupRepository;
-        $this->productFilter              = $productFilter;
-        $this->tableNameBuilder           = $tableNameBuilder;
-        $this->deltaConfigurableParamName = $deltaConfigurableParamName;
+        $this->em               = $em;
+        $this->groupRepository  = $groupRepository;
+        $this->productFilter    = $productFilter;
+        $this->tableNameBuilder = $tableNameBuilder;
     }
 
     /**
@@ -67,7 +61,9 @@ class DeltaConfigurableExportManager
     {
         $variantGroup = $this->groupRepository->findOneBy(['code' => $identifier]);
         if ($variantGroup) {
-            $deltaConfigurableTable = $this->tableNameBuilder->getTableName($this->deltaConfigurableParamName);
+            $deltaConfigurableTable = $this->tableNameBuilder->getTableName(
+                'pim_magento_connector.entity.delta_configurable_export.class'
+            );
             $exportableProducts = $this->productFilter->apply($channel, $variantGroup->getProducts());
             foreach ($exportableProducts as $product) {
                 $sql = <<<SQL

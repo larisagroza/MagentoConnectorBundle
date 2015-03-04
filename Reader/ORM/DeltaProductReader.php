@@ -22,15 +22,6 @@ class DeltaProductReader extends ORMProductReader
     /** @var TableNameBuilder */
     protected $tableNameBuilder;
 
-    /** @var string */
-    protected $catalogProductParamName;
-
-    /** @var string */
-    protected $categoryParamName;
-
-    /** @var string */
-    protected $deltaParamName;
-
     /**
      * @param ProductRepositoryInterface $repository
      * @param ChannelManager             $channelManager
@@ -39,9 +30,6 @@ class DeltaProductReader extends ORMProductReader
      * @param EntityManager              $entityManager
      * @param boolean                    $missingCompleteness
      * @param TableNameBuilder           $tableNameBuilder
-     * @param string                     $catalogProductParamName
-     * @param string                     $categoryParamName
-     * @param string                     $deltaProductParamName
      */
     public function __construct(
         ProductRepositoryInterface $repository,
@@ -50,10 +38,7 @@ class DeltaProductReader extends ORMProductReader
         MetricConverter $metricConverter,
         EntityManager $entityManager,
         $missingCompleteness = true,
-        TableNameBuilder $tableNameBuilder,
-        $catalogProductParamName,
-        $categoryParamName,
-        $deltaParamName
+        TableNameBuilder $tableNameBuilder
     ) {
         parent::__construct(
             $repository,
@@ -64,10 +49,7 @@ class DeltaProductReader extends ORMProductReader
             $missingCompleteness
         );
 
-        $this->tableNameBuilder        = $tableNameBuilder;
-        $this->catalogProductParamName = $catalogProductParamName;
-        $this->categoryParamName       = $categoryParamName;
-        $this->deltaParamName          = $deltaParamName;
+        $this->tableNameBuilder = $tableNameBuilder;
     }
 
     /**
@@ -106,18 +88,20 @@ class DeltaProductReader extends ORMProductReader
      */
     protected function getSQLQuery($channelId, $treeId, $jobInstanceId)
     {
-        $productTable = $this->tableNameBuilder->getTableName($this->catalogProductParamName);
+        $productTable = $this->tableNameBuilder->getTableName('pim_catalog.entity.product.class');
         $completenessesTable = $this->tableNameBuilder->getTableName(
-            $this->catalogProductParamName,
+            'pim_catalog.entity.product.class',
             'completenesses'
         );
         $categoryProductTable = $this->tableNameBuilder->getTableName(
-            $this->catalogProductParamName,
+            'pim_catalog.entity.product.class',
             'categories',
             true
         );
-        $categoryTable = $this->tableNameBuilder->getTableName($this->categoryParamName);
-        $deltaProductExportTable = $this->tableNameBuilder->getTableName($this->deltaParamName);
+        $categoryTable = $this->tableNameBuilder->getTableName('pim_catalog.entity.category.class');
+        $deltaProductExportTable = $this->tableNameBuilder->getTableName(
+            'pim_magento_connector.entity.delta_product_export.class'
+        );
 
         return <<<SQL
             SELECT cp.id FROM $productTable cp

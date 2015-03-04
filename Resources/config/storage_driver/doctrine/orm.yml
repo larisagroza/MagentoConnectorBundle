@@ -11,9 +11,6 @@ services:
         arguments:
             - true
             - '@pim_magento_connector.builder.table_name'
-            - pim_catalog.entity.product.class
-            - pim_catalog.entity.category.class
-            - pim_magento_connector.entity.delta_product_export.class
 
     pim_magento_connector.reader.delta_product_association:
         class: %pim_magento_connector.reader.delta_product_association.class%
@@ -21,9 +18,6 @@ services:
         arguments:
             - false
             - '@pim_magento_connector.builder.table_name'
-            - pim_catalog.entity.product.class
-            - pim_catalog.entity.category.class
-            - pim_magento_connector.entity.delta_product_association_export.class
 
     pim_magento_connector.reader.delta_configurable:
         class: %pim_magento_connector.reader.delta_configurable.class%
@@ -31,10 +25,6 @@ services:
         arguments:
             - false
             - '@pim_magento_connector.builder.table_name'
-            - pim_catalog.entity.product.class
-            - pim_catalog.entity.category.class
-            - pim_catalog.entity.group_type.class
-            - pim_magento_connector.entity.delta_configurable_export.class
 
     pim_magento_connector.cleaner.product:
         class: %pim_magento_connector.cleaner.product.class%

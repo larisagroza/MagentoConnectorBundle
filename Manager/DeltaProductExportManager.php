@@ -31,34 +31,22 @@ class DeltaProductExportManager
     /** @var TableNameBuilder */
     protected $tableNameBuilder;
 
-    /** @var string */
-    protected $deltaProductParamName;
-
-    /** @var string */
-    protected $deltaProductAssoParamName;
-
     /**
-     * @param EntityManager              $entityManager             Entity manager for other entities
-     * @param ProductRepositoryInterface $productRepository         Product repository
-     * @param boolean                    $productValueDelta         Should we do a delta on product values
-     * @param TableNameBuilder           $tableNameBuilder          Table name builder
-     * @param string                     $deltaProductParamName     Delta product export entity parameter name
-     * @param string                     $deltaProductAssoParamName Delta product association export entity param name
+     * @param EntityManager              $entityManager     Entity manager for other entities
+     * @param ProductRepositoryInterface $productRepository Product repository
+     * @param TableNameBuilder           $tableNameBuilder  Table name builder
+     * @param boolean                    $productValueDelta Should we do a delta on product values
      */
     public function __construct(
         EntityManager $entityManager,
         ProductRepositoryInterface $productRepository,
-        $productValueDelta = false,
         TableNameBuilder $tableNameBuilder,
-        $deltaProductParamName,
-        $deltaProductAssoParamName
+        $productValueDelta = false
     ) {
-        $this->entityManager             = $entityManager;
-        $this->productRepository         = $productRepository;
-        $this->productValueDelta         = $productValueDelta;
-        $this->tableNameBuilder          = $tableNameBuilder;
-        $this->deltaProductParamName     = $deltaProductParamName;
-        $this->deltaProductAssoParamName = $deltaProductAssoParamName;
+        $this->entityManager     = $entityManager;
+        $this->productRepository = $productRepository;
+        $this->productValueDelta = $productValueDelta;
+        $this->tableNameBuilder  = $tableNameBuilder;
     }
 
     /**
@@ -74,7 +62,7 @@ class DeltaProductExportManager
             $this->updateExport(
                 $product,
                 $jobInstance,
-                $this->tableNameBuilder->getTableName($this->deltaProductParamName)
+                $this->tableNameBuilder->getTableName('pim_magento_connector.entity.delta_product_export.class')
             );
         }
     }
@@ -92,7 +80,9 @@ class DeltaProductExportManager
             $this->updateExport(
                 $product,
                 $jobInstance,
-                $this->tableNameBuilder->getTableName($this->deltaProductAssoParamName)
+                $this->tableNameBuilder->getTableName(
+                    'pim_magento_connector.entity.delta_product_association_export.class'
+                )
             );
         }
     }

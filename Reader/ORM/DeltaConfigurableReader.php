@@ -22,18 +22,6 @@ class DeltaConfigurableReader extends ORMProductReader
     /** @var TableNameBuilder */
     protected $tableNameBuilder;
 
-    /** @var string */
-    protected $catalogProductParamName;
-
-    /** @var string */
-    protected $categoryParamName;
-
-    /** @var string */
-    protected $deltaParamName;
-
-    /** @var string */
-    protected $groupTypeParamName;
-
     /**
      * @param ProductRepositoryInterface $repository
      * @param ChannelManager             $channelManager
@@ -42,10 +30,6 @@ class DeltaConfigurableReader extends ORMProductReader
      * @param EntityManager              $entityManager
      * @param boolean                    $missingCompleteness
      * @param TableNameBuilder           $tableNameBuilder
-     * @param string                     $catalogProductParamName
-     * @param string                     $categoryParamName
-     * @param string                     $groupTypeParamName
-     * @param string                     $deltaProductParamName
      */
     public function __construct(
         ProductRepositoryInterface $repository,
@@ -54,11 +38,7 @@ class DeltaConfigurableReader extends ORMProductReader
         MetricConverter $metricConverter,
         EntityManager $entityManager,
         $missingCompleteness = true,
-        TableNameBuilder $tableNameBuilder,
-        $catalogProductParamName,
-        $categoryParamName,
-        $groupTypeParamName,
-        $deltaParamName
+        TableNameBuilder $tableNameBuilder
     ) {
         parent::__construct(
             $repository,
@@ -69,11 +49,7 @@ class DeltaConfigurableReader extends ORMProductReader
             $missingCompleteness
         );
 
-        $this->tableNameBuilder        = $tableNameBuilder;
-        $this->catalogProductParamName = $catalogProductParamName;
-        $this->categoryParamName       = $categoryParamName;
-        $this->groupTypeParamName      = $groupTypeParamName;
-        $this->deltaParamName          = $deltaParamName;
+        $this->tableNameBuilder = $tableNameBuilder;
     }
 
     /**
@@ -112,29 +88,31 @@ class DeltaConfigurableReader extends ORMProductReader
      */
     protected function getSQLQuery($channelId, $treeId, $jobInstanceId)
     {
-        $productTable = $this->tableNameBuilder->getTableName($this->catalogProductParamName);
+        $productTable = $this->tableNameBuilder->getTableName('pim_catalog.entity.product.class');
         $completenessesTable = $this->tableNameBuilder->getTableName(
-            $this->catalogProductParamName,
+            'pim_catalog.entity.product.class',
             'completenesses'
         );
         $categoryProductTable = $this->tableNameBuilder->getTableName(
-            $this->catalogProductParamName,
+            'pim_catalog.entity.product.class',
             'categories',
             true
         );
         $groupTable = $this->tableNameBuilder->getTableName(
-            $this->catalogProductParamName,
+            'pim_catalog.entity.product.class',
             'groups',
             false
         );
         $groupProductTable = $this->tableNameBuilder->getTableName(
-            $this->catalogProductParamName,
+            'pim_catalog.entity.product.class',
             'groups',
             true
         );
-        $groupTypeTable = $this->tableNameBuilder->getTableName($this->groupTypeParamName);
-        $categoryTable  = $this->tableNameBuilder->getTableName($this->categoryParamName);
-        $deltaConfigurableExportTable = $this->tableNameBuilder->getTableName($this->deltaParamName);
+        $groupTypeTable = $this->tableNameBuilder->getTableName('pim_catalog.entity.group_type.class');
+        $categoryTable  = $this->tableNameBuilder->getTableName('pim_catalog.entity.category.class');
+        $deltaConfigurableExportTable = $this->tableNameBuilder->getTableName(
+            'pim_magento_connector.entity.delta_configurable_export.class'
+        );
 
         return <<<SQL
             SELECT p.id FROM $productTable p
