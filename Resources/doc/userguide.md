@@ -53,7 +53,7 @@ You are now ready to export your products.
 
 Create a new export profile and select `magento_product_export`. Complete the global settings the same way you complete them for the structure export. Save the profile and edit it again. You can now map additional store views, default category, and attributes.
 
-Optionally, you can also choose if the product is visible or not on Magento, the currency, thumbnails, associations… Again, take a look at the [list](./option_list.md) to see all existing options.
+Optionally, you can also choose if the product is visible or not on Magento, the currency, thumbnails, associations… Again, take a look at the [list](./fields_list.md) to see all existing options.
 
 ### ! Important
 
