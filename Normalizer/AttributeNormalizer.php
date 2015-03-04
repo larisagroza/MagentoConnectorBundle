@@ -9,7 +9,6 @@ use Pim\Bundle\MagentoConnectorBundle\Normalizer\Exception\AttributeTypeChangedE
 use Pim\Bundle\CatalogBundle\Model\ProductValueInterface;
 use Pim\Bundle\MagentoConnectorBundle\Mapper\MappingCollection;
 use Pim\Bundle\CatalogBundle\Entity\AttributeOption;
-use Pim\Bundle\MagentoConnectorBundle\Manager\ProductValueManager;
 
 /**
  * A normalizer to transform a option entity into an array
@@ -30,11 +29,6 @@ class AttributeNormalizer implements NormalizerInterface
     protected $productValueNormalizer;
 
     /**
-     * @var ProductValueManager
-     */
-    protected $productValueManager;
-
-    /**
      * @var array
      */
     protected $supportedFormats = [self::MAGENTO_FORMAT];
@@ -42,14 +36,11 @@ class AttributeNormalizer implements NormalizerInterface
     /**
      * Constructor
      * @param ProductValueNormalizer $productValueNormalizer
-     * @param ProductValueManager    $productValueManager
      */
     public function __construct(
-        ProductValueNormalizer $productValueNormalizer,
-        ProductValueManager $productValueManager
+        ProductValueNormalizer $productValueNormalizer
     ) {
         $this->productValueNormalizer = $productValueNormalizer;
-        $this->productValueManager    = $productValueManager;
     }
 
     /**

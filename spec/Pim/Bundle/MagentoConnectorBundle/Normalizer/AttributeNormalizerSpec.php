@@ -6,7 +6,6 @@ use PhpSpec\ObjectBehavior;
 use Pim\Bundle\CatalogBundle\Entity\Attribute;
 use Pim\Bundle\CatalogBundle\Entity\AttributeTranslation;
 use Pim\Bundle\CatalogBundle\Model\ProductValueInterface;
-use Pim\Bundle\MagentoConnectorBundle\Manager\ProductValueManager;
 use Pim\Bundle\MagentoConnectorBundle\Mapper\MappingCollection;
 use Pim\Bundle\MagentoConnectorBundle\Normalizer\ProductValueNormalizer;
 use Prophecy\Argument;
@@ -14,14 +13,14 @@ use Prophecy\Argument;
 class AttributeNormalizerSpec extends ObjectBehavior
 {
     protected $baseNormalizedAttribute = [
-        'scope'                         => 'store',
-        'is_unique'                     => '0',
-        'is_required'                   => '0',
-        'apply_to'                      => '',
-        'is_configurable'               => '0',
-        'additional_fields'             => [],
-        'frontend_label'                => [['store_id' => 0, 'label' => 'attribute_code_mapped']],
-        'default_value'                 => '',
+        'scope'             => 'store',
+        'is_unique'         => '0',
+        'is_required'       => '0',
+        'apply_to'          => '',
+        'is_configurable'   => '0',
+        'additional_fields' => [],
+        'frontend_label'    => [['store_id' => 0, 'label' => 'attribute_code_mapped']],
+        'default_value'     => '',
     ];
 
     protected $baseContext = [
@@ -37,10 +36,9 @@ class AttributeNormalizerSpec extends ObjectBehavior
         ProductValueNormalizer $productValueNormalizer,
         Attribute $attribute,
         MappingCollection $attributeMapping,
-        MappingCollection $storeViewMapping,
-        ProductValueManager $productValueManager
+        MappingCollection $storeViewMapping
     ) {
-        $this->beConstructedWith($productValueNormalizer, $productValueManager);
+        $this->beConstructedWith($productValueNormalizer);
         $attribute->isUnique()->willReturn(true);
         $attribute->isRequired()->willReturn(false);
         $attribute->isLocalizable()->willReturn(true);

@@ -17,7 +17,6 @@ services:
             - '@pim_magento_connector.normalizer.value'
             - '@pim_magento_connector.manager.category_mapping'
             - '@pim_magento_connector.manager.association_type'
-            - '@pim_magento_connector.manager.product_value'
             - '@pim_magento_connector.normalizer.attribute'
             - '@pim_magento_connector.normalizer.category'
             - '@pim_magento_connector.normalizer.family'
