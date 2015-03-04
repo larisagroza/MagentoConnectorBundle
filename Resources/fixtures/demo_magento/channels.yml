@@ -1,11 +1,39 @@
 channels:
-    magento:
-        code:  magento
-        label: Magento
+    mobile:
+        code:  mobile
+        label: Mobile
+        tree:  master
         locales:
-            - en_US
             - fr_FR
+            - de_DE
+            - en_US
         currencies:
-            - EUR
             - USD
-        tree: default
+            - EUR
+        color: blue
+
+    print:
+        code:  print
+        label: Print
+        tree:  master
+        locales:
+            - fr_FR
+            - de_DE
+            - en_US
+        currencies:
+            - USD
+            - EUR
+        color: gray
+
+    ecommerce:
+        code:  ecommerce
+        label: Ecommerce
+        tree:  master
+        locales:
+            - fr_FR
+            - de_DE
+            - en_US
+        currencies:
+            - USD
+            - EUR
+        color: orange

@@ -11,8 +11,8 @@ jobs:
             wsdlUrl:               /api/soap/?wsdl
             defaultLocale:         en_US
             website:               base
-            storeviewMapping:      ''
-            categoryMapping:       'default:2'
+            storeviewMapping:      '{fr_FR:fr_fr},{de_DE:de_de}'
+            categoryMapping:       'master:2'
             notInPimAnymoreAction: 'disable'
 
     magento_category_export:
@@ -21,15 +21,15 @@ jobs:
         label:     Magento category export
         type:      export
         configuration:
-            channel:               magento
+            channel:               mobile
             soapUsername:          soap
             soapApiKey:            magento1
             magentoUrl:            http://magento.local
             wsdlUrl:               /api/soap/?wsdl
             defaultLocale:         en_US
             website:               base
-            storeviewMapping:      ''
-            categoryMapping:       'default:2'
+            storeviewMapping:      '{fr_FR:fr_fr},{de_DE:de_de}'
+            categoryMapping:       'master:2'
             notInPimAnymoreAction: 'disable'
 
     magento_product_export_delta:
@@ -38,7 +38,7 @@ jobs:
         label:     Magento product export delta
         type:      export
         configuration:
-            channel:                  magento
+            channel:                  mobile
             soapUsername:             soap
             soapApiKey:               magento1
             magentoUrl:               http://magento.local
@@ -46,13 +46,13 @@ jobs:
             defaultLocale:            en_US
             website:                  base
             enabled:                  true
-            storeviewMapping:         ''
+            storeviewMapping:         '{fr_FR:fr_fr},{de_DE:de_de}'
             visibility:               4
             currency:                 EUR
-            categoryMapping:          'default:2'
+            categoryMapping:          'master:2'
             pimGrouped:               'PACK'
             pimUpSell:                'UPSELL'
             pimCrossSell:             'X_SELL'
-            pimRelated:               'RELATED'
+            pimRelated:               'SUBSTITUTION'
             notCompleteAnymoreAction: 'disable'
             notInPimAnymoreAction:    'disable'
