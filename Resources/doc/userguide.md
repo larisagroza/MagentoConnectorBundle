@@ -43,7 +43,7 @@ The Magento connector bundle now knows your Magento install and can propose you 
 
 ![Create export configuration](./images/userguide/locales-mapping.png)
 
-Complete category and attribute export profiles and save them again. Go take a look at the [list of options](./option_list.md) availaible for each profiles for more details. You can now run them both, and you will have your Akeneo structure in Magento.
+Complete category and attribute export profiles and save them again. Go take a look at the [list of options](./fields_list.md) availaible for each profiles for more details. You can now run them both, and you will have your Akeneo structure in Magento.
 
 Remember that export jobs, once launched, run as background tasks, so you don't have to wait until structure export finishes to start creating you product export (but of course you have to wait and check it succeeds before running the product export). You can check if export succeeds (or fails and then see why) by going to `Spread > Exports history`.
 
