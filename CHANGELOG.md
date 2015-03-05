@@ -1,5 +1,6 @@
 # 1.1.23 (2015-03-06)
 ## Bug fixes
+ - Prevent an error with url_key during a product update on Magento EE
  - Fix PHP notice about pimGrouped
  
 # 1.1.22 (2015-03-04)

@@ -44,4 +44,19 @@ class WebserviceEE extends Webservice
             'is_returnable'
         ];
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function sendProduct($productPart)
+    {
+        if (count($productPart) === static::CREATE_PRODUCT_SIZE ||
+            count($productPart) === static::CREATE_CONFIGURABLE_SIZE &&
+            $productPart[static::CREATE_CONFIGURABLE_SIZE - 1] != 'sku'
+        ) {
+            $this->client->addCall([static::SOAP_ACTION_CATALOG_PRODUCT_CREATE, $productPart]);
+        } else {
+            $this->client->addCall([static::SOAP_ACTION_CATALOG_PRODUCT_UPDATE, $productPart]);
+        }
+    }
 }
