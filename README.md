@@ -14,8 +14,9 @@ Warning: this connector is not production ready and is intended for evaluation a
 
  - php5-xml
  - php5-soap
- - Akeneo PIM 1.2.x stable
+ - Akeneo PIM CE 1.2.x stable
  - Magento from CE 1.6 to 1.9 and EE 1.11 to 1.14
+ - MongoDB (optional)
 
 # Installation instructions
 
@@ -34,14 +35,10 @@ Get composer:
 
 Install the MagentoConnector with composer:
 
-    $ php composer.phar require akeneo/connector-mapping-bundle:v1.0.0-BETA3@dev
-    $ php composer.phar require akeneo/delta-export-bundle:v1.0.0-BETA3@dev
-    $ php composer.phar require akeneo/magento-connector-bundle:1.1.*@stable
+    $ php composer.phar require akeneo/magento-connector-bundle:1.2.*
 
-Enable bundles in the `app/AppKernel.php` file, in the `registerBundles` function just before the `return $bundles` line:
+Enable the bundle in the `app/AppKernel.php` file, in the `registerBundles` function just before the `return $bundles` line:
 
-    $bundles[] = new Pim\Bundle\DeltaExportBundle\PimDeltaExportBundle();
-    $bundles[] = new Pim\Bundle\ConnectorMappingBundle\PimConnectorMappingBundle();
     $bundles[] = new Pim\Bundle\MagentoConnectorBundle\PimMagentoConnectorBundle();
 
 You can now update your database:
@@ -56,21 +53,13 @@ If you want to manage configurable products, you'll need to add [magento-improve
 
 ## Installing the Magento Connector in an Akeneo PIM development environment (master)
 
-The following installation instructions are meant for development on the Magento connector itself. Start by setting up a working installation as previously explained, but install only the MagentoConnectorBundle, not the ConnectorMappingBundle and DeltaExportBundle (those two are deprecated and not used anymore in the dev version):
-
-Composer:
+The following installation instructions are meant for development on the Magento connector itself, and should not be used in production environments. Start by setting up a working installation as previously explained, but use de dev-master version:
 
     $ php composer.phar require akeneo/magento-connector-bundle:dev-master
 
-In `app/AppKernel.php`:
+Then clone the git repository of the Magento connector bundle anywhere on your file system, and create a symbolic link to the vendor folder of your Akeneo installation's (after renaming/deleting the original one).
 
-    $bundles[] = new Pim\Bundle\MagentoConnectorBundle\PimMagentoConnectorBundle();
-
-Then clone the Magento Connector bundle anywhere on your file system and create a symbolic link to your Akeneo installation's vendor folder (after renaiming/deleting the previous one).
-
-Don't forget to reinstall pim assets (again):
-
-    php app/console pim:installer:assets
+You can now update your database and reinstall pim assets as explained previously.
 
 # Magento side configuration
 
@@ -96,7 +85,7 @@ Now you can create a soap user. Go to `Web Services > SOAP/XML-RPC - Users` and 
 
 ![Magento soap user role setup](./Resources/doc/images/main/user-role-setup.png)
 
-After that you can go to `Spread > Export profiles` on Akeneo PIM and create your first Magento export job. For more informations, go take a look to the [User Guide](./Resources/doc/userguide.md).
+After that you can go to `Spread > Export profiles` on Akeneo PIM and create your first Magento export job. For more informations, go take a look to the [user guide](./Resources/doc/userguide.md).
 
 # Demo fixtures
 
