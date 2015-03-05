@@ -1,3 +1,7 @@
+# 1.1.23 (2015-03-06)
+## Bug fixes
+ - Fix PHP notice about pimGrouped
+ 
 # 1.1.22 (2015-03-04)
 ## Bug fix
  - Prevent empty url_key field in normalized category
