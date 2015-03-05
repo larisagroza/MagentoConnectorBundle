@@ -37,6 +37,9 @@ class ConfigurableProcessor extends AbstractProductProcessor
      */
     protected $groupManager;
 
+    /** @var  string */
+    protected $pimGrouped;
+
     /**
      * @param WebserviceGuesser                   $webserviceGuesser
      * @param NormalizerGuesser                   $normalizerGuesser
@@ -79,12 +82,33 @@ class ConfigurableProcessor extends AbstractProductProcessor
     }
 
     /**
+     * @return string
+     */
+    public function getPimGrouped()
+    {
+        return $this->pimGrouped;
+    }
+
+    /**
+     * @param string $pimGrouped
+     *
+     * @return ConfigurableProcessor
+     */
+    public function setPimGrouped($pimGrouped)
+    {
+        $this->pimGrouped = $pimGrouped;
+
+        return $this;
+    }
+
+    /**
      * Function called before all process
      */
     protected function beforeExecute()
     {
         parent::beforeExecute();
 
+        $this->globalContext['pimGrouped'] = $this->pimGrouped;
         $priceMappingManager          = new PriceMappingManager($this->defaultLocale, $this->currency, $this->channel);
         $this->configurableNormalizer = $this->normalizerGuesser->getConfigurableNormalizer(
             $this->getClientParameters(),
