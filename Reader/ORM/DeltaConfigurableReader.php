@@ -88,29 +88,17 @@ class DeltaConfigurableReader extends ORMProductReader
      */
     protected function getSQLQuery($channelId, $treeId, $jobInstanceId)
     {
-        $productTable = $this->tableNameBuilder->getTableName('pim_catalog.entity.product.class');
-        $completenessesTable = $this->tableNameBuilder->getTableName(
-            'pim_catalog.entity.product.class',
-            'completenesses'
-        );
+        $productTable         = $this->tableNameBuilder->getTableName('pim_catalog.entity.product.class');
+        $completenessesTable  = $this->tableNameBuilder->getTableName('pim_catalog.entity.completeness.class');
         $categoryProductTable = $this->tableNameBuilder->getTableName(
             'pim_catalog.entity.product.class',
-            'categories',
-            true
+            'categories'
         );
-        $groupTable = $this->tableNameBuilder->getTableName(
-            'pim_catalog.entity.product.class',
-            'groups',
-            false
-        );
-        $groupProductTable = $this->tableNameBuilder->getTableName(
-            'pim_catalog.entity.product.class',
-            'groups',
-            true
-        );
-        $groupTypeTable = $this->tableNameBuilder->getTableName('pim_catalog.entity.group_type.class');
-        $categoryTable  = $this->tableNameBuilder->getTableName('pim_catalog.entity.category.class');
-        $deltaConfigurableExportTable = $this->tableNameBuilder->getTableName(
+        $groupTable        = $this->tableNameBuilder->getTableName('pim_catalog.entity.group.class');
+        $groupProductTable = $this->tableNameBuilder->getTableName('pim_catalog.entity.product.class', 'groups');
+        $groupTypeTable    = $this->tableNameBuilder->getTableName('pim_catalog.entity.group_type.class');
+        $categoryTable     = $this->tableNameBuilder->getTableName('pim_catalog.entity.category.class');
+        $deltaConfigurableTable = $this->tableNameBuilder->getTableName(
             'pim_magento_connector.entity.delta_configurable_export.class'
         );
 
@@ -125,7 +113,7 @@ class DeltaConfigurableReader extends ORMProductReader
             INNER JOIN $groupTable g ON g.id = gp.group_id
             INNER JOIN $groupTypeTable gt ON gt.id = g.type_id AND gt.is_variant = 1
 
-            LEFT JOIN $deltaConfigurableExportTable de ON de.product_id = p.id
+            LEFT JOIN $deltaConfigurableTable de ON de.product_id = p.id
             LEFT JOIN akeneo_batch_job_instance j ON j.id = de.job_instance_id AND j.id = $jobInstanceId
 
             WHERE p.updated > de.last_export OR de.last_export IS NULL

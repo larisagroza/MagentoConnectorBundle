@@ -22,8 +22,6 @@ class TableNameBuilder
     protected $managerRegistry;
 
     /**
-     * Construct
-     *
      * @param ContainerInterface $container
      * @param ManagerRegistry    $managerRegistry
      */
@@ -37,31 +35,21 @@ class TableNameBuilder
      * Get table name from container parameter defined
      *
      * @param string $entityParameter
-     * @param mixed  $targetEntity
-     * @param bool   $isJoin
+     * @param string $joinEntity
      *
      * @return string
      */
-    public function getTableName($entityParameter, $targetEntity = null, $isJoin = false)
+    public function getTableName($entityParameter, $joinEntity = null)
     {
         $entityClassName = $this->getEntityClassName($entityParameter);
         $classMetadata   = $this->getClassMetadata($entityClassName);
 
-        if (null !== $targetEntity) {
-            $assocMapping  = $classMetadata->getAssociationMapping($targetEntity);
-
-            if (true === $isJoin) {
-                $tableName = $assocMapping['joinTable']['name'];
-            } else {
-                $targetEntityClassName = $assocMapping['targetEntity'];
-                $classMetadata = $this->getClassMetadata($targetEntityClassName);
-                $tableName     = $classMetadata->getTableName();
-            }
-        } else {
-            $tableName = $classMetadata->getTableName();
+        if (null !== $joinEntity) {
+            $assocMapping = $classMetadata->getAssociationMapping($joinEntity);
         }
 
-        return $tableName;
+        return isset($assocMapping['joinTable']['name']) ?
+            $assocMapping['joinTable']['name'] : $classMetadata->getTableName();
     }
 
     /**

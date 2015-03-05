@@ -88,18 +88,14 @@ class DeltaProductReader extends ORMProductReader
      */
     protected function getSQLQuery($channelId, $treeId, $jobInstanceId)
     {
-        $productTable = $this->tableNameBuilder->getTableName('pim_catalog.entity.product.class');
-        $completenessesTable = $this->tableNameBuilder->getTableName(
-            'pim_catalog.entity.product.class',
-            'completenesses'
-        );
+        $productTable         = $this->tableNameBuilder->getTableName('pim_catalog.entity.product.class');
+        $completenessesTable  = $this->tableNameBuilder->getTableName('pim_catalog.entity.completeness.class');
         $categoryProductTable = $this->tableNameBuilder->getTableName(
             'pim_catalog.entity.product.class',
-            'categories',
-            true
+            'categories'
         );
-        $categoryTable = $this->tableNameBuilder->getTableName('pim_catalog.entity.category.class');
-        $deltaProductExportTable = $this->tableNameBuilder->getTableName(
+        $categoryTable     = $this->tableNameBuilder->getTableName('pim_catalog.entity.category.class');
+        $deltaProductTable = $this->tableNameBuilder->getTableName(
             'pim_magento_connector.entity.delta_product_export.class'
         );
 
@@ -113,7 +109,7 @@ class DeltaProductReader extends ORMProductReader
             INNER JOIN $categoryTable c
                 ON c.id = ccp.category_id AND c.root = $treeId
 
-            LEFT JOIN $deltaProductExportTable dpe ON dpe.product_id = cp.id
+            LEFT JOIN $deltaProductTable dpe ON dpe.product_id = cp.id
             LEFT JOIN akeneo_batch_job_instance j
                 ON j.id = dpe.job_instance_id AND j.id = $jobInstanceId
 
