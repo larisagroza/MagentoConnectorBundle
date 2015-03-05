@@ -40,6 +40,9 @@ class DeltaProductAssociationReader extends DeltaProductReader
             INNER JOIN $categoryTable c
                 ON c.id = ccp.category_id AND c.root = $treeId
 
+            INNER JOIN pim_catalog_association a ON cp.id = a.owner_id
+            INNER JOIN pim_catalog_association_product ap ON a.id = ap.association_id
+
             LEFT JOIN $deltaProductAssoTable dpae ON dpae.product_id = cp.id
             LEFT JOIN akeneo_batch_job_instance j
                 ON j.id = dpae.job_instance_id AND j.id = $jobInstanceId
