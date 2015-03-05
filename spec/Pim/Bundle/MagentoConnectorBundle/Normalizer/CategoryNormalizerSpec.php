@@ -408,9 +408,9 @@ class CategoryNormalizerSpec extends ObjectBehavior
                         null,
                         [
                             'name'              => 'Libélé de la catégorie',
-                            'url_key'           => 'libele-de-la-categorie-category-code',
                             'available_sort_by' => 1,
                             'default_sort_by'   => 1,
+                            'url_key'           => 'libele-de-la-categorie-category-code',
                         ],
                         'fr_fr',
                     ],
