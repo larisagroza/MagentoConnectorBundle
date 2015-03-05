@@ -16,7 +16,6 @@ use Pim\Bundle\MagentoConnectorBundle\Normalizer\ProductNormalizerInterface;
 use Pim\Bundle\MagentoConnectorBundle\Normalizer\ProductValueNormalizer;
 use Pim\Bundle\MagentoConnectorBundle\Manager\CategoryMappingManager;
 use Pim\Bundle\MagentoConnectorBundle\Manager\AssociationTypeManager;
-use Pim\Bundle\MagentoConnectorBundle\Manager\ProductValueManager;
 use Pim\Bundle\MagentoConnectorBundle\Normalizer\CategoryNormalizer;
 use Pim\Bundle\MagentoConnectorBundle\Normalizer\FamilyNormalizer;
 use Pim\Bundle\MagentoConnectorBundle\Normalizer\OptionNormalizer;
@@ -46,9 +45,6 @@ class NormalizerGuesser extends AbstractGuesser
     /** @var AssociationTypeManager */
     protected $associationTypeManager;
 
-    /** @var ProductValueManager */
-    protected $productValueManager;
-
     /** @var \Pim\Bundle\MagentoConnectorBundle\Normalizer\AttributeNormalizer */
     protected $attributeNormalizer;
 
@@ -72,7 +68,6 @@ class NormalizerGuesser extends AbstractGuesser
      * @param ProductValueNormalizer   $productValueNormalizer
      * @param CategoryMappingManager   $categoryMappingManager
      * @param AssociationTypeManager   $associationTypeManager
-     * @param ProductValueManager      $productValueManager
      * @param CategoryNormalizer       $categoryNormalizer
      * @param FamilyNormalizer         $familyNormalizer
      * @param OptionNormalizer         $optionNormalizer
@@ -85,7 +80,6 @@ class NormalizerGuesser extends AbstractGuesser
         ProductValueNormalizer $productValueNormalizer,
         CategoryMappingManager $categoryMappingManager,
         AssociationTypeManager $associationTypeManager,
-        ProductValueManager $productValueManager,
         AttributeNormalizer $attributeNormalizer,
         CategoryNormalizer $categoryNormalizer,
         FamilyNormalizer $familyNormalizer,
@@ -98,7 +92,6 @@ class NormalizerGuesser extends AbstractGuesser
         $this->productValueNormalizer   = $productValueNormalizer;
         $this->categoryMappingManager   = $categoryMappingManager;
         $this->associationTypeManager   = $associationTypeManager;
-        $this->productValueManager      = $productValueManager;
         $this->attributeNormalizer      = $attributeNormalizer;
         $this->categoryNormalizer       = $categoryNormalizer;
         $this->familyNormalizer         = $familyNormalizer;

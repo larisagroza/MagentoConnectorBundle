@@ -9,7 +9,6 @@ use Pim\Bundle\MagentoConnectorBundle\Normalizer\Exception\AttributeTypeChangedE
 use Pim\Bundle\CatalogBundle\Model\ProductValueInterface;
 use Pim\Bundle\MagentoConnectorBundle\Mapper\MappingCollection;
 use Pim\Bundle\CatalogBundle\Entity\AttributeOption;
-use Pim\Bundle\MagentoConnectorBundle\Manager\ProductValueManager;
 
 /**
  * A normalizer to transform a option entity into an array
@@ -30,26 +29,16 @@ class AttributeNormalizer implements NormalizerInterface
     protected $productValueNormalizer;
 
     /**
-     * @var ProductValueManager
-     */
-    protected $productValueManager;
-
-    /**
      * @var array
      */
     protected $supportedFormats = [self::MAGENTO_FORMAT];
 
     /**
-     * Constructor
      * @param ProductValueNormalizer $productValueNormalizer
-     * @param ProductValueManager    $productValueManager
      */
-    public function __construct(
-        ProductValueNormalizer $productValueNormalizer,
-        ProductValueManager $productValueManager
-    ) {
+    public function __construct(ProductValueNormalizer $productValueNormalizer)
+    {
         $this->productValueNormalizer = $productValueNormalizer;
-        $this->productValueManager    = $productValueManager;
     }
 
     /**
@@ -79,7 +68,6 @@ class AttributeNormalizer implements NormalizerInterface
                 $context['storeViewMapping'],
                 $context['attributeCodeMapping']
             ),
-            'default_value'                 => '',
         ];
 
         $mappedAttributeType = $this->getNormalizedType($object);
@@ -93,14 +81,6 @@ class AttributeNormalizer implements NormalizerInterface
                 $normalizedAttribute
             );
         } else {
-            $normalizedAttribute['default_value'] = $this->getNormalizedDefaultValue(
-                $object,
-                $context['defaultLocale'],
-                $context['magentoAttributes'],
-                $context['magentoAttributesOptions'],
-                $context['attributeCodeMapping']
-            );
-
             $magentoAttributeCode = strtolower($context['attributeCodeMapping']->getTarget($object->getCode()));
             $magentoAttributeType = $context['magentoAttributes'][$magentoAttributeCode]['type'];
             if ($mappedAttributeType !== $magentoAttributeType &&
@@ -196,53 +176,6 @@ class AttributeNormalizer implements NormalizerInterface
     protected function getNormalizedScope(AbstractAttribute $attribute)
     {
         return $attribute->isLocalizable() ? self::STORE_SCOPE : self::GLOBAL_SCOPE;
-    }
-
-    /**
-     * Get normalized default value for attribute
-     * @param AbstractAttribute $attribute
-     * @param string            $defaultLocale
-     * @param array             $magentoAttributes
-     * @param array             $magentoAttributesOptions
-     * @param MappingCollection $attributeMapping
-     *
-     * @return string
-     */
-    protected function getNormalizedDefaultValue(
-        AbstractAttribute $attribute,
-        $defaultLocale,
-        array $magentoAttributes,
-        array $magentoAttributesOptions,
-        MappingCollection $attributeMapping
-    ) {
-        $attributeCode = strtolower($attributeMapping->getTarget($attribute->getCode()));
-
-        $context = [
-            'identifier'               => null,
-            'scopeCode'                => null,
-            'localeCode'               => $defaultLocale,
-            'onlyLocalized'            => false,
-            'magentoAttributes'        => [$attributeCode => [
-                'scope' => !$attribute->isLocalizable() ? ProductValueNormalizer::GLOBAL_SCOPE : '',
-            ]],
-            'magentoAttributesOptions' => $magentoAttributesOptions,
-            'attributeCodeMapping'         => $attributeMapping,
-            'currencyCode'             => '',
-        ];
-
-        if ($attribute->getDefaultValue() instanceof ProductValueInterface) {
-            return reset(
-                $this->productValueNormalizer->normalize($attribute->getDefaultValue(), 'MagentoArray', $context)
-            );
-        } elseif ($attribute->getDefaultValue() instanceof AttributeOption) {
-            $productValue = $this->productValueManager->createProductValueForDefaultOption($attribute);
-
-            $normalizedOption = $this->productValueNormalizer->normalize($productValue, 'MagentoArray', $context);
-
-            return null != $normalizedOption ? reset($normalizedOption) : null;
-        } else {
-            return (null !== $attribute->getDefaultValue() ? (string) $attribute->getDefaultValue() : '');
-        }
     }
 
     /**

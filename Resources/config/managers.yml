@@ -7,7 +7,6 @@ parameters:
     pim_magento_connector.manager.attribute_mapping.class:         Pim\Bundle\MagentoConnectorBundle\Manager\AttributeMappingManager
     pim_magento_connector.manager.simple_mapping.class:            Pim\Bundle\MagentoConnectorBundle\Manager\SimpleMappingManager
     pim_magento_connector.manager.association_type.class:          Pim\Bundle\MagentoConnectorBundle\Manager\AssociationTypeManager
-    pim_magento_connector.manager.product_value.class:             Pim\Bundle\MagentoConnectorBundle\Manager\ProductValueManager
     pim_magento_connector.manager.attribute.class:                 Pim\Bundle\MagentoConnectorBundle\Manager\AttributeManager
     pim_magento_connector.manager.group.class:                     Pim\Bundle\MagentoConnectorBundle\Manager\GroupManager
     pim_magento_connector.manager.delta_product_export.class:      Pim\Bundle\MagentoConnectorBundle\Manager\DeltaProductExportManager
@@ -20,11 +19,6 @@ services:
         arguments:
             - '@doctrine.orm.entity_manager'
             - %pim_catalog.entity.association_type.class%
-
-    pim_magento_connector.manager.product_value:
-        class: %pim_magento_connector.manager.product_value.class%
-        arguments:
-            - %pim_catalog.entity.product_value.class%
 
     pim_magento_connector.manager.group:
         class: %pim_magento_connector.manager.group.class%

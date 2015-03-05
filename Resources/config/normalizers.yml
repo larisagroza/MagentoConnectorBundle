@@ -13,7 +13,6 @@ services:
         class: %pim_magento_connector.normalizer.attribute.class%
         arguments:
             - '@pim_magento_connector.normalizer.value'
-            - '@pim_magento_connector.manager.product_value'
 
     pim_magento_connector.normalizer.category:
         class: %pim_magento_connector.normalizer.category.class%

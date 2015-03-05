@@ -12,7 +12,6 @@ use Pim\Bundle\MagentoConnectorBundle\Normalizer\OptionNormalizer;
 use Pim\Bundle\MagentoConnectorBundle\Normalizer\ProductValueNormalizer;
 use Pim\Bundle\MagentoConnectorBundle\Manager\CategoryMappingManager;
 use Pim\Bundle\MagentoConnectorBundle\Manager\AssociationTypeManager;
-use Pim\Bundle\MagentoConnectorBundle\Manager\ProductValueManager;
 use Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClientFactory;
 use Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClientParametersRegistry;
 use Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClient;
@@ -30,7 +29,6 @@ class NormalizerGuesserSpec extends ObjectBehavior
         ProductValueNormalizer $productValueNormalizer,
         CategoryMappingManager $categoryMappingManager,
         AssociationTypeManager $associationTypeManager,
-        ProductValueManager $productValueManager,
         AttributeNormalizer $attributeNormalizer,
         CategoryNormalizer $categoryNormalizer,
         FamilyNormalizer $familyNormalizer,
@@ -46,7 +44,6 @@ class NormalizerGuesserSpec extends ObjectBehavior
             $productValueNormalizer,
             $categoryMappingManager,
             $associationTypeManager,
-            $productValueManager,
             $attributeNormalizer,
             $categoryNormalizer,
             $familyNormalizer,
