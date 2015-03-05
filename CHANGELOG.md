@@ -4,11 +4,12 @@
  - Connector Mapping is directly integrated in MagentoConnector (ConnectorMappingBundle is now deprecated)
  - Attribute, Category, Family and Option normalizers are now in the DI
  - Category export only create/update categories from the exported channel
- - Make it compatible with EE-1.11 and EE-1.12
+ - Make it compatible with Magento EE-1.11 and EE-1.12
  - Add a log to profile calls to Magento
  - Add a command to purge Mapping in database
  - Add a command to purge Delta in database
  - MongoDB compliance
+ - Akeneo PIM CE 1.3 compliance
 
 ## Bug fixes
  - Connector send products only with complete locales
@@ -30,6 +31,8 @@
  - Add ExportableLocaleFilter parameter in ProductNormalizer
  - Add ExportableLocaleFilter parameter in ProductNormalizer16
  - Add ExportableLocaleFilter parameter in NormalizerGuesser
+ - Remove ProductValueManager class (used only to calculate default value which is not a feature anymore)
+ - Remove ProductValueManager injection in NormalizerGuesser and AttributeNormalizer
 
 
 # 1.1.21 (2015-02-27)
