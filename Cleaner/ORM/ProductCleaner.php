@@ -4,6 +4,7 @@ namespace Pim\Bundle\MagentoConnectorBundle\Cleaner\ORM;
 
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
+use Doctrine\ORM\Query\Expr;
 use Pim\Bundle\MagentoConnectorBundle\Cleaner\AbstractProductCleaner;
 
 /**
@@ -34,24 +35,18 @@ class ProductCleaner extends AbstractProductCleaner
      */
     protected function getPimProductsSkus()
     {
-        $qb = $this->productManager->getProductRepository()->createQueryBuilder('Entity');
+        $qb = $this->productManager->getProductRepository()->createQueryBuilder('p');
         $qb
-            ->select('Value.varchar as sku')
-            ->leftJoin('Entity.values', 'Value')
-            ->leftJoin('Value.attribute', 'Attribute')
-            ->andWhere('Attribute.attributeType = :identifier_type')
+            ->select('v.varchar as sku')
+            ->innerJoin('p.values', 'v')
+            ->innerJoin('v.attribute', 'a', Expr\Join::WITH, 'a.attributeType = :identifier_type')
             ->andWhere(
-                $qb->expr()->eq('Entity.enabled', ':enabled')
+                $qb->expr()->eq('p.enabled', ':enabled')
             )
-            ->andWhere(
-                $qb->expr()->orX(
-                    $qb->expr()->eq('Value.scope', ':scope'),
-                    $qb->expr()->isNull('Value.scope')
-                )
-            )
-            ->setParameter('enabled', true)
-            ->setParameter('scope', $this->channel)
-            ->setParameter(':identifier_type', 'pim_catalog_identifier');
+            ->setParameter(':identifier_type', 'pim_catalog_identifier')
+            ->setParameter('enabled', true);
+
+        var_dump($qb->getQuery()->getSQL());
 
         return $this->getProductsSkus($qb);
     }
