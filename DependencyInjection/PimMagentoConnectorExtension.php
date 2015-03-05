@@ -48,6 +48,8 @@ class PimMagentoConnectorExtension extends Extension
     /**
      * Returns the storage driver used
      *
+     * @param ContainerBuilder $container
+     *
      * @return string
      */
     protected function getStorageDriver(ContainerBuilder $container)
