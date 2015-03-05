@@ -7,6 +7,7 @@ use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityRepository;
 use PDO;
 use Pim\Bundle\CatalogBundle\Entity\Channel;
+use Pim\Bundle\MagentoConnectorBundle\Builder\TableNameBuilder;
 use Pim\Bundle\MagentoConnectorBundle\Entity\Repository\GroupRepository;
 use Pim\Bundle\MagentoConnectorBundle\Filter\ExportableProductFilter;
 
@@ -28,19 +29,25 @@ class DeltaConfigurableExportManager
     /** @var ExportableProductFilter */
     protected $productFilter;
 
+    /** @var TableNameBuilder */
+    protected $tableNameBuilder;
+
     /**
      * @param EntityManager           $em
      * @param GroupRepository         $groupRepository
      * @param ExportableProductFilter $productFilter
+     * @param TableNameBuilder        $tableNameBuilder
      */
     public function __construct(
         EntityManager $em,
         GroupRepository $groupRepository,
-        ExportableProductFilter $productFilter
+        ExportableProductFilter $productFilter,
+        TableNameBuilder $tableNameBuilder
     ) {
-        $this->em              = $em;
-        $this->groupRepository = $groupRepository;
-        $this->productFilter   = $productFilter;
+        $this->em               = $em;
+        $this->groupRepository  = $groupRepository;
+        $this->productFilter    = $productFilter;
+        $this->tableNameBuilder = $tableNameBuilder;
     }
 
     /**
@@ -54,12 +61,13 @@ class DeltaConfigurableExportManager
     {
         $variantGroup = $this->groupRepository->findOneBy(['code' => $identifier]);
         if ($variantGroup) {
-
+            $deltaConfigurableTable = $this->tableNameBuilder->getTableName(
+                'pim_magento_connector.entity.delta_configurable_export.class'
+            );
             $exportableProducts = $this->productFilter->apply($channel, $variantGroup->getProducts());
             foreach ($exportableProducts as $product) {
-
                 $sql = <<<SQL
-                  INSERT INTO pim_magento_delta_configurable_export (product_id, job_instance_id, last_export)
+                  INSERT INTO $deltaConfigurableTable (product_id, job_instance_id, last_export)
                   VALUES (:product_id, :job_instance_id, :last_export)
                   ON DUPLICATE KEY UPDATE last_export = :last_export
 SQL;

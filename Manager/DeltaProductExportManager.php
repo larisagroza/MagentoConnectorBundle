@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityManager;
 use Akeneo\Bundle\BatchBundle\Entity\JobInstance;
 use Pim\Bundle\CatalogBundle\Model\ProductInterface;
 use Pim\Bundle\CatalogBundle\Repository\ProductRepositoryInterface;
+use Pim\Bundle\MagentoConnectorBundle\Builder\TableNameBuilder;
 
 /**
  * Delta product export manager to update and create product export entities
@@ -18,12 +19,6 @@ use Pim\Bundle\CatalogBundle\Repository\ProductRepositoryInterface;
  */
 class DeltaProductExportManager
 {
-    /** @staticvar string */
-    const DELTA_PRODUCT_TABLE = 'pim_magento_delta_product_export';
-
-    /** @staticvar string */
-    const DELTA_ASSOCIATION_TABLE = 'pim_magento_delta_product_association_export';
-
     /** @var boolean */
     protected $productValueDelta;
 
@@ -33,19 +28,25 @@ class DeltaProductExportManager
     /** @var ProductRepositoryInterface */
     protected $productRepository;
 
+    /** @var TableNameBuilder */
+    protected $tableNameBuilder;
+
     /**
-     * @param EntityManager                $entityManager           Entity manager for other entities
-     * @param ProductRepositoryInterface   $productRepository       Product repository
-     * @param boolean                      $productValueDelta       Should we do a delta on product values
+     * @param EntityManager              $entityManager     Entity manager for other entities
+     * @param ProductRepositoryInterface $productRepository Product repository
+     * @param TableNameBuilder           $tableNameBuilder  Table name builder
+     * @param boolean                    $productValueDelta Should we do a delta on product values
      */
     public function __construct(
         EntityManager $entityManager,
         ProductRepositoryInterface $productRepository,
+        TableNameBuilder $tableNameBuilder,
         $productValueDelta = false
     ) {
-        $this->entityManager           = $entityManager;
-        $this->productRepository       = $productRepository;
-        $this->productValueDelta       = $productValueDelta;
+        $this->entityManager     = $entityManager;
+        $this->productRepository = $productRepository;
+        $this->productValueDelta = $productValueDelta;
+        $this->tableNameBuilder  = $tableNameBuilder;
     }
 
     /**
@@ -61,7 +62,7 @@ class DeltaProductExportManager
             $this->updateExport(
                 $product,
                 $jobInstance,
-                static::DELTA_PRODUCT_TABLE
+                $this->tableNameBuilder->getTableName('pim_magento_connector.entity.delta_product_export.class')
             );
         }
     }
@@ -79,7 +80,9 @@ class DeltaProductExportManager
             $this->updateExport(
                 $product,
                 $jobInstance,
-                static::DELTA_ASSOCIATION_TABLE
+                $this->tableNameBuilder->getTableName(
+                    'pim_magento_connector.entity.delta_product_association_export.class'
+                )
             );
         }
     }

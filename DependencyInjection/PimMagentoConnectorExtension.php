@@ -22,6 +22,7 @@ class PimMagentoConnectorExtension extends Extension
     public function load(array $configs, ContainerBuilder $container)
     {
         $loader = new YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader->load('builders.yml');
         $loader->load('cleaners.yml');
         $loader->load('entities.yml');
         $loader->load('filters.yml');

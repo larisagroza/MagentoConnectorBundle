@@ -2,7 +2,13 @@
 
 namespace Pim\Bundle\MagentoConnectorBundle\Reader\ORM;
 
+use Doctrine\ORM\EntityManager;
 use Pim\Bundle\BaseConnectorBundle\Reader\Doctrine\ORMProductReader;
+use Pim\Bundle\CatalogBundle\Manager\ChannelManager;
+use Pim\Bundle\CatalogBundle\Manager\CompletenessManager;
+use Pim\Bundle\CatalogBundle\Repository\ProductRepositoryInterface;
+use Pim\Bundle\MagentoConnectorBundle\Builder\TableNameBuilder;
+use Pim\Bundle\TransformBundle\Converter\MetricConverter;
 
 /**
  * Delta product reader
@@ -13,6 +19,39 @@ use Pim\Bundle\BaseConnectorBundle\Reader\Doctrine\ORMProductReader;
  */
 class DeltaProductReader extends ORMProductReader
 {
+    /** @var TableNameBuilder */
+    protected $tableNameBuilder;
+
+    /**
+     * @param ProductRepositoryInterface $repository
+     * @param ChannelManager             $channelManager
+     * @param CompletenessManager        $completenessManager
+     * @param MetricConverter            $metricConverter
+     * @param EntityManager              $entityManager
+     * @param boolean                    $missingCompleteness
+     * @param TableNameBuilder           $tableNameBuilder
+     */
+    public function __construct(
+        ProductRepositoryInterface $repository,
+        ChannelManager $channelManager,
+        CompletenessManager $completenessManager,
+        MetricConverter $metricConverter,
+        EntityManager $entityManager,
+        $missingCompleteness = true,
+        TableNameBuilder $tableNameBuilder
+    ) {
+        parent::__construct(
+            $repository,
+            $channelManager,
+            $completenessManager,
+            $metricConverter,
+            $entityManager,
+            $missingCompleteness
+        );
+
+        $this->tableNameBuilder = $tableNameBuilder;
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -49,17 +88,28 @@ class DeltaProductReader extends ORMProductReader
      */
     protected function getSQLQuery($channelId, $treeId, $jobInstanceId)
     {
-        return <<<SQL
-            SELECT cp.id FROM pim_catalog_product cp
+        $productTable         = $this->tableNameBuilder->getTableName('pim_catalog.entity.product.class');
+        $completenessesTable  = $this->tableNameBuilder->getTableName('pim_catalog.entity.completeness.class');
+        $categoryProductTable = $this->tableNameBuilder->getTableName(
+            'pim_catalog.entity.product.class',
+            'categories'
+        );
+        $categoryTable     = $this->tableNameBuilder->getTableName('pim_catalog.entity.category.class');
+        $deltaProductTable = $this->tableNameBuilder->getTableName(
+            'pim_magento_connector.entity.delta_product_export.class'
+        );
 
-            INNER JOIN pim_catalog_completeness comp
+        return <<<SQL
+            SELECT cp.id FROM $productTable cp
+
+            INNER JOIN $completenessesTable comp
                 ON comp.product_id = cp.id AND comp.channel_id = $channelId AND comp.ratio = 100
 
-            INNER JOIN pim_catalog_category_product ccp ON ccp.product_id = cp.id
-            INNER JOIN pim_catalog_category c
+            INNER JOIN $categoryProductTable ccp ON ccp.product_id = cp.id
+            INNER JOIN $categoryTable c
                 ON c.id = ccp.category_id AND c.root = $treeId
 
-            LEFT JOIN pim_magento_delta_product_export dpe ON dpe.product_id = cp.id
+            LEFT JOIN $deltaProductTable dpe ON dpe.product_id = cp.id
             LEFT JOIN akeneo_batch_job_instance j
                 ON j.id = dpe.job_instance_id AND j.id = $jobInstanceId
 
