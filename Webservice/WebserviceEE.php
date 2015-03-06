@@ -48,6 +48,17 @@ class WebserviceEE extends Webservice
     /**
      * {@inheritdoc}
      */
+    public function updateProductPart($productPart)
+    {
+        $productPart = $this->removeNonUpdatePart($productPart);
+        $this->client->addCall(
+            [self::SOAP_ACTION_CATALOG_PRODUCT_UPDATE, $productPart]
+        );
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function sendProduct($productPart)
     {
         if (count($productPart) === static::CREATE_PRODUCT_SIZE ||
