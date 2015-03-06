@@ -1,4 +1,32 @@
 families:
+    akeneo_stickers:
+        labels:
+            en_US: Stickers
+            fr_FR: Stickers
+        attributeAsLabel: name
+        attributes:
+            - sku
+            - name
+            - description
+            - price
+            - picture
+            - main_color
+        requirements:
+            print:
+                - sku
+                - name
+                - price
+                - main_color
+            mobile:
+                - sku
+                - name
+                - price
+                - main_color
+            ecommerce:
+                - sku
+                - name
+                - price
+                - main_color
     pc_monitors:
         labels:
             en_US: 'PC Monitors'
@@ -505,6 +533,9 @@ families:
             - container_material
 
     tshirts:
+        labels:
+            en_US: Tshirts
+            fr_FR: Tshirst
         requirements:
             print:
                 - sku
