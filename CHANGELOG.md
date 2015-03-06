@@ -34,6 +34,14 @@
  - Remove ProductValueManager class (used only to calculate default value which is not a feature anymore)
  - Remove ProductValueManager injection in NormalizerGuesser and AttributeNormalizer
 
+# 1.1.23 (2015-03-06)
+## Bug fixes
+ - Prevent an error with url_key during a product update on Magento EE
+ - Fix PHP notice about pimGrouped
+ 
+# 1.1.22 (2015-03-04)
+## Bug fix
+ - Prevent empty url_key field in normalized category
 
 # 1.1.21 (2015-02-27)
 ## Bug fixes
