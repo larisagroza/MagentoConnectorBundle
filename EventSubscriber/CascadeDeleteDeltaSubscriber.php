@@ -48,7 +48,7 @@ class CascadeDeleteDeltaSubscriber implements EventSubscriberInterface
     {
         return [
             ProductEvents::POST_MASS_REMOVE => 'postMassRemove',
-            ProductEvents::POST_REMOVE => 'postRemove'
+            ProductEvents::POST_REMOVE      => 'postRemove'
         ];
     }
 
@@ -95,7 +95,7 @@ class CascadeDeleteDeltaSubscriber implements EventSubscriberInterface
     protected function getDeleteSQLQuery(array $productIds, $tableName)
     {
         $productsList = implode(',', $productIds);
-        
+
         return <<<SQL
             DELETE FROM $tableName WHERE product_id IN ($productsList)
 SQL;
