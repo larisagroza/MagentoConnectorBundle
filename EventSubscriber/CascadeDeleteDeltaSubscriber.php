@@ -97,7 +97,7 @@ class CascadeDeleteDeltaSubscriber implements EventSubscriberInterface
         $productsList = implode(',', $productIds);
 
         return <<<SQL
-            DELETE FROM $tableName WHERE product_id IN ($productsList)
+DELETE FROM $tableName WHERE product_id IN ($productsList)
 SQL;
     }
 }
