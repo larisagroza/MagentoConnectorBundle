@@ -18,7 +18,7 @@ Warning: this connector is not production ready and is intended for evaluation a
  - Magento from CE 1.6 to 1.9 and EE 1.11 to 1.14
  - MongoDB (optional)
 
-If you want to manage configurable products, you'll **must add [magento-improve-api](https://github.com/jreinke/magento-improve-api)** in your Magento installation.
+If you want to manage configurable products, you **must add [magento-improve-api](https://github.com/jreinke/magento-improve-api)** in your Magento installation.
 
 # Installation instructions
 
