@@ -48,6 +48,17 @@ class WebserviceEE extends Webservice
     /**
      * {@inheritdoc}
      */
+    public function updateProductPart($productPart)
+    {
+        $productPart = $this->removeNonUpdatePart($productPart);
+        $this->client->addCall(
+            [self::SOAP_ACTION_CATALOG_PRODUCT_UPDATE, $productPart]
+        );
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function sendProduct($productPart)
     {
         if (count($productPart) === static::CREATE_PRODUCT_SIZE ||
@@ -56,7 +67,25 @@ class WebserviceEE extends Webservice
         ) {
             $this->client->addCall([static::SOAP_ACTION_CATALOG_PRODUCT_CREATE, $productPart]);
         } else {
+            $productPart = $this->removeNonUpdatePart($productPart);
             $this->client->addCall([static::SOAP_ACTION_CATALOG_PRODUCT_UPDATE, $productPart]);
         }
+    }
+
+    /**
+     * Cleanup part of the product data that should not be sent as
+     * update part
+     *
+     * @param array $productPart
+     *
+     * @return array
+     */
+    protected function removeNonUpdatePart(array $productPart)
+    {
+        if (isset($productPart[1]['url_key'])) {
+            unset($productPart[1]['url_key']);
+        }
+
+        return $productPart;
     }
 }
