@@ -5,7 +5,6 @@ channels:
         tree:  master
         locales:
             - fr_FR
-            - de_DE
             - en_US
         currencies:
             - USD
@@ -18,7 +17,6 @@ channels:
         tree:  master
         locales:
             - fr_FR
-            - de_DE
             - en_US
         currencies:
             - USD
@@ -31,7 +29,6 @@ channels:
         tree:  master
         locales:
             - fr_FR
-            - de_DE
             - en_US
         currencies:
             - USD

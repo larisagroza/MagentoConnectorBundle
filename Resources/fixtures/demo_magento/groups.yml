@@ -4,7 +4,6 @@ groups:
         labels:
             en_US: Akeneo Mugs
             fr_FR: Mugs Akeneo
-            de_DE: Akeneo Tassen
         attributes:
             - main_color
             - secondary_color
@@ -14,7 +13,6 @@ groups:
         labels:
             en_US: Oro Mugs
             fr_FR: Mugs Oro
-            de_DE: Oro Tassen
         attributes:
             - main_color
             - secondary_color
@@ -25,7 +23,6 @@ groups:
         labels:
             en_US: Akeneo T-Shirts
             fr_FR: T-Shirts Akeneo
-            de_DE: T-Shirts Akeneo
         attributes:
             - main_color
             - secondary_color
@@ -36,7 +33,6 @@ groups:
         labels:
             en_US: Akeneo long sleeve T-Shirts
             fr_FR: T-Shirts à manche longue Akeneo
-            de_DE: T-Shirts Langarm Akeneo
         attributes:
             - main_color
             - secondary_color
@@ -47,7 +43,6 @@ groups:
         labels:
             en_US: Akeneo vneck T-Shirts
             fr_FR: T-Shirts col en V Akeneo
-            de_DE: T-Shirts mit V-Ausschnitt Akeneo
         attributes:
             - main_color
             - secondary_color
@@ -59,7 +54,6 @@ groups:
         labels:
             en_US: Oro T-Shirts
             fr_FR: T-Shirts Oro
-            de_DE: T-Shirts Oro
         attributes:
             - main_color
             - secondary_color

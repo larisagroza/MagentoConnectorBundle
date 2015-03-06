@@ -11,7 +11,7 @@ jobs:
             wsdlUrl:               /api/soap/?wsdl
             defaultLocale:         en_US
             website:               base
-            storeviewMapping:      '{fr_FR:fr_fr},{de_DE:de_de}'
+            storeviewMapping:      'fr_FR:fr_fr'
             categoryMapping:       'master:2'
             notInPimAnymoreAction: 'disable'
 
@@ -28,7 +28,7 @@ jobs:
             wsdlUrl:               /api/soap/?wsdl
             defaultLocale:         en_US
             website:               base
-            storeviewMapping:      '{fr_FR:fr_fr},{de_DE:de_de}'
+            storeviewMapping:      'fr_FR:fr_fr'
             categoryMapping:       'master:2'
             notInPimAnymoreAction: 'disable'
 
@@ -46,7 +46,7 @@ jobs:
             defaultLocale:            en_US
             website:                  base
             enabled:                  true
-            storeviewMapping:         '{fr_FR:fr_fr},{de_DE:de_de}'
+            storeviewMapping:         'fr_FR:fr_fr'
             visibility:               4
             currency:                 EUR
             categoryMapping:          'master:2'

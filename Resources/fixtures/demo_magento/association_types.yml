@@ -11,9 +11,7 @@ associations:
         labels:
             en_US: Substitution
             fr_FR: Remplacement
-            de_DE: Ersatz
     PACK:
         labels:
             en_US: Pack
             fr_FR: Pack
-            de_DE: Pack
