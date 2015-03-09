@@ -34,7 +34,7 @@
  - Remove ProductValueManager class (used only to calculate default value which is not a feature anymore)
  - Remove ProductValueManager injection in NormalizerGuesser and AttributeNormalizer
 
-# 1.1.24 (2015-03-06)
+# 1.1.24 (2015-03-09)
 ## Bug fix
  - Remove url_key from product updates with Magento EE
 
