@@ -103,6 +103,9 @@ class DeltaProductAssociationReader extends ODMProductReader
     protected function prepareQB()
     {
         $qb = $this->repository->buildByChannelAndCompleteness($this->channel);
+        $qb->addAnd(
+            $qb->expr()->field('associations.owner')->exists(true)
+        );
 
         return $qb;
     }
