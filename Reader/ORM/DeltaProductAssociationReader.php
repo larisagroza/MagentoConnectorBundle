@@ -47,7 +47,7 @@ class DeltaProductAssociationReader extends DeltaProductReader
             LEFT JOIN akeneo_batch_job_instance j
                 ON j.id = dpae.job_instance_id AND j.id = $jobInstanceId
 
-            WHERE (cp.updated > dpae.last_export OR dpae.last_export IS NULL) AND cp.is_enabled = 1
+            WHERE (cp.updated > dpae.last_export OR j.id IS NULL) AND cp.is_enabled = 1
 
             GROUP BY cp.id;
 SQL;
