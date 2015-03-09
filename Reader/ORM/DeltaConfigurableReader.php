@@ -116,7 +116,7 @@ class DeltaConfigurableReader extends ORMProductReader
             LEFT JOIN $deltaConfigurableTable de ON de.product_id = p.id
             LEFT JOIN akeneo_batch_job_instance j ON j.id = de.job_instance_id AND j.id = $jobInstanceId
 
-            WHERE p.updated > de.last_export OR de.last_export IS NULL
+            WHERE p.updated > de.last_export OR j.id IS NULL
             AND p.is_enabled = 1
 
             GROUP BY p.id
