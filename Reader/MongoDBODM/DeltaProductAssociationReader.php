@@ -24,13 +24,13 @@ class DeltaProductAssociationReader extends ODMProductReader
     protected $deltaRepository;
 
     /**
-     * @param ProductRepositoryInterface     $repository
-     * @param ChannelManager                 $channelManager
-     * @param CompletenessManager            $completenessManager
-     * @param MetricConverter                $metricConverter
-     * @param DocumentManager                $documentManager
-     * @param boolean                        $missingCompleteness
-     * @param EntityRepository               $deltaRepository
+     * @param ProductRepositoryInterface $repository
+     * @param ChannelManager             $channelManager
+     * @param CompletenessManager        $completenessManager
+     * @param MetricConverter            $metricConverter
+     * @param DocumentManager            $documentManager
+     * @param boolean                    $missingCompleteness
+     * @param EntityRepository           $deltaRepository
      */
     public function __construct(
         ProductRepositoryInterface $repository,
