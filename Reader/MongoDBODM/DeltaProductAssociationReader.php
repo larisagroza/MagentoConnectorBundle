@@ -119,8 +119,8 @@ class DeltaProductAssociationReader extends ODMProductReader
     {
         $delta = $this->deltaRepository->findOneBy(
             [
-                'productId' => $product->getId(),
-                'jobInstance' => $this->stepExecution->getJobExecution()->getJobInstance()
+                'productId'   => $product->getId(),
+                'jobInstance' => $this->stepExecution->getJobExecution()->getJobInstance(),
             ]
         );
 
