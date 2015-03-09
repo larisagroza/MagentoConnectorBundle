@@ -12,13 +12,13 @@ use Pim\Bundle\CatalogBundle\Repository\ProductRepositoryInterface;
 use Pim\Bundle\TransformBundle\Converter\MetricConverter;
 
 /**
- * Delta product reader for MongoDB.
+ * Delta product association reader for MongoDB
  *
- * @author    Romain Monceau <romain@akeneo.com>
+ * @author    Willy Mesnage <willy.mesnage@akeneo.com>
  * @copyright 2015 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
-class DeltaProductReader extends ODMProductReader
+class DeltaProductAssociationReader extends ODMProductReader
 {
     /** @var EntityRepository */
     protected $deltaRepository;
@@ -102,7 +102,12 @@ class DeltaProductReader extends ODMProductReader
      */
     protected function prepareQB()
     {
-        return $this->repository->buildByChannelAndCompleteness($this->channel);
+        $qb = $this->repository->buildByChannelAndCompleteness($this->channel);
+        $qb->addAnd(
+            $qb->expr()->field('associations.owner')->exists(true)
+        );
+
+        return $qb;
     }
 
     /**
@@ -114,7 +119,7 @@ class DeltaProductReader extends ODMProductReader
     {
         $delta = $this->deltaRepository->findOneBy(
             [
-                'productId' => $product->getId(),
+                'productId'   => $product->getId(),
                 'jobInstance' => $this->stepExecution->getJobExecution()->getJobInstance(),
             ]
         );
