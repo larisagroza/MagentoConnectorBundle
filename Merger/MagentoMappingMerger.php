@@ -5,7 +5,7 @@ namespace Pim\Bundle\MagentoConnectorBundle\Merger;
 use Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClientParameters;
 
 /**
- * Magento mapping merger
+ * Magento mapping merger.
  *
  * @author    Willy Mesnage <willy.mesnage@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
@@ -14,7 +14,7 @@ use Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClientParameters;
 class MagentoMappingMerger extends MappingMerger
 {
     /**
-     * Set parameters of all mappers
+     * Set parameters of all mappers.
      *
      * @param MagentoSoapClientParameters $clientParameters
      * @param string                      $defaultStoreView
@@ -29,7 +29,7 @@ class MagentoMappingMerger extends MappingMerger
     }
 
     /**
-     * Get configuration field for the merger
+     * Get configuration field for the merger.
      *
      * @return array
      */
@@ -49,7 +49,7 @@ class MagentoMappingMerger extends MappingMerger
                     'label' => 'pim_magento_connector.'.$this->direction.'.'.$this->name.'Mapping.label',
                     'help'  => 'pim_magento_connector.'.$this->direction.'.'.$this->name.'Mapping.help',
                 ],
-            ]
+            ],
         ];
     }
 }

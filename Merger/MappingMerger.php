@@ -5,7 +5,7 @@ namespace Pim\Bundle\MagentoConnectorBundle\Merger;
 use Pim\Bundle\MagentoConnectorBundle\Mapper\MappingCollection;
 
 /**
- * Mapping merger
+ * Mapping merger.
  *
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
@@ -60,7 +60,8 @@ class MappingMerger
     }
 
     /**
-     * Get mapping for all mappers
+     * Get mapping for all mappers.
+     *
      * @return array
      */
     public function getMapping()
@@ -77,7 +78,8 @@ class MappingMerger
     }
 
     /**
-     * Set mapping for all mappers
+     * Set mapping for all mappers.
+     *
      * @param array $mapping
      */
     public function setMapping(array $mapping)
@@ -90,7 +92,8 @@ class MappingMerger
     }
 
     /**
-     * Get configuration field for the merger
+     * Get configuration field for the merger.
+     *
      * @return array
      */
     public function getConfigurationField()
@@ -114,7 +117,8 @@ class MappingMerger
     }
 
     /**
-     * Get all sources (for suggestion)
+     * Get all sources (for suggestion).
+     *
      * @return array
      */
     protected function getAllSources()
@@ -128,7 +132,8 @@ class MappingMerger
     }
 
     /**
-     * Get all targets (for suggestion)
+     * Get all targets (for suggestion).
+     *
      * @return array
      */
     protected function getAllTargets()
@@ -145,7 +150,8 @@ class MappingMerger
     }
 
     /**
-     * Get mappers ordered by priority
+     * Get mappers ordered by priority.
+     *
      * @return array
      */
     protected function getOrderedMappers()

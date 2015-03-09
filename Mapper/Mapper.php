@@ -3,7 +3,7 @@
 namespace Pim\Bundle\MagentoConnectorBundle\Mapper;
 
 /**
- * Mapper
+ * Mapper.
  *
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
@@ -14,7 +14,8 @@ class Mapper implements MapperInterface
     const IDENTIFIER_FORMAT = '%s-%s';
 
     /**
-     * Get mapping
+     * Get mapping.
+     *
      * @return array
      */
     public function getMapping()
@@ -23,7 +24,8 @@ class Mapper implements MapperInterface
     }
 
     /**
-     * Set mapping
+     * Set mapping.
+     *
      * @param array $mapping
      */
     public function setMapping(array $mapping)
@@ -31,7 +33,8 @@ class Mapper implements MapperInterface
     }
 
     /**
-     * Get all targets
+     * Get all targets.
+     *
      * @return array
      */
     public function getAllTargets()
@@ -40,7 +43,8 @@ class Mapper implements MapperInterface
     }
 
     /**
-     * Get all sources
+     * Get all sources.
+     *
      * @return array
      */
     public function getAllSources()
@@ -49,7 +53,8 @@ class Mapper implements MapperInterface
     }
 
     /**
-     * Get mapper priority
+     * Get mapper priority.
+     *
      * @return integer
      */
     public function getPriority()
@@ -58,7 +63,8 @@ class Mapper implements MapperInterface
     }
 
     /**
-     * Get mapper identifier
+     * Get mapper identifier.
+     *
      * @param string $rootIdentifier
      *
      * @return string
@@ -74,6 +80,7 @@ class Mapper implements MapperInterface
 
     /**
      * Is the mapper valid ?
+     *
      * @return boolean
      */
     public function isValid()

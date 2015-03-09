@@ -4,11 +4,10 @@ namespace Pim\Bundle\MagentoConnectorBundle\Purger;
 
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityNotFoundException;
-use Doctrine\ORM\QueryBuilder;
 use Pim\Bundle\ImportExportBundle\Entity\Repository\JobInstanceRepository;
 
 /**
- * Purge mapping from database helper
+ * Purge mapping from database helper.
  *
  * @author    Willy Mesnage <willy.mesnage@akeneo.com>
  * @copyright 2015 Akeneo SAS (http://www.akeneo.com)
@@ -36,7 +35,7 @@ class MappingPurger implements PurgerInterface
     }
 
     /**
-     * Set mapping classes
+     * Set mapping classes.
      *
      * @param array $mappingClasses
      */
@@ -46,7 +45,7 @@ class MappingPurger implements PurgerInterface
     }
 
     /**
-     * Remove mapping from database
+     * Remove mapping from database.
      *
      * @param string $jobInstanceCode
      *
@@ -63,14 +62,14 @@ class MappingPurger implements PurgerInterface
         }
 
         $rawConfiguration = $jobInstance->getRawConfiguration();
-        $soapUrl = $rawConfiguration['magentoUrl'] . $rawConfiguration['wsdlUrl'];
+        $soapUrl = $rawConfiguration['magentoUrl'].$rawConfiguration['wsdlUrl'];
         foreach ($this->classesToPurge as $class) {
             $this->purgeMapping($soapUrl, $class);
         }
     }
 
     /**
-     * Execute purge
+     * Execute purge.
      *
      * @param string $soapUrl
      * @param string $class

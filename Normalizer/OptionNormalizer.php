@@ -5,7 +5,7 @@ namespace Pim\Bundle\MagentoConnectorBundle\Normalizer;
 use Pim\Bundle\CatalogBundle\Entity\AttributeOption;
 
 /**
- * A normalizer to transform a option entity into an array
+ * A normalizer to transform a option entity into an array.
  *
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
@@ -25,7 +25,7 @@ class OptionNormalizer extends AbstractNormalizer
             ],
             [
                 'store_id' => '1',
-                'value'    => $this->getOptionLabel($object, $context['defaultLocale'])
+                'value'    => $this->getOptionLabel($object, $context['defaultLocale']),
             ],
         ];
 
@@ -51,13 +51,14 @@ class OptionNormalizer extends AbstractNormalizer
             $context['attributeCode'],
             [
                 'label'      => $label,
-                'order'      => $object->getSortOrder()
-            ]
+                'order'      => $object->getSortOrder(),
+            ],
         ];
     }
 
     /**
-     * get options locale
+     * get options locale.
+     *
      * @param AttributeOption $option
      *
      * @return array
@@ -74,7 +75,8 @@ class OptionNormalizer extends AbstractNormalizer
     }
 
     /**
-     * Get option translation for given locale code
+     * Get option translation for given locale code.
+     *
      * @param AttributeOption $option
      * @param string          $locale
      *

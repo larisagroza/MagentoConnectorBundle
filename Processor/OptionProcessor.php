@@ -14,7 +14,7 @@ use Pim\Bundle\MagentoConnectorBundle\Merger\MagentoMappingMerger;
 use Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClientParametersRegistry;
 
 /**
- * Magento option processor
+ * Magento option processor.
  *
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
@@ -63,7 +63,7 @@ class OptionProcessor extends AbstractProcessor
     }
 
     /**
-     * Set attribute code mapping
+     * Set attribute code mapping.
      *
      * @param string $attributeCodeMapping
      *
@@ -85,7 +85,7 @@ class OptionProcessor extends AbstractProcessor
     }
 
     /**
-     * Get attribute code mapping
+     * Get attribute code mapping.
      *
      * @return string
      */
@@ -135,7 +135,7 @@ class OptionProcessor extends AbstractProcessor
                 [
                     'code'  => $attribute->getCode(),
                     'label' => $attribute->getLabel(),
-                    'type'  => $attribute->getAttributeType()
+                    'type'  => $attribute->getAttributeType(),
                 ]
             );
         }
@@ -154,7 +154,8 @@ class OptionProcessor extends AbstractProcessor
     }
 
     /**
-     * Get the normalized
+     * Get the normalized.
+     *
      * @param AttributeOption $option
      * @param array           $context
      *
@@ -176,7 +177,7 @@ class OptionProcessor extends AbstractProcessor
     }
 
     /**
-     * Called after the configuration is set
+     * Called after the configuration is set.
      */
     protected function afterConfigurationSet()
     {

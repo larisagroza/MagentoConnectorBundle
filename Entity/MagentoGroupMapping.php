@@ -3,7 +3,7 @@
 namespace Pim\Bundle\MagentoConnectorBundle\Entity;
 
 /**
- * Magento group mapping
+ * Magento group mapping.
  *
  * @author    Olivier Soulet <olivier.soulet@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)

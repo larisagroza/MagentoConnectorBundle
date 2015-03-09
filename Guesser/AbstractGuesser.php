@@ -6,7 +6,7 @@ use Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClient;
 use Pim\Bundle\MagentoConnectorBundle\Webservice\SoapCallException;
 
 /**
- * A magento guesser abstract class
+ * A magento guesser abstract class.
  *
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2013 Akeneo SAS (http://www.akeneo.com)
@@ -33,7 +33,8 @@ abstract class AbstractGuesser
     protected $version = null;
 
     /**
-     * Get the Magento version for the given client
+     * Get the Magento version for the given client.
+     *
      * @param MagentoSoapClient $client
      *
      * @return float

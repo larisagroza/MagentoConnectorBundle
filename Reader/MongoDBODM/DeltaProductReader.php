@@ -13,7 +13,7 @@ use Pim\Bundle\TransformBundle\Converter\MetricConverter;
 
 /**
  * Delta product reader for MongoDB
- * This class is used for associations too
+ * This class is used for associations too.
  *
  * @author    Romain Monceau <romain@akeneo.com>
  * @copyright 2015 Akeneo SAS (http://www.akeneo.com)
@@ -86,7 +86,7 @@ class DeltaProductReader extends ODMProductReader
             while (!$this->needsUpdate($result)) {
                 $result = $this->products->next();
                 if (null === $result) {
-                    return null;
+                    return;
                 }
             }
 
@@ -116,7 +116,7 @@ class DeltaProductReader extends ODMProductReader
         $delta = $this->deltaRepository->findOneBy(
             [
                 'productId' => $product->getId(),
-                'jobInstance' => $this->stepExecution->getJobExecution()->getJobInstance()
+                'jobInstance' => $this->stepExecution->getJobExecution()->getJobInstance(),
             ]
         );
 

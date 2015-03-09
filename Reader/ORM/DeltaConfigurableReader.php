@@ -11,7 +11,7 @@ use Pim\Bundle\MagentoConnectorBundle\Builder\TableNameBuilder;
 use Pim\Bundle\TransformBundle\Converter\MetricConverter;
 
 /**
- * Delta reader for configurables
+ * Delta reader for configurables.
  *
  * @author    Romain Monceau <romain@akeneo.com>
  * @copyright 2015 Akeneo SAS (http://www.akeneo.com)

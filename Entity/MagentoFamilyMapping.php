@@ -5,7 +5,7 @@ namespace Pim\Bundle\MagentoConnectorBundle\Entity;
 use Pim\Bundle\CatalogBundle\Entity\Family;
 
 /**
- * Magento family mapping
+ * Magento family mapping.
  *
  * @author    Olivier Soulet <olivier.soulet@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
@@ -31,7 +31,7 @@ class MagentoFamilyMapping
     protected $family;
 
     /**
-     * Get id
+     * Get id.
      *
      * @return integer
      */
@@ -41,7 +41,7 @@ class MagentoFamilyMapping
     }
 
     /**
-     * Set magentoUrl
+     * Set magentoUrl.
      *
      * @param string $magentoUrl
      *
@@ -55,7 +55,7 @@ class MagentoFamilyMapping
     }
 
     /**
-     * Get magentoUrl
+     * Get magentoUrl.
      *
      * @return string
      */
@@ -65,7 +65,7 @@ class MagentoFamilyMapping
     }
 
     /**
-     * Set magentoFamilyId
+     * Set magentoFamilyId.
      *
      * @param integer $magentoFamilyId
      *
@@ -79,7 +79,7 @@ class MagentoFamilyMapping
     }
 
     /**
-     * Get magentoFamilyId
+     * Get magentoFamilyId.
      *
      * @return integer
      */
@@ -89,7 +89,7 @@ class MagentoFamilyMapping
     }
 
     /**
-     * Set pim family code
+     * Set pim family code.
      *
      * @param string $pimFamilyCode
      *
@@ -103,7 +103,7 @@ class MagentoFamilyMapping
     }
 
     /**
-     * Get pim family code
+     * Get pim family code.
      *
      * @return string
      */
@@ -113,7 +113,7 @@ class MagentoFamilyMapping
     }
 
     /**
-     * Set family
+     * Set family.
      *
      * @param Family $family
      *
@@ -127,7 +127,7 @@ class MagentoFamilyMapping
     }
 
     /**
-     * Get family
+     * Get family.
      *
      * @return Family
      */

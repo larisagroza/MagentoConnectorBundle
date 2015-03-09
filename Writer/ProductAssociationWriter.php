@@ -6,7 +6,7 @@ use Pim\Bundle\MagentoConnectorBundle\Webservice\SoapCallException;
 use Akeneo\Bundle\BatchBundle\Item\InvalidItemException;
 
 /**
- * Magento product association writer
+ * Magento product association writer.
  *
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
@@ -28,7 +28,8 @@ class ProductAssociationWriter extends AbstractWriter
     }
 
     /**
-     * Handle product association calls
+     * Handle product association calls.
+     *
      * @param array $productAssociationCalls
      *
      * @throws InvalidItemException

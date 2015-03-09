@@ -10,7 +10,7 @@ use Pim\Bundle\MagentoConnectorBundle\Webservice\SoapCallException;
 use Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClientParametersRegistry;
 
 /**
- * Magento product writer
+ * Magento product writer.
  *
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2013 Akeneo SAS (http://www.akeneo.com)
@@ -29,7 +29,7 @@ class ProductWriter extends AbstractWriter
     protected $channel;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param WebserviceGuesser                   $webserviceGuesser
      * @param ChannelManager                      $channelManager
@@ -46,7 +46,7 @@ class ProductWriter extends AbstractWriter
     }
 
     /**
-     * get channel
+     * get channel.
      *
      * @return string channel
      */
@@ -56,7 +56,7 @@ class ProductWriter extends AbstractWriter
     }
 
     /**
-     * Set channel
+     * Set channel.
      *
      * @param string $channel channel
      *
@@ -104,13 +104,13 @@ class ProductWriter extends AbstractWriter
                         'help'     => 'pim_magento_connector.export.channel.help',
                         'label'    => 'pim_magento_connector.export.channel.label',
                     ],
-                ]
+                ],
             ]
         );
     }
 
     /**
-     * Compute an individual product and all his parts (translations)
+     * Compute an individual product and all his parts (translations).
      *
      * @param array $product The product and his parts
      */
@@ -127,7 +127,7 @@ class ProductWriter extends AbstractWriter
     }
 
     /**
-     * Create a call for the given product part
+     * Create a call for the given product part.
      *
      * @param array  $productPart   A product part
      * @param string $storeViewCode The store view code
@@ -150,7 +150,7 @@ class ProductWriter extends AbstractWriter
     }
 
     /**
-     * Get the sku of the given normalized product
+     * Get the sku of the given normalized product.
      *
      * @param array $product
      *
@@ -170,7 +170,7 @@ class ProductWriter extends AbstractWriter
     }
 
     /**
-     * Clean old images on magento product
+     * Clean old images on magento product.
      *
      * @param string $sku
      * @param array  $images

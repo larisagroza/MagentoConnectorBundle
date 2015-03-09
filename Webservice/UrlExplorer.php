@@ -9,7 +9,7 @@ use Guzzle\Http\Exception\CurlException;
 use Guzzle\Service\ClientInterface;
 
 /**
- * Allows to get the content of an url
+ * Allows to get the content of an url.
  *
  * @author    Willy Mesnage <willy.mesnage@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
@@ -40,7 +40,7 @@ class UrlExplorer
     }
 
     /**
-     * Reaches url and get his content
+     * Reaches url and get his content.
      *
      * @param MagentoSoapClientParameters $clientParameters
      *
@@ -67,7 +67,7 @@ class UrlExplorer
     }
 
     /**
-     * It connects to the url and give response
+     * It connects to the url and give response.
      *
      * @param MagentoSoapClientParameters $clientParameters
      *

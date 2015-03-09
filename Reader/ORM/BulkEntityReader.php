@@ -5,7 +5,7 @@ namespace Pim\Bundle\MagentoConnectorBundle\Reader\ORM;
 use Pim\Bundle\BaseConnectorBundle\Reader\ORM\EntityReader;
 
 /**
- * Reads all entities at once
+ * Reads all entities at once.
  *
  * @author    Gildas Quemener <gildas@akeneo.com>
  * @copyright 2013 Akeneo SAS (http://www.akeneo.com)

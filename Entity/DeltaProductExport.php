@@ -3,10 +3,9 @@
 namespace Pim\Bundle\MagentoConnectorBundle\Entity;
 
 use Akeneo\Bundle\BatchBundle\Entity\JobInstance;
-use Pim\Bundle\CatalogBundle\Model\ProductInterface;
 
 /**
- * Delta product export entity
+ * Delta product export entity.
  *
  * @author    Romain Monceau <romain@akeneo.com>
  * @copyright 2015 Akeneo SAS (http://www.akeneo.com)

@@ -4,7 +4,6 @@ namespace Pim\Bundle\MagentoConnectorBundle\Manager;
 
 use Akeneo\Bundle\BatchBundle\Entity\JobInstance;
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityRepository;
 use PDO;
 use Pim\Bundle\CatalogBundle\Entity\Channel;
 use Pim\Bundle\MagentoConnectorBundle\Builder\TableNameBuilder;
@@ -12,7 +11,7 @@ use Pim\Bundle\MagentoConnectorBundle\Entity\Repository\GroupRepository;
 use Pim\Bundle\MagentoConnectorBundle\Filter\ExportableProductFilter;
 
 /**
- * Manage DeltaConfigurableExport entities
+ * Manage DeltaConfigurableExport entities.
  *
  * @author    Willy Mesnage <willy.mesnage@akeneo.com>
  * @copyright 2015 Akeneo SAS (http://www.akeneo.com)
@@ -51,7 +50,7 @@ class DeltaConfigurableExportManager
     }
 
     /**
-     * Update configurable delta export
+     * Update configurable delta export.
      *
      * @param Channel     $channel
      * @param JobInstance $jobInstance

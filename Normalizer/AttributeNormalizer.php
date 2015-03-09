@@ -6,12 +6,10 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Pim\Bundle\CatalogBundle\Model\AbstractAttribute;
 use Pim\Bundle\MagentoConnectorBundle\Normalizer\Exception\InvalidAttributeNameException;
 use Pim\Bundle\MagentoConnectorBundle\Normalizer\Exception\AttributeTypeChangedException;
-use Pim\Bundle\CatalogBundle\Model\ProductValueInterface;
 use Pim\Bundle\MagentoConnectorBundle\Mapper\MappingCollection;
-use Pim\Bundle\CatalogBundle\Entity\AttributeOption;
 
 /**
- * A normalizer to transform a option entity into an array
+ * A normalizer to transform a option entity into an array.
  *
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
@@ -107,7 +105,8 @@ class AttributeNormalizer implements NormalizerInterface
     }
 
     /**
-     * Get normalized type for attribute
+     * Get normalized type for attribute.
+     *
      * @param AbstractAttribute $attribute
      *
      * @return string
@@ -120,7 +119,8 @@ class AttributeNormalizer implements NormalizerInterface
     }
 
     /**
-     * Get attribute type mapping
+     * Get attribute type mapping.
+     *
      * @return array
      */
     protected function getTypeMapping()
@@ -137,16 +137,18 @@ class AttributeNormalizer implements NormalizerInterface
             'pim_catalog_date'             => 'date',
             'pim_catalog_file'             => 'text',
             'pim_catalog_image'            => 'text',
-            'pim_catalog_metric'           => 'text'
+            'pim_catalog_metric'           => 'text',
         ];
     }
 
     /**
-     * Get normalized code for attribute
+     * Get normalized code for attribute.
+     *
      * @param AbstractAttribute $attribute
      * @param MappingCollection $attributeMapping
      *
      * @throws InvalidAttributeNameException If attribute name is not valid
+     *
      * @return string
      */
     protected function getNormalizedCode(AbstractAttribute $attribute, MappingCollection $attributeMapping)
@@ -168,7 +170,8 @@ class AttributeNormalizer implements NormalizerInterface
     }
 
     /**
-     * Get normalized scope for attribute
+     * Get normalized scope for attribute.
+     *
      * @param AbstractAttribute $attribute
      *
      * @return string
@@ -179,7 +182,8 @@ class AttributeNormalizer implements NormalizerInterface
     }
 
     /**
-     * Get normalized unquie value for attribute
+     * Get normalized unquie value for attribute.
+     *
      * @param AbstractAttribute $attribute
      *
      * @return string
@@ -190,7 +194,8 @@ class AttributeNormalizer implements NormalizerInterface
     }
 
     /**
-     * Get normalized is required for attribute
+     * Get normalized is required for attribute.
+     *
      * @param AbstractAttribute $attribute
      *
      * @return string
@@ -201,7 +206,8 @@ class AttributeNormalizer implements NormalizerInterface
     }
 
     /**
-     * Get normalized configurable for attribute
+     * Get normalized configurable for attribute.
+     *
      * @param AbstractAttribute $attribute
      * @param array             $axisAttributes
      *
@@ -216,7 +222,8 @@ class AttributeNormalizer implements NormalizerInterface
     }
 
     /**
-     * Get normalized labels for attribute
+     * Get normalized labels for attribute.
+     *
      * @param AbstractAttribute $attribute
      * @param array             $magentoStoreViews
      * @param string            $defaultLocale
@@ -255,7 +262,8 @@ class AttributeNormalizer implements NormalizerInterface
     }
 
     /**
-     * Get attribute translation for given locale code
+     * Get attribute translation for given locale code.
+     *
      * @param AbstractAttribute $attribute
      * @param string            $localeCode
      * @param string            $defaultLocale
@@ -279,14 +287,15 @@ class AttributeNormalizer implements NormalizerInterface
     }
 
     /**
-     * Get all ignored attribute for type change detection
+     * Get all ignored attribute for type change detection.
+     *
      * @return array
      */
     protected function getIgnoredAttributesForTypeChangeDetection()
     {
         return [
             'tax_class_id',
-            'weight'
+            'weight',
         ];
     }
 }

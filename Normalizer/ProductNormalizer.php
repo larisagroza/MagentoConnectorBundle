@@ -15,7 +15,7 @@ use Pim\Bundle\MagentoConnectorBundle\Mapper\MappingCollection;
 use Gedmo\Sluggable\Util\Urlizer;
 
 /**
- * A normalizer to transform a product entity into an array
+ * A normalizer to transform a product entity into an array.
  *
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2013 Akeneo SAS (http://www.akeneo.com)
@@ -60,7 +60,8 @@ class ProductNormalizer extends AbstractNormalizer implements ProductNormalizerI
     protected $localeFilter;
 
     /**
-     * Constructor
+     * Constructor.
+     *
      * @param ChannelManager         $channelManager
      * @param MediaManager           $mediaManager
      * @param ProductValueNormalizer $productValueNormalizer
@@ -179,7 +180,7 @@ class ProductNormalizer extends AbstractNormalizer implements ProductNormalizerI
     }
 
     /**
-     * Get all images of a product normalized
+     * Get all images of a product normalized.
      *
      * @param ProductInterface $product
      * @param string           $sku
@@ -227,7 +228,7 @@ class ProductNormalizer extends AbstractNormalizer implements ProductNormalizerI
                         'label'    => $data->getFilename(),
                         'position' => 0,
                         'types'    => $imageTypes,
-                        'exclude'  => 0
+                        'exclude'  => 0,
                     ],
                     0,
                     'sku',
@@ -239,7 +240,7 @@ class ProductNormalizer extends AbstractNormalizer implements ProductNormalizerI
     }
 
     /**
-     * Get the default product with all attributes (ie : event the non localizable ones)
+     * Get the default product with all attributes (ie : event the non localizable ones).
      *
      * @param ProductInterface  $product                  The given product
      * @param array             $magentoAttributes        Attribute list from Magento
@@ -319,7 +320,8 @@ class ProductNormalizer extends AbstractNormalizer implements ProductNormalizerI
     }
 
     /**
-     * Test if a product has grouped products
+     * Test if a product has grouped products.
+     *
      * @param ProductInterface $product
      * @param string           $pimGrouped
      *
@@ -333,7 +335,7 @@ class ProductNormalizer extends AbstractNormalizer implements ProductNormalizerI
     }
 
     /**
-     * Get values array for a given product
+     * Get values array for a given product.
      *
      * @param ProductInterface  $product                  The given product
      * @param array             $magentoAttributes        Attribute list from Magento
@@ -407,7 +409,8 @@ class ProductNormalizer extends AbstractNormalizer implements ProductNormalizerI
     }
 
     /**
-     * Get categories for the given product
+     * Get categories for the given product.
+     *
      * @param ProductInterface  $product
      * @param MappingCollection $categoryMapping
      * @param string            $scopeCode
@@ -446,7 +449,8 @@ class ProductNormalizer extends AbstractNormalizer implements ProductNormalizerI
     }
 
     /**
-     * Get custom values (not provided by the PIM product)
+     * Get custom values (not provided by the PIM product).
+     *
      * @param ProductInterface  $product
      * @param MappingCollection $attributeCodeMapping
      * @param array             $parameters
@@ -477,7 +481,7 @@ class ProductNormalizer extends AbstractNormalizer implements ProductNormalizerI
                 $product,
                 $parameters['categoryMapping'],
                 $parameters['scopeCode']
-            )
+            ),
         ];
 
         if (false === $parameters['urlKey']) {
@@ -494,7 +498,7 @@ class ProductNormalizer extends AbstractNormalizer implements ProductNormalizerI
     }
 
     /**
-     * Check if the product belongs to a variant group
+     * Check if the product belongs to a variant group.
      *
      * @param ProductInterface $product
      *
@@ -513,7 +517,7 @@ class ProductNormalizer extends AbstractNormalizer implements ProductNormalizerI
 
     /**
      * Generate url key from product name and identifier.
-     * The identifier is included to make sure the url_key is unique, as required in Magento
+     * The identifier is included to make sure the url_key is unique, as required in Magento.
      *
      * If name is localized, the default locale is used to get the value.
      *
@@ -538,9 +542,9 @@ class ProductNormalizer extends AbstractNormalizer implements ProductNormalizerI
         $name = $product->getValue($nameAttribute, $localeCode, $scopeCode);
 
         if (false === $skuFirst) {
-            $url = Urlizer::urlize($name . '-' . $identifier);
+            $url = Urlizer::urlize($name.'-'.$identifier);
         } else {
-            $url = Urlizer::urlize($identifier . '-' . $name);
+            $url = Urlizer::urlize($identifier.'-'.$name);
         }
 
         return $url;

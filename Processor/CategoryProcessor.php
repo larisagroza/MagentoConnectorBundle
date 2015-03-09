@@ -14,7 +14,7 @@ use Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClientParametersRegi
 use Pim\Bundle\MagentoConnectorBundle\Normalizer\Exception\CategoryNotMappedException;
 
 /**
- * Magento category processor
+ * Magento category processor.
  *
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2013 Akeneo SAS (http://www.akeneo.com)
@@ -73,7 +73,7 @@ class CategoryProcessor extends AbstractProcessor
     }
 
     /**
-     * Get categoryMapping
+     * Get categoryMapping.
      *
      * @return string categoryMapping
      */
@@ -83,7 +83,7 @@ class CategoryProcessor extends AbstractProcessor
     }
 
     /**
-     * Set categoryMapping
+     * Set categoryMapping.
      *
      * @param string $categoryMapping categoryMapping
      *
@@ -149,7 +149,7 @@ class CategoryProcessor extends AbstractProcessor
     }
 
     /**
-     * Function called before all process
+     * Function called before all process.
      */
     protected function beforeExecute()
     {
@@ -170,7 +170,7 @@ class CategoryProcessor extends AbstractProcessor
                 'categoryMapping'   => $this->categoryMappingMerger->getMapping(),
                 'defaultStoreView'  => $this->getDefaultStoreView(),
                 'is_anchor'         => $this->isAnchor,
-                'urlKey'            => $this->urlKey
+                'urlKey'            => $this->urlKey,
             ]
         );
     }
@@ -209,7 +209,7 @@ class CategoryProcessor extends AbstractProcessor
                                 'category_id'      => $category->getId(),
                                 'category_code'    => $category->getCode(),
                                 'category_label'   => $category->getLabel(),
-                                'root_category_id' => $category->getRoot()
+                                'root_category_id' => $category->getRoot(),
                             ]
                         );
                     }
@@ -220,7 +220,7 @@ class CategoryProcessor extends AbstractProcessor
                             'category_id'      => $category->getId(),
                             'category_code'    => $category->getCode(),
                             'category_label'   => $category->getLabel(),
-                            'root_category_id' => $category->getRoot()
+                            'root_category_id' => $category->getRoot(),
                         ]
                     );
                 }
@@ -231,7 +231,7 @@ class CategoryProcessor extends AbstractProcessor
     }
 
     /**
-     * Called after the configuration is set
+     * Called after the configuration is set.
      */
     protected function afterConfigurationSet()
     {
@@ -252,16 +252,16 @@ class CategoryProcessor extends AbstractProcessor
                     'type'    => 'checkbox',
                     'options' => [
                         'help'  => 'pim_magento_connector.export.isAnchor.help',
-                        'label' => 'pim_magento_connector.export.isAnchor.label'
-                    ]
+                        'label' => 'pim_magento_connector.export.isAnchor.label',
+                    ],
                 ],
                 'urlKey' => [
                     'type'    => 'checkbox',
                     'options' => [
                         'help'  => 'pim_magento_connector.export.urlKey.help',
-                        'label' => 'pim_magento_connector.export.urlKey.label'
-                    ]
-                ]
+                        'label' => 'pim_magento_connector.export.urlKey.label',
+                    ],
+                ],
             ],
             $this->categoryMappingMerger->getConfigurationField()
         );

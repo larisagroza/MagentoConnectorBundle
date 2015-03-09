@@ -8,7 +8,7 @@ use Doctrine\ORM\Query\Expr;
 use Pim\Bundle\MagentoConnectorBundle\Cleaner\AbstractProductCleaner;
 
 /**
- * Magento product cleaner for ORM
+ * Magento product cleaner for ORM.
  *
  * @author    Romain Monceau <romain@akeneo.com>
  * @copyright 2015 Akeneo SAS (http://www.akeneo.com)

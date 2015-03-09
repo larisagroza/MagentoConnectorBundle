@@ -10,7 +10,7 @@ use Pim\Bundle\MagentoConnectorBundle\Builder\TableNameBuilder;
 
 /**
  * Event subscriber on post remove and post mass remove products
- * Cascade remove delta tables from product ids
+ * Cascade remove delta tables from product ids.
  *
  * @author    Romain Monceau <romain@akeneo.com>
  * @copyright 2015 Akeneo SAS (http://www.akeneo.com)
@@ -28,7 +28,7 @@ class CascadeDeleteDeltaSubscriber implements EventSubscriberInterface
     protected $deltaEntities = [
         'pim_magento_connector.entity.delta_product_export.class',
         'pim_magento_connector.entity.delta_product_association_export.class',
-        'pim_magento_connector.entity.delta_configurable_export.class'
+        'pim_magento_connector.entity.delta_configurable_export.class',
     ];
 
     /**
@@ -48,12 +48,12 @@ class CascadeDeleteDeltaSubscriber implements EventSubscriberInterface
     {
         return [
             ProductEvents::POST_MASS_REMOVE => 'postMassRemove',
-            ProductEvents::POST_REMOVE      => 'postRemove'
+            ProductEvents::POST_REMOVE      => 'postRemove',
         ];
     }
 
     /**
-     * Post remove action
+     * Post remove action.
      *
      * @param GenericEvent $event
      */
@@ -64,7 +64,7 @@ class CascadeDeleteDeltaSubscriber implements EventSubscriberInterface
     }
 
     /**
-     * Post mass remove action
+     * Post mass remove action.
      *
      * @param GenericEvent $event
      */

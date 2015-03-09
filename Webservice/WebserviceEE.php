@@ -3,7 +3,7 @@
 namespace Pim\Bundle\MagentoConnectorBundle\Webservice;
 
 /**
- * A magento soap client to abstract interaction with the magento ee api
+ * A magento soap client to abstract interaction with the magento ee api.
  *
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
@@ -12,7 +12,7 @@ namespace Pim\Bundle\MagentoConnectorBundle\Webservice;
 class WebserviceEE extends Webservice
 {
     /**
-     * Get options for the given attribute
+     * Get options for the given attribute.
      *
      * @param string $attributeCode Attribute code
      *
@@ -41,7 +41,7 @@ class WebserviceEE extends Webservice
     protected function getIgnoredAttributes()
     {
         return [
-            'is_returnable'
+            'is_returnable',
         ];
     }
 
@@ -74,7 +74,7 @@ class WebserviceEE extends Webservice
 
     /**
      * Cleanup part of the product data that should not be sent as
-     * update part
+     * update part.
      *
      * @param array $productPart
      *

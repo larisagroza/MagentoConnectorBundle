@@ -6,7 +6,7 @@ use Pim\Bundle\MagentoConnectorBundle\Guesser\AbstractGuesser;
 use Symfony\Component\Stopwatch\Stopwatch;
 
 /**
- * A magento soap client to abstract interaction with the php soap client
+ * A magento soap client to abstract interaction with the php soap client.
  *
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2013 Akeneo SAS (http://www.akeneo.com)
@@ -29,7 +29,7 @@ class MagentoSoapClient
     protected $profiler;
 
     /**
-     * Create and init the soap client
+     * Create and init the soap client.
      *
      * @param MagentoSoapClientParameters $clientParameters
      * @param \SoapClient                 $soapClient
@@ -73,7 +73,7 @@ class MagentoSoapClient
     }
 
     /**
-     * Initialize the soap client with the local information
+     * Initialize the soap client with the local information.
      *
      * @throws InvalidCredentialException If given credentials are invalid
      * @throws SoapCallException          If Magento is not accessible.
@@ -135,7 +135,7 @@ class MagentoSoapClient
     }
 
     /**
-     * Call soap api
+     * Call soap api.
      *
      * @param string $resource
      * @param array  $params
@@ -161,9 +161,9 @@ class MagentoSoapClient
                 } elseif ($e->getMessage() === AbstractGuesser::MAGENTO_CORE_ACCESS_DENIED) {
                     throw new SoapCallException(
                         sprintf(
-                            'Error on Magento soap call to "%s" : "%s" Called resource : "%s" with parameters : %s.' .
-                            ' Soap user needs access on this resource. Please ' .
-                            'check in your Magento webservice soap roles and ' .
+                            'Error on Magento soap call to "%s" : "%s" Called resource : "%s" with parameters : %s.'.
+                            ' Soap user needs access on this resource. Please '.
+                            'check in your Magento webservice soap roles and '.
                             'users configuration.',
                             $this->clientParameters->getSoapUrl(),
                             $e->getMessage(),
@@ -209,7 +209,7 @@ class MagentoSoapClient
     }
 
     /**
-     * Add a call to the soap call stack
+     * Add a call to the soap call stack.
      *
      * @param array $call A magento soap call
      */
@@ -219,7 +219,7 @@ class MagentoSoapClient
     }
 
     /**
-     * Send pending calls to the magento soap api (with multiCall function)
+     * Send pending calls to the magento soap api (with multiCall function).
      */
     public function sendCalls()
     {

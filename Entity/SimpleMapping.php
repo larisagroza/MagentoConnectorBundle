@@ -3,7 +3,7 @@
 namespace Pim\Bundle\MagentoConnectorBundle\Entity;
 
 /**
- * Simple mapping
+ * Simple mapping.
  *
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)

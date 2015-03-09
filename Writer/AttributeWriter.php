@@ -14,7 +14,7 @@ use Pim\Bundle\CatalogBundle\Entity\Family;
 use Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClientParametersRegistry;
 
 /**
- * Magento attribute writer. Add attributes to groups and attribute sets on magento side
+ * Magento attribute writer. Add attributes to groups and attribute sets on magento side.
  *
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
@@ -57,7 +57,7 @@ class AttributeWriter extends AbstractWriter
     protected $attributeIdMappingMerger;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param WebserviceGuesser                   $webserviceGuesser
      * @param FamilyMappingManager                $familyMappingManager
@@ -103,7 +103,7 @@ class AttributeWriter extends AbstractWriter
     }
 
     /**
-     * Handle attribute creation and update
+     * Handle attribute creation and update.
      *
      * @param array             $attribute
      * @param AbstractAttribute $pimAttribute
@@ -135,7 +135,7 @@ class AttributeWriter extends AbstractWriter
     }
 
     /**
-     * Verify if the magento attribute id is null else add the attribute to the attribute set
+     * Verify if the magento attribute id is null else add the attribute to the attribute set.
      *
      * @param integer           $magentoAttributeId
      * @param AbstractAttribute $pimAttribute
@@ -148,7 +148,7 @@ class AttributeWriter extends AbstractWriter
     }
 
     /**
-     * Get the magento group id
+     * Get the magento group id.
      *
      * @param AbstractAttribute $pimAttribute
      * @param Family            $pimFamily
@@ -170,7 +170,7 @@ class AttributeWriter extends AbstractWriter
     }
 
     /**
-     * Add attribute to corresponding attribute sets
+     * Add attribute to corresponding attribute sets.
      *
      * @param integer           $magentoAttributeId ID of magento attribute
      * @param AbstractAttribute $pimAttribute
@@ -204,7 +204,7 @@ class AttributeWriter extends AbstractWriter
     }
 
     /**
-     * Create a group in an attribute set
+     * Create a group in an attribute set.
      *
      * @param AbstractAttribute $pimAttribute
      *

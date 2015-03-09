@@ -7,7 +7,7 @@ use Doctrine\Common\Persistence\ManagerRegistry;
 
 /**
  * Get the table name from the entity parameter name
- * Ease overriding entities managing with DBAL support avoiding hard-coded table names
+ * Ease overriding entities managing with DBAL support avoiding hard-coded table names.
  *
  * @author    Willy Mesnage <willy.mesnage@akeneo.com>
  * @copyright 2015 Akeneo SAS (http://www.akeneo.com)
@@ -32,7 +32,7 @@ class TableNameBuilder
     }
 
     /**
-     * Get table name from container parameter defined
+     * Get table name from container parameter defined.
      *
      * @param string $entityParameter
      * @param string $joinEntity
@@ -53,7 +53,7 @@ class TableNameBuilder
     }
 
     /**
-     * Returns class metadata for a defined entity parameter
+     * Returns class metadata for a defined entity parameter.
      *
      * @param string $entityClassName
      *
@@ -67,7 +67,7 @@ class TableNameBuilder
     }
 
     /**
-     * Get the entity class name from its parameter
+     * Get the entity class name from its parameter.
      *
      * @param string $entityParameter
      *

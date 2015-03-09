@@ -5,7 +5,7 @@ namespace Pim\Bundle\MagentoConnectorBundle\Mapper;
 use Doctrine\Common\Collections\ArrayCollection;
 
 /**
- * Mapping collection
+ * Mapping collection.
  *
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
@@ -56,7 +56,8 @@ class MappingCollection extends ArrayCollection
     }
 
     /**
-     * Merge the given mapping collection to the current one
+     * Merge the given mapping collection to the current one.
+     *
      * @param MappingCollection $collectionToMerge
      *
      * @return MappingCollection
@@ -71,7 +72,8 @@ class MappingCollection extends ArrayCollection
     }
 
     /**
-     * Get source for the given target
+     * Get source for the given target.
+     *
      * @param string  $target
      * @param boolean $check
      *
@@ -97,7 +99,8 @@ class MappingCollection extends ArrayCollection
     }
 
     /**
-     * Get target for the given source
+     * Get target for the given source.
+     *
      * @param string  $source
      * @param boolean $check
      *
