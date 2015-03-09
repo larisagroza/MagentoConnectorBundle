@@ -93,6 +93,8 @@ To test the connector with the minimum data requirements, you can load the demo 
 
     installer_data: PimMagentoConnectorBundle:demo_magento
 
+Two locales are activated by default, so for the export jobs to work out of the box, you need to add an extra storeview to your Magento environment, and map this store view with the Akeneo `fr_FR` locale.
+
 # Bug and issues
 
 This bundle is still under active development. Expect bugs and instabilities. Feel free to report them on this repository's [issue section](https://github.com/akeneo/MagentoConnectorBundle/issues).

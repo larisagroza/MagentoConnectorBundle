@@ -10,6 +10,7 @@
  - Add a command to purge Delta in database
  - MongoDB compliance
  - Akeneo PIM CE 1.3 compliance
+ - Improve fixtures set
 
 ## Bug fixes
  - Connector send products only with complete locales
