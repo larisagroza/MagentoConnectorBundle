@@ -10,7 +10,7 @@ use Pim\Bundle\MagentoConnectorBundle\Entity\Repository\CategoryRepository;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- * ORM reader for categories
+ * ORM reader for categories.
  *
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2013 Akeneo SAS (http://www.akeneo.com)
@@ -81,15 +81,15 @@ class CategoryReader extends EntityReader
                         'required' => true,
                         'select2'  => true,
                         'label'    => 'pim_base_connector.export.channel.label',
-                        'help'     => 'pim_base_connector.export.channel.help'
-                    )
-                )
+                        'help'     => 'pim_base_connector.export.channel.help',
+                    ),
+                ),
             )
         );
     }
 
     /**
-     * Set channel code
+     * Set channel code.
      *
      * @param string $channel
      */
@@ -99,7 +99,7 @@ class CategoryReader extends EntityReader
     }
 
     /**
-     * Get channel code
+     * Get channel code.
      *
      * @return string
      */

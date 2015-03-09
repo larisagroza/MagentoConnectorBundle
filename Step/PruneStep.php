@@ -9,7 +9,7 @@ use Pim\Bundle\MagentoConnectorBundle\Cleaner\Cleaner;
 use Akeneo\Bundle\BatchBundle\Item\InvalidItemException;
 
 /**
- * A step to delete element that are no longer in PIM or in the channel
+ * A step to delete element that are no longer in PIM or in the channel.
  *
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
@@ -71,14 +71,15 @@ class PruneStep extends AbstractStep
     }
 
     /**
-     * Called after configuration affectation
+     * Called after configuration affectation.
      */
     protected function afterConfigurationSet()
     {
     }
 
     /**
-     * Get cleaner
+     * Get cleaner.
+     *
      * @return Cleaner
      */
     public function getCleaner()
@@ -87,7 +88,8 @@ class PruneStep extends AbstractStep
     }
 
     /**
-     * Get cleaner
+     * Get cleaner.
+     *
      * @param Cleaner $cleaner
      */
     public function setCleaner(Cleaner $cleaner)
@@ -104,7 +106,7 @@ class PruneStep extends AbstractStep
     }
 
     /**
-     * Handle step execution warning
+     * Handle step execution warning.
      *
      * @param StepExecution                   $stepExecution
      * @param AbstractConfigurableStepElement $element

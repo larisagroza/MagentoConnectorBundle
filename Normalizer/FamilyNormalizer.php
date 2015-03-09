@@ -6,7 +6,7 @@ use Pim\Bundle\CatalogBundle\Entity\Family;
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 /**
- * A normalizer to transform a family entity into an array
+ * A normalizer to transform a family entity into an array.
  *
  * @author    Olivier Soulet <olivier.soulet@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
@@ -32,7 +32,7 @@ class FamilyNormalizer implements NormalizerInterface
     }
 
     /**
-     * Checks whether the given class is supported for normalization by this normalizer
+     * Checks whether the given class is supported for normalization by this normalizer.
      *
      * @param mixed  $data   Data to normalize.
      * @param string $format The format being (de-)serialized from or into.

@@ -8,7 +8,7 @@ use Pim\Bundle\MagentoConnectorBundle\Guesser\WebserviceGuesser;
 use Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClientParametersRegistry;
 
 /**
- * Write configurable in Magento
+ * Write configurable in Magento.
  *
  * @author    Romain Monceau <romain@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
@@ -37,7 +37,7 @@ class DeltaConfigurableWriter extends ProductWriter
     }
 
     /**
-     * Compute an individual product and all its parts (translations)
+     * Compute an individual product and all its parts (translations).
      *
      * @param array $product
      */

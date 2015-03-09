@@ -3,7 +3,7 @@
 namespace Pim\Bundle\MagentoConnectorBundle\Mapper;
 
 /**
- * Defines the interface of a mapper
+ * Defines the interface of a mapper.
  *
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
@@ -12,7 +12,8 @@ namespace Pim\Bundle\MagentoConnectorBundle\Mapper;
 interface MapperInterface
 {
     /**
-     * Get mapper identifier
+     * Get mapper identifier.
+     *
      * @param string $rootIdentifier
      *
      * @return string
@@ -20,37 +21,43 @@ interface MapperInterface
     public function getIdentifier($rootIdentifier);
 
     /**
-     * Get mapping
+     * Get mapping.
+     *
      * @return array
      */
     public function getMapping();
 
     /**
-     * Set mapping
+     * Set mapping.
+     *
      * @param array $mapping
      */
     public function setMapping(array $mapping);
 
     /**
-     * Get all targets
+     * Get all targets.
+     *
      * @return array
      */
     public function getAllTargets();
 
     /**
-     * Get all sources
+     * Get all sources.
+     *
      * @return array
      */
     public function getAllSources();
 
     /**
-     * Get mapper priority
+     * Get mapper priority.
+     *
      * @return integer
      */
     public function getPriority();
 
     /**
      * Is the mapper valid ?
+     *
      * @return boolean
      */
     public function isValid();

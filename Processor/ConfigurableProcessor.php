@@ -3,10 +3,8 @@
 namespace Pim\Bundle\MagentoConnectorBundle\Processor;
 
 use Akeneo\Bundle\BatchBundle\Item\InvalidItemException;
-use Doctrine\Common\Collections\Collection;
 use Pim\Bundle\CatalogBundle\Entity\Channel;
 use Pim\Bundle\CatalogBundle\Manager\ChannelManager;
-use Pim\Bundle\CatalogBundle\Model\ProductInterface;
 use Pim\Bundle\MagentoConnectorBundle\Filter\ExportableProductFilter;
 use Pim\Bundle\MagentoConnectorBundle\Manager\AssociationTypeManager;
 use Pim\Bundle\MagentoConnectorBundle\Webservice\Webservice;
@@ -22,7 +20,7 @@ use Pim\Bundle\MagentoConnectorBundle\Manager\CurrencyManager;
 use Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClientParametersRegistry;
 
 /**
- * Magento configurable processor
+ * Magento configurable processor.
  *
  * @author    Willy Mesnage <willy.mesnage@akeneo.com>
  * @copyright 2015 Akeneo SAS (http://www.akeneo.com)
@@ -148,7 +146,7 @@ class ConfigurableProcessor extends AbstractProductProcessor
     }
 
     /**
-     * Function called before all process
+     * Function called before all process.
      */
     protected function beforeExecute()
     {
@@ -169,7 +167,7 @@ class ConfigurableProcessor extends AbstractProductProcessor
     }
 
     /**
-     * Processes configurables
+     * Processes configurables.
      *
      * @param array $configurable
      * @param array $magentoConfigurables
@@ -190,7 +188,7 @@ class ConfigurableProcessor extends AbstractProductProcessor
                 $this->globalContext,
                 [
                     'attributeSetId' => $this->getAttributeSetId($groupFamily->getCode(), $configurable),
-                    'create'         => true
+                    'create'         => true,
                 ]
             );
         }
@@ -199,6 +197,7 @@ class ConfigurableProcessor extends AbstractProductProcessor
             $normalizedConfigurable = $this->normalizeConfigurable($configurable, $context);
         } catch (\Exception $e) {
             $this->addWarning($e->getMessage(), [], $configurable);
+
             return;
         }
 
@@ -206,7 +205,7 @@ class ConfigurableProcessor extends AbstractProductProcessor
     }
 
     /**
-     * Normalize the given configurable
+     * Normalize the given configurable.
      *
      * @param array $configurable
      * @param array $context
@@ -223,7 +222,7 @@ class ConfigurableProcessor extends AbstractProductProcessor
     }
 
     /**
-     * Test if a configurable already exist on magento platform
+     * Test if a configurable already exist on magento platform.
      *
      * @param array $configurable         The configurable
      * @param array $magentoConfigurables Magento configurables
@@ -245,7 +244,7 @@ class ConfigurableProcessor extends AbstractProductProcessor
     }
 
     /**
-     * Get the family of the given configurable
+     * Get the family of the given configurable.
      *
      * @param array $configurable
      *
@@ -270,7 +269,7 @@ class ConfigurableProcessor extends AbstractProductProcessor
     }
 
     /**
-     * Get products association for each groups
+     * Get products association for each groups.
      *
      * @param array $products
      * @param array $groupsIds
@@ -319,7 +318,7 @@ class ConfigurableProcessor extends AbstractProductProcessor
     }
 
     /**
-     * Get the group repository
+     * Get the group repository.
      *
      * @return \Doctrine\ORM\EntityRepository
      */
@@ -346,7 +345,7 @@ class ConfigurableProcessor extends AbstractProductProcessor
                             'class' => 'select2',
                         ],
                     ],
-                ]
+                ],
             ]
         );
     }

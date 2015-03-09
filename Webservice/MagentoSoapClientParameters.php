@@ -3,7 +3,7 @@
 namespace Pim\Bundle\MagentoConnectorBundle\Webservice;
 
 /**
- * Magento soap client parameters
+ * Magento soap client parameters.
  *
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
@@ -54,7 +54,7 @@ class MagentoSoapClientParameters
     protected $isValid;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param string $soapUsername     Magento soap username
      * @param string $soapApiKey       Magento soap api key
@@ -83,7 +83,7 @@ class MagentoSoapClientParameters
     }
 
     /**
-     * get hash to uniquely identify parameters even in different instances
+     * get hash to uniquely identify parameters even in different instances.
      *
      * @return string
      */
@@ -111,7 +111,7 @@ class MagentoSoapClientParameters
     }
 
     /**
-     * Allows to change the state of validation
+     * Allows to change the state of validation.
      *
      * @param boolean $state
      */
@@ -121,7 +121,7 @@ class MagentoSoapClientParameters
     }
 
     /**
-     * Get soapUsername
+     * Get soapUsername.
      *
      * @return string Soap magento soapUsername
      */
@@ -131,7 +131,7 @@ class MagentoSoapClientParameters
     }
 
     /**
-     * Get the soap api key
+     * Get the soap api key.
      *
      * @return string Soap magento soapApiKey
      */
@@ -141,7 +141,7 @@ class MagentoSoapClientParameters
     }
 
     /**
-     * Get the soap Url
+     * Get the soap Url.
      *
      * @return string Soap Url
      */
@@ -151,7 +151,7 @@ class MagentoSoapClientParameters
     }
 
     /**
-     * Get the wsdl Url
+     * Get the wsdl Url.
      *
      * @return string Wsdl Url
      */
@@ -161,7 +161,7 @@ class MagentoSoapClientParameters
     }
 
     /**
-     * Get the magento Url
+     * Get the magento Url.
      *
      * @return string Magento Domain Url
      */
@@ -171,7 +171,7 @@ class MagentoSoapClientParameters
     }
 
     /**
-     * Get the default store view
+     * Get the default store view.
      *
      * @return string Default store view
      */
@@ -181,7 +181,7 @@ class MagentoSoapClientParameters
     }
 
     /**
-     * Get the http authentication login
+     * Get the http authentication login.
      *
      * @return string Http login
      */
@@ -191,7 +191,7 @@ class MagentoSoapClientParameters
     }
 
     /**
-     * Get the http authentication password
+     * Get the http authentication password.
      *
      * @return string Http password
      */

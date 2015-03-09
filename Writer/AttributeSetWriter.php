@@ -10,7 +10,7 @@ use Pim\Bundle\MagentoConnectorBundle\Webservice\SoapCallException;
 use Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClientParametersRegistry;
 
 /**
- * Magento attribute set writer
+ * Magento attribute set writer.
  *
  * @author    Olivier Soulet <olivier.soulet@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
@@ -29,7 +29,7 @@ class AttributeSetWriter extends AbstractWriter
     protected $attributeMappingManager;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param WebserviceGuesser                   $webserviceGuesser
      * @param FamilyMappingManager                $familyMappingManager
@@ -64,7 +64,8 @@ class AttributeSetWriter extends AbstractWriter
     }
 
     /**
-     * Handle family creation
+     * Handle family creation.
+     *
      * @param array $item
      *
      * @throws InvalidItemException

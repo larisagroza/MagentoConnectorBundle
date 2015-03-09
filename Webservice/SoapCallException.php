@@ -3,7 +3,7 @@
 namespace Pim\Bundle\MagentoConnectorBundle\Webservice;
 
 /**
- * Exception thrown if a soap call failed
+ * Exception thrown if a soap call failed.
  *
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)

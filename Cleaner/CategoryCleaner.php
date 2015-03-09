@@ -9,7 +9,7 @@ use Pim\Bundle\MagentoConnectorBundle\Webservice\SoapCallException;
 use Akeneo\Bundle\BatchBundle\Item\InvalidItemException;
 
 /**
- * Magento category cleaner
+ * Magento category cleaner.
  *
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
@@ -64,7 +64,7 @@ class CategoryCleaner extends Cleaner
     }
 
     /**
-     * Handle deletion or disabling of categories that are not in PIM anymore
+     * Handle deletion or disabling of categories that are not in PIM anymore.
      *
      * @param array $category
      *

@@ -9,7 +9,7 @@ use Pim\Bundle\MagentoConnectorBundle\Normalizer\Exception\NormalizeException;
 use Pim\Bundle\TransformBundle\Normalizer\Flat\FamilyNormalizer;
 
 /**
- * Magento family processor
+ * Magento family processor.
  *
  * @author    Olivier Soulet <olivier.soulet@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
@@ -61,7 +61,8 @@ class FamilyProcessor extends AbstractProcessor
     }
 
     /**
-     * Test if an attribute set exist on magento
+     * Test if an attribute set exist on magento.
+     *
      * @param Family $family               Family of attribute
      * @param array  $magentoAttributesSet Attribute sets from magento
      *
@@ -73,11 +74,13 @@ class FamilyProcessor extends AbstractProcessor
     }
 
     /**
-     * Normalize the given family
+     * Normalize the given family.
+     *
      * @param Family $family  Family of attribute
      * @param array  $context
      *
      * @throws InvalidItemException If a problem occurred with the normalizer
+     *
      * @return array
      */
     protected function normalizeFamily(Family $family, array $context)

@@ -7,7 +7,7 @@ use Pim\Bundle\MagentoConnectorBundle\Validator\Constraints\HasValidCredentialsV
 use Pim\Bundle\MagentoConnectorBundle\Webservice\SoapCallException;
 
 /**
- * Magento family mapper
+ * Magento family mapper.
  *
  * @author    Olivier Soulet <olivier.soulet@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
@@ -34,7 +34,8 @@ class MagentoFamilyMapper extends MagentoMapper
     }
 
     /**
-     * Get all targets
+     * Get all targets.
+     *
      * @return array
      */
     public function getAllTargets()
@@ -57,7 +58,8 @@ class MagentoFamilyMapper extends MagentoMapper
     }
 
     /**
-     * Get mapper identifier
+     * Get mapper identifier.
+     *
      * @param string $rootIdentifier
      *
      * @return string

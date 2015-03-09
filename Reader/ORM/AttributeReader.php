@@ -9,7 +9,7 @@ use Pim\Bundle\MagentoConnectorBundle\Merger\MagentoMappingMerger;
 use Pim\Bundle\MagentoConnectorBundle\Mapper\MappingCollection;
 
 /**
- * ORM reader for product
+ * ORM reader for product.
  *
  * @author    Julien SAnchez <julien@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
@@ -28,7 +28,7 @@ class AttributeReader extends EntityReader
     protected $attributeCodeMapping = '';
 
     /**
-     * Set attribute code mapping
+     * Set attribute code mapping.
      *
      * @param string $attributeCodeMapping
      *
@@ -48,7 +48,7 @@ class AttributeReader extends EntityReader
     }
 
     /**
-     * Get attribute id mapping
+     * Get attribute id mapping.
      *
      * @return string
      */
@@ -116,7 +116,7 @@ class AttributeReader extends EntityReader
     }
 
     /**
-     * Get all ignored attributes
+     * Get all ignored attributes.
      *
      * @return array
      */
@@ -130,7 +130,7 @@ class AttributeReader extends EntityReader
     }
 
     /**
-     * Called after the configuration is set
+     * Called after the configuration is set.
      */
     protected function afterConfigurationSet()
     {

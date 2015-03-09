@@ -6,7 +6,7 @@ use Pim\Bundle\CatalogBundle\Entity\Channel;
 use Pim\Bundle\CatalogBundle\Model\ProductInterface;
 
 /**
- * Filter exportable products in terms of channel and completeness
+ * Filter exportable products in terms of channel and completeness.
  *
  * @author    Willy Mesnage <willy.mesnage@akeneo.com>
  * @copyright 2015 Akeneo SAS (http://www.akeneo.com)
@@ -15,7 +15,7 @@ use Pim\Bundle\CatalogBundle\Model\ProductInterface;
 class ExportableProductFilter
 {
     /**
-     * Returns ready to export variant group products
+     * Returns ready to export variant group products.
      *
      * @param Channel                                                    $channel
      * @param \Doctrine\Common\Collections\Collection|ProductInterface[] $products
@@ -44,7 +44,7 @@ class ExportableProductFilter
      * Is the given product complete for the given channel?
      *
      * @param ProductInterface $product
-     * @param Channel $channel
+     * @param Channel          $channel
      *
      * @return bool
      */

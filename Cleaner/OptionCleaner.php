@@ -10,7 +10,7 @@ use Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClientParametersRegi
 use Doctrine\ORM\EntityManager;
 
 /**
- * Magento option cleaner
+ * Magento option cleaner.
  *
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
@@ -65,7 +65,7 @@ class OptionCleaner extends Cleaner
     }
 
     /**
-     * Clean options
+     * Clean options.
      *
      * @param array             $options
      * @param AbstractAttribute $attribute
@@ -89,7 +89,7 @@ class OptionCleaner extends Cleaner
     }
 
     /**
-     * Handle deletion or disabling of options which are not in PIM anymore
+     * Handle deletion or disabling of options which are not in PIM anymore.
      *
      * @param string $optionId
      * @param string $attributeCode
@@ -109,7 +109,7 @@ class OptionCleaner extends Cleaner
     }
 
     /**
-     * Get attribute for attribute code
+     * Get attribute for attribute code.
      *
      * @param string $attributeCode
      *
@@ -121,7 +121,7 @@ class OptionCleaner extends Cleaner
     }
 
     /**
-     * Get option for option label and attribute
+     * Get option for option label and attribute.
      *
      * @param string            $optionLabel
      * @param AbstractAttribute $attribute
@@ -144,7 +144,7 @@ class OptionCleaner extends Cleaner
 
         $configurationFields['notInPimAnymoreAction']['options']['choices'] = [
             Cleaner::DO_NOTHING => 'pim_magento_connector.export.do_nothing.label',
-            Cleaner::DELETE     => 'pim_magento_connector.export.delete.label'
+            Cleaner::DELETE     => 'pim_magento_connector.export.delete.label',
         ];
 
         $configurationFields['notInPimAnymoreAction']['options']['help'] =
@@ -156,14 +156,15 @@ class OptionCleaner extends Cleaner
     }
 
     /**
-     * Get all ignored attributes
+     * Get all ignored attributes.
+     *
      * @return array
      */
     protected function getIgnoredAttributes()
     {
         return [
             'visibility',
-            'tax_class_id'
+            'tax_class_id',
         ];
     }
 }

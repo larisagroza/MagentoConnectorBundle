@@ -5,7 +5,7 @@ namespace Pim\Bundle\MagentoConnectorBundle\Validator\Checks;
 use Pim\Bundle\MagentoConnectorBundle\Validator\Exception\InvalidXmlException;
 
 /**
- * Tool for check your xml
+ * Tool for check your xml.
  *
  * @author    Willy Mesnage <willy.mesnage@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
@@ -14,11 +14,9 @@ use Pim\Bundle\MagentoConnectorBundle\Validator\Exception\InvalidXmlException;
 class XmlChecker
 {
     /**
-     * Check the given xml
+     * Check the given xml.
      *
      * @param string $xml
-     *
-     * @return null
      *
      * @throws InvalidXmlException
      */

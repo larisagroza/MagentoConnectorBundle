@@ -45,6 +45,7 @@ class AttributeManager
      * @Deprecated
      *
      * Get attributes
+     *
      * @param array $criterias
      *
      * @return array
@@ -75,7 +76,7 @@ class AttributeManager
     }
 
     /**
-     * Create an attribute
+     * Create an attribute.
      *
      * @param string $type
      *
@@ -87,7 +88,7 @@ class AttributeManager
     }
 
     /**
-     * Create an attribute option
+     * Create an attribute option.
      *
      * @return \Pim\Bundle\CatalogBundle\Entity\AttributeOption
      */
@@ -97,7 +98,7 @@ class AttributeManager
     }
 
     /**
-     * Create an attribute option value
+     * Create an attribute option value.
      *
      * @return \Pim\Bundle\CatalogBundle\Entity\AttributeOptionValue
      */
@@ -107,7 +108,7 @@ class AttributeManager
     }
 
     /**
-     * Get the attribute FQCN
+     * Get the attribute FQCN.
      *
      * @return string
      */
@@ -117,7 +118,7 @@ class AttributeManager
     }
 
     /**
-     * Get the attribute option FQCN
+     * Get the attribute option FQCN.
      *
      * @return string
      */
@@ -127,7 +128,7 @@ class AttributeManager
     }
 
     /**
-     * Get a list of available attribute types
+     * Get a list of available attribute types.
      *
      * @return string[]
      */
@@ -137,7 +138,7 @@ class AttributeManager
     }
 
     /**
-     * Remove an attribute
+     * Remove an attribute.
      *
      * @param AbstractAttribute $attribute
      */

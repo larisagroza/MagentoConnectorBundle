@@ -8,7 +8,7 @@ use Pim\Bundle\MagentoConnectorBundle\Guesser\WebserviceGuesser;
 use Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClientParametersRegistry;
 
 /**
- * Write delta product in Magento
+ * Write delta product in Magento.
  *
  * @author    Romain Monceau <romain@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
@@ -23,7 +23,7 @@ class DeltaProductWriter extends ProductWriter
      * @param WebserviceGuesser                   $webserviceGuesser
      * @param ChannelManager                      $channelManager
      * @param MagentoSoapClientParametersRegistry $clientParametersRegistry
-     * @param DeltaProductExportManager                $productExportManager
+     * @param DeltaProductExportManager           $productExportManager
      */
     public function __construct(
         WebserviceGuesser $webserviceGuesser,
@@ -37,7 +37,7 @@ class DeltaProductWriter extends ProductWriter
     }
 
     /**
-     * Compute an individual product and all its parts (translations)
+     * Compute an individual product and all its parts (translations).
      *
      * @param array $product
      */

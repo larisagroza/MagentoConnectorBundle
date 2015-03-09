@@ -8,7 +8,7 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\Config\FileLocator;
 
 /**
- * Magento connector bundle extension
+ * Magento connector bundle extension.
  *
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2013 Akeneo SAS (http://www.akeneo.com)
@@ -42,13 +42,13 @@ class PimMagentoConnectorExtension extends Extension
         $loader->load('writers.yml');
 
         $storageConfig = sprintf('storage_driver/%s.yml', $this->getStorageDriver($container));
-        if (file_exists(__DIR__ . '/../Resources/config/' . $storageConfig)) {
+        if (file_exists(__DIR__.'/../Resources/config/'.$storageConfig)) {
             $loader->load($storageConfig);
         }
     }
 
     /**
-     * Returns the storage driver used
+     * Returns the storage driver used.
      *
      * @param ContainerBuilder $container
      *

@@ -3,7 +3,7 @@
 namespace Pim\Bundle\MagentoConnectorBundle\Webservice;
 
 /**
- * A magento soap client factory
+ * A magento soap client factory.
  *
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)

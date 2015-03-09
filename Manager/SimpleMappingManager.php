@@ -6,7 +6,7 @@ use Doctrine\Common\Persistence\ObjectManager;
 use Pim\Bundle\MagentoConnectorBundle\Entity\SimpleMapping;
 
 /**
- * Mapping manager
+ * Mapping manager.
  *
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2013 Akeneo SAS (http://www.akeneo.com)
@@ -23,7 +23,8 @@ class SimpleMappingManager
     protected $className;
 
     /**
-     * Constructor
+     * Constructor.
+     *
      * @param ObjectManager $objectManager
      * @param string        $className
      */
@@ -34,7 +35,8 @@ class SimpleMappingManager
     }
 
     /**
-     * Get mapping for given identifier
+     * Get mapping for given identifier.
+     *
      * @param string $identifier
      *
      * @return array
@@ -45,7 +47,8 @@ class SimpleMappingManager
     }
 
     /**
-     * Set mapping to database for given identifier
+     * Set mapping to database for given identifier.
+     *
      * @param array  $mapping
      * @param string $identifier
      */
@@ -78,7 +81,8 @@ class SimpleMappingManager
     }
 
     /**
-     * Prune old instance of simple mapping for the given identifier
+     * Prune old instance of simple mapping for the given identifier.
+     *
      * @param string $identifier
      */
     protected function pruneOldMapping($identifier)
@@ -93,7 +97,8 @@ class SimpleMappingManager
     }
 
     /**
-     * Get the entity manager
+     * Get the entity manager.
+     *
      * @return EntityRepository
      */
     protected function getEntityRepository()

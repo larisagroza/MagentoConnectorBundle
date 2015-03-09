@@ -6,7 +6,7 @@ use Pim\Bundle\MagentoConnectorBundle\Guesser\WebserviceGuesser;
 use Pim\Bundle\MagentoConnectorBundle\Validator\Constraints\HasValidCredentialsValidator;
 
 /**
- * Magento storeview mapper
+ * Magento storeview mapper.
  *
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
@@ -33,7 +33,8 @@ class MagentoStoreViewMapper extends MagentoMapper
     }
 
     /**
-     * Get all targets
+     * Get all targets.
+     *
      * @return array
      */
     public function getAllTargets()
@@ -54,7 +55,8 @@ class MagentoStoreViewMapper extends MagentoMapper
     }
 
     /**
-     * Get mapper identifier
+     * Get mapper identifier.
+     *
      * @param string $rootIdentifier
      *
      * @return string

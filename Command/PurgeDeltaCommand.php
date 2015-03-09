@@ -8,7 +8,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Purge delta tables for a given job instance code
+ * Purge delta tables for a given job instance code.
  *
  * @author    Willy Mesnage <willy.mesnage@akeneo.com>
  * @copyright 2015 Akeneo SAS (http://www.akeneo.com)
@@ -30,7 +30,6 @@ class PurgeDeltaCommand extends ContainerAwareCommand
                 'From which job instance want you remove ?'
             );
     }
-
 
     /**
      * {@inheritdoc}
@@ -59,7 +58,7 @@ class PurgeDeltaCommand extends ContainerAwareCommand
     }
 
     /**
-     * Get the mapping purger
+     * Get the mapping purger.
      *
      * @return \Pim\Bundle\MagentoConnectorBundle\Purger\DeltaTablePurger
      */

@@ -5,7 +5,7 @@ namespace Pim\Bundle\MagentoConnectorBundle\Purger;
 use Doctrine\ORM\EntityNotFoundException;
 
 /**
- * Interface for purgers
+ * Interface for purgers.
  *
  * @author    Willy Mesnage <willy.mesnage@akeneo.com>
  * @copyright 2015 Akeneo SAS (http://www.akeneo.com)
@@ -14,14 +14,14 @@ use Doctrine\ORM\EntityNotFoundException;
 interface PurgerInterface
 {
     /**
-     * Set classes to purge
+     * Set classes to purge.
      *
      * @param array $classes
      */
     public function setClassesToPurge(array $classes);
 
     /**
-     * Purge given database in terms of job instance code
+     * Purge given database in terms of job instance code.
      *
      * @param string $jobInstanceCode
      *

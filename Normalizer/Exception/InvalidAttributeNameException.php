@@ -3,7 +3,7 @@
 namespace Pim\Bundle\MagentoConnectorBundle\Normalizer\Exception;
 
 /**
- * Exception thrown if the given attribute name is invalid
+ * Exception thrown if the given attribute name is invalid.
  *
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)

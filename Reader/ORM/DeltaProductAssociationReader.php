@@ -3,7 +3,7 @@
 namespace Pim\Bundle\MagentoConnectorBundle\Reader\ORM;
 
 /**
- * Delta product association reader
+ * Delta product association reader.
  *
  * @author    Willy Mesnage <willy.mesnage@akeneo.com>
  * @copyright 2015 Akeneo SAS (http://www.akeneo.com)
@@ -13,7 +13,7 @@ class DeltaProductAssociationReader extends DeltaProductReader
 {
     /**
      * Left join with "pim_magento_delta_product_association_export"
-     * instead of "pim_magento_delta_product_export"
+     * instead of "pim_magento_delta_product_export".
      *
      * {@inheritdoc}
      */

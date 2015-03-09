@@ -11,7 +11,7 @@ use Pim\Bundle\MagentoConnectorBundle\Guesser\WebserviceGuesser;
 use Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClientParametersRegistry;
 
 /**
- * Magento product cleaner for MongoDB
+ * Magento product cleaner for MongoDB.
  *
  * @author    Romain Monceau <romain@akeneo.com>
  * @copyright 2015 Akeneo SAS (http://www.akeneo.com)
@@ -85,7 +85,7 @@ class ProductCleaner extends AbstractProductCleaner
     }
 
     /**
-     * Get the identifier attribute code
+     * Get the identifier attribute code.
      *
      * @return string
      */

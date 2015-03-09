@@ -8,7 +8,7 @@ use Pim\Bundle\MagentoConnectorBundle\Manager\AttributeGroupMappingManager;
 use Pim\Bundle\MagentoConnectorBundle\Validator\Constraints\HasValidCredentialsValidator;
 
 /**
- * Magento group mapper
+ * Magento group mapper.
  *
  * @author    Olivier Soulet <olivier.soulet@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
@@ -39,7 +39,8 @@ class ORMGroupMapper extends ORMMapper
     }
 
     /**
-     * Get all sources
+     * Get all sources.
+     *
      * @param AttributeGroup $group
      *
      * @return array

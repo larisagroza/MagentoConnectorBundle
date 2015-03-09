@@ -5,7 +5,7 @@ namespace Pim\Bundle\MagentoConnectorBundle\Entity\Repository;
 use Pim\Bundle\CatalogBundle\Entity\Repository\CurrencyRepository as BaseCurrencyRepository;
 
 /**
- * Custom currency repository
+ * Custom currency repository.
  *
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
@@ -14,7 +14,7 @@ use Pim\Bundle\CatalogBundle\Entity\Repository\CurrencyRepository as BaseCurrenc
 class CurrencyRepository extends BaseCurrencyRepository
 {
     /**
-     * Get all categories for the given criterias
+     * Get all categories for the given criterias.
      *
      * @param array $criterias
      *

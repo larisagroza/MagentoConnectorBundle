@@ -15,7 +15,7 @@ use Pim\Bundle\MagentoConnectorBundle\Manager\AttributeManager;
 use Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClientParametersRegistry;
 
 /**
- * Abstract magento product processor
+ * Abstract magento product processor.
  *
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
@@ -141,7 +141,7 @@ abstract class AbstractProductProcessor extends AbstractProcessor
     }
 
     /**
-     * get channel
+     * get channel.
      *
      * @return string channel
      */
@@ -151,7 +151,7 @@ abstract class AbstractProductProcessor extends AbstractProcessor
     }
 
     /**
-     * Set channel
+     * Set channel.
      *
      * @param string $channel channel
      *
@@ -165,7 +165,7 @@ abstract class AbstractProductProcessor extends AbstractProcessor
     }
 
     /**
-     * get currency
+     * get currency.
      *
      * @return string currency
      */
@@ -175,7 +175,7 @@ abstract class AbstractProductProcessor extends AbstractProcessor
     }
 
     /**
-     * Set currency
+     * Set currency.
      *
      * @param string $currency currency
      *
@@ -189,7 +189,7 @@ abstract class AbstractProductProcessor extends AbstractProcessor
     }
 
     /**
-     * get enabled
+     * get enabled.
      *
      * @return string enabled
      */
@@ -199,7 +199,7 @@ abstract class AbstractProductProcessor extends AbstractProcessor
     }
 
     /**
-     * Set enabled
+     * Set enabled.
      *
      * @param string $enabled enabled
      *
@@ -213,7 +213,7 @@ abstract class AbstractProductProcessor extends AbstractProcessor
     }
 
     /**
-     * get visibility
+     * get visibility.
      *
      * @return string visibility
      */
@@ -223,7 +223,7 @@ abstract class AbstractProductProcessor extends AbstractProcessor
     }
 
     /**
-     * Set variant member visibility
+     * Set variant member visibility.
      *
      * @param string $visibility visibility
      *
@@ -237,7 +237,7 @@ abstract class AbstractProductProcessor extends AbstractProcessor
     }
 
     /**
-     * get visibility for variant member
+     * get visibility for variant member.
      *
      * @return string visibility
      */
@@ -247,7 +247,7 @@ abstract class AbstractProductProcessor extends AbstractProcessor
     }
 
     /**
-     * Set visibility
+     * Set visibility.
      *
      * @param string $visibility visibility
      *
@@ -261,7 +261,8 @@ abstract class AbstractProductProcessor extends AbstractProcessor
     }
 
     /**
-     * Get small image
+     * Get small image.
+     *
      * @return string
      */
     public function getSmallImageAttribute()
@@ -270,7 +271,8 @@ abstract class AbstractProductProcessor extends AbstractProcessor
     }
 
     /**
-     * Set small image
+     * Set small image.
+     *
      * @param string $smallImageAttribute
      *
      * @return ProductProcessor
@@ -283,7 +285,8 @@ abstract class AbstractProductProcessor extends AbstractProcessor
     }
 
     /**
-     * Get base image attribute
+     * Get base image attribute.
+     *
      * @return string
      */
     public function getBaseImageAttribute()
@@ -292,7 +295,8 @@ abstract class AbstractProductProcessor extends AbstractProcessor
     }
 
     /**
-     * Set base image attribute
+     * Set base image attribute.
+     *
      * @param string $baseImageAttribute
      *
      * @return ProductProcessor
@@ -305,7 +309,8 @@ abstract class AbstractProductProcessor extends AbstractProcessor
     }
 
     /**
-     * Get thumbnail attribute
+     * Get thumbnail attribute.
+     *
      * @return string
      */
     public function getThumbnailAttribute()
@@ -314,7 +319,8 @@ abstract class AbstractProductProcessor extends AbstractProcessor
     }
 
     /**
-     * Set thumbnail attribute
+     * Set thumbnail attribute.
+     *
      * @param string $thumbnailAttribute
      *
      * @return ProductProcessor
@@ -327,7 +333,7 @@ abstract class AbstractProductProcessor extends AbstractProcessor
     }
 
     /**
-     * get categoryMapping
+     * get categoryMapping.
      *
      * @return string categoryMapping
      */
@@ -343,7 +349,7 @@ abstract class AbstractProductProcessor extends AbstractProcessor
     }
 
     /**
-     * Set categoryMapping
+     * Set categoryMapping.
      *
      * @param string $categoryMapping categoryMapping
      *
@@ -365,7 +371,7 @@ abstract class AbstractProductProcessor extends AbstractProcessor
     }
 
     /**
-     * get attribute code mapping
+     * get attribute code mapping.
      *
      * @return string attributeCodeMapping
      */
@@ -381,7 +387,7 @@ abstract class AbstractProductProcessor extends AbstractProcessor
     }
 
     /**
-     * Set attribute code mapping
+     * Set attribute code mapping.
      *
      * @param string $attributeCodeMapping attributeCodeMapping
      *
@@ -403,7 +409,7 @@ abstract class AbstractProductProcessor extends AbstractProcessor
     }
 
     /**
-     * Get url key
+     * Get url key.
      *
      * @return boolean
      */
@@ -413,7 +419,7 @@ abstract class AbstractProductProcessor extends AbstractProcessor
     }
 
     /**
-     * Set url key
+     * Set url key.
      *
      * @param boolean $urlKey
      *
@@ -427,7 +433,7 @@ abstract class AbstractProductProcessor extends AbstractProcessor
     }
 
     /**
-     * Get skuFirst
+     * Get skuFirst.
      *
      * @return boolean
      */
@@ -437,7 +443,7 @@ abstract class AbstractProductProcessor extends AbstractProcessor
     }
 
     /**
-     * Set skuFirst
+     * Set skuFirst.
      *
      * @param boolean $skuFirst
      *
@@ -451,7 +457,7 @@ abstract class AbstractProductProcessor extends AbstractProcessor
     }
 
     /**
-     * Function called before all process
+     * Function called before all process.
      */
     protected function beforeExecute()
     {
@@ -489,7 +495,7 @@ abstract class AbstractProductProcessor extends AbstractProcessor
     }
 
     /**
-     * Called after the configuration is set
+     * Called after the configuration is set.
      */
     protected function afterConfigurationSet()
     {
@@ -598,7 +604,7 @@ abstract class AbstractProductProcessor extends AbstractProcessor
                         'help'  => 'pim_magento_connector.export.skuFirst.help',
                         'label' => 'pim_magento_connector.export.skuFirst.label',
                     ],
-                ]
+                ],
             ],
             $this->categoryMappingMerger->getConfigurationField(),
             $this->attributeMappingMerger->getConfigurationField()

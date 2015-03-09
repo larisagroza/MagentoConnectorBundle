@@ -7,7 +7,7 @@ use Pim\Bundle\MagentoConnectorBundle\Manager\AttributeManager;
 use Pim\Bundle\MagentoConnectorBundle\Validator\Constraints\HasValidCredentialsValidator;
 
 /**
- * Magento attribute mapper
+ * Magento attribute mapper.
  *
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
@@ -38,7 +38,8 @@ class ORMAttributeCodeMapper extends ORMPimMapper
     }
 
     /**
-     * Get all targets
+     * Get all targets.
+     *
      * @return array
      */
     public function getAllSources()

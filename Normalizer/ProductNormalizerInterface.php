@@ -15,7 +15,7 @@ use Pim\Bundle\MagentoConnectorBundle\Mapper\MappingCollection;
 interface ProductNormalizerInterface
 {
     /**
-     * Get values array for a given product
+     * Get values array for a given product.
      *
      * @param ProductInterface  $product                  The given product
      * @param array             $magentoAttributes        Attribute list from Magento
@@ -42,7 +42,7 @@ interface ProductNormalizerInterface
     );
 
     /**
-     * Get all images of a product normalized
+     * Get all images of a product normalized.
      *
      * @param ProductInterface $product
      *

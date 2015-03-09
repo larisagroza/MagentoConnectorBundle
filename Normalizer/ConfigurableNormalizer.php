@@ -11,7 +11,7 @@ use Pim\Bundle\MagentoConnectorBundle\Normalizer\Exception\InvalidPriceMappingEx
 use Pim\Bundle\MagentoConnectorBundle\Mapper\MappingCollection;
 
 /**
- * A normalizer to transform a group entity into an array
+ * A normalizer to transform a group entity into an array.
  *
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2013 Akeneo SAS (http://www.akeneo.com)
@@ -34,7 +34,8 @@ class ConfigurableNormalizer extends AbstractNormalizer
     protected $visibility;
 
     /**
-     * Constructor
+     * Constructor.
+     *
      * @param ChannelManager      $channelManager
      * @param ProductNormalizer   $productNormalizer
      * @param PriceMappingManager $priceMappingManager
@@ -139,7 +140,7 @@ class ConfigurableNormalizer extends AbstractNormalizer
     }
 
     /**
-     * Get default configurable
+     * Get default configurable.
      *
      * @param Group             $group
      * @param string            $sku
@@ -246,7 +247,8 @@ class ConfigurableNormalizer extends AbstractNormalizer
     }
 
     /**
-     * Get the configurable for a new call
+     * Get the configurable for a new call.
+     *
      * @param string $sku
      * @param array  $configurableValues
      * @param int    $attributeSetId
@@ -259,12 +261,13 @@ class ConfigurableNormalizer extends AbstractNormalizer
             AbstractNormalizer::MAGENTO_CONFIGURABLE_PRODUCT_KEY,
             $attributeSetId,
             $sku,
-            $configurableValues
+            $configurableValues,
         ];
     }
 
     /**
-     * Get the configurable for an update call
+     * Get the configurable for an update call.
+     *
      * @param string $sku
      * @param array  $configurableValues
      *
@@ -274,12 +277,13 @@ class ConfigurableNormalizer extends AbstractNormalizer
     {
         return [
             $sku,
-            $configurableValues
+            $configurableValues,
         ];
     }
 
     /**
-     * Get all products skus
+     * Get all products skus.
+     *
      * @param array $products
      *
      * @return array

@@ -3,7 +3,7 @@
 namespace Pim\Bundle\MagentoConnectorBundle\Validator\Exception;
 
 /**
- * Exception thrown if the given url is not reachable
+ * Exception thrown if the given url is not reachable.
  *
  * @author    Willy Mesnage <willy.mesnage@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)

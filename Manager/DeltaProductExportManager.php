@@ -2,7 +2,6 @@
 
 namespace Pim\Bundle\MagentoConnectorBundle\Manager;
 
-use Doctrine\ORM\EntityRepository;
 use PDO;
 use Doctrine\ORM\EntityManager;
 use Akeneo\Bundle\BatchBundle\Entity\JobInstance;
@@ -11,7 +10,7 @@ use Pim\Bundle\CatalogBundle\Repository\ProductRepositoryInterface;
 use Pim\Bundle\MagentoConnectorBundle\Builder\TableNameBuilder;
 
 /**
- * Delta product export manager to update and create product export entities
+ * Delta product export manager to update and create product export entities.
  *
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
@@ -50,7 +49,7 @@ class DeltaProductExportManager
     }
 
     /**
-     * Update product export date for the given product
+     * Update product export date for the given product.
      *
      * @param JobInstance $jobInstance
      * @param string      $identifier
@@ -68,7 +67,7 @@ class DeltaProductExportManager
     }
 
     /**
-     * Update product association export date for the given product
+     * Update product association export date for the given product.
      *
      * @param JobInstance $jobInstance
      * @param string      $identifier
@@ -88,7 +87,7 @@ class DeltaProductExportManager
     }
 
     /**
-     * Update export date for the given product
+     * Update export date for the given product.
      *
      * @param ProductInterface $product
      * @param JobInstance      $jobInstance
