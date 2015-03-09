@@ -1,3 +1,7 @@
+# 1.1.24 (2015-03-09)
+## Bug fix
+ - Remove url_key from product updates with Magento EE
+
 # 1.1.23 (2015-03-06)
 ## Bug fixes
  - Prevent an error with url_key during a product update on Magento EE
