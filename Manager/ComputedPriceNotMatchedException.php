@@ -3,7 +3,7 @@
 namespace Pim\Bundle\MagentoConnectorBundle\Manager;
 
 /**
- * Exception thrown if the given price don't match the computed price
+ * Exception thrown if the given price don't match the computed price.
  *
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)

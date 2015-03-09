@@ -3,7 +3,7 @@
 namespace Pim\Bundle\MagentoConnectorBundle\Reader\ORM;
 
 /**
- * Delta product association reader
+ * Delta product association reader.
  *
  * @author    Willy Mesnage <willy.mesnage@akeneo.com>
  * @copyright 2015 Akeneo SAS (http://www.akeneo.com)
@@ -13,7 +13,7 @@ class DeltaProductAssociationReader extends DeltaProductReader
 {
     /**
      * Left join with "pim_magento_delta_product_association_export"
-     * instead of "pim_magento_delta_product_export"
+     * instead of "pim_magento_delta_product_export".
      *
      * {@inheritdoc}
      */
@@ -47,7 +47,7 @@ class DeltaProductAssociationReader extends DeltaProductReader
             LEFT JOIN akeneo_batch_job_instance j
                 ON j.id = dpae.job_instance_id AND j.id = $jobInstanceId
 
-            WHERE (cp.updated > dpae.last_export OR dpae.last_export IS NULL) AND cp.is_enabled = 1
+            WHERE (cp.updated > dpae.last_export OR j.id IS NULL) AND cp.is_enabled = 1
 
             GROUP BY cp.id;
 SQL;

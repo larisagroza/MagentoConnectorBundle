@@ -10,7 +10,7 @@ use Pim\Bundle\MagentoConnectorBundle\Normalizer\ConfigurableNormalizer;
 use Pim\Bundle\MagentoConnectorBundle\Mapper\MappingCollection;
 
 /**
- * Price mapping manager
+ * Price mapping manager.
  *
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2013 Akeneo SAS (http://www.akeneo.com)
@@ -31,7 +31,8 @@ class PriceMappingManager
     protected $channel;
 
     /**
-     * Constructor
+     * Constructor.
+     *
      * @param string $locale
      * @param string $currency
      * @param string $channel
@@ -44,7 +45,8 @@ class PriceMappingManager
     }
 
     /**
-     * Get price mapping for the given group and products
+     * Get price mapping for the given group and products.
+     *
      * @param Group             $group
      * @param array             $products
      * @param MappingCollection $attributeMapping
@@ -86,12 +88,13 @@ class PriceMappingManager
 
         return [
             ConfigurableNormalizer::PRICE_CHANGES => $priceChanges,
-            ConfigurableNormalizer::BASE_PRICE    => $basePrice
+            ConfigurableNormalizer::BASE_PRICE    => $basePrice,
         ];
     }
 
     /**
-     * Get the limit price of given products
+     * Get the limit price of given products.
+     *
      * @param array             $products
      * @param MappingCollection $attributeMapping
      * @param array             $priceChanges
@@ -121,7 +124,8 @@ class PriceMappingManager
     }
 
     /**
-     * Get sorted attributes for mapping
+     * Get sorted attributes for mapping.
+     *
      * @param ArrayCollection   $attributes
      * @param array             $products
      * @param float             $basePrice
@@ -169,7 +173,8 @@ class PriceMappingManager
     }
 
     /**
-     * Get the price of the given product
+     * Get the price of the given product.
+     *
      * @param ProductInterface  $product
      * @param MappingCollection $attributeMapping
      * @param array             $priceChanges
@@ -208,7 +213,8 @@ class PriceMappingManager
     }
 
     /**
-     * Get price mapping for an attribute
+     * Get price mapping for an attribute.
+     *
      * @param AbstractAttribute $attribute
      * @param int               $basePrice
      * @param array             $products
@@ -247,7 +253,8 @@ class PriceMappingManager
     }
 
     /**
-     * Get all products with the given option value
+     * Get all products with the given option value.
+     *
      * @param array           $products
      * @param AttributeOption $option
      *
@@ -273,7 +280,8 @@ class PriceMappingManager
     }
 
     /**
-     * Validate generated price mapping
+     * Validate generated price mapping.
+     *
      * @param array             $products
      * @param array             $priceChanges
      * @param float             $basePrice
@@ -319,7 +327,8 @@ class PriceMappingManager
     }
 
     /**
-     * Get product price from generated mapping
+     * Get product price from generated mapping.
+     *
      * @param ProductInterface  $product
      * @param array             $priceChanges
      * @param float             $basePrice
@@ -347,7 +356,8 @@ class PriceMappingManager
     }
 
     /**
-     * Get the attribute price from generated mapping
+     * Get the attribute price from generated mapping.
+     *
      * @param ProductInterface $product
      * @param string           $attributeCode
      * @param array            $attributeMapping

@@ -7,7 +7,7 @@ use Pim\Bundle\MagentoConnectorBundle\Validator\Constraints\HasValidCredentialsV
 use Pim\Bundle\MagentoConnectorBundle\Webservice\SoapCallException;
 
 /**
- * Magento attribute code mapper
+ * Magento attribute code mapper.
  *
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
@@ -34,7 +34,7 @@ class MagentoAttributeCodeMapper extends MagentoMapper
     }
 
     /**
-     * Get mapping
+     * Get mapping.
      *
      * @return array
      */
@@ -67,7 +67,7 @@ class MagentoAttributeCodeMapper extends MagentoMapper
     }
 
     /**
-     * Get all sources
+     * Get all sources.
      *
      * @return array
      */
@@ -89,7 +89,7 @@ class MagentoAttributeCodeMapper extends MagentoMapper
     }
 
     /**
-     * Get mapper identifier
+     * Get mapper identifier.
      *
      * @param string $rootIdentifier
      *
@@ -101,7 +101,7 @@ class MagentoAttributeCodeMapper extends MagentoMapper
     }
 
     /**
-     * Get mandatory attributes
+     * Get mandatory attributes.
      *
      * @return array
      */
@@ -113,7 +113,7 @@ class MagentoAttributeCodeMapper extends MagentoMapper
             'description',
             'short_description',
             'tax_class_id',
-            'weight'
+            'weight',
         ];
     }
 }

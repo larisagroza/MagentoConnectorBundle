@@ -6,7 +6,7 @@ use Pim\Bundle\CatalogBundle\Model\AbstractAttribute;
 use Doctrine\Common\Persistence\ObjectManager;
 
 /**
- * Attribute mapping manager
+ * Attribute mapping manager.
  *
  * @author    Olivier Soulet <olivier.soulet@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
@@ -23,7 +23,8 @@ class AttributeMappingManager
     protected $className;
 
     /**
-     * Constructor
+     * Constructor.
+     *
      * @param ObjectManager $objectManager
      * @param string        $className
      */
@@ -34,7 +35,8 @@ class AttributeMappingManager
     }
 
     /**
-     * Get attribute from id and Magento url
+     * Get attribute from id and Magento url.
+     *
      * @param integer $id
      * @param string  $magentoUrl
      *
@@ -53,7 +55,8 @@ class AttributeMappingManager
     }
 
     /**
-     * Get id from attribute and Magento url
+     * Get id from attribute and Magento url.
+     *
      * @param AbstractAttribute $attribute
      * @param string            $magentoUrl
      *
@@ -72,7 +75,8 @@ class AttributeMappingManager
     }
 
     /**
-     * Get all attribute mapping for a given magento
+     * Get all attribute mapping for a given magento.
+     *
      * @param string $magentoUrl
      *
      * @return array
@@ -89,7 +93,8 @@ class AttributeMappingManager
     }
 
     /**
-     * Register a new attribute mapping
+     * Register a new attribute mapping.
+     *
      * @param AbstractAttribute $pimAttribute
      * @param integer           $magentoAttributeId
      * @param string            $magentoUrl
@@ -119,6 +124,7 @@ class AttributeMappingManager
 
     /**
      * Does the given magento attribute exist in pim ?
+     *
      * @param string $attributeId
      * @param string $magentoUrl
      *
@@ -130,7 +136,7 @@ class AttributeMappingManager
     }
 
     /**
-     * Get the entity repository
+     * Get the entity repository.
      *
      * @return EntityRepository
      */

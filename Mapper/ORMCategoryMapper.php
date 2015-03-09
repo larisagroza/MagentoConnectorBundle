@@ -8,7 +8,7 @@ use Pim\Bundle\CatalogBundle\Manager\CategoryManager;
 use Pim\Bundle\CatalogBundle\Model\CategoryInterface;
 
 /**
- * Magento category mapper
+ * Magento category mapper.
  *
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
@@ -39,7 +39,8 @@ class ORMCategoryMapper extends ORMPimMapper
     }
 
     /**
-     * Get all sources
+     * Get all sources.
+     *
      * @param CategoryInterface $category
      *
      * @return array

@@ -11,7 +11,7 @@ use Pim\Bundle\MagentoConnectorBundle\Builder\TableNameBuilder;
 use Pim\Bundle\TransformBundle\Converter\MetricConverter;
 
 /**
- * Delta product reader
+ * Delta product reader.
  *
  * @author    Romain Monceau <romain@akeneo.com>
  * @copyright 2015 Akeneo SAS (http://www.akeneo.com)
@@ -113,7 +113,7 @@ class DeltaProductReader extends ORMProductReader
             LEFT JOIN akeneo_batch_job_instance j
                 ON j.id = dpe.job_instance_id AND j.id = $jobInstanceId
 
-            WHERE (cp.updated > dpe.last_export OR dpe.last_export IS NULL) AND cp.is_enabled = 1
+            WHERE (cp.updated > dpe.last_export OR j.id IS NULL) AND cp.is_enabled = 1
 
             GROUP BY cp.id;
 SQL;

@@ -6,7 +6,7 @@ use Pim\Bundle\CatalogBundle\Manager\GroupManager as BaseGroupManager;
 use Pim\Bundle\MagentoConnectorBundle\Entity\Repository\GroupRepository;
 
 /**
- * Custom attribute manager
+ * Custom attribute manager.
  *
  * @author    Willy Mesnage <willy.mesnage@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
@@ -33,7 +33,7 @@ class GroupManager
     }
 
     /**
-     * Get available axis
+     * Get available axis.
      *
      * @return \Pim\Bundle\CatalogBundle\Model\AbstractAttribute[]
      */
@@ -43,7 +43,7 @@ class GroupManager
     }
 
     /**
-     * Get axis as choice list
+     * Get axis as choice list.
      *
      * @return array
      */
@@ -53,7 +53,7 @@ class GroupManager
     }
 
     /**
-     * Get choices
+     * Get choices.
      *
      * @return array
      */
@@ -63,7 +63,7 @@ class GroupManager
     }
 
     /**
-     * Get axis as choice list
+     * Get axis as choice list.
      *
      * @param boolean $isVariant
      *
@@ -75,7 +75,7 @@ class GroupManager
     }
 
     /**
-     * Returns the entity repository
+     * Returns the entity repository.
      *
      * @return \Doctrine\ORM\EntityRepository
      */
@@ -85,7 +85,7 @@ class GroupManager
     }
 
     /**
-     * Returns the group type repository
+     * Returns the group type repository.
      *
      * @return \Doctrine\ORM\EntityRepository
      */
@@ -95,7 +95,7 @@ class GroupManager
     }
 
     /**
-     * Removes a group
+     * Removes a group.
      *
      * @param Group $group
      */
@@ -105,7 +105,7 @@ class GroupManager
     }
 
     /**
-     * Returns an array containing a limited number of product groups, and the total number of products
+     * Returns an array containing a limited number of product groups, and the total number of products.
      *
      * @param Group   $group
      * @param integer $maxResults

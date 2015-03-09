@@ -102,7 +102,9 @@ class DeltaProductAssociationReader extends ODMProductReader
      */
     protected function prepareQB()
     {
-        return $this->repository->buildByChannelAndCompleteness($this->channel);
+        $qb = $this->repository->buildByChannelAndCompleteness($this->channel);
+
+        return $qb;
     }
 
     /**

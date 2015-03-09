@@ -6,7 +6,7 @@ use Akeneo\Bundle\BatchBundle\Item\ItemWriterInterface;
 use Pim\Bundle\MagentoConnectorBundle\Item\MagentoItemStep;
 
 /**
- * Magento product writer
+ * Magento product writer.
  *
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2013 Akeneo SAS (http://www.akeneo.com)

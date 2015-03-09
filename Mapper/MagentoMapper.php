@@ -6,7 +6,7 @@ use Pim\Bundle\MagentoConnectorBundle\Validator\Constraints\HasValidCredentialsV
 use Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClientParameters;
 
 /**
- * Magento mapper
+ * Magento mapper.
  *
  * @author    Willy Mesnage <willy.mesnage@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
@@ -38,7 +38,8 @@ class MagentoMapper extends Mapper
     }
 
     /**
-     * Set mapper parameters
+     * Set mapper parameters.
+     *
      * @param MagentoSoapClientParameters $clientParameters
      * @param string                      $defaultStoreView
      */
@@ -49,7 +50,8 @@ class MagentoMapper extends Mapper
     }
 
     /**
-     * Get mapper identifier
+     * Get mapper identifier.
+     *
      * @param string $rootIdentifier
      *
      * @return string
@@ -65,6 +67,7 @@ class MagentoMapper extends Mapper
 
     /**
      * Is the mapper valid ?
+     *
      * @return boolean
      */
     public function isValid()

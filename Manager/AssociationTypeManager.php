@@ -5,7 +5,7 @@ namespace Pim\Bundle\MagentoConnectorBundle\Manager;
 use Doctrine\Common\Persistence\ObjectManager;
 
 /**
- * Association type manager
+ * Association type manager.
  *
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
@@ -22,7 +22,8 @@ class AssociationTypeManager
     protected $className;
 
     /**
-     * Constructor
+     * Constructor.
+     *
      * @param ObjectManager $objectManager
      * @param string        $className
      */
@@ -33,7 +34,7 @@ class AssociationTypeManager
     }
 
     /**
-     * Get association types with criterias
+     * Get association types with criterias.
      *
      * @param string[] $criterias
      *
@@ -45,7 +46,7 @@ class AssociationTypeManager
     }
 
     /**
-     * Get association types with criterias
+     * Get association types with criterias.
      *
      * @param string[] $criterias
      *
@@ -57,7 +58,7 @@ class AssociationTypeManager
     }
 
     /**
-     * Get association types by code
+     * Get association types by code.
      *
      * @param string $code
      *
@@ -70,7 +71,7 @@ class AssociationTypeManager
 
     /**
      * Get assiociation type choices with criterias
-     * Allow to list association types in an array like array[<code>] = <label>
+     * Allow to list association types in an array like array[<code>] = <label>.
      *
      * @param array $criterias
      *
@@ -90,7 +91,8 @@ class AssociationTypeManager
     }
 
     /**
-     * Get the entity manager
+     * Get the entity manager.
+     *
      * @return EntityRepository
      */
     protected function getEntityRepository()

@@ -10,7 +10,7 @@ use Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClientParametersRegi
 use Pim\Bundle\MagentoConnectorBundle\Webservice\Webservice;
 
 /**
- * Magento category writer
+ * Magento category writer.
  *
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2013 Akeneo SAS (http://www.akeneo.com)
@@ -24,7 +24,7 @@ class CategoryWriter extends AbstractWriter
     protected $categoryMappingManager;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param WebserviceGuesser                   $webserviceGuesser
      * @param CategoryMappingManager              $categoryMappingManager
@@ -61,7 +61,8 @@ class CategoryWriter extends AbstractWriter
     }
 
     /**
-     * Handle category creation
+     * Handle category creation.
+     *
      * @param array $batch
      */
     protected function handleNewCategory(array $batch)
@@ -84,7 +85,8 @@ class CategoryWriter extends AbstractWriter
     }
 
     /**
-     * Handle category update
+     * Handle category update.
+     *
      * @param array $batch
      */
     protected function handleUpdateCategory(array $batch)
@@ -104,7 +106,7 @@ class CategoryWriter extends AbstractWriter
     }
 
     /**
-     * Update category in admin store view
+     * Update category in admin store view.
      *
      * @param array $categoryToUpdate
      */
@@ -115,7 +117,8 @@ class CategoryWriter extends AbstractWriter
     }
 
     /**
-     * Handle category move
+     * Handle category move.
+     *
      * @param array $batch
      */
     protected function handleMoveCategory(array $batch)
@@ -130,7 +133,8 @@ class CategoryWriter extends AbstractWriter
     }
 
     /**
-     * Handle category variation update
+     * Handle category variation update.
+     *
      * @param array $batch
      */
     protected function handleVariationCategory(array $batch)

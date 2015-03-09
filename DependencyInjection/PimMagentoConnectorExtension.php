@@ -8,7 +8,7 @@ use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\Config\FileLocator;
 
 /**
- * Magento connector bundle extension
+ * Magento connector bundle extension.
  *
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2013 Akeneo SAS (http://www.akeneo.com)
@@ -25,6 +25,7 @@ class PimMagentoConnectorExtension extends Extension
         $loader->load('builders.yml');
         $loader->load('cleaners.yml');
         $loader->load('entities.yml');
+        $loader->load('event_subscribers.yml');
         $loader->load('filters.yml');
         $loader->load('guessers.yml');
         $loader->load('mappers.yml');
@@ -40,10 +41,23 @@ class PimMagentoConnectorExtension extends Extension
         $loader->load('webservices.yml');
         $loader->load('writers.yml');
 
-        $storageDriver = $container->getParameter('pim_catalog_storage_driver');
-        $storageConfig = sprintf('storage_driver/%s.yml', $storageDriver);
-        if (file_exists(__DIR__ . '/../Resources/config/' . $storageConfig)) {
+        $storageConfig = sprintf('storage_driver/%s.yml', $this->getStorageDriver($container));
+        if (file_exists(__DIR__.'/../Resources/config/'.$storageConfig)) {
             $loader->load($storageConfig);
         }
+    }
+
+    /**
+     * Returns the storage driver used.
+     *
+     * @param ContainerBuilder $container
+     *
+     * @return string
+     */
+    protected function getStorageDriver(ContainerBuilder $container)
+    {
+        return $container->hasParameter('pim_catalog_storage_driver') ?
+            $container->getParameter('pim_catalog_storage_driver') :
+            $container->getParameter('pim_catalog_product_storage_driver');
     }
 }

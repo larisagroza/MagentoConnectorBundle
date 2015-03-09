@@ -7,7 +7,7 @@ use Doctrine\ORM\EntityNotFoundException;
 use Pim\Bundle\ImportExportBundle\Entity\Repository\JobInstanceRepository;
 
 /**
- * Purge delta table in terms of job instance
+ * Purge delta table in terms of job instance.
  *
  * @author    Willy Mesnage <willy.mesnage@akeneo.com>
  * @copyright 2015 Akeneo SAS (http://www.akeneo.com)
@@ -62,7 +62,7 @@ class DeltaTablePurger implements PurgerInterface
     }
 
     /**
-     * Execute purge
+     * Execute purge.
      *
      * @param int    $id
      * @param string $class

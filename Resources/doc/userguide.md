@@ -114,3 +114,7 @@ So if you want to perform an update, you'd have to remove and add again the attr
 In Akeneo, you have the possibility to add a specific attribute (which is not related to the product family) to a product. As this is not possible in Magento (an attribute has to be in an attribute set), if you do so, the specific attribute will not be exported to Magento, and the product export will fail.
 
 So don't add specific attributes to products you want to export to Magento.
+
+## Product url key updates on Magento EE
+
+Due to a bug in Magento EE, it is not possible to update product url keys with the soap api.

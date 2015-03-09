@@ -10,7 +10,7 @@ use Pim\Bundle\MagentoConnectorBundle\Normalizer\AbstractNormalizer;
 use Pim\Bundle\MagentoConnectorBundle\Manager\GroupManager;
 
 /**
- * Magento configurable cleaner for ORM implementation
+ * Magento configurable cleaner for ORM implementation.
  *
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
@@ -76,7 +76,7 @@ class ConfigurableCleaner extends AbstractProductCleaner
     }
 
     /**
-     * Get all variant group skus
+     * Get all variant group skus.
      *
      * @return array
      */

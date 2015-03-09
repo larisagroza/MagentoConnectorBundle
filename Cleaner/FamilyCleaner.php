@@ -9,7 +9,7 @@ use Pim\Bundle\MagentoConnectorBundle\Webservice\SoapCallException;
 use Akeneo\Bundle\BatchBundle\Item\InvalidItemException;
 
 /**
- * Magento family cleaner
+ * Magento family cleaner.
  *
  * @author    Olivier Soulet <olivier.soulet@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
@@ -77,7 +77,7 @@ class FamilyCleaner extends Cleaner
     }
 
     /**
-     * Handle deletion of families that are not in PIM anymore
+     * Handle deletion of families that are not in PIM anymore.
      *
      * @param string $name
      * @param int    $id
@@ -121,27 +121,27 @@ class FamilyCleaner extends Cleaner
                     'options' => [
                         'choices'  => [
                             Cleaner::DO_NOTHING => 'pim_magento_connector.export.do_nothing.label',
-                            Cleaner::DELETE     => 'pim_magento_connector.export.delete.label'
+                            Cleaner::DELETE     => 'pim_magento_connector.export.delete.label',
                         ],
                         'required' => true,
                         'help'     => 'pim_magento_connector.export.notInPimAnymoreAction.help',
                         'label'    => 'pim_magento_connector.export.notInPimAnymoreAction.label',
-                        'attr'     => ['class' => 'select2']
-                    ]
+                        'attr'     => ['class' => 'select2'],
+                    ],
                 ],
                 'forceAttributeSetRemoval' => [
                     'type' => 'checkbox',
                     'options' => [
                         'help' => 'pim_magento_connector.export.forceAttributeSetRemoval.help',
-                        'label' => 'pim_magento_connector.export.forceAttributeSetRemoval.label'
-                    ]
-                ]
+                        'label' => 'pim_magento_connector.export.forceAttributeSetRemoval.label',
+                    ],
+                ],
             ]
         );
     }
 
     /**
-     * Get all ignored families
+     * Get all ignored families.
      *
      * @return string[]
      */

@@ -6,7 +6,7 @@ use Pim\Bundle\CatalogBundle\Entity\Repository\CategoryRepository as BaseCategor
 use Pim\Bundle\CatalogBundle\Model\CategoryInterface;
 
 /**
- * Custom category repository
+ * Custom category repository.
  *
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2013 Akeneo SAS (http://www.akeneo.com)
@@ -15,7 +15,7 @@ use Pim\Bundle\CatalogBundle\Model\CategoryInterface;
 class CategoryRepository extends BaseCategoryRepository
 {
     /**
-     * Get all categories in order
+     * Get all categories in order.
      *
      * @return array
      */
@@ -24,7 +24,7 @@ class CategoryRepository extends BaseCategoryRepository
         return $this
             ->createQueryBuilder('c')
             ->select('c')
-            ->andWhere('c.root = '. $rootCategory->getId())
+            ->andWhere('c.root = '.$rootCategory->getId())
             ->orderBy('c.level, c.left', 'ASC');
     }
 }

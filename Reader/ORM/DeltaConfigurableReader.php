@@ -11,7 +11,7 @@ use Pim\Bundle\MagentoConnectorBundle\Builder\TableNameBuilder;
 use Pim\Bundle\TransformBundle\Converter\MetricConverter;
 
 /**
- * Delta reader for configurables
+ * Delta reader for configurables.
  *
  * @author    Romain Monceau <romain@akeneo.com>
  * @copyright 2015 Akeneo SAS (http://www.akeneo.com)
@@ -116,7 +116,7 @@ class DeltaConfigurableReader extends ORMProductReader
             LEFT JOIN $deltaConfigurableTable de ON de.product_id = p.id
             LEFT JOIN akeneo_batch_job_instance j ON j.id = de.job_instance_id AND j.id = $jobInstanceId
 
-            WHERE p.updated > de.last_export OR de.last_export IS NULL
+            WHERE p.updated > de.last_export OR j.id IS NULL
             AND p.is_enabled = 1
 
             GROUP BY p.id

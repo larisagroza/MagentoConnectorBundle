@@ -17,7 +17,7 @@ use Pim\Bundle\MagentoConnectorBundle\Validator\Exception\InvalidXmlException;
 use Pim\Bundle\MagentoConnectorBundle\Item\MagentoItemStep;
 
 /**
- * Validator for Magento credentials
+ * Validator for Magento credentials.
  *
  * @author    Willy Mesnage <willy.mesnage@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)

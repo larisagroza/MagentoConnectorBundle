@@ -11,7 +11,7 @@ use Pim\Bundle\MagentoConnectorBundle\Entity\Repository\GroupRepository;
 use Pim\Bundle\TransformBundle\Converter\MetricConverter;
 
 /**
- * Delta configurable reader for MongoDB
+ * Delta configurable reader for MongoDB.
  *
  * @author    Romain Monceau <romain@akeneo.com>
  * @copyright 2015 Akeneo SAS (http://www.akeneo.com)

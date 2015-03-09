@@ -3,7 +3,7 @@
 namespace Pim\Bundle\MagentoConnectorBundle\Guesser;
 
 /**
- * Exception thrown if the given Magento version is not supported
+ * Exception thrown if the given Magento version is not supported.
  *
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)

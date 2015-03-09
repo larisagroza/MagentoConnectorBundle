@@ -33,7 +33,6 @@ class CurrencyManager
      *
      * Prior to PHP 5.4 array_combine() does not accept
      * empty array as argument.
-     *
      * @see http://php.net/array_combine#refsect1-function.array-combine-changelog
      *
      * @return array
@@ -69,7 +68,7 @@ class CurrencyManager
     }
 
     /**
-     * Get active currencies
+     * Get active currencies.
      *
      * @return \Doctrine\Common\Persistence\mixed
      */
@@ -79,7 +78,7 @@ class CurrencyManager
     }
 
     /**
-     * Get currencies with criterias
+     * Get currencies with criterias.
      *
      * @param array $criterias
      *
@@ -91,7 +90,7 @@ class CurrencyManager
     }
 
     /**
-     * Get active codes
+     * Get active codes.
      *
      * @return string[]
      */

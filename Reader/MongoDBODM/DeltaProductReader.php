@@ -12,7 +12,7 @@ use Pim\Bundle\CatalogBundle\Repository\ProductRepositoryInterface;
 use Pim\Bundle\TransformBundle\Converter\MetricConverter;
 
 /**
- * Delta product reader for MongoDB
+ * Delta product reader for MongoDB.
  *
  * @author    Romain Monceau <romain@akeneo.com>
  * @copyright 2015 Akeneo SAS (http://www.akeneo.com)
@@ -115,7 +115,7 @@ class DeltaProductReader extends ODMProductReader
         $delta = $this->deltaRepository->findOneBy(
             [
                 'productId' => $product->getId(),
-                'jobInstance' => $this->stepExecution->getJobExecution()->getJobInstance()
+                'jobInstance' => $this->stepExecution->getJobExecution()->getJobInstance(),
             ]
         );
 

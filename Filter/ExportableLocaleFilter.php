@@ -8,7 +8,7 @@ use Pim\Bundle\CatalogBundle\Model\AbstractCompleteness;
 use Pim\Bundle\CatalogBundle\Model\ProductInterface;
 
 /**
- * Filter which locale is exportable for a given product and a given channel
+ * Filter which locale is exportable for a given product and a given channel.
  *
  * @author    Willy Mesnage <willy.mesnage@akeneo.com>
  * @copyright 2015 Akeneo SAS (http://www.akeneo.com)
@@ -35,7 +35,7 @@ class ExportableLocaleFilter
     }
 
     /**
-     * Checks if the given completeness has a ratio equal to 100
+     * Checks if the given completeness has a ratio equal to 100.
      *
      * @param AbstractCompleteness $completeness
      *
@@ -51,7 +51,7 @@ class ExportableLocaleFilter
     }
 
     /**
-     * Checks if the given completeness is in the given channel
+     * Checks if the given completeness is in the given channel.
      *
      * @param AbstractCompleteness $completeness
      * @param Channel              $channel

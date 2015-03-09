@@ -18,6 +18,8 @@ Warning: this connector is not production ready and is intended for evaluation a
  - Magento from CE 1.6 to 1.9 and EE 1.11 to 1.14
  - MongoDB (optional)
 
+If you want to manage configurable products, you **must add [magento-improve-api](https://github.com/jreinke/magento-improve-api)** in your Magento installation.
+
 # Installation instructions
 
 Please make sure that your version of PHP has support for SOAP and XML (natively coming with PHP for Debian based distributions).
@@ -48,8 +50,6 @@ You can now update your database:
 Don't forget to reinstall pim assets:
 
     php app/console pim:installer:assets
-
-If you want to manage configurable products, you'll need to add [magento-improve-api](https://github.com/jreinke/magento-improve-api) in your Magento installation.
 
 ## Installing the Magento Connector in an Akeneo PIM development environment (master)
 
@@ -92,6 +92,8 @@ After that you can go to `Spread > Export profiles` on Akeneo PIM and create you
 To test the connector with the minimum data requirements, you can load the demo fixtures. Change the `installer_data` line from the `app/config/parameters.yml` file to:
 
     installer_data: PimMagentoConnectorBundle:demo_magento
+
+Two locales are activated by default, so for the export jobs to work out of the box, you need to add an extra storeview to your Magento environment, and map this store view with the Akeneo `fr_FR` locale.
 
 # Bug and issues
 

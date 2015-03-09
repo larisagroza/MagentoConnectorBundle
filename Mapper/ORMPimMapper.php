@@ -7,7 +7,7 @@ use Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClientParameters;
 use Pim\Bundle\MagentoConnectorBundle\Validator\Constraints\HasValidCredentialsValidator;
 
 /**
- * Mapper for ORM
+ * Mapper for ORM.
  *
  * @author    Willy Mesnage <willy.mesnage@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
@@ -40,7 +40,8 @@ class ORMPimMapper extends ORMMapper
     }
 
     /**
-     * Set mapper parameters
+     * Set mapper parameters.
+     *
      * @param MagentoSoapClientParameters $clientParameters
      */
     public function setParameters(MagentoSoapClientParameters $clientParameters)
@@ -49,7 +50,8 @@ class ORMPimMapper extends ORMMapper
     }
 
     /**
-     * Get mapper identifier
+     * Get mapper identifier.
+     *
      * @param string $rootIdentifier
      *
      * @return string
@@ -65,6 +67,7 @@ class ORMPimMapper extends ORMMapper
 
     /**
      * Is the mapper valid ?
+     *
      * @return boolean
      */
     public function isValid()

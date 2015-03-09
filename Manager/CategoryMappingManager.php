@@ -7,7 +7,7 @@ use Pim\Bundle\CatalogBundle\Model\CategoryInterface;
 use Pim\Bundle\MagentoConnectorBundle\Mapper\MappingCollection;
 
 /**
- * Category mapping manager
+ * Category mapping manager.
  *
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
@@ -24,7 +24,8 @@ class CategoryMappingManager
     protected $className;
 
     /**
-     * Constructor
+     * Constructor.
+     *
      * @param ObjectManager $objectManager
      * @param string        $className
      */
@@ -35,7 +36,8 @@ class CategoryMappingManager
     }
 
     /**
-     * Get category from id and Magento url
+     * Get category from id and Magento url.
+     *
      * @param int    $id
      * @param string $magentoUrl
      *
@@ -54,7 +56,8 @@ class CategoryMappingManager
     }
 
     /**
-     * Get id from category and Magento url
+     * Get id from category and Magento url.
+     *
      * @param CategoryInterface $category
      * @param string            $magentoUrl
      * @param MappingCollection $categoryMapping
@@ -83,7 +86,8 @@ class CategoryMappingManager
     }
 
     /**
-     * Register a new category mapping
+     * Register a new category mapping.
+     *
      * @param CategoryInterface $pimCategory
      * @param int               $magentoCategoryId
      * @param string            $magentoUrl
@@ -113,6 +117,7 @@ class CategoryMappingManager
 
     /**
      * Does the given magento category exist in pim ?
+     *
      * @param string $categoryId
      * @param string $magentoUrl
      *
@@ -124,7 +129,8 @@ class CategoryMappingManager
     }
 
     /**
-     * Get the entity manager
+     * Get the entity manager.
+     *
      * @return EntityRepository
      */
     protected function getEntityRepository()

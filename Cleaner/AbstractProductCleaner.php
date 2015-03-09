@@ -12,7 +12,7 @@ use Pim\Bundle\MagentoConnectorBundle\Webservice\SoapCallException;
 
 /**
  * Magento product cleaner
- * Abstract class used for ORM and MongoDB support
+ * Abstract class used for ORM and MongoDB support.
  *
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
@@ -84,7 +84,7 @@ abstract class AbstractProductCleaner extends Cleaner
     }
 
     /**
-     * get channel
+     * get channel.
      *
      * @return string channel
      */
@@ -94,7 +94,7 @@ abstract class AbstractProductCleaner extends Cleaner
     }
 
     /**
-     * Set channel
+     * Set channel.
      *
      * @param string $channel channel
      *
@@ -108,7 +108,7 @@ abstract class AbstractProductCleaner extends Cleaner
     }
 
     /**
-     * get notCompleteAnymoreAction
+     * get notCompleteAnymoreAction.
      *
      * @return string notCompleteAnymoreAction
      */
@@ -118,7 +118,7 @@ abstract class AbstractProductCleaner extends Cleaner
     }
 
     /**
-     * Set notCompleteAnymoreAction
+     * Set notCompleteAnymoreAction.
      *
      * @param string $notCompleteAnymoreAction notCompleteAnymoreAction
      *
@@ -152,21 +152,22 @@ abstract class AbstractProductCleaner extends Cleaner
     }
 
     /**
-     * Get all products' skus in channel
+     * Get all products' skus in channel.
      *
      * @return array
      */
     abstract protected function getExportedProductsSkus();
 
     /**
-     * Get all products' skus
+     * Get all products' skus.
      *
      * @return array
      */
     abstract protected function getPimProductsSkus();
 
     /**
-     * Handle products that are not in pim anymore
+     * Handle products that are not in pim anymore.
+     *
      * @param array $product
      */
     protected function handleProductNotInPimAnymore(array $product)
@@ -179,7 +180,8 @@ abstract class AbstractProductCleaner extends Cleaner
     }
 
     /**
-     * Handle products that are not in channel anymore
+     * Handle products that are not in channel anymore.
+     *
      * @param array $product
      */
     protected function handleProductNotCompleteAnymore(array $product)
@@ -192,7 +194,8 @@ abstract class AbstractProductCleaner extends Cleaner
     }
 
     /**
-     * Handle product for the given action
+     * Handle product for the given action.
+     *
      * @param array   $product
      * @param string  $notAnymoreAction
      * @param boolean $removeProductsNotHandledByPim
@@ -251,9 +254,9 @@ abstract class AbstractProductCleaner extends Cleaner
                     'type' => 'checkbox',
                     'options' => [
                         'help' => 'pim_magento_connector.export.removeProductsNotHandledByPim.help',
-                        'label' => 'pim_magento_connector.export.removeProductsNotHandledByPim.label'
+                        'label' => 'pim_magento_connector.export.removeProductsNotHandledByPim.label',
                     ],
-                ]
+                ],
             ]
         );
     }

@@ -8,7 +8,7 @@ use Pim\Bundle\MagentoConnectorBundle\Manager\FamilyMappingManager;
 use Pim\Bundle\MagentoConnectorBundle\Validator\Constraints\HasValidCredentialsValidator;
 
 /**
- * Magento family mapper
+ * Magento family mapper.
  *
  * @author    Olivier Soulet <olivier.soulet@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
@@ -39,7 +39,8 @@ class ORMFamilyMapper extends ORMPimMapper
     }
 
     /**
-     * Get all sources
+     * Get all sources.
+     *
      * @param Family $family
      *
      * @return array

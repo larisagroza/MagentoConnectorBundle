@@ -7,7 +7,7 @@ use Akeneo\Bundle\BatchBundle\Entity\StepExecution;
 use Pim\Bundle\MagentoConnectorBundle\Item\MagentoItemStep;
 
 /**
- * Magento cleaner item step
+ * Magento cleaner item step.
  *
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
@@ -84,7 +84,7 @@ abstract class Cleaner extends MagentoItemStep implements StepExecutionAwareInte
                         'label'    => 'pim_magento_connector.export.notInPimAnymoreAction.label',
                         'attr'     => ['class' => 'select2'],
                     ],
-                ]
+                ],
             ]
         );
     }

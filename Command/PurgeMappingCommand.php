@@ -2,14 +2,13 @@
 
 namespace Pim\Bundle\MagentoConnectorBundle\Command;
 
-use Doctrine\ORM\EntityNotFoundException;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Purge mapping database for a given job instance code
+ * Purge mapping database for a given job instance code.
  *
  * @author    Willy Mesnage <willy.mesnage@akeneo.com>
  * @copyright 2015 Akeneo SAS (http://www.akeneo.com)
@@ -59,7 +58,7 @@ class PurgeMappingCommand extends ContainerAwareCommand
     }
 
     /**
-     * Get the mapping purger
+     * Get the mapping purger.
      *
      * @return \Pim\Bundle\MagentoConnectorBundle\Purger\MappingPurger
      */

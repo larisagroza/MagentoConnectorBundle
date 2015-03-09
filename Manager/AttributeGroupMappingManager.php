@@ -7,7 +7,7 @@ use Pim\Bundle\CatalogBundle\Entity\AttributeGroup;
 use Pim\Bundle\CatalogBundle\Entity\Family;
 
 /**
- * Attribute group mapping manager
+ * Attribute group mapping manager.
  *
  * @author    Olivier Soulet <olivier.soulet@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
@@ -24,7 +24,8 @@ class AttributeGroupMappingManager
     protected $className;
 
     /**
-     * Constructor
+     * Constructor.
+     *
      * @param ObjectManager $objectManager
      * @param string        $className
      */
@@ -35,7 +36,8 @@ class AttributeGroupMappingManager
     }
 
     /**
-     * Get id from group and Magento url
+     * Get id from group and Magento url.
+     *
      * @param AttributeGroup $group
      * @param Family         $family
      * @param string         $magentoUrl
@@ -56,7 +58,7 @@ class AttributeGroupMappingManager
     }
 
     /**
-     * Register a new group mapping
+     * Register a new group mapping.
      *
      * @param AttributeGroup $pimGroup
      * @param Family         $pimFamily
@@ -93,7 +95,7 @@ class AttributeGroupMappingManager
     }
 
     /**
-     * Return all the mappings
+     * Return all the mappings.
      *
      * @return array
      */
@@ -103,7 +105,7 @@ class AttributeGroupMappingManager
     }
 
     /**
-     * Get the entity manager
+     * Get the entity manager.
      *
      * @return EntityRepository
      */
