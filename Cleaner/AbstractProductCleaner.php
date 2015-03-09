@@ -209,7 +209,7 @@ abstract class AbstractProductCleaner extends Cleaner
             $this->stepExecution->incrementSummaryInfo('product_not_removed');
             $this->addWarning('Non removed product\'s SKU: %sku%', ['%sku%' => $product['sku']], $product);
 
-            return;
+            return null;
         }
 
         if (self::DISABLE === $notAnymoreAction) {

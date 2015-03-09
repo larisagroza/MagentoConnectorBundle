@@ -94,7 +94,7 @@ class MappingCollection extends ArrayCollection
         if ($check || $this->getTarget($target, true) == $target) {
             return $target;
         } else {
-            return;
+            return null;
         }
     }
 
@@ -115,7 +115,7 @@ class MappingCollection extends ArrayCollection
         } elseif ($check || $this->getSource($source, true) == $source) {
             return $source;
         } else {
-            return;
+            return null;
         }
     }
 }

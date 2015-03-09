@@ -74,7 +74,7 @@ class HasValidCredentialsValidator extends ConstraintValidator
     public function validate($protocol, Constraint $constraint)
     {
         if (!$protocol instanceof MagentoItemStep) {
-            return;
+            return null;
         }
 
         $clientParameters = $this->clientParametersRegistry->getInstance(

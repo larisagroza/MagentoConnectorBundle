@@ -68,7 +68,7 @@ class ORMMapper extends Mapper
     public function setMapping(array $mapping)
     {
         if (!$this->isValid()) {
-            return;
+            return null;
         }
 
         $this->simpleMappingManager->setMapping($mapping, $this->getIdentifier($this->rootIdentifier));

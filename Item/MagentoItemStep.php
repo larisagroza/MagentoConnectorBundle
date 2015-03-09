@@ -389,7 +389,7 @@ abstract class MagentoItemStep extends AbstractConfigurableStepElement implement
     protected function beforeExecute()
     {
         if ($this->beforeExecute) {
-            return;
+            return null;
         }
 
         $this->beforeExecute = true;

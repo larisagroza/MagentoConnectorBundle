@@ -177,7 +177,7 @@ class ConfigurableProcessor extends AbstractProductProcessor
     protected function processConfigurable(array $configurable, array $magentoConfigurables)
     {
         if (empty($configurable['products'])) {
-            return;
+            return null;
         }
 
         if ($this->magentoConfigurableExist($configurable, $magentoConfigurables)) {
@@ -198,7 +198,7 @@ class ConfigurableProcessor extends AbstractProductProcessor
         } catch (\Exception $e) {
             $this->addWarning($e->getMessage(), [], $configurable);
 
-            return;
+            return null;
         }
 
         return $normalizedConfigurable;

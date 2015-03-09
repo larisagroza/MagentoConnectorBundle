@@ -40,13 +40,13 @@ class HasValidDefaultLocaleValidator extends ConstraintValidator
     public function validate($value, Constraint $constraint)
     {
         if (!$value instanceof AbstractProductProcessor) {
-            return;
+            return null;
         }
 
         if ($channel = $this->channelManager->getChannelByCode($value->getChannel())) {
             foreach ($channel->getLocales() as $locale) {
                 if ($locale->getCode() === $value->getDefaultLocale()) {
-                    return;
+                    return null;
                 }
             }
         }

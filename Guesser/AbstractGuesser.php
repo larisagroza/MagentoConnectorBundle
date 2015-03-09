@@ -42,7 +42,7 @@ abstract class AbstractGuesser
     protected function getMagentoVersion(MagentoSoapClient $client = null)
     {
         if (null === $client) {
-            return;
+            return null;
         }
 
         if (!$this->version) {

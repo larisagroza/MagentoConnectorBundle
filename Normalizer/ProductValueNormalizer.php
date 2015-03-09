@@ -57,7 +57,7 @@ class ProductValueNormalizer implements NormalizerInterface
                 $context['currencyCode']
             );
         } else {
-            return;
+            return null;
         }
     }
 
