@@ -15,7 +15,28 @@ The following Magento's attributes are mandatory for Magento and have to be crea
 
 Also note that you should NEVER try to change/update attributes on Akeneo that are of system type on Magento side (except if you really want to completely break your Magento install).
 
+Your Akeneo attributes need to have type corresponding to Magento attribute types. (see below Attribute type mapping)
+
 You can now create export jobs.
+
+## Attribute type mapping
+
+=====================  ====================================
+Akeneo Attribute type   Magento attribute type
+=====================  ====================================
+Date                         Date
+File                         N.A.
+Identifier                   Text field with unique value
+Image                        Media image
+Metric                       see below
+Multi select                 Multiple select
+Number                       Text field
+Price                        Price
+Simple Select                Dropdown
+Text                         Text field
+Text area                    Text Area
+Yes/No                       Yes/No
+=====================  ====================================
 
 ## Exporting structure
 
