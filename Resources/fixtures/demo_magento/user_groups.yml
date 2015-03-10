@@ -3,6 +3,10 @@ user_groups:
         name: IT support
     manager:
         name: Manager
+    furniture_manager:
+        name: Furniture manager
+    clothes_manager:
+        name: Clothes manager
     redactor:
         name: Redactor
     english_translator:

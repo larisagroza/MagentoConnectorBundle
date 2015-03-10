@@ -5,7 +5,7 @@ namespace Pim\Bundle\MagentoConnectorBundle\Webservice;
 use Pim\Bundle\CatalogBundle\Model\ProductInterface;
 
 /**
- * A magento soap client to abstract interaction with the magento api
+ * A magento soap client to abstract interaction with the magento api.
  *
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
@@ -63,6 +63,8 @@ class Webservice
 
     const MAGENTO_STATUS_DISABLE                             = 2;
 
+    const MAGENTO_PRODUCT_UPDATE_USELESS                     = 2;
+
     const ADMIN_STOREVIEW                                    = 0;
 
     protected $client;
@@ -78,7 +80,8 @@ class Webservice
     protected $categories          = [];
 
     /**
-     * Constructor
+     * Constructor.
+     *
      * @param MagentoSoapClient $client
      */
     public function __construct(MagentoSoapClient $client)
@@ -87,7 +90,7 @@ class Webservice
     }
 
     /**
-     * Get attribute options for all attributes
+     * Get attribute options for all attributes.
      *
      * @return array
      */
@@ -107,7 +110,7 @@ class Webservice
     }
 
     /**
-     * Get all attributes from magento
+     * Get all attributes from magento.
      *
      * @return array
      */
@@ -130,7 +133,7 @@ class Webservice
     }
 
     /**
-     * Get attribute list for a given attribute set code
+     * Get attribute list for a given attribute set code.
      *
      * @param string $attributeSetCode the attribute set code
      *
@@ -151,7 +154,8 @@ class Webservice
     }
 
     /**
-     * Get products status in magento (do they exist ?)
+     * Get products status in magento (do they exist ?).
+     *
      * @param array $products the given products
      *
      * @return array
@@ -164,7 +168,8 @@ class Webservice
     }
 
     /**
-     * Get configurables status in magento (do they exist ?)
+     * Get configurables status in magento (do they exist ?).
+     *
      * @param array $configurables the given configurables
      *
      * @return array
@@ -177,7 +182,8 @@ class Webservice
     }
 
     /**
-     * Get magento attributeSets from the magento api
+     * Get magento attributeSets from the magento api.
+     *
      * @param string $code the attributeSet id
      *
      * @throws AttributeSetNotFoundException If If the attribute doesn't exist on Magento side
@@ -198,7 +204,7 @@ class Webservice
     }
 
     /**
-     * Get magento storeview list from magento
+     * Get magento storeview list from magento.
      *
      * @return array
      */
@@ -214,7 +220,7 @@ class Webservice
     }
 
     /**
-     * Get all images attached to a product
+     * Get all images attached to a product.
      *
      * @param string $sku               The product sku
      * @param string $defaultLocalStore
@@ -229,7 +235,7 @@ class Webservice
                 [
                     $sku,
                     $defaultLocalStore,
-                    'sku'
+                    'sku',
                 ]
             );
         } catch (\Exception $e) {
@@ -240,7 +246,7 @@ class Webservice
     }
 
     /**
-     * Send all product images
+     * Send all product images.
      *
      * @param array $images All images to send
      */
@@ -257,7 +263,8 @@ class Webservice
     }
 
     /**
-     * Delete image for a given sku and a given filename
+     * Delete image for a given sku and a given filename.
+     *
      * @param string $sku
      * @param string $imageFilename
      *
@@ -270,13 +277,14 @@ class Webservice
             [
                 $sku,
                 $imageFilename,
-                'sku'
+                'sku',
             ]
         );
     }
 
     /**
-     * Add the call to update the given product part
+     * Add the call to update the given product part.
+     *
      * @param array $productPart
      */
     public function updateProductPart($productPart)
@@ -287,26 +295,32 @@ class Webservice
     }
 
     /**
-     * Add a call for the given product part
+     * Add a call for the given product part.
+     *
      * @param array $productPart
      */
     public function sendProduct($productPart)
     {
-        if (count($productPart) == self::CREATE_PRODUCT_SIZE ||
-            count($productPart) == self::CREATE_CONFIGURABLE_SIZE &&
-            $productPart[self::CREATE_CONFIGURABLE_SIZE - 1] != 'sku'
-        ) {
-            $resource = self::SOAP_ACTION_CATALOG_PRODUCT_CREATE;
-        } else {
-            $productPart = $this->removeNonUpdatePart($productPart);
-            $resource = self::SOAP_ACTION_CATALOG_PRODUCT_UPDATE;
-        }
+        $storeViewList = $this->getStoreViewsList();
 
-        $this->client->addCall([$resource, $productPart]);
+        if (count($productPart) === static::CREATE_PRODUCT_SIZE ||
+            count($productPart) === static::CREATE_CONFIGURABLE_SIZE &&
+            $productPart[static::CREATE_CONFIGURABLE_SIZE - 1] != 'sku'
+        ) {
+            $this->client->addCall([static::SOAP_ACTION_CATALOG_PRODUCT_CREATE, $productPart]);
+            if (count($storeViewList) > 1 && count($productPart) === static::CREATE_PRODUCT_SIZE) {
+                $this->updateProductInMultipleStoreViews($productPart);
+            }
+        } else {
+            $this->client->addCall([static::SOAP_ACTION_CATALOG_PRODUCT_UPDATE, $productPart]);
+            if (count($storeViewList) > 1) {
+                $this->updateProductInAdminStoreView($productPart);
+            }
+        }
     }
 
     /**
-     * Get categories status from Magento
+     * Get categories status from Magento.
      *
      * @return array
      */
@@ -324,21 +338,31 @@ class Webservice
     }
 
     /**
-     * Send new category
+     * Send new category.
+     *
      * @param array $category
      *
      * @return int
      */
     public function sendNewCategory(array $category)
     {
-        return $this->client->call(
+        $categoryId =  $this->client->call(
             self::SOAP_ACTION_CATEGORY_CREATE,
             $category
         );
+
+        $storeViewList = $this->getStoreViewsList();
+
+        if (count($storeViewList) > 1) {
+            $this->updateCategoryInAdminStoreView($category, $categoryId);
+        }
+
+        return $categoryId;
     }
 
     /**
-     * Send update category
+     * Send update category.
+     *
      * @param array $category
      *
      * @return int
@@ -352,7 +376,8 @@ class Webservice
     }
 
     /**
-     * Send move category
+     * Send move category.
+     *
      * @param array $category
      *
      * @return int
@@ -366,7 +391,8 @@ class Webservice
     }
 
     /**
-     * Flatten the category tree from magento
+     * Flatten the category tree from magento.
+     *
      * @param array $tree
      *
      * @return array
@@ -383,7 +409,8 @@ class Webservice
     }
 
     /**
-     * Disable the given category on Magento
+     * Disable the given category on Magento.
+     *
      * @param string $categoryId
      *
      * @return int
@@ -397,14 +424,14 @@ class Webservice
                 [
                     'is_active'         => 0,
                     'available_sort_by' => 1,
-                    'default_sort_by'   => 1
-                ]
+                    'default_sort_by'   => 1,
+                ],
             ]
         );
     }
 
     /**
-     * Delete the given category on Magento
+     * Delete the given category on Magento.
      *
      * @param string $categoryId
      *
@@ -415,13 +442,14 @@ class Webservice
         return $this->client->call(
             self::SOAP_ACTION_CATEGORY_DELETE,
             [
-                $categoryId
+                $categoryId,
             ]
         );
     }
 
     /**
-     * Get associations status
+     * Get associations status.
+     *
      * @param ProductInterface $product
      *
      * @return array
@@ -436,7 +464,7 @@ class Webservice
             [
                 'up_sell',
                 $sku,
-                'sku'
+                'sku',
             ]
         );
 
@@ -445,7 +473,7 @@ class Webservice
             [
                 'cross_sell',
                 $sku,
-                'sku'
+                'sku',
             ]
         );
 
@@ -454,7 +482,7 @@ class Webservice
             [
                 'related',
                 $sku,
-                'sku'
+                'sku',
             ]
         );
 
@@ -463,7 +491,7 @@ class Webservice
             [
                 'grouped',
                 $sku,
-                'sku'
+                'sku',
             ]
         );
 
@@ -471,7 +499,8 @@ class Webservice
     }
 
     /**
-     * Delete a product association
+     * Delete a product association.
+     *
      * @param array $productAssociation
      */
     public function removeProductAssociation(array $productAssociation)
@@ -483,7 +512,8 @@ class Webservice
     }
 
     /**
-     * Create a product association
+     * Create a product association.
+     *
      * @param array $productAssociation
      */
     public function createProductAssociation(array $productAssociation)
@@ -495,7 +525,8 @@ class Webservice
     }
 
     /**
-     * Disable a product
+     * Disable a product.
+     *
      * @param string $productSku
      */
     public function disableProduct($productSku)
@@ -505,14 +536,15 @@ class Webservice
             [
                 $productSku,
                 [
-                    'status' => self::MAGENTO_STATUS_DISABLE
-                ]
+                    'status' => self::MAGENTO_STATUS_DISABLE,
+                ],
             ]
         );
     }
 
     /**
-     * Delete a product
+     * Delete a product.
+     *
      * @param string $productSku
      */
     public function deleteProduct($productSku)
@@ -520,13 +552,14 @@ class Webservice
         $this->client->call(
             self::SOAP_ACTION_CATALOG_PRODUCT_DELETE,
             [
-                $productSku
+                $productSku,
             ]
         );
     }
 
     /**
-     * Create an option
+     * Create an option.
+     *
      * @param array $option
      */
     public function createOption($option)
@@ -538,7 +571,8 @@ class Webservice
     }
 
     /**
-     * Create an attribute
+     * Create an attribute.
+     *
      * @param array $attribute
      *
      * @return integer ID of the created attribute
@@ -554,7 +588,8 @@ class Webservice
     }
 
     /**
-     * Update an attribute
+     * Update an attribute.
+     *
      * @param array $attribute
      *
      * @return boolean
@@ -570,7 +605,8 @@ class Webservice
     }
 
     /**
-     * Delete an attribute
+     * Delete an attribute.
+     *
      * @param string $attributeCode
      */
     public function deleteAttribute($attributeCode)
@@ -582,7 +618,7 @@ class Webservice
     }
 
     /**
-     * Get options for the given attribute
+     * Get options for the given attribute.
      *
      * @param string $attributeCode Attribute code
      *
@@ -605,7 +641,8 @@ class Webservice
     }
 
     /**
-     * Delete an option
+     * Delete an option.
+     *
      * @param string $optionId
      * @param string $attributeCode
      */
@@ -621,7 +658,7 @@ class Webservice
     }
 
     /**
-     * Get the magento attributeSet list from the magento platform
+     * Get the magento attributeSet list from the magento platform.
      *
      * @return array Array of attribute sets
      */
@@ -666,7 +703,7 @@ class Webservice
                 $attributeId,
                 $setId,
                 $attributeGroupId,
-                $sortOrder
+                $sortOrder,
             ]
         );
     }
@@ -768,7 +805,7 @@ class Webservice
             self::SOAP_ACTION_PRODUCT_ATTRIBUTE_SET_GROUP_REMOVE,
             [
                 $attributeGroupId,
-                $groupName
+                $groupName,
             ]
         );
     }
@@ -789,13 +826,14 @@ class Webservice
             self::SOAP_ACTION_PRODUCT_ATTRIBUTE_SET_REMOVE,
             [
                 $attributeSetId,
-                $forceProductsRemove
+                $forceProductsRemove,
             ]
         );
     }
 
     /**
-     * Get the products status for the given skus
+     * Get the products status for the given skus.
+     *
      * @param array $skus
      *
      * @return array
@@ -827,7 +865,8 @@ class Webservice
     }
 
     /**
-     * Serialize products id in csv
+     * Serialize products id in csv.
+     *
      * @param array $products The given products
      *
      * @return string The serialization result
@@ -844,7 +883,8 @@ class Webservice
     }
 
     /**
-     * Serialize configurables id in csv
+     * Serialize configurables id in csv.
+     *
      * @param array $configurables The given configurables
      *
      * @return string The serialization result
@@ -864,19 +904,42 @@ class Webservice
     }
 
     /**
-     * Cleanup part of the product data that should not be sent as
-     * update part
+     * Update product if there is multiple Magento store views.
      *
      * @param array $productPart
-     *
-     * @return array
      */
-    protected function removeNonUpdatePart(array $productPart)
+    protected function updateProductInMultipleStoreViews(array $productPart)
     {
-        if (isset($productPart[1]['url_key'])) {
-            unset($productPart[1]['url_key']);
-        }
+        $productPartToUpdate = array_merge(
+            array_slice($productPart, static::MAGENTO_PRODUCT_UPDATE_USELESS),
+            ['sku']
+        );
+        $this->updateProductPart($productPartToUpdate);
 
-        return $productPart;
+        $this->updateProductInAdminStoreView($productPartToUpdate);
+    }
+
+    /**
+     * Update product in admin store view.
+     *
+     * @param array $productPart
+     */
+    protected function updateProductInAdminStoreView(array $productPart)
+    {
+        $productPart[2] = static::ADMIN_STOREVIEW;
+        $this->updateProductPart($productPart);
+    }
+
+    /**
+     * @param array  $category
+     * @param string $categoryId
+     */
+    protected function updateCategoryInAdminStoreView($category, $categoryId)
+    {
+        $category[0] = $categoryId;
+        $this->client->addCall([static::SOAP_ACTION_CATEGORY_UPDATE, $category]);
+
+        $category[2] = static::ADMIN_STOREVIEW;
+        $this->client->addCall([static::SOAP_ACTION_CATEGORY_UPDATE, $category]);
     }
 }

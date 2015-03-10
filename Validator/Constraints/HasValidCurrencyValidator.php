@@ -8,7 +8,7 @@ use Pim\Bundle\CatalogBundle\Manager\ChannelManager;
 use Pim\Bundle\MagentoConnectorBundle\Processor\AbstractProductProcessor;
 
 /**
- * Validator for currency
+ * Validator for currency.
  *
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
@@ -36,18 +36,17 @@ class HasValidCurrencyValidator extends ConstraintValidator
      * @param Constraint $constraint The constraint for the validation
      *
      * @api
-     * @return null
      */
     public function validate($value, Constraint $constraint)
     {
         if (!$value instanceof AbstractProductProcessor) {
-            return;
+            return null;
         }
 
         if ($channel = $this->channelManager->getChannelByCode($value->getChannel())) {
             foreach ($channel->getCurrencies() as $currency) {
                 if ($currency->getCode() === $value->getCurrency()) {
-                    return;
+                    return null;
                 }
             }
         }

@@ -7,9 +7,10 @@ use Pim\Bundle\MagentoConnectorBundle\Manager\CategoryMappingManager;
 use Akeneo\Bundle\BatchBundle\Item\InvalidItemException;
 use Pim\Bundle\MagentoConnectorBundle\Webservice\SoapCallException;
 use Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClientParametersRegistry;
+use Pim\Bundle\MagentoConnectorBundle\Webservice\Webservice;
 
 /**
- * Magento category writer
+ * Magento category writer.
  *
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2013 Akeneo SAS (http://www.akeneo.com)
@@ -23,7 +24,7 @@ class CategoryWriter extends AbstractWriter
     protected $categoryMappingManager;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param WebserviceGuesser                   $webserviceGuesser
      * @param CategoryMappingManager              $categoryMappingManager
@@ -60,7 +61,8 @@ class CategoryWriter extends AbstractWriter
     }
 
     /**
-     * Handle category creation
+     * Handle category creation.
+     *
      * @param array $batch
      */
     protected function handleNewCategory(array $batch)
@@ -83,14 +85,20 @@ class CategoryWriter extends AbstractWriter
     }
 
     /**
-     * Handle category update
+     * Handle category update.
+     *
      * @param array $batch
      */
     protected function handleUpdateCategory(array $batch)
     {
         if (isset($batch['update'])) {
-            foreach ($batch['update'] as $updateCategory) {
-                $this->webservice->sendUpdateCategory($updateCategory);
+            foreach ($batch['update'] as $categoryToUpdate) {
+                $this->webservice->sendUpdateCategory($categoryToUpdate);
+
+                $storeViewList = $this->webservice->getStoreViewsList();
+                if (count($storeViewList) > 1) {
+                    $this->updateAdminStoreView($categoryToUpdate);
+                }
 
                 $this->stepExecution->incrementSummaryInfo('category_updated');
             }
@@ -98,7 +106,19 @@ class CategoryWriter extends AbstractWriter
     }
 
     /**
-     * Handle category move
+     * Update category in admin store view.
+     *
+     * @param array $categoryToUpdate
+     */
+    protected function updateAdminStoreView(array $categoryToUpdate)
+    {
+        $categoryToUpdate[2] = Webservice::ADMIN_STOREVIEW;
+        $this->webservice->sendUpdateCategory($categoryToUpdate);
+    }
+
+    /**
+     * Handle category move.
+     *
      * @param array $batch
      */
     protected function handleMoveCategory(array $batch)
@@ -113,7 +133,8 @@ class CategoryWriter extends AbstractWriter
     }
 
     /**
-     * Handle category variation update
+     * Handle category variation update.
+     *
      * @param array $batch
      */
     protected function handleVariationCategory(array $batch)

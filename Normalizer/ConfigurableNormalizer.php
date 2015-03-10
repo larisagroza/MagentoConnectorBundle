@@ -11,7 +11,7 @@ use Pim\Bundle\MagentoConnectorBundle\Normalizer\Exception\InvalidPriceMappingEx
 use Pim\Bundle\MagentoConnectorBundle\Mapper\MappingCollection;
 
 /**
- * A normalizer to transform a group entity into an array
+ * A normalizer to transform a group entity into an array.
  *
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2013 Akeneo SAS (http://www.akeneo.com)
@@ -39,7 +39,8 @@ class ConfigurableNormalizer extends AbstractNormalizer
     protected $visibility;
 
     /**
-     * Constructor
+     * Constructor.
+     *
      * @param ChannelManager      $channelManager
      * @param ProductNormalizer   $productNormalizer
      */
@@ -98,7 +99,10 @@ class ConfigurableNormalizer extends AbstractNormalizer
             $context['channel'],
             $context['categoryMapping'],
             $context['attributeCodeMapping'],
-            $context['create']
+            $context['create'],
+            $context['pimGrouped'],
+            $context['urlKey'],
+            $context['skuFirst']
         );
 
         $images = $this->productNormalizer->getNormalizedImages(
@@ -131,7 +135,16 @@ class ConfigurableNormalizer extends AbstractNormalizer
                     $context['channel'],
                     $context['categoryMapping'],
                     $context['attributeCodeMapping'],
-                    true
+                    true,
+                    $context['pimGrouped'],
+                    $context['urlKey'],
+                    $context['skuFirst']
+                );
+
+                $values[ProductNormalizer::URL_KEY] = sprintf(
+                    '%s-conf-%s',
+                    $values[ProductNormalizer::URL_KEY],
+                    $group->getId()
                 );
 
                 $processedItem[$storeView['code']] = [
@@ -150,7 +163,8 @@ class ConfigurableNormalizer extends AbstractNormalizer
     }
 
     /**
-     * Get default configurable
+     * Get default configurable.
+     *
      * @param Group             $group
      * @param string            $sku
      * @param int               $attributeSetId
@@ -162,9 +176,14 @@ class ConfigurableNormalizer extends AbstractNormalizer
      * @param string            $channel
      * @param MappingCollection $categoryMapping
      * @param MappingCollection $attributeMapping
-     * @param bool              $create
+     * @param boolean           $create
+     * @param string            $pimGrouped
+     * @param boolean           $urlKey
+     * @param boolean           $skuFirst
      *
      * @return array
+     *
+     * @throws InvalidPriceMappingException
      */
     protected function getDefaultConfigurable(
         Group $group,
@@ -178,7 +197,10 @@ class ConfigurableNormalizer extends AbstractNormalizer
         $channel,
         MappingCollection $categoryMapping,
         MappingCollection $attributeMapping,
-        $create
+        $create,
+        $pimGrouped,
+        $urlKey,
+        $skuFirst
     ) {
         $priceMapping = $this->priceMappingManager->getPriceMapping($group, $products, $attributeMapping);
 
@@ -211,14 +233,27 @@ class ConfigurableNormalizer extends AbstractNormalizer
             $channel,
             $categoryMapping,
             $attributeMapping,
-            false
+            false,
+            $pimGrouped,
+            $urlKey,
+            $skuFirst
         );
 
         $defaultProductValues[ProductNormalizer::VISIBILITY] = $this->visibility;
         $defaultProductValues[ProductNormalizer::URL_KEY] = $defaultProductValues[ProductNormalizer::URL_KEY].'-conf-'.$group->getId();
 
+        $configurableAttributes['configurable_attributes'] = [];
+        $attributes = $group->getAttributes();
+
+        foreach ($attributes as $attribute) {
+            $magentoAttributeCode = strtolower($attributeMapping->getTarget($attribute->getCode()));
+            $magentoAttributeId = $magentoAttributes[$magentoAttributeCode]['attribute_id'];
+            $configurableAttributes['configurable_attributes'][] = $magentoAttributeId;
+        }
+
         $defaultConfigurableValues = array_merge(
             $defaultProductValues,
+            $configurableAttributes,
             $priceMapping,
             [self::ASSOCIATED_SKUS => $associatedSkus]
         );
@@ -235,7 +270,8 @@ class ConfigurableNormalizer extends AbstractNormalizer
     }
 
     /**
-     * Get the configurable for a new call
+     * Get the configurable for a new call.
+     *
      * @param string $sku
      * @param array  $configurableValues
      * @param int    $attributeSetId
@@ -248,12 +284,13 @@ class ConfigurableNormalizer extends AbstractNormalizer
             AbstractNormalizer::MAGENTO_CONFIGURABLE_PRODUCT_KEY,
             $attributeSetId,
             $sku,
-            $configurableValues
+            $configurableValues,
         ];
     }
 
     /**
-     * Get the configurable for an update call
+     * Get the configurable for an update call.
+     *
      * @param string $sku
      * @param array  $configurableValues
      *
@@ -263,12 +300,13 @@ class ConfigurableNormalizer extends AbstractNormalizer
     {
         return [
             $sku,
-            $configurableValues
+            $configurableValues,
         ];
     }
 
     /**
-     * Get all products skus
+     * Get all products skus.
+     *
      * @param array $products
      *
      * @return array

@@ -33,3 +33,7 @@ If you encounter an error message complaining about wsdl url, like in the follow
 First, check that URL rewriting is enabled in Magento (in `System > Configuration`, go to `General > Web > Search Engines Optimization` and select “Yes”).
 
 If the problem persists, you probably have a non standard Apache configuration. Then you can simply complete in the PIM export profile the Magento URL by adding `/index.php`.
+
+## Nothing happens on attribute group update
+
+If one move an attribute from an attribute group to another one in Akeneo, the change cannot be passed on Magento. See more details in the [user guide](./userguide.md "Not supported") to understand why.

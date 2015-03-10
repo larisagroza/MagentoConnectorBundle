@@ -6,7 +6,7 @@ use Pim\Bundle\CatalogBundle\Entity\Family;
 use Doctrine\Common\Persistence\ObjectManager;
 
 /**
- * Family mapping manager
+ * Family mapping manager.
  *
  * @author    Olivier Soulet <olivier.soulet@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
@@ -23,7 +23,7 @@ class FamilyMappingManager
     protected $className;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param ObjectManager $objectManager
      * @param string        $className
@@ -35,7 +35,7 @@ class FamilyMappingManager
     }
 
     /**
-     * Get family from id and Magento url
+     * Get family from id and Magento url.
      *
      * @param integer $id
      * @param string  $magentoUrl
@@ -55,7 +55,7 @@ class FamilyMappingManager
     }
 
     /**
-     * Get id from family and Magento url
+     * Get id from family and Magento url.
      *
      * @param Family $family
      * @param string $magentoUrl
@@ -75,7 +75,7 @@ class FamilyMappingManager
     }
 
     /**
-     * Register a new family mapping
+     * Register a new family mapping.
      *
      * @param Family  $pimFamily
      * @param integer $magentoFamilyId
@@ -86,7 +86,10 @@ class FamilyMappingManager
         $magentoFamilyId,
         $magentoUrl
     ) {
-        $familyMapping = $this->getEntityRepository()->findOneBy(['family' => $pimFamily]);
+        $familyMapping = $this->getEntityRepository()->findOneBy([
+            'family'     => $pimFamily,
+            'magentoUrl' => $magentoUrl,
+        ]);
         $magentoFamilyMapping = new $this->className();
 
         if ($familyMapping) {
@@ -115,7 +118,7 @@ class FamilyMappingManager
     }
 
     /**
-     * Get the entity manager
+     * Get the entity manager.
      *
      * @return EntityRepository
      */

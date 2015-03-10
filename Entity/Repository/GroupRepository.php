@@ -6,7 +6,7 @@ use Pim\Bundle\CatalogBundle\Entity\Repository\GroupRepository as BaseGroupRepos
 use Pim\Bundle\MagentoConnectorBundle\Webservice\Webservice;
 
 /**
- * Custom group repository
+ * Custom group repository.
  *
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2013 Akeneo SAS (http://www.akeneo.com)
@@ -18,7 +18,7 @@ class GroupRepository extends BaseGroupRepository
     const VARIANT_GROUP_CODE = 'VARIANT';
 
     /**
-     * Get all variant groups ids
+     * Get all variant groups ids.
      *
      * @return array
      */
@@ -40,7 +40,7 @@ class GroupRepository extends BaseGroupRepository
     }
 
     /**
-     * Get all variant groups ids
+     * Get all variant groups ids.
      *
      * @return array
      */
@@ -62,7 +62,7 @@ class GroupRepository extends BaseGroupRepository
     }
 
     /**
-     * Get variant group query builder
+     * Get variant group query builder.
      *
      * @return QueryBuilder
      */
@@ -76,7 +76,7 @@ class GroupRepository extends BaseGroupRepository
     }
 
     /**
-     * Get axis attributes
+     * Get axis attributes.
      *
      * @return array
      */

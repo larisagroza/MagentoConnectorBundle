@@ -50,7 +50,7 @@ class NormalizerRegistry
      */
     public function getNormalizer($key)
     {
-        if (isset($this->normalizers[$key])) {
+        if (!isset($this->normalizers[$key])) {
             throw new \InvalidItemException(sprintf('Normalizer "%s" unknown', $key));
         }
 

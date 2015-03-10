@@ -2,25 +2,124 @@
 ## New feature
  - Delta Export is directly integrated in MagentoConnector (DeltaExportBundle is now deprecated)
  - Connector Mapping is directly integrated in MagentoConnector (ConnectorMappingBundle is now deprecated)
+ - Attribute, Category, Family and Option normalizers are now in the DI
+ - Category export only create/update categories from the exported channel
+ - Make it compatible with Magento EE-1.11 and EE-1.12
+ - Add a log to profile calls to Magento
+ - Add a command to purge Mapping in database
+ - Add a command to purge Delta in database
+ - MongoDB compliance
+ - Akeneo PIM CE 1.3 compliance
+ - Improve fixtures set
 
 # Improvements
  - Normalizers are in the DI
  - Delta Export is directly integrated in MagentoConnector (DeltaExportBundle is now deprecated)
 
+## Bug fixes
+ - Connector send products only with complete locales
+
 ## BC Breaks
  - All DeltaExportBundle dependencies should be replaced by MagentoConnectorBundle ones
  - All ConnectorMappingBundle dependencies should be replaced by MagentoConnectorBundle ones
- - Inject NormalizerRegistry in the NormalizerGuesser
+ - Inject AttributeNormalizer, CategoryNormalizer, FamilyNormalizer and OptionNormalizer in the NormalizerGuesser (MC-98)
  - magento_attribute_export, magento_option_export and magento_attributeset_export has been removed. These jobs are deprecated because they should be launch in a specific order
  - Categories export step has been removed from structure export
  - Inject ChannelManager inside CategoryReader
  - CategoryRepository::findOrderCategories takes a CategoryInterface
+ - pim_base_connector.reader.doctrine.obsoleteproduct, pim_base_connector.reader.doctrine.obsoleteproduct.class, pim_magento_connector.reader.doctrine.product has been removed from readers.yml because they are unused
+ - Remove defaultLocale argument from OptionNormalizer::getOptionLabel
+ - Rename parameter `pim_magento_connector.reader.orm.delta_product.class` to `pim_magento_connector.reader.delta_product.class`
+ - Rename parameter `pim_magento_connector.reader.orm.delta_product_association.class` to `pim_magento_connector.reader.delta_product_association.class`
+ - Rename parameter `pim_magento_connector.reader.orm.delta_product.class` to `pim_magento_connector.reader.delta_product.class`
+ - Set ProductCleaner parameters in a better order
+ - Add ExportableLocaleFilter parameter in ProductNormalizer
+ - Add ExportableLocaleFilter parameter in ProductNormalizer16
+ - Add ExportableLocaleFilter parameter in NormalizerGuesser
+ - Remove ProductValueManager class (used only to calculate default value which is not a feature anymore)
+ - Remove ProductValueManager injection in NormalizerGuesser and AttributeNormalizer
 
-# 1.1.11 (2014-12-29)
+# 1.1.24 (2015-03-09)
+## Bug fix
+ - Remove url_key from product updates with Magento EE
+
+# 1.1.23 (2015-03-06)
+## Bug fixes
+ - Prevent an error with url_key during a product update on Magento EE
+ - Fix PHP notice about pimGrouped
+ 
+# 1.1.22 (2015-03-04)
+## Bug fix
+ - Prevent empty url_key field in normalized category
+
+# 1.1.21 (2015-02-27)
+## Bug fixes
+ - Fix mapping management to handle multiple magento environment on the same PIM application installation.
+
+## BC Breaks
+ - The structure of the mapping tables (`pim_magento_attribute_mapping`, `pim_magento_category_mapping`,
+`pim_magento_family_mapping`, `pim_magento_group_mapping`) in the database have been changed:
+    - For each of them the `magento_url` column has been changed from `tinytext` to a `varchar(255)`
+    - For the `pim_magento_attribute_mapping` the index on `attribute_id` has been replaced by an index on
+`attribute_id` and `magento_url`
+    - For the `pim_magento_category_mapping` the index on `category_id` has been replaced by an index on
+`category_id` and `magento_url`
+    - For the `pim_magento_family_mapping` the index on `family_id` has been replaced by an index on
+`family_id` and `magento_url`
+    - For the `pim_magento_group_mapping` an index has been added on `pim_group_code`, `pim_family_code` and
+`magento_url`
+
+# 1.1.20 (2015-02-20)
+## Bug fixes
+ - Update product and category url keys in admin store view when multiple magento store views are used.
+
+# 1.1.19 (2015-02-20)
+## New features
+ - Add an option to let Magento handle product url keys.
+ - Add an option to add sku first in the product url key.
+
+## Bug fixes
+ - Category url keys are now correctly handled when multiple magento store views are used.
+ - Url key are now send on product update.
+
+# 1.1.18 (2015-02-19)
+## Bug fixes
+ - Remove useless attributes fields in attribute normalizer
+
+# 1.1.17 (2015-02-16)
+## Bug fixes
+ - Prevent error during product creation if sku is a number.
+ 
+# 1.1.16 (2015-02-13)
+## Bug fixes
+ - Url_key are now correctly handled when multiple magento store views are used.
+
+# 1.1.15 (2015-02-04)
+## Bug fixes
+ - Manage now properly boolean values.
+
+# 1.1.14 (2015-02-04)
+## Bug fixes
+ - Fix summary info on configurable to get variant group id and label.
+
+# 1.1.13 (2015-01-30)
+## New features
+ - Add an option to prevent or allow removal of products with type non managed by Akeneo.
+
+## Bug fixes
+ - Fix price computation on configurable product export when variant axis option code is numeric
+
+# 1.1.12 (2015-01-09)
+## Bug fixes
+ - When a category is moved in Akeneo but stay in the same parent category, change is now correctly passed on Magento.
+
+# 1.1.11 (2015-01-06)
 ## New features
  - Add an option to avoid generating category URL_KEY and let Magento handle it.
  - Add an option to set the is_anchor property for all categories.
  - Add an option to force attribute set removal.
+ - Add the SOAP URL to SoapFault error to add further diagnosis if necessary
+ - Only used configurable attributes are now added to build configurable product.
 
 ## Bug fixes
  - option "Do nothing" didn't prevent removal of empty families, it now does.

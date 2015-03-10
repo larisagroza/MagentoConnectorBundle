@@ -1,5 +1,4 @@
 parameters:
-    pim_magento_connector.cleaner.product.class:      Pim\Bundle\MagentoConnectorBundle\Cleaner\ProductCleaner
     pim_magento_connector.cleaner.configurable.class: Pim\Bundle\MagentoConnectorBundle\Cleaner\ConfigurableCleaner
     pim_magento_connector.cleaner.category.class:     Pim\Bundle\MagentoConnectorBundle\Cleaner\CategoryCleaner
     pim_magento_connector.cleaner.option.class:       Pim\Bundle\MagentoConnectorBundle\Cleaner\OptionCleaner
@@ -7,22 +6,14 @@ parameters:
     pim_magento_connector.cleaner.family.class:       Pim\Bundle\MagentoConnectorBundle\Cleaner\FamilyCleaner
 
 services:
-    pim_magento_connector.cleaner.product:
-        class: %pim_magento_connector.cleaner.product.class%
-        arguments:
-            - '@pim_magento_connector.guesser.magento_webservice'
-            - '@pim_catalog.manager.channel'
-            - '@pim_catalog.manager.product'
-            - '@pim_magento_connector.webservice.magento_soap_client_parameters_registry'
-
     pim_magento_connector.cleaner.configurable:
         class: %pim_magento_connector.cleaner.configurable.class%
         arguments:
             - '@pim_magento_connector.guesser.magento_webservice'
+            - '@pim_magento_connector.webservice.magento_soap_client_parameters_registry'
             - '@pim_catalog.manager.channel'
             - '@pim_catalog.manager.product'
             - '@pim_magento_connector.manager.group'
-            - '@pim_magento_connector.webservice.magento_soap_client_parameters_registry'
 
     pim_magento_connector.cleaner.category:
         class: %pim_magento_connector.cleaner.category.class%

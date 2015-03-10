@@ -2,7 +2,6 @@
 
 namespace Pim\Bundle\MagentoConnectorBundle\Cleaner;
 
-use Pim\Bundle\MagentoConnectorBundle\Validator\Constraints\HasValidCredentials;
 use Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClientParametersRegistry;
 use Pim\Bundle\CatalogBundle\Manager\ChannelManager;
 use Pim\Bundle\MagentoConnectorBundle\Guesser\WebserviceGuesser;
@@ -11,34 +10,32 @@ use Pim\Bundle\MagentoConnectorBundle\Normalizer\AbstractNormalizer;
 use Pim\Bundle\MagentoConnectorBundle\Manager\GroupManager;
 
 /**
- * Magento configurable cleaner
+ * Magento configurable cleaner for ORM implementation.
  *
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- *
- * @HasValidCredentials()
  */
-class ConfigurableCleaner extends ProductCleaner
+class ConfigurableCleaner extends AbstractProductCleaner
 {
     /** @var GroupManager */
     protected $groupManager;
 
     /**
      * @param WebserviceGuesser                   $webserviceGuesser
+     * @param MagentoSoapClientParametersRegistry $clientParametersRegistry
      * @param ChannelManager                      $channelManager
      * @param ProductManager                      $productManager
      * @param GroupManager                        $groupManager
-     * @param MagentoSoapClientParametersRegistry $clientParametersRegistry
      */
     public function __construct(
         WebserviceGuesser $webserviceGuesser,
+        MagentoSoapClientParametersRegistry $clientParametersRegistry,
         ChannelManager $channelManager,
         ProductManager $productManager,
-        GroupManager $groupManager,
-        MagentoSoapClientParametersRegistry $clientParametersRegistry
+        GroupManager $groupManager
     ) {
-        parent::__construct($webserviceGuesser, $channelManager, $productManager, $clientParametersRegistry);
+        parent::__construct($webserviceGuesser, $clientParametersRegistry, $channelManager, $productManager);
 
         $this->groupManager = $groupManager;
     }
@@ -63,7 +60,23 @@ class ConfigurableCleaner extends ProductCleaner
     }
 
     /**
-     * Get all variant group skus
+     * {@inheritdoc}
+     */
+    protected function getExportedProductsSkus()
+    {
+        return [];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function getPimProductsSkus()
+    {
+        return [];
+    }
+
+    /**
+     * Get all variant group skus.
      *
      * @return array
      */

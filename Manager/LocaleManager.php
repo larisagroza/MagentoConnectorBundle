@@ -47,7 +47,7 @@ class LocaleManager
     }
 
     /**
-     * Get active locales
+     * Get active locales.
      *
      * @return Locale[]
      */
@@ -57,7 +57,7 @@ class LocaleManager
     }
 
     /**
-     * Get disabled locales
+     * Get disabled locales.
      *
      * @return Locale[]
      */
@@ -67,7 +67,7 @@ class LocaleManager
     }
 
     /**
-     * Get locales with criterias
+     * Get locales with criterias.
      *
      * @param array $criterias
      *
@@ -79,7 +79,7 @@ class LocaleManager
     }
 
     /**
-     * Get locale by code
+     * Get locale by code.
      *
      * @param string $code
      *
@@ -91,7 +91,7 @@ class LocaleManager
     }
 
     /**
-     * Get active codes
+     * Get active codes.
      *
      * @return string[]
      */

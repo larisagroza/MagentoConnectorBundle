@@ -9,7 +9,7 @@ use Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClientParameters;
 use Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClientFactory;
 
 /**
- * A magento soap client to abstract interaction with the magento api
+ * A magento soap client to abstract interaction with the magento api.
  *
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2013 Akeneo SAS (http://www.akeneo.com)
@@ -24,7 +24,8 @@ class WebserviceGuesser extends AbstractGuesser
     protected $magentoSoapClientFactory;
 
     /**
-     * Constructor
+     * Constructor.
+     *
      * @param MagentoSoapClientFactory $magentoSoapClientFactory
      */
     public function __construct(MagentoSoapClientFactory $magentoSoapClientFactory)
@@ -33,10 +34,12 @@ class WebserviceGuesser extends AbstractGuesser
     }
 
     /**
-     * Get the Webservice corresponding to the given Magento parameters
+     * Get the Webservice corresponding to the given Magento parameters.
+     *
      * @param MagentoSoapClientParameters $clientParameters
      *
      * @throws NotSupportedVersionException If the magento version is not supported
+     *
      * @return Webservice
      */
     public function getWebservice(MagentoSoapClientParameters $clientParameters)

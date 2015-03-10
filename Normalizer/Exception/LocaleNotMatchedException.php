@@ -3,7 +3,7 @@
 namespace Pim\Bundle\MagentoConnectorBundle\Normalizer\Exception;
 
 /**
- * Exception thrown if the locale is not found on Magento side
+ * Exception thrown if the locale is not found on Magento side.
  *
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2013 Akeneo SAS (http://www.akeneo.com)

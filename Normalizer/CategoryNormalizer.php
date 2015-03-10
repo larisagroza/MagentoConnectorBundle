@@ -2,6 +2,7 @@
 
 namespace Pim\Bundle\MagentoConnectorBundle\Normalizer;
 
+use Pim\Bundle\CatalogBundle\Entity\Repository\CategoryRepository;
 use Pim\Bundle\CatalogBundle\Manager\ChannelManager;
 use Pim\Bundle\CatalogBundle\Model\CategoryInterface;
 use Pim\Bundle\MagentoConnectorBundle\Manager\CategoryMappingManager;
@@ -9,7 +10,7 @@ use Pim\Bundle\MagentoConnectorBundle\Normalizer\Exception\CategoryNotMappedExce
 use Gedmo\Sluggable\Util\Urlizer;
 
 /**
- * A normalizer to transform a category entity into an array
+ * A normalizer to transform a category entity into an array.
  *
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
@@ -22,17 +23,23 @@ class CategoryNormalizer extends AbstractNormalizer
      */
     protected $categoryMappingManager;
 
+    /** @var  CategoryRepository */
+    protected $categoryRepository;
+
     /**
      * @param ChannelManager         $channelManager
      * @param CategoryMappingManager $categoryMappingManager
+     * @param CategoryRepository     $categoryRepository
      */
     public function __construct(
-        ChannelManager $channelManager,
-        CategoryMappingManager $categoryMappingManager
+        ChannelManager         $channelManager,
+        CategoryMappingManager $categoryMappingManager,
+        CategoryRepository     $categoryRepository
     ) {
         parent::__construct($channelManager);
 
         $this->categoryMappingManager = $categoryMappingManager;
+        $this->categoryRepository     = $categoryRepository;
     }
 
     /**
@@ -55,7 +62,8 @@ class CategoryNormalizer extends AbstractNormalizer
                 $normalizedCategory['variation'][] = $this->getNormalizedVariationCategory(
                     $object,
                     $translation->getLocale(),
-                    $storeView['code']
+                    $storeView['code'],
+                    $context['urlKey']
                 );
             }
         }
@@ -64,7 +72,8 @@ class CategoryNormalizer extends AbstractNormalizer
     }
 
     /**
-     * Get the default category
+     * Get the default category.
+     *
      * @param CategoryInterface $category
      * @param array             $context
      *
@@ -76,7 +85,7 @@ class CategoryNormalizer extends AbstractNormalizer
             'create'    => [],
             'update'    => [],
             'move'      => [],
-            'variation' => []
+            'variation' => [],
         ];
 
         if ($this->magentoCategoryExists($category, $context['magentoCategories'], $context['magentoUrl'])) {
@@ -100,7 +109,8 @@ class CategoryNormalizer extends AbstractNormalizer
     }
 
     /**
-     * Test if the given category exist on Magento side
+     * Test if the given category exist on Magento side.
+     *
      * @param CategoryInterface $category
      * @param array             $magentoCategories
      * @param string            $magentoUrl
@@ -114,7 +124,8 @@ class CategoryNormalizer extends AbstractNormalizer
     }
 
     /**
-     * Get category id on Magento side for the given category
+     * Get category id on Magento side for the given category.
+     *
      * @param CategoryInterface $category
      * @param string            $magentoUrl
      *
@@ -126,7 +137,7 @@ class CategoryNormalizer extends AbstractNormalizer
     }
 
     /**
-     * Get new normalized categories
+     * Get new normalized categories.
      *
      * @param CategoryInterface $category
      * @param array             $context
@@ -148,7 +159,7 @@ class CategoryNormalizer extends AbstractNormalizer
             'is_active'         => 1,
             'include_in_menu'   => 1,
             'available_sort_by' => 1,
-            'default_sort_by'   => 1
+            'default_sort_by'   => 1,
         ];
 
         if (false === $context['urlKey']) {
@@ -171,15 +182,16 @@ class CategoryNormalizer extends AbstractNormalizer
                 'magentoCategory' => [
                     (string) $parentCategoryId,
                     $magentoCategoryBaseParameters,
-                    $context['defaultStoreView']
+                    $context['defaultStoreView'],
                 ],
-                'pimCategory' => $category
+                'pimCategory' => $category,
             ];
         }
     }
 
     /**
-     * Get update normalized categories
+     * Get update normalized categories.
+     *
      * @param CategoryInterface $category
      * @param array             $context
      *
@@ -191,7 +203,8 @@ class CategoryNormalizer extends AbstractNormalizer
             'name'              => $this->getCategoryLabel($category, $context['defaultLocale']),
             'available_sort_by' => 1,
             'default_sort_by'   => 1,
-            'is_anchor'         => $context['is_anchor']
+            'is_anchor'         => $context['is_anchor'],
+            'position'          => $category->getLeft(),
         ];
 
         if (false === $context['urlKey']) {
@@ -201,36 +214,49 @@ class CategoryNormalizer extends AbstractNormalizer
         return [
             $this->getMagentoCategoryId($category, $context['magentoUrl']),
             $magentoCategoryBaseParameters,
-            $context['defaultStoreView']
+            $context['defaultStoreView'],
         ];
     }
 
     /**
-     * Get normalized variation category
+     * Get normalized variation category.
+     *
      * @param CategoryInterface $category
      * @param string            $localeCode
      * @param string            $storeViewCode
+     * @param boolean           $urlKey
      *
      * @return array
      */
-    protected function getNormalizedVariationCategory(CategoryInterface $category, $localeCode, $storeViewCode)
-    {
+    protected function getNormalizedVariationCategory(
+        CategoryInterface $category,
+        $localeCode,
+        $storeViewCode,
+        $urlKey = false
+    ) {
+        $magentoCategoryData = [
+            'name'              => $this->getCategoryLabel($category, $localeCode),
+            'available_sort_by' => 1,
+            'default_sort_by'   => 1,
+        ];
+
+        if (false === $urlKey) {
+            $magentoCategoryData['url_key'] = $this->generateUrlKey($category, $localeCode);
+        }
+
         return [
             'magentoCategory' => [
                 null,
-                [
-                    'name'              => $this->getCategoryLabel($category, $localeCode),
-                    'available_sort_by' => 1,
-                    'default_sort_by'   => 1
-                ],
-                $storeViewCode
+                $magentoCategoryData,
+                $storeViewCode,
             ],
             'pimCategory' => $category,
         ];
     }
 
     /**
-     * Get move normalized categories
+     * Get move normalized categories.
+     *
      * @param CategoryInterface $category
      * @param array             $context
      *
@@ -238,18 +264,36 @@ class CategoryNormalizer extends AbstractNormalizer
      */
     protected function getNormalizedMoveCategory(CategoryInterface $category, array $context)
     {
-        return [
-            $this->getMagentoCategoryId($category, $context['magentoUrl']),
-            $this->categoryMappingManager->getIdFromCategory(
-                $category->getParent(),
+        $magentoCategoryId = $this->getMagentoCategoryId($category, $context['magentoUrl']);
+
+        $magentoCategoryNewParentId = $this->categoryMappingManager->getIdFromCategory(
+            $category->getParent(),
+            $context['magentoUrl'],
+            $context['categoryMapping']
+        );
+
+        $previousCategories = $this->categoryRepository->getPrevSiblings($category);
+        $previousCategory = end($previousCategories);
+
+        $previousMagentoCategoryId = null;
+        if ($previousCategory && null !== $previousCategory) {
+            $previousMagentoCategoryId = $this->categoryMappingManager->getIdFromCategory(
+                $previousCategory,
                 $context['magentoUrl'],
                 $context['categoryMapping']
-            )
+            );
+        }
+
+        return [
+            $magentoCategoryId,
+            $magentoCategoryNewParentId,
+            $previousMagentoCategoryId,
         ];
     }
 
     /**
-     * Get category label
+     * Get category label.
+     *
      * @param CategoryInterface $category
      * @param string            $localeCode
      *
@@ -263,7 +307,8 @@ class CategoryNormalizer extends AbstractNormalizer
     }
 
     /**
-     * Test if the category has moved on magento side
+     * Test if the category has moved on magento side.
+     *
      * @param CategoryInterface $category
      * @param array             $context
      *
@@ -285,7 +330,7 @@ class CategoryNormalizer extends AbstractNormalizer
 
     /**
      * Generate url key for category name and code
-     * The code is included to make sure the url_key is unique, as required in Magento
+     * The code is included to make sure the url_key is unique, as required in Magento.
      *
      * @param CategoryInterface $category
      * @param string            $localeCode

@@ -104,7 +104,9 @@ class FamilyMappingManagerSpec extends ObjectBehavior
         Family $family,
         $objectManager
     ) {
-        $entityRepository->findOneBy(['family' => $family])->willReturn($magentoFamilyMapping);
+        $entityRepository
+            ->findOneBy(['family' => $family, 'magentoUrl' => 'url'])
+            ->willReturn($magentoFamilyMapping);
         $magentoFamilyMapping->setFamily($family)->shouldBeCalled();
         $magentoFamilyMapping->setMagentoFamilyId(35050)->shouldBeCalled();
         $magentoFamilyMapping->setMagentoUrl('url')->shouldBeCalled();

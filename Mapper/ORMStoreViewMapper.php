@@ -7,7 +7,7 @@ use Pim\Bundle\MagentoConnectorBundle\Manager\LocaleManager;
 use Pim\Bundle\MagentoConnectorBundle\Validator\Constraints\HasValidCredentialsValidator;
 
 /**
- * Magento storeview mapper
+ * Magento storeview mapper.
  *
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
@@ -38,7 +38,8 @@ class ORMStoreViewMapper extends ORMPimMapper
     }
 
     /**
-     * Get all sources
+     * Get all sources.
+     *
      * @return array
      */
     public function getAllSources()
@@ -57,7 +58,8 @@ class ORMStoreViewMapper extends ORMPimMapper
     }
 
     /**
-     * Get all targets
+     * Get all targets.
+     *
      * @return array
      */
     public function getAllTargets()

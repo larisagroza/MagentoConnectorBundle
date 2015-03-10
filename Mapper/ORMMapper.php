@@ -5,7 +5,7 @@ namespace Pim\Bundle\MagentoConnectorBundle\Mapper;
 use Pim\Bundle\MagentoConnectorBundle\Manager\SimpleMappingManager;
 
 /**
- * ORM mapper
+ * ORM mapper.
  *
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
@@ -34,7 +34,8 @@ class ORMMapper extends Mapper
     }
 
     /**
-     * Get mapping
+     * Get mapping.
+     *
      * @return array
      */
     public function getMapping()
@@ -60,20 +61,22 @@ class ORMMapper extends Mapper
     }
 
     /**
-     * Set mapping
+     * Set mapping.
+     *
      * @param array $mapping
      */
     public function setMapping(array $mapping)
     {
         if (!$this->isValid()) {
-            return;
+            return null;
         }
 
         $this->simpleMappingManager->setMapping($mapping, $this->getIdentifier($this->rootIdentifier));
     }
 
     /**
-     * Get all targets
+     * Get all targets.
+     *
      * @return array
      */
     public function getAllTargets()
@@ -92,7 +95,8 @@ class ORMMapper extends Mapper
     }
 
     /**
-     * Get all sources
+     * Get all sources.
+     *
      * @return array
      */
     public function getAllSources()
@@ -111,7 +115,8 @@ class ORMMapper extends Mapper
     }
 
     /**
-     * Get mapper priority
+     * Get mapper priority.
+     *
      * @return integer
      */
     public function getPriority()

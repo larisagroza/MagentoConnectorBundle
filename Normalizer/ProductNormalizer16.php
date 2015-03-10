@@ -7,7 +7,7 @@ use Pim\Bundle\MagentoConnectorBundle\Mapper\MappingCollection;
 use Pim\Bundle\CatalogBundle\Entity\Locale;
 
 /**
- * A normalizer to transform a product entity into an array for Magento platform above 1.6
+ * A normalizer to transform a product entity into an array for Magento platform above 1.6.
  *
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2013 Akeneo SAS (http://www.akeneo.com)
@@ -16,7 +16,8 @@ use Pim\Bundle\CatalogBundle\Entity\Locale;
 class ProductNormalizer16 extends ProductNormalizer implements ProductNormalizerInterface
 {
     /**
-     * Get the corresponding storeview code for a givent locale
+     * Get the corresponding storeview code for a givent locale.
+     *
      * @param string            $locale
      * @param array             $magentoStoreViews
      * @param MappingCollection $storeViewMapping
@@ -29,7 +30,8 @@ class ProductNormalizer16 extends ProductNormalizer implements ProductNormalizer
     }
 
     /**
-     * Manage not found locales
+     * Manage not found locales.
+     *
      * @param Locale $locale
      *
      * @throws LocaleNotMatchedException

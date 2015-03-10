@@ -9,7 +9,7 @@ use Pim\Bundle\MagentoConnectorBundle\Mapper\MappingCollection;
 use Pim\Bundle\CatalogBundle\Entity\Locale;
 
 /**
- * A normalizer to transform a product entity into an array
+ * A normalizer to transform a product entity into an array.
  *
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2013 Akeneo SAS (http://www.akeneo.com)
@@ -20,6 +20,9 @@ abstract class AbstractNormalizer implements NormalizerInterface
     const MAGENTO_SIMPLE_PRODUCT_KEY       = 'simple';
     const MAGENTO_CONFIGURABLE_PRODUCT_KEY = 'configurable';
     const MAGENTO_GROUPED_PRODUCT_KEY      = 'grouped';
+    const MAGENTO_BUNDLE_PRODUCT_KEY       = 'bundle';
+    const MAGENTO_DOWNLOADABLE_PRODUCT_KEY = 'downloadable';
+    const MAGENTO_VIRTUAL_PRODUCT_KEY      = 'virtual';
     const DATE_FORMAT                      = 'Y-m-d H:i:s';
 
     const MAGENTO_FORMAT = 'MagentoArray';
@@ -40,7 +43,8 @@ abstract class AbstractNormalizer implements NormalizerInterface
     protected $channelManager;
 
     /**
-     * Constructor
+     * Constructor.
+     *
      * @param ChannelManager $channelManager
      */
     public function __construct(ChannelManager $channelManager)
@@ -57,7 +61,8 @@ abstract class AbstractNormalizer implements NormalizerInterface
     }
 
     /**
-     * Get all Pim locales for the given channel
+     * Get all Pim locales for the given channel.
+     *
      * @param string $channel
      *
      * @return array The locales
@@ -74,7 +79,8 @@ abstract class AbstractNormalizer implements NormalizerInterface
     }
 
     /**
-     * Get the corresponding storeview for a given locale
+     * Get the corresponding storeview for a given locale.
+     *
      * @param string            $locale
      * @param array             $magentoStoreViews
      * @param MappingCollection $storeViewMapping
@@ -87,7 +93,8 @@ abstract class AbstractNormalizer implements NormalizerInterface
     }
 
     /**
-     * Get the storeview for the given code
+     * Get the storeview for the given code.
+     *
      * @param string $code
      * @param array  $magentoStoreViews
      *
@@ -103,7 +110,8 @@ abstract class AbstractNormalizer implements NormalizerInterface
     }
 
     /**
-     * Manage not found locales
+     * Manage not found locales.
+     *
      * @param Locale $locale
      *
      * @throws LocaleNotMatchedException

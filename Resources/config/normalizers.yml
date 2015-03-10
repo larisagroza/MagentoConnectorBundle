@@ -17,7 +17,6 @@ services:
         class: %pim_magento_connector.normalizer.attribute.class%
         arguments:
             - '@pim_magento_connector.normalizer.value'
-            - '@pim_magento_connector.manager.product_value'
         tags:
             - { name: magento_normalizer, normalizer_key: 'attribute' }
 
@@ -26,6 +25,7 @@ services:
         arguments:
             - '@pim_catalog.manager.channel'
             - '@pim_magento_connector.manager.category_mapping'
+            - '@pim_magento_connector.repository.category'
         tags:
             - { name: magento_normalizer, normalizer_key: 'category' }
 
@@ -49,6 +49,7 @@ services:
             - '@pim_magento_connector.normalizer.value'
             - '@pim_magento_connector.manager.category_mapping'
             - '@pim_magento_connector.manager.association_type'
+            - '@pim_magento_connector.filters.exportable_locale'
         tags:
             - { name: magento_normalizer, normalizer_key: 'product' }
 

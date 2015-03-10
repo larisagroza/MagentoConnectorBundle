@@ -8,7 +8,7 @@ use Pim\Bundle\MagentoConnectorBundle\Validator\Constraints\HasValidCredentialsV
 use Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClientParameters;
 
 /**
- * Magento exported attribute mapper
+ * Magento exported attribute mapper.
  *
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
@@ -61,7 +61,7 @@ class ORMExportedAttributeMapper extends Mapper
     }
 
     /**
-     * Return magento akeneo mapping
+     * Return magento akeneo mapping.
      *
      * @return array|MappingCollection
      */
@@ -89,7 +89,7 @@ class ORMExportedAttributeMapper extends Mapper
     }
 
     /**
-     * Set mapper parameters
+     * Set mapper parameters.
      *
      * @param MagentoSoapClientParameters $clientParameters
      * @param string                      $defaultStoreView
@@ -103,7 +103,7 @@ class ORMExportedAttributeMapper extends Mapper
     }
 
     /**
-     * Get mapper identifier
+     * Get mapper identifier.
      *
      * @param string $rootIdentifier
      *
@@ -120,6 +120,7 @@ class ORMExportedAttributeMapper extends Mapper
 
     /**
      * Is the mapper valid ?
+     *
      * @return boolean
      */
     public function isValid()

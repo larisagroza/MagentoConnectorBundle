@@ -10,16 +10,17 @@ namespace Pim\Bundle\MagentoConnectorBundle\Webservice;
 class MagentoSoapClientParametersRegistry
 {
     /**
-     * Array of all MagentoSoapClientParameters instances
+     * Array of all MagentoSoapClientParameters instances.
      *
      * @var array
      */
     protected $instances;
 
     /**
-     * Gives MagentoSoapClientParameters which corresponding to given parameters
+     * Gives MagentoSoapClientParameters which corresponding to given parameters.
      *
-     * @param  array                       $soapParameters Associative array which contains soap parameters
+     * @param array $soapParameters Associative array which contains soap parameters
+     *
      * @return MagentoSoapClientParameters
      */
     public function getInstance(

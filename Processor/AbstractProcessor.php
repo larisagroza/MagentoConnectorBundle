@@ -14,7 +14,7 @@ use Pim\Bundle\MagentoConnectorBundle\Merger\MagentoMappingMerger;
 use Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClientParametersRegistry;
 
 /**
- * Magento product processor
+ * Magento product processor.
  *
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2013 Akeneo SAS (http://www.akeneo.com)
@@ -77,7 +77,7 @@ abstract class AbstractProcessor extends MagentoItemStep implements ItemProcesso
     }
 
     /**
-     * get defaultLocale
+     * get defaultLocale.
      *
      * @return string defaultLocale
      */
@@ -87,7 +87,7 @@ abstract class AbstractProcessor extends MagentoItemStep implements ItemProcesso
     }
 
     /**
-     * Set defaultLocale
+     * Set defaultLocale.
      *
      * @param string $defaultLocale defaultLocale
      *
@@ -101,7 +101,7 @@ abstract class AbstractProcessor extends MagentoItemStep implements ItemProcesso
     }
 
     /**
-     * get website
+     * get website.
      *
      * @return string website
      */
@@ -111,7 +111,7 @@ abstract class AbstractProcessor extends MagentoItemStep implements ItemProcesso
     }
 
     /**
-     * Set website
+     * Set website.
      *
      * @param string $website website
      *
@@ -125,7 +125,8 @@ abstract class AbstractProcessor extends MagentoItemStep implements ItemProcesso
     }
 
     /**
-     * Set attribute mapping
+     * Set attribute mapping.
+     *
      * @param string $storeViewMapping
      *
      * @return AbstractProcessor
@@ -146,7 +147,8 @@ abstract class AbstractProcessor extends MagentoItemStep implements ItemProcesso
     }
 
     /**
-     * Get attribute mapping
+     * Get attribute mapping.
+     *
      * @return string
      */
     public function getStoreViewMapping()
@@ -155,7 +157,8 @@ abstract class AbstractProcessor extends MagentoItemStep implements ItemProcesso
     }
 
     /**
-     * Get computed mapping
+     * Get computed mapping.
+     *
      * @param string $mapping
      *
      * @return array
@@ -176,7 +179,7 @@ abstract class AbstractProcessor extends MagentoItemStep implements ItemProcesso
     }
 
     /**
-     * Function called before all process
+     * Function called before all process.
      */
     protected function beforeExecute()
     {
@@ -188,12 +191,13 @@ abstract class AbstractProcessor extends MagentoItemStep implements ItemProcesso
     }
 
     /**
-     * Get the attribute set id for the given family code
+     * Get the attribute set id for the given family code.
      *
      * @param string $familyCode
      * @param mixed  $relatedItem
      *
      * @throws InvalidItemException If The attribute set doesn't exist on Mangento
+     *
      * @return integer
      */
     protected function getAttributeSetId($familyCode, $relatedItem)
@@ -209,7 +213,7 @@ abstract class AbstractProcessor extends MagentoItemStep implements ItemProcesso
     }
 
     /**
-     * Called after the configuration is set
+     * Called after the configuration is set.
      */
     protected function afterConfigurationSet()
     {
@@ -245,7 +249,7 @@ abstract class AbstractProcessor extends MagentoItemStep implements ItemProcesso
                         'help'  => 'pim_magento_connector.export.website.help',
                         'label' => 'pim_magento_connector.export.website.label',
                     ],
-                ]
+                ],
             ],
             $this->storeViewMappingMerger->getConfigurationField()
         );

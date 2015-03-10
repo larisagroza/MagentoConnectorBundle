@@ -2,44 +2,34 @@
 
 namespace Pim\Bundle\MagentoConnectorBundle\Writer;
 
-use Pim\Bundle\MagentoConnectorBundle\Guesser\WebserviceGuesser;
+use Pim\Bundle\MagentoConnectorBundle\Manager\DeltaProductExportManager;
 use Pim\Bundle\CatalogBundle\Manager\ChannelManager;
-use Pim\Bundle\MagentoConnectorBundle\Manager\ProductExportManager;
-use Akeneo\Bundle\BatchBundle\Entity\StepExecution;
+use Pim\Bundle\MagentoConnectorBundle\Guesser\WebserviceGuesser;
 use Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClientParametersRegistry;
 
 /**
- * Magento delta product writer
+ * Write delta product in Magento.
  *
- * @author    Julien Sanchez <julien@akeneo.com>
+ * @author    Romain Monceau <romain@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 class DeltaProductWriter extends ProductWriter
 {
-    /**
-     * @var ProductExportManager
-     */
+    /** @var DeltaProductExportManager */
     protected $productExportManager;
 
     /**
-     * @var JobInstance
-     */
-    protected $jobInstance;
-
-    /**
-     * Constructor
-     *
      * @param WebserviceGuesser                   $webserviceGuesser
      * @param ChannelManager                      $channelManager
-     * @param ProductExportManager                $productExportManager
      * @param MagentoSoapClientParametersRegistry $clientParametersRegistry
+     * @param DeltaProductExportManager           $productExportManager
      */
     public function __construct(
         WebserviceGuesser $webserviceGuesser,
         ChannelManager $channelManager,
-        ProductExportManager $productExportManager,
-        MagentoSoapClientParametersRegistry $clientParametersRegistry
+        MagentoSoapClientParametersRegistry $clientParametersRegistry,
+        DeltaProductExportManager $productExportManager
     ) {
         parent::__construct($webserviceGuesser, $channelManager, $clientParametersRegistry);
 
@@ -47,9 +37,9 @@ class DeltaProductWriter extends ProductWriter
     }
 
     /**
-     * Compute an individual product and all his parts (translations)
+     * Compute an individual product and all its parts (translations).
      *
-     * @param array $product The product and his parts
+     * @param array $product
      */
     protected function computeProduct($product)
     {
@@ -57,16 +47,14 @@ class DeltaProductWriter extends ProductWriter
 
         parent::computeProduct($product);
 
-        $this->productExportManager->updateProductExport($sku, $this->jobInstance);
+        $this->productExportManager->updateProductExport($this->getJobInstance(), $sku);
     }
 
     /**
-     * {@inheritdoc}
+     * @return \Akeneo\Bundle\BatchBundle\Entity\JobInstance
      */
-    public function setStepExecution(StepExecution $stepExecution)
+    protected function getJobInstance()
     {
-        parent::setStepExecution($stepExecution);
-
-        $this->jobInstance = $stepExecution->getJobExecution()->getJobInstance();
+        return $this->stepExecution->getJobExecution()->getJobInstance();
     }
 }

@@ -6,13 +6,10 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 use Pim\Bundle\CatalogBundle\Model\AbstractAttribute;
 use Pim\Bundle\MagentoConnectorBundle\Normalizer\Exception\InvalidAttributeNameException;
 use Pim\Bundle\MagentoConnectorBundle\Normalizer\Exception\AttributeTypeChangedException;
-use Pim\Bundle\CatalogBundle\Model\ProductValueInterface;
 use Pim\Bundle\MagentoConnectorBundle\Mapper\MappingCollection;
-use Pim\Bundle\CatalogBundle\Entity\AttributeOption;
-use Pim\Bundle\MagentoConnectorBundle\Manager\ProductValueManager;
 
 /**
- * A normalizer to transform a option entity into an array
+ * A normalizer to transform a option entity into an array.
  *
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
@@ -30,26 +27,16 @@ class AttributeNormalizer implements NormalizerInterface
     protected $productValueNormalizer;
 
     /**
-     * @var ProductValueManager
-     */
-    protected $productValueManager;
-
-    /**
      * @var array
      */
     protected $supportedFormats = [self::MAGENTO_FORMAT];
 
     /**
-     * Constructor
      * @param ProductValueNormalizer $productValueNormalizer
-     * @param ProductValueManager    $productValueManager
      */
-    public function __construct(
-        ProductValueNormalizer $productValueNormalizer,
-        ProductValueManager $productValueManager
-    ) {
+    public function __construct(ProductValueNormalizer $productValueNormalizer)
+    {
         $this->productValueNormalizer = $productValueNormalizer;
-        $this->productValueManager    = $productValueManager;
     }
 
     /**
@@ -71,12 +58,6 @@ class AttributeNormalizer implements NormalizerInterface
             'is_required'                   => $this->getNormalizedRequired($object),
             'apply_to'                      => '',
             'is_configurable'               => $this->getNormalizedConfigurable($object, $context['axisAttributes']),
-            'is_searchable'                 => '1',
-            'is_visible_in_advanced_search' => '1',
-            'is_comparable'                 => '1',
-            'is_used_for_promo_rules'       => '1',
-            'is_visible_on_front'           => '1',
-            'used_in_product_listing'       => '1',
             'additional_fields'             => [],
             'frontend_label'                => $this->getNormalizedLabels(
                 $object,
@@ -85,7 +66,6 @@ class AttributeNormalizer implements NormalizerInterface
                 $context['storeViewMapping'],
                 $context['attributeCodeMapping']
             ),
-            'default_value'                 => '',
         ];
 
         $mappedAttributeType = $this->getNormalizedType($object);
@@ -99,14 +79,6 @@ class AttributeNormalizer implements NormalizerInterface
                 $normalizedAttribute
             );
         } else {
-            $normalizedAttribute['default_value'] = $this->getNormalizedDefaultValue(
-                $object,
-                $context['defaultLocale'],
-                $context['magentoAttributes'],
-                $context['magentoAttributesOptions'],
-                $context['attributeCodeMapping']
-            );
-
             $magentoAttributeCode = strtolower($context['attributeCodeMapping']->getTarget($object->getCode()));
             $magentoAttributeType = $context['magentoAttributes'][$magentoAttributeCode]['type'];
             if ($mappedAttributeType !== $magentoAttributeType &&
@@ -133,7 +105,8 @@ class AttributeNormalizer implements NormalizerInterface
     }
 
     /**
-     * Get normalized type for attribute
+     * Get normalized type for attribute.
+     *
      * @param AbstractAttribute $attribute
      *
      * @return string
@@ -146,7 +119,8 @@ class AttributeNormalizer implements NormalizerInterface
     }
 
     /**
-     * Get attribute type mapping
+     * Get attribute type mapping.
+     *
      * @return array
      */
     protected function getTypeMapping()
@@ -163,16 +137,18 @@ class AttributeNormalizer implements NormalizerInterface
             'pim_catalog_date'             => 'date',
             'pim_catalog_file'             => 'text',
             'pim_catalog_image'            => 'text',
-            'pim_catalog_metric'           => 'text'
+            'pim_catalog_metric'           => 'text',
         ];
     }
 
     /**
-     * Get normalized code for attribute
+     * Get normalized code for attribute.
+     *
      * @param AbstractAttribute $attribute
      * @param MappingCollection $attributeMapping
      *
      * @throws InvalidAttributeNameException If attribute name is not valid
+     *
      * @return string
      */
     protected function getNormalizedCode(AbstractAttribute $attribute, MappingCollection $attributeMapping)
@@ -194,7 +170,8 @@ class AttributeNormalizer implements NormalizerInterface
     }
 
     /**
-     * Get normalized scope for attribute
+     * Get normalized scope for attribute.
+     *
      * @param AbstractAttribute $attribute
      *
      * @return string
@@ -205,54 +182,8 @@ class AttributeNormalizer implements NormalizerInterface
     }
 
     /**
-     * Get normalized default value for attribute
-     * @param AbstractAttribute $attribute
-     * @param string            $defaultLocale
-     * @param array             $magentoAttributes
-     * @param array             $magentoAttributesOptions
-     * @param MappingCollection $attributeMapping
+     * Get normalized unquie value for attribute.
      *
-     * @return string
-     */
-    protected function getNormalizedDefaultValue(
-        AbstractAttribute $attribute,
-        $defaultLocale,
-        array $magentoAttributes,
-        array $magentoAttributesOptions,
-        MappingCollection $attributeMapping
-    ) {
-        $attributeCode = strtolower($attributeMapping->getTarget($attribute->getCode()));
-
-        $context = [
-            'identifier'               => null,
-            'scopeCode'                => null,
-            'localeCode'               => $defaultLocale,
-            'onlyLocalized'            => false,
-            'magentoAttributes'        => [$attributeCode => [
-                'scope' => !$attribute->isLocalizable() ? ProductValueNormalizer::GLOBAL_SCOPE : '',
-            ]],
-            'magentoAttributesOptions' => $magentoAttributesOptions,
-            'attributeCodeMapping'         => $attributeMapping,
-            'currencyCode'             => '',
-        ];
-
-        if ($attribute->getDefaultValue() instanceof ProductValueInterface) {
-            return reset(
-                $this->productValueNormalizer->normalize($attribute->getDefaultValue(), 'MagentoArray', $context)
-            );
-        } elseif ($attribute->getDefaultValue() instanceof AttributeOption) {
-            $productValue = $this->productValueManager->createProductValueForDefaultOption($attribute);
-
-            $normalizedOption = $this->productValueNormalizer->normalize($productValue, 'MagentoArray', $context);
-
-            return null != $normalizedOption ? reset($normalizedOption) : null;
-        } else {
-            return (null !== $attribute->getDefaultValue() ? (string) $attribute->getDefaultValue() : '');
-        }
-    }
-
-    /**
-     * Get normalized unquie value for attribute
      * @param AbstractAttribute $attribute
      *
      * @return string
@@ -263,7 +194,8 @@ class AttributeNormalizer implements NormalizerInterface
     }
 
     /**
-     * Get normalized is required for attribute
+     * Get normalized is required for attribute.
+     *
      * @param AbstractAttribute $attribute
      *
      * @return string
@@ -274,7 +206,8 @@ class AttributeNormalizer implements NormalizerInterface
     }
 
     /**
-     * Get normalized configurable for attribute
+     * Get normalized configurable for attribute.
+     *
      * @param AbstractAttribute $attribute
      * @param array             $axisAttributes
      *
@@ -289,7 +222,8 @@ class AttributeNormalizer implements NormalizerInterface
     }
 
     /**
-     * Get normalized labels for attribute
+     * Get normalized labels for attribute.
+     *
      * @param AbstractAttribute $attribute
      * @param array             $magentoStoreViews
      * @param string            $defaultLocale
@@ -328,7 +262,8 @@ class AttributeNormalizer implements NormalizerInterface
     }
 
     /**
-     * Get attribute translation for given locale code
+     * Get attribute translation for given locale code.
+     *
      * @param AbstractAttribute $attribute
      * @param string            $localeCode
      * @param string            $defaultLocale
@@ -352,14 +287,15 @@ class AttributeNormalizer implements NormalizerInterface
     }
 
     /**
-     * Get all ignored attribute for type change detection
+     * Get all ignored attribute for type change detection.
+     *
      * @return array
      */
     protected function getIgnoredAttributesForTypeChangeDetection()
     {
         return [
             'tax_class_id',
-            'weight'
+            'weight',
         ];
     }
 }

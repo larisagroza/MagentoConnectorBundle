@@ -17,7 +17,7 @@ use Pim\Bundle\MagentoConnectorBundle\Normalizer\Exception\InvalidScopeMatchExce
 use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
 
 /**
- * A normalizer to transform a product value into an array
+ * A normalizer to transform a product value into an array.
  *
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
@@ -28,7 +28,7 @@ class ProductValueNormalizer implements NormalizerInterface
     const GLOBAL_SCOPE = 'global';
 
     /**
-     * Normalizes an object into a set of arrays/scalars
+     * Normalizes an object into a set of arrays/scalars.
      *
      * @param object $object  object to normalize
      * @param string $format  format the normalization result will be encoded as
@@ -57,12 +57,12 @@ class ProductValueNormalizer implements NormalizerInterface
                 $context['currencyCode']
             );
         } else {
-            return;
+            return null;
         }
     }
 
     /**
-     * Checks whether the given class is supported for normalization by this normalizer
+     * Checks whether the given class is supported for normalization by this normalizer.
      *
      * @param mixed  $data   Data to normalize.
      * @param string $format The format being (de-)serialized from or into.
@@ -75,7 +75,8 @@ class ProductValueNormalizer implements NormalizerInterface
     }
 
     /**
-     * Is the given value normalizable
+     * Is the given value normalizable.
+     *
      * @param ProductValueInterface $value
      * @param string                $identifier
      * @param string                $attributeCode
@@ -110,6 +111,7 @@ class ProductValueNormalizer implements NormalizerInterface
 
     /**
      * Is scopable and is the scope corresponding ?
+     *
      * @param ProductValueInterface $value
      * @param string                $scopeCode
      *
@@ -123,7 +125,8 @@ class ProductValueNormalizer implements NormalizerInterface
     }
 
     /**
-     * It is localizable and is the locale corresponding
+     * It is localizable and is the locale corresponding.
+     *
      * @param ProductValueInterface $value
      * @param string                $localeCode
      *
@@ -137,7 +140,8 @@ class ProductValueNormalizer implements NormalizerInterface
     }
 
     /**
-     * Should we normalize the given non localizable value even if we are in only_localizable mode
+     * Should we normalize the given non localizable value even if we are in only_localizable mode.
+     *
      * @param string  $attributeCode
      * @param boolean $onlyLocalized
      *
@@ -153,7 +157,8 @@ class ProductValueNormalizer implements NormalizerInterface
     }
 
     /**
-     * Is the attribute of the given value ignored
+     * Is the attribute of the given value ignored.
+     *
      * @param string $attributeCode
      *
      * @return boolean
@@ -164,7 +169,7 @@ class ProductValueNormalizer implements NormalizerInterface
     }
 
     /**
-     * Get the normalized value
+     * Get the normalized value.
      *
      * @param ProductValueInterface $value
      * @param string                $attributeCode
@@ -174,6 +179,7 @@ class ProductValueNormalizer implements NormalizerInterface
      * @param string                $currencyCode
      *
      * @throws AttributeNotFoundException If the given attribute doesn't exist in Magento
+     *
      * @return array
      */
     protected function getNormalizedValue(
@@ -215,7 +221,8 @@ class ProductValueNormalizer implements NormalizerInterface
     }
 
     /**
-     * Normalize the given data
+     * Normalize the given data.
+     *
      * @param mixed             $data
      * @param callable          $normalizer
      * @param AbstractAttribute $attribute
@@ -226,6 +233,7 @@ class ProductValueNormalizer implements NormalizerInterface
      * @param MappingCollection $attributeMapping
      *
      * @throws InvalidScopeMatchException If there is a scope matching error between Magento and the PIM
+     *
      * @return array
      */
     protected function normalizeData(
@@ -244,7 +252,7 @@ class ProductValueNormalizer implements NormalizerInterface
             $normalizedValue = $normalizer($data, [
                 'attributeCode'            => $attributeCode,
                 'magentoAttributesOptions' => $magentoAttributesOptions,
-                'currencyCode'             => $currencyCode
+                'currencyCode'             => $currencyCode,
             ]);
         } else {
             throw new InvalidScopeMatchException(
@@ -266,6 +274,7 @@ class ProductValueNormalizer implements NormalizerInterface
 
     /**
      * Does the attribute scope match with attributeScope on magento ?
+     *
      * @param Attribute $attribute
      * @param string    $attributeScope
      *
@@ -284,7 +293,7 @@ class ProductValueNormalizer implements NormalizerInterface
     }
 
     /**
-     * Get all value normalizer (filter and normalizer)
+     * Get all value normalizer (filter and normalizer).
      *
      * @return array
      */
@@ -296,7 +305,7 @@ class ProductValueNormalizer implements NormalizerInterface
                     return is_bool($data);
                 },
                 'normalizer' => function ($data, $parameters) {
-                    return ($data) ? 1 : 0;
+                    return ($data) ? true : false;
                 },
             ],
             [
@@ -305,7 +314,7 @@ class ProductValueNormalizer implements NormalizerInterface
                 },
                 'normalizer' => function ($data, $parameters) {
                     return $data->format(AbstractNormalizer::DATE_FORMAT);
-                }
+                },
             ],
             [
                 'filter'     => function ($data) {
@@ -321,7 +330,7 @@ class ProductValueNormalizer implements NormalizerInterface
                         $data->getCode(),
                         $parameters['magentoAttributesOptions']
                     );
-                }
+                },
             ],
             [
                 'filter'     => function ($data) {
@@ -334,7 +343,7 @@ class ProductValueNormalizer implements NormalizerInterface
                         $parameters['magentoAttributesOptions'],
                         $parameters['currencyCode']
                     );
-                }
+                },
             ],
             [
                 'filter'     => function ($data) {
@@ -342,7 +351,7 @@ class ProductValueNormalizer implements NormalizerInterface
                 },
                 'normalizer' => function ($data, $parameters) {
                     return (string) $data->getData();
-                }
+                },
             ],
             [
                 'filter'     => function ($data) {
@@ -351,7 +360,7 @@ class ProductValueNormalizer implements NormalizerInterface
                 },
                 'normalizer' => function ($data, $parameters) {
                     return $data->getCode();
-                }
+                },
             ],
             [
                 'filter'     => function ($data) {
@@ -359,13 +368,13 @@ class ProductValueNormalizer implements NormalizerInterface
                 },
                 'normalizer' => function ($data, $parameters) {
                     return $data;
-                }
-            ]
+                },
+            ],
         ];
     }
 
     /**
-     * Get all ignored attribute
+     * Get all ignored attribute.
      *
      * @return array
      */
@@ -375,31 +384,31 @@ class ProductValueNormalizer implements NormalizerInterface
     }
 
     /**
-     * Get all ignored attribute
+     * Get all ignored attribute.
      *
      * @return array
      */
     protected function getIgnoredAttributesForLocalization()
     {
         return [
-            'price'
+            'price',
         ];
     }
 
     /**
-     * Get all ignored attribute in scope matching test
+     * Get all ignored attribute in scope matching test.
      *
      * @return array
      */
     protected function getIgnoredScopeMatchingAttributes()
     {
         return [
-            'visibility'
+            'visibility',
         ];
     }
 
     /**
-     * Get all ignored attribute in option matching test
+     * Get all ignored attribute in option matching test.
      *
      * @return array
      */
@@ -409,7 +418,7 @@ class ProductValueNormalizer implements NormalizerInterface
     }
 
     /**
-     * Get normalizer closure matching the corresponding filter with $data
+     * Get normalizer closure matching the corresponding filter with $data.
      *
      * @param mixed $data
      *
@@ -430,7 +439,7 @@ class ProductValueNormalizer implements NormalizerInterface
     }
 
     /**
-     * Normalize the value collection
+     * Normalize the value collection.
      *
      * @param array  $collection
      * @param string $attributeCode
@@ -466,13 +475,14 @@ class ProductValueNormalizer implements NormalizerInterface
     }
 
     /**
-     * Get the id of the given magento option code
+     * Get the id of the given magento option code.
      *
      * @param string $attributeCode            The product attribute code
      * @param string $optionCode               The option label
      * @param array  $magentoAttributesOptions Attribute options list from Magento
      *
      * @throws InvalidOptionException If the given option doesn't exist on Magento
+     *
      * @return integer
      */
     protected function getOptionId($attributeCode, $optionCode, $magentoAttributesOptions)
@@ -498,14 +508,14 @@ class ProductValueNormalizer implements NormalizerInterface
     }
 
     /**
-     * Return all excluded attributes from the magento option id mapping
+     * Return all excluded attributes from the magento option id mapping.
      *
      * @return array
      */
     protected function getIgnoredAttributesForOptionIdTransformation()
     {
         return [
-            'tax_class_id'
+            'tax_class_id',
         ];
     }
 }

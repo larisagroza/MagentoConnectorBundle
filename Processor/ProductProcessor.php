@@ -17,7 +17,7 @@ use Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClientParametersRegi
 use Pim\Bundle\TransformBundle\Converter\MetricConverter;
 
 /**
- * Magento product processor
+ * Magento product processor.
  *
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2013 Akeneo SAS (http://www.akeneo.com)
@@ -84,7 +84,8 @@ class ProductProcessor extends AbstractProductProcessor
     }
 
     /**
-     * Get pim grouped
+     * Get pim grouped.
+     *
      * @return string
      */
     public function getPimGrouped()
@@ -93,7 +94,8 @@ class ProductProcessor extends AbstractProductProcessor
     }
 
     /**
-     * Set pim grouped
+     * Set pim grouped.
+     *
      * @param string $pimGrouped
      *
      * @return ProductProcessor
@@ -106,14 +108,14 @@ class ProductProcessor extends AbstractProductProcessor
     }
 
     /**
-     * Function called before all process
+     * Function called before all process.
      */
     protected function beforeExecute()
     {
         parent::beforeExecute();
 
-        $this->globalContext['pimGrouped']          = $this->pimGrouped;
-        $this->globalContext['defaultStoreView']    = $this->getDefaultStoreView();
+        $this->globalContext['pimGrouped']       = $this->pimGrouped;
+        $this->globalContext['defaultStoreView'] = $this->getDefaultStoreView();
     }
 
     /**
@@ -147,7 +149,7 @@ class ProductProcessor extends AbstractProductProcessor
                         [
                             'id'                                                 => $product->getId(),
                             $product->getIdentifier()->getAttribute()->getCode() => $product->getIdentifier()->getData(),
-                            'family'                                             => $product->getFamily()->getCode()
+                            'family'                                             => $product->getFamily()->getCode(),
                         ]
                     );
                 }
@@ -169,7 +171,7 @@ class ProductProcessor extends AbstractProductProcessor
                         'id'                                                 => $product->getId(),
                         $product->getIdentifier()->getAttribute()->getCode() => $product->getIdentifier()->getData(),
                         'label'                                              => $product->getLabel(),
-                        'family'                                             => $product->getFamily()->getCode()
+                        'family'                                             => $product->getFamily()->getCode(),
                     ]
                 );
             }
@@ -179,7 +181,7 @@ class ProductProcessor extends AbstractProductProcessor
     }
 
     /**
-     * Normalize the given product
+     * Normalize the given product.
      *
      * @param ProductInterface $product [description]
      * @param array            $context The context
@@ -200,7 +202,7 @@ class ProductProcessor extends AbstractProductProcessor
     }
 
     /**
-     * Test if a product already exists on magento platform
+     * Test if a product already exists on magento platform.
      *
      * @param ProductInterface $product         The product
      * @param array            $magentoProducts Magento products
@@ -219,7 +221,7 @@ class ProductProcessor extends AbstractProductProcessor
     }
 
     /**
-     * Test if the product attribute set changed
+     * Test if the product attribute set changed.
      *
      * @param ProductInterface $product         The product
      * @param array            $magentoProducts Magento products
@@ -257,7 +259,7 @@ class ProductProcessor extends AbstractProductProcessor
                             'class' => 'select2',
                         ],
                     ],
-                ]
+                ],
             ]
         );
     }

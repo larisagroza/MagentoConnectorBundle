@@ -63,6 +63,7 @@ class CategoryWriterSpec extends ObjectBehavior
             ],
         ];
 
+        $webservice->getStoreViewsList()->shouldBeCalled();
         $webservice->sendUpdateCategory(['foo'])->shouldBeCalled();
 
         $this->write($batches);

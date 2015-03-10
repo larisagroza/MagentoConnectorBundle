@@ -7,7 +7,7 @@ use Symfony\Component\Yaml\Parser;
 use Symfony\Component\Config\FileLocatorInterface;
 
 /**
- * Configuaration extension
+ * Configuaration extension.
  *
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)

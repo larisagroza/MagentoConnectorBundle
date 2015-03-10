@@ -4,6 +4,7 @@ namespace spec\Pim\Bundle\MagentoConnectorBundle\Guesser;
 
 use Pim\Bundle\CatalogBundle\Manager\ChannelManager;
 use Pim\Bundle\CatalogBundle\Manager\MediaManager;
+use Pim\Bundle\MagentoConnectorBundle\Filter\ExportableLocaleFilter;
 use Pim\Bundle\MagentoConnectorBundle\Normalizer\AttributeNormalizer;
 use Pim\Bundle\MagentoConnectorBundle\Normalizer\CategoryNormalizer;
 use Pim\Bundle\MagentoConnectorBundle\Normalizer\FamilyNormalizer;
@@ -11,7 +12,6 @@ use Pim\Bundle\MagentoConnectorBundle\Normalizer\OptionNormalizer;
 use Pim\Bundle\MagentoConnectorBundle\Normalizer\ProductValueNormalizer;
 use Pim\Bundle\MagentoConnectorBundle\Manager\CategoryMappingManager;
 use Pim\Bundle\MagentoConnectorBundle\Manager\AssociationTypeManager;
-use Pim\Bundle\MagentoConnectorBundle\Manager\ProductValueManager;
 use Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClientFactory;
 use Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClientParametersRegistry;
 use Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClient;
@@ -29,13 +29,13 @@ class NormalizerGuesserSpec extends ObjectBehavior
         ProductValueNormalizer $productValueNormalizer,
         CategoryMappingManager $categoryMappingManager,
         AssociationTypeManager $associationTypeManager,
-        ProductValueManager $productValueManager,
         AttributeNormalizer $attributeNormalizer,
         CategoryNormalizer $categoryNormalizer,
         FamilyNormalizer $familyNormalizer,
         OptionNormalizer $optionNormalizer,
         MagentoSoapClientParametersRegistry $clientParametersRegistry,
-        MagentoSoapClientParameters $clientParameters
+        MagentoSoapClientParameters $clientParameters,
+        ExportableLocaleFilter $localeFilter
     ) {
         $this->beConstructedWith(
             $magentoSoapClientFactory,
@@ -44,11 +44,11 @@ class NormalizerGuesserSpec extends ObjectBehavior
             $productValueNormalizer,
             $categoryMappingManager,
             $associationTypeManager,
-            $productValueManager,
             $attributeNormalizer,
             $categoryNormalizer,
             $familyNormalizer,
-            $optionNormalizer
+            $optionNormalizer,
+            $localeFilter
         );
 
         $clientParametersRegistry->getInstance(

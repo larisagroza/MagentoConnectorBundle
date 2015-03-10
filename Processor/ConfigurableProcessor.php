@@ -2,8 +2,11 @@
 
 namespace Pim\Bundle\MagentoConnectorBundle\Processor;
 
-use Pim\Bundle\CatalogBundle\Manager\ChannelManager;
 use Akeneo\Bundle\BatchBundle\Item\InvalidItemException;
+use Pim\Bundle\CatalogBundle\Entity\Channel;
+use Pim\Bundle\CatalogBundle\Manager\ChannelManager;
+use Pim\Bundle\MagentoConnectorBundle\Filter\ExportableProductFilter;
+use Pim\Bundle\MagentoConnectorBundle\Manager\AssociationTypeManager;
 use Pim\Bundle\MagentoConnectorBundle\Webservice\Webservice;
 use Pim\Bundle\MagentoConnectorBundle\Manager\PriceMappingManager;
 use Pim\Bundle\MagentoConnectorBundle\Guesser\WebserviceGuesser;
@@ -17,23 +20,31 @@ use Pim\Bundle\MagentoConnectorBundle\Manager\CurrencyManager;
 use Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClientParametersRegistry;
 
 /**
- * Magento configurable processor
+ * Magento configurable processor.
  *
- * @author    Julien Sanchez <julien@akeneo.com>
- * @copyright 2013 Akeneo SAS (http://www.akeneo.com)
+ * @author    Willy Mesnage <willy.mesnage@akeneo.com>
+ * @copyright 2015 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
  */
 class ConfigurableProcessor extends AbstractProductProcessor
 {
-    /**
-     * @var ConfigurableNormalizer
-     */
+    /** @var \Pim\Bundle\MagentoConnectorBundle\Normalizer\ConfigurableNormalizer */
     protected $configurableNormalizer;
 
-    /**
-     * @var GroupManager
-     */
+    /** @var AssociationTypeManager */
+    protected $associationTypeManager;
+
+    /** @var GroupManager */
     protected $groupManager;
+
+    /** @var array */
+    protected $processedIds = [];
+
+    /** @var string */
+    protected $pimGrouped;
+
+    /** @var ExportableProductFilter */
+    protected $productFilter;
 
     /**
      * @param WebserviceGuesser                   $webserviceGuesser
@@ -44,8 +55,11 @@ class ConfigurableProcessor extends AbstractProductProcessor
      * @param ChannelManager                      $channelManager
      * @param MagentoMappingMerger                $categoryMappingMerger
      * @param MagentoMappingMerger                $attributeMappingMerger
-     * @param GroupManager                        $groupManager
      * @param MagentoSoapClientParametersRegistry $clientParametersRegistry
+     * @param AttributeManager                    $attributeManager
+     * @param AssociationTypeManager              $associationTypeManager
+     * @param GroupManager                        $groupManager
+     * @param ExportableProductFilter             $productFilter
      */
     public function __construct(
         WebserviceGuesser $webserviceGuesser,
@@ -56,9 +70,11 @@ class ConfigurableProcessor extends AbstractProductProcessor
         ChannelManager $channelManager,
         MagentoMappingMerger $categoryMappingMerger,
         MagentoMappingMerger $attributeMappingMerger,
-        GroupManager $groupManager,
         MagentoSoapClientParametersRegistry $clientParametersRegistry,
-        AttributeManager $attributeManager
+        AttributeManager $attributeManager,
+        AssociationTypeManager $associationTypeManager,
+        GroupManager $groupManager,
+        ExportableProductFilter $productFilter
     ) {
         parent::__construct(
             $webserviceGuesser,
@@ -73,23 +89,29 @@ class ConfigurableProcessor extends AbstractProductProcessor
             $attributeManager
         );
 
-        $this->groupManager = $groupManager;
+        $this->associationTypeManager = $associationTypeManager;
+        $this->groupManager           = $groupManager;
+        $this->productFilter          = $productFilter;
     }
 
     /**
-     * Function called before all process
+     * @return string
      */
-    protected function beforeExecute()
+    public function getPimGrouped()
     {
-        parent::beforeExecute();
+        return $this->pimGrouped;
+    }
 
-        $priceMappingManager          = new PriceMappingManager($this->defaultLocale, $this->currency, $this->channel);
-        $this->configurableNormalizer = $this->normalizerGuesser->getConfigurableNormalizer(
-            $this->getClientParameters(),
-            $this->productNormalizer,
-            $priceMappingManager,
-            $this->visibility
-        );
+    /**
+     * @param string $pimGrouped
+     *
+     * @return ConfigurableProcessor
+     */
+    public function setPimGrouped($pimGrouped)
+    {
+        $this->pimGrouped = $pimGrouped;
+
+        return $this;
     }
 
     /**
@@ -113,30 +135,9 @@ class ConfigurableProcessor extends AbstractProductProcessor
             }
 
             foreach ($configurables as $configurable) {
-                if (empty($configurable['products'])) {
-                    $this->addWarning('The variant group is not associated to any products', [], $configurable);
-                }
-
-                if ($this->magentoConfigurableExist($configurable, $magentoConfigurables)) {
-                    $context = array_merge(
-                        $this->globalContext,
-                        ['attributeSetId' => 0, 'create' => false]
-                    );
-                } else {
-                    $groupFamily = $this->getGroupFamily($configurable);
-                    $context     = array_merge(
-                        $this->globalContext,
-                        [
-                            'attributeSetId' => $this->getAttributeSetId($groupFamily->getCode(), $configurable),
-                            'create'         => true
-                        ]
-                    );
-                }
-
-                try {
-                    $processedItems[] = $this->normalizeConfigurable($configurable, $context);
-                } catch (\Exception $e) {
-                    $this->addWarning($e->getMessage(), [], $configurable);
+                $processedConfigurable = $this->processConfigurable($configurable, $magentoConfigurables);
+                if ($processedConfigurable !== null) {
+                    $processedItems[] = $processedConfigurable;
                 }
             }
         }
@@ -145,40 +146,96 @@ class ConfigurableProcessor extends AbstractProductProcessor
     }
 
     /**
-     * Normalize the given configurable
-     *
-     * @param array $configurable The given configurable
-     * @param array $context      The context
-     *
-     * @throws InvalidItemException If a normalization error occured
-     * @return array                processed item
+     * Function called before all process.
      */
-    protected function normalizeConfigurable($configurable, $context)
+    protected function beforeExecute()
     {
-        $processedItem = $this->configurableNormalizer->normalize(
+        parent::beforeExecute();
+
+        $this->globalContext['pimGrouped'] = $this->pimGrouped;
+        $priceMappingManager               = new PriceMappingManager(
+            $this->defaultLocale,
+            $this->currency,
+            $this->channel
+        );
+        $this->configurableNormalizer      = $this->normalizerGuesser->getConfigurableNormalizer(
+            $this->getClientParameters(),
+            $this->productNormalizer,
+            $priceMappingManager,
+            $this->visibility
+        );
+    }
+
+    /**
+     * Processes configurables.
+     *
+     * @param array $configurable
+     * @param array $magentoConfigurables
+     *
+     * @return array|null
+     */
+    protected function processConfigurable(array $configurable, array $magentoConfigurables)
+    {
+        if (empty($configurable['products'])) {
+            return null;
+        }
+
+        if ($this->magentoConfigurableExist($configurable, $magentoConfigurables)) {
+            $context = array_merge($this->globalContext, ['attributeSetId' => 0, 'create' => false]);
+        } else {
+            $groupFamily = $this->getGroupFamily($configurable);
+            $context     = array_merge(
+                $this->globalContext,
+                [
+                    'attributeSetId' => $this->getAttributeSetId($groupFamily->getCode(), $configurable),
+                    'create'         => true,
+                ]
+            );
+        }
+
+        try {
+            $normalizedConfigurable = $this->normalizeConfigurable($configurable, $context);
+        } catch (\Exception $e) {
+            $this->addWarning($e->getMessage(), [], $configurable);
+
+            return null;
+        }
+
+        return $normalizedConfigurable;
+    }
+
+    /**
+     * Normalize the given configurable.
+     *
+     * @param array $configurable
+     * @param array $context
+     *
+     * @return array
+     */
+    protected function normalizeConfigurable(array $configurable, array $context)
+    {
+        return $this->configurableNormalizer->normalize(
             $configurable,
             AbstractNormalizer::MAGENTO_FORMAT,
             $context
         );
-
-        return $processedItem;
     }
 
     /**
-     * Test if a configurable allready exist on magento platform
+     * Test if a configurable already exist on magento platform.
      *
      * @param array $configurable         The configurable
      * @param array $magentoConfigurables Magento configurables
      *
      * @return bool
      */
-    protected function magentoConfigurableExist($configurable, $magentoConfigurables)
+    protected function magentoConfigurableExist(array $configurable, array $magentoConfigurables)
     {
         foreach ($magentoConfigurables as $magentoConfigurable) {
             if ($magentoConfigurable['sku'] == sprintf(
-                Webservice::CONFIGURABLE_IDENTIFIER_PATTERN,
-                $configurable['group']->getCode()
-            )) {
+                    Webservice::CONFIGURABLE_IDENTIFIER_PATTERN,
+                    $configurable['group']->getCode()
+                )) {
                 return true;
             }
         }
@@ -187,15 +244,13 @@ class ConfigurableProcessor extends AbstractProductProcessor
     }
 
     /**
-     * Get the family of the given configurable
+     * Get the family of the given configurable.
      *
      * @param array $configurable
      *
-     * @throws InvalidItemException If there are two products with different families
-     *
-     * @return Family
+     * @return \Pim\Bundle\CatalogBundle\Entity\Family;
      */
-    protected function getGroupFamily($configurable)
+    protected function getGroupFamily(array $configurable)
     {
         $groupFamily = $configurable['products'][0]->getFamily();
 
@@ -214,7 +269,7 @@ class ConfigurableProcessor extends AbstractProductProcessor
     }
 
     /**
-     * Get products association for each groups
+     * Get products association for each groups.
      *
      * @param array $products
      * @param array $groupsIds
@@ -223,13 +278,20 @@ class ConfigurableProcessor extends AbstractProductProcessor
      */
     protected function getProductsForGroups(array $products, array $groupsIds)
     {
-        $groups = [];
+        $channel = $this->channelManager->getChannelByCode($this->getChannel());
+        $groups  = [];
 
         foreach ($products as $product) {
             foreach ($product->getGroups() as $group) {
                 $groupId = $group->getId();
 
                 if (in_array($groupId, $groupsIds)) {
+                    $groupProducts = $group->getProducts();
+                    $exportableProducts = $this->productFilter->apply(
+                        $channel,
+                        $groupProducts
+                    );
+
                     if (!isset($groups[$groupId])) {
                         $groups[$groupId] = [
                             'group'    => $group,
@@ -237,7 +299,17 @@ class ConfigurableProcessor extends AbstractProductProcessor
                         ];
                     }
 
-                    $groups[$groupId]['products'][] = $product;
+                    if (!isset($this->processedIds[$groupId])) {
+                        $this->processedIds[$groupId] = [];
+                    }
+
+                    foreach ($exportableProducts as $exportableProduct) {
+                        $exportableProductId = $exportableProduct->getId();
+                        if (!in_array($exportableProductId, $this->processedIds[$groupId])) {
+                            $groups[$groupId]['products'][] = $exportableProduct;
+                            $this->processedIds[$groupId][] = $exportableProductId;
+                        }
+                    }
                 }
             }
         }
@@ -246,12 +318,35 @@ class ConfigurableProcessor extends AbstractProductProcessor
     }
 
     /**
-     * Get the group repository
+     * Get the group repository.
      *
      * @return \Doctrine\ORM\EntityRepository
      */
     protected function getGroupRepository()
     {
         return $this->groupManager->getRepository();
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getConfigurationFields()
+    {
+        return array_merge(
+            parent::getConfigurationFields(),
+            [
+                'pimGrouped' => [
+                    'type'    => 'choice',
+                    'options' => [
+                        'choices' => $this->associationTypeManager->getAssociationTypeChoices(),
+                        'help'    => 'pim_magento_connector.export.pimGrouped.help',
+                        'label'   => 'pim_magento_connector.export.pimGrouped.label',
+                        'attr' => [
+                            'class' => 'select2',
+                        ],
+                    ],
+                ],
+            ]
+        );
     }
 }

@@ -14,7 +14,7 @@ use Pim\Bundle\MagentoConnectorBundle\Normalizer\Exception\NormalizeException;
 use Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClientParametersRegistry;
 
 /**
- * Magento attributes processor
+ * Magento attributes processor.
  *
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
@@ -26,6 +26,9 @@ class AttributeProcessor extends AbstractProcessor
      * @var MagentoMappingMerger
      */
     protected $attributeMappingMerger;
+
+    /** @var  AttributeNormalizer */
+    protected $attributeNormalizer;
 
     /**
      * @var GroupManager
@@ -66,7 +69,7 @@ class AttributeProcessor extends AbstractProcessor
     }
 
     /**
-     * Set attribute code mapping
+     * Set attribute code mapping.
      *
      * @param string $attributeCodeMapping
      *
@@ -88,7 +91,8 @@ class AttributeProcessor extends AbstractProcessor
     }
 
     /**
-     * Get attribute code mapping
+     * Get attribute code mapping.
+     *
      * @return string
      */
     public function getAttributeCodeMapping()
@@ -119,16 +123,19 @@ class AttributeProcessor extends AbstractProcessor
     public function process($attribute)
     {
         $this->beforeExecute();
-        $magentoAttributes = $this->webservice->getAllAttributes();
 
-        $this->globalContext['create'] = !$this->magentoAttributeExists($attribute, $magentoAttributes);
+        $this->globalContext['create'] = !$this->magentoAttributeExists(
+            $attribute,
+            $this->globalContext['magentoAttributes']
+        );
         $result = [$attribute, $this->normalizeAttribute($attribute, $this->globalContext)];
 
         return $result;
     }
 
     /**
-     * Test if an attribute exist on magento
+     * Test if an attribute exist on magento.
+     *
      * @param AbstractAttribute $attribute
      * @param array             $magentoAttributes
      *
@@ -143,11 +150,13 @@ class AttributeProcessor extends AbstractProcessor
     }
 
     /**
-     * Normalize the given attribute
+     * Normalize the given attribute.
+     *
      * @param AbstractAttribute $attribute
      * @param array             $context
      *
      * @throws InvalidItemException If a problem occurred with the normalizer
+     *
      * @return array
      */
     protected function normalizeAttribute(AbstractAttribute $attribute, array $context)
@@ -166,7 +175,7 @@ class AttributeProcessor extends AbstractProcessor
     }
 
     /**
-     * Called after the configuration is set
+     * Called after the configuration is set.
      */
     protected function afterConfigurationSet()
     {
@@ -176,7 +185,7 @@ class AttributeProcessor extends AbstractProcessor
     }
 
     /**
-     * Get attribute axis
+     * Get attribute axis.
      *
      * @return array
      */

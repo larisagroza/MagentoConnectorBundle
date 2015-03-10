@@ -108,7 +108,9 @@ class CategoryMappingManagerSpec extends ObjectBehavior
         Category $category,
         $objectManager
     ) {
-        $entityRepository->findOneBy(['category' => $category])->willReturn($magentoCategoryMapping);
+        $entityRepository
+            ->findOneBy(['category' => $category, 'magentoUrl' => 'url'])
+            ->willReturn($magentoCategoryMapping);
         $magentoCategoryMapping->setCategory($category)->shouldBeCalled();
         $magentoCategoryMapping->setMagentoCategoryId(3)->shouldBeCalled();
         $magentoCategoryMapping->setMagentoUrl('url')->shouldBeCalled();

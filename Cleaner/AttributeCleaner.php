@@ -5,19 +5,16 @@ namespace Pim\Bundle\MagentoConnectorBundle\Cleaner;
 use Pim\Bundle\MagentoConnectorBundle\Guesser\WebserviceGuesser;
 use Pim\Bundle\MagentoConnectorBundle\Webservice\SoapCallException;
 use Pim\Bundle\MagentoConnectorBundle\Merger\MagentoMappingMerger;
-use Pim\Bundle\MagentoConnectorBundle\Validator\Constraints\HasValidCredentials;
 use Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClientParametersRegistry;
 use Akeneo\Bundle\BatchBundle\Item\InvalidItemException;
 use Doctrine\ORM\EntityManager;
 
 /**
- * Magento attribute cleaner
+ * Magento attribute cleaner.
  *
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
  * @license   http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- *
- * @HasValidCredentials()
  */
 class AttributeCleaner extends Cleaner
 {
@@ -55,7 +52,7 @@ class AttributeCleaner extends Cleaner
     }
 
     /**
-     * Set attribute code mapping
+     * Set attribute code mapping.
      *
      * @param string $attributeCodeMapping
      *
@@ -77,7 +74,8 @@ class AttributeCleaner extends Cleaner
     }
 
     /**
-     * Get attribute code mapping
+     * Get attribute code mapping.
+     *
      * @return string
      */
     public function getAttributeCodeMapping()
@@ -100,7 +98,8 @@ class AttributeCleaner extends Cleaner
     }
 
     /**
-     * Clean the given attribute
+     * Clean the given attribute.
+     *
      * @param array $attribute
      * @param array $magentoAttributes
      */
@@ -125,7 +124,8 @@ class AttributeCleaner extends Cleaner
     }
 
     /**
-     * Handle deletion or disableing of attributes which are not in PIM anymore
+     * Handle deletion or disableing of attributes which are not in PIM anymore.
+     *
      * @param array $attribute
      */
     protected function handleAttributeNotInPimAnymore(array $attribute)
@@ -137,7 +137,8 @@ class AttributeCleaner extends Cleaner
     }
 
     /**
-     * Get attribute for attribute code
+     * Get attribute for attribute code.
+     *
      * @param string $attributeCode
      *
      * @return mixed
@@ -156,7 +157,7 @@ class AttributeCleaner extends Cleaner
 
         $configurationFields['notInPimAnymoreAction']['options']['choices'] = [
             Cleaner::DO_NOTHING => 'pim_magento_connector.export.do_nothing.label',
-            Cleaner::DELETE     => 'pim_magento_connector.export.delete.label'
+            Cleaner::DELETE     => 'pim_magento_connector.export.delete.label',
         ];
 
         $configurationFields['notInPimAnymoreAction']['options']['help'] =
@@ -171,7 +172,7 @@ class AttributeCleaner extends Cleaner
     }
 
     /**
-     * Called after the configuration is set
+     * Called after the configuration is set.
      */
     protected function afterConfigurationSet()
     {
@@ -179,7 +180,8 @@ class AttributeCleaner extends Cleaner
     }
 
     /**
-     * Get all ignored attributes
+     * Get all ignored attributes.
+     *
      * @return array
      */
     protected function getIgnoredAttributes()

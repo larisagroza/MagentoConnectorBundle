@@ -3,7 +3,7 @@
 namespace Pim\Bundle\MagentoConnectorBundle\Reader\ORM;
 
 /**
- * Reads group option for attributes at once
+ * Reads group option for attributes at once.
  *
  * @author    Julien Sanchez <gildas@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
@@ -35,7 +35,8 @@ class GroupedOptionReader extends BulkEntityReader
     }
 
     /**
-     * Get grouped options
+     * Get grouped options.
+     *
      * @param array $options
      *
      * @return array
@@ -61,13 +62,14 @@ class GroupedOptionReader extends BulkEntityReader
     }
 
     /**
-     * Get all ignored attributes
+     * Get all ignored attributes.
+     *
      * @return array
      */
     protected function getIgnoredAttributes()
     {
         return [
-            'visibility'
+            'visibility',
         ];
     }
 }

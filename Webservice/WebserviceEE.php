@@ -3,7 +3,7 @@
 namespace Pim\Bundle\MagentoConnectorBundle\Webservice;
 
 /**
- * A magento soap client to abstract interaction with the magento ee api
+ * A magento soap client to abstract interaction with the magento ee api.
  *
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
@@ -12,7 +12,7 @@ namespace Pim\Bundle\MagentoConnectorBundle\Webservice;
 class WebserviceEE extends Webservice
 {
     /**
-     * Get options for the given attribute
+     * Get options for the given attribute.
      *
      * @param string $attributeCode Attribute code
      *
@@ -41,7 +41,51 @@ class WebserviceEE extends Webservice
     protected function getIgnoredAttributes()
     {
         return [
-            'is_returnable'
+            'is_returnable',
         ];
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function updateProductPart($productPart)
+    {
+        $productPart = $this->removeNonUpdatePart($productPart);
+        $this->client->addCall(
+            [self::SOAP_ACTION_CATALOG_PRODUCT_UPDATE, $productPart]
+        );
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function sendProduct($productPart)
+    {
+        if (count($productPart) === static::CREATE_PRODUCT_SIZE ||
+            count($productPart) === static::CREATE_CONFIGURABLE_SIZE &&
+            $productPart[static::CREATE_CONFIGURABLE_SIZE - 1] != 'sku'
+        ) {
+            $this->client->addCall([static::SOAP_ACTION_CATALOG_PRODUCT_CREATE, $productPart]);
+        } else {
+            $productPart = $this->removeNonUpdatePart($productPart);
+            $this->client->addCall([static::SOAP_ACTION_CATALOG_PRODUCT_UPDATE, $productPart]);
+        }
+    }
+
+    /**
+     * Cleanup part of the product data that should not be sent as
+     * update part.
+     *
+     * @param array $productPart
+     *
+     * @return array
+     */
+    protected function removeNonUpdatePart(array $productPart)
+    {
+        if (isset($productPart[1]['url_key'])) {
+            unset($productPart[1]['url_key']);
+        }
+
+        return $productPart;
     }
 }

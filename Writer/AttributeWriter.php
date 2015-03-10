@@ -14,7 +14,7 @@ use Pim\Bundle\CatalogBundle\Entity\Family;
 use Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClientParametersRegistry;
 
 /**
- * Magento attribute writer. Add attributes to groups and attribute sets on magento side
+ * Magento attribute writer. Add attributes to groups and attribute sets on magento side.
  *
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
@@ -22,7 +22,14 @@ use Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClientParametersRegi
  */
 class AttributeWriter extends AbstractWriter
 {
-    const ATTRIBUTE_UPDATE_SIZE = 2;
+    /** @staticvar int */
+    const ATTRIBUTE_UPDATE_SIZE               = 2;
+
+    /** @staticvar string */
+    const SOAP_FAULT_ATTRIBUTE_ALREADY_IN_SET = '109';
+
+    /** @staticvar string */
+    const SOAP_FAULT_GROUP_ALREADY_IN_SET     = '112';
 
     /**
      * @var AttributeMappingManager
@@ -50,7 +57,7 @@ class AttributeWriter extends AbstractWriter
     protected $attributeIdMappingMerger;
 
     /**
-     * Constructor
+     * Constructor.
      *
      * @param WebserviceGuesser                   $webserviceGuesser
      * @param FamilyMappingManager                $familyMappingManager
@@ -96,7 +103,7 @@ class AttributeWriter extends AbstractWriter
     }
 
     /**
-     * Handle attribute creation and update
+     * Handle attribute creation and update.
      *
      * @param array             $attribute
      * @param AbstractAttribute $pimAttribute
@@ -128,7 +135,7 @@ class AttributeWriter extends AbstractWriter
     }
 
     /**
-     * Verify if the magento attribute id is null else add the attribute to the attribute set
+     * Verify if the magento attribute id is null else add the attribute to the attribute set.
      *
      * @param integer           $magentoAttributeId
      * @param AbstractAttribute $pimAttribute
@@ -141,7 +148,7 @@ class AttributeWriter extends AbstractWriter
     }
 
     /**
-     * Get the magento group id
+     * Get the magento group id.
      *
      * @param AbstractAttribute $pimAttribute
      * @param Family            $pimFamily
@@ -163,15 +170,14 @@ class AttributeWriter extends AbstractWriter
     }
 
     /**
-     * Add attribute to corresponding attribute sets
+     * Add attribute to corresponding attribute sets.
      *
      * @param integer           $magentoAttributeId ID of magento attribute
      * @param AbstractAttribute $pimAttribute
      *
-     * @throws \Exception
      * @throws SoapCallException
      */
-    protected function addAttributeToAttributeSet($magentoAttributeId, $pimAttribute)
+    protected function addAttributeToAttributeSet($magentoAttributeId, AbstractAttribute $pimAttribute)
     {
         $families = $pimAttribute->getFamilies();
 
@@ -187,7 +193,10 @@ class AttributeWriter extends AbstractWriter
                     );
                 }
             } catch (SoapCallException $e) {
-                if (!strpos($e->getMessage(), 'already') !== false) {
+                if (static::SOAP_FAULT_ATTRIBUTE_ALREADY_IN_SET === $e->getPrevious()->faultcode) {
+                    echo "DEBUG: Attribute ".$magentoAttributeId.
+                        " already exists in attribute set ".$magentoFamilyId."\n";
+                } else {
                     throw $e;
                 }
             }
@@ -195,14 +204,13 @@ class AttributeWriter extends AbstractWriter
     }
 
     /**
-     * Create a group in an attribute set
+     * Create a group in an attribute set.
      *
      * @param AbstractAttribute $pimAttribute
      *
-     * @throws \Exception
      * @throws SoapCallException
      */
-    protected function addGroupToAttributeSet($pimAttribute)
+    protected function addGroupToAttributeSet(AbstractAttribute $pimAttribute)
     {
         $families = $pimAttribute->getFamilies();
         $group = $pimAttribute->getGroup();
@@ -227,7 +235,9 @@ class AttributeWriter extends AbstractWriter
                         $this->getSoapUrl()
                     );
                 } catch (SoapCallException $e) {
-                    if (!strpos($e->getMessage(), 'already') !== false) {
+                    if (static::SOAP_FAULT_GROUP_ALREADY_IN_SET === $e->getPrevious()->faultcode) {
+                        echo "DEBUG: Group ".$groupName." already exists in attribute set ".$familyMagentoId."\n";
+                    } else {
                         throw $e;
                     }
                 }

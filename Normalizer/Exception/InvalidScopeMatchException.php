@@ -3,7 +3,7 @@
 namespace Pim\Bundle\MagentoConnectorBundle\Normalizer\Exception;
 
 /**
- * Exception thrown if the PIM scope doesn't match the Magento scope
+ * Exception thrown if the PIM scope doesn't match the Magento scope.
  *
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2013 Akeneo SAS (http://www.akeneo.com)

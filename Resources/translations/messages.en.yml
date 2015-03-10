@@ -8,7 +8,7 @@ pim_magento_connector:
         simple_product_export.export.title: Simple product export
         configurable_product_export.export.title: Configurable product export
         association_product_export.export.title: Product association export
-        simple_product_clean.clean.title: Simple product clean
+        simple_product_clean.clean.title: Product clean
         configurable_product_clean.clean.title: Configurable product clean
         category_export.export.title: Category export
         category_clean.clean.title: Category clean
@@ -137,6 +137,12 @@ pim_magento_connector:
         urlKey:
             label: Let Magento handle url_key generation
             help: Caution: if you let Magento handle url_key generation, you could face duplications
+        removeProductsNotHandledByPim:
+            label: Delete/disable products not handled by PIM
+            help: Choose if you want to delete/disable products handled only by Magento (Virtual, Bundle, Downloadable)
+        skuFirst:
+            label: Set sku at the beginning of the url key
+            help: The product code (sku) will be set at the beginning of the url key rather than at the end
 
 job_execution.summary:
     attribute_created:         Attributes created
@@ -155,6 +161,7 @@ job_execution.summary:
     option_deleted:            Options deleted
     product_deleted:           Products deleted
     product_disabled:          Products disabled
+    product_not_removed:       Products not removed from Magento
     product_linked:            Products linked
     product_image_sent:        Products images sent
     product_sent:              Products sent

@@ -12,7 +12,7 @@ use Pim\Bundle\MagentoConnectorBundle\Merger\MagentoMappingMerger;
 use Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClientParametersRegistry;
 
 /**
- * Magento product processor
+ * Magento product processor.
  *
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2013 Akeneo SAS (http://www.akeneo.com)
@@ -181,7 +181,8 @@ class ProductAssociationProcessor extends AbstractProcessor
     }
 
     /**
-     * Get create calls for a given product
+     * Get create calls for a given product.
+     *
      * @param ProductInterface $product
      *
      * @return array
@@ -201,7 +202,8 @@ class ProductAssociationProcessor extends AbstractProcessor
     }
 
     /**
-     * Get create calls
+     * Get create calls.
+     *
      * @param ProductInterface    $product
      * @param AbstractAssociation $association
      *
@@ -219,7 +221,7 @@ class ProductAssociationProcessor extends AbstractProcessor
                     'type'           => $this->getAssociationCodeMapping()[$associationType],
                     'product'        => (string) $product->getIdentifier(),
                     'linkedProduct'  => (string) $associatedProduct->getIdentifier(),
-                    'identifierType' => 'sku'
+                    'identifierType' => 'sku',
                 ];
             }
         }
@@ -228,7 +230,8 @@ class ProductAssociationProcessor extends AbstractProcessor
     }
 
     /**
-     * Get remove association calls for a given product
+     * Get remove association calls for a given product.
+     *
      * @param ProductInterface $product
      * @param array            $associationStatus
      *
@@ -244,7 +247,7 @@ class ProductAssociationProcessor extends AbstractProcessor
                     'type'           => $associationType,
                     'product'        => (string) $product->getIdentifier(),
                     'linkedProduct'  => (string) $associatedProduct['sku'],
-                    'identifierType' => 'sku'
+                    'identifierType' => 'sku',
                 ];
             }
         }
@@ -253,7 +256,8 @@ class ProductAssociationProcessor extends AbstractProcessor
     }
 
     /**
-     * Get association code mapping
+     * Get association code mapping.
+     *
      * @return array
      */
     protected function getAssociationCodeMapping()
@@ -294,9 +298,9 @@ class ProductAssociationProcessor extends AbstractProcessor
                         'help'     => 'pim_magento_connector.export.pimUpSell.help',
                         'label'    => 'pim_magento_connector.export.pimUpSell.label',
                         'attr' => [
-                            'class' => 'select2'
-                        ]
-                    ]
+                            'class' => 'select2',
+                        ],
+                    ],
                 ],
                 'pimCrossSell' => [
                     'type'    => 'choice',
@@ -305,9 +309,9 @@ class ProductAssociationProcessor extends AbstractProcessor
                         'help'     => 'pim_magento_connector.export.pimCrossSell.help',
                         'label'    => 'pim_magento_connector.export.pimCrossSell.label',
                         'attr' => [
-                            'class' => 'select2'
-                        ]
-                    ]
+                            'class' => 'select2',
+                        ],
+                    ],
                 ],
                 'pimRelated' => [
                     'type'    => 'choice',
@@ -316,9 +320,9 @@ class ProductAssociationProcessor extends AbstractProcessor
                         'help'     => 'pim_magento_connector.export.pimRelated.help',
                         'label'    => 'pim_magento_connector.export.pimRelated.label',
                         'attr' => [
-                            'class' => 'select2'
-                        ]
-                    ]
+                            'class' => 'select2',
+                        ],
+                    ],
                 ],
                 'pimGrouped' => [
                     'type'    => 'choice',
@@ -327,10 +331,10 @@ class ProductAssociationProcessor extends AbstractProcessor
                         'help'     => 'pim_magento_connector.export.pimGrouped.help',
                         'label'    => 'pim_magento_connector.export.pimGrouped.label',
                         'attr' => [
-                            'class' => 'select2'
-                        ]
-                    ]
-                ]
+                            'class' => 'select2',
+                        ],
+                    ],
+                ],
             ]
         );
     }

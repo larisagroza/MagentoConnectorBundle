@@ -1,13 +1,19 @@
 Pim\Bundle\MagentoConnectorBundle\Entity\MagentoGroupMapping:
     type: entity
     table: pim_magento_group_mapping
+    uniqueConstraints:
+        pim_magento_group_mapping_uc:
+            columns:
+                - magento_url
+                - pim_group_code
+                - pim_family_code
     id:
         id:
             type: integer
             generator: { strategy: AUTO }
     fields:
         magentoUrl:
-            type: text
+            type: string
             length: 255
             column: magento_url
         magentoGroupId:

@@ -8,7 +8,7 @@ use Pim\Bundle\CatalogBundle\Manager\ChannelManager;
 use Pim\Bundle\MagentoConnectorBundle\Processor\AbstractProductProcessor;
 
 /**
- * Validator for default locale
+ * Validator for default locale.
  *
  * @author    Julien Sanchez <julien@akeneo.com>
  * @copyright 2014 Akeneo SAS (http://www.akeneo.com)
@@ -36,19 +36,17 @@ class HasValidDefaultLocaleValidator extends ConstraintValidator
      * @param Constraint $constraint The constraint for the validation
      *
      * @api
-     *
-     * @return null
      */
     public function validate($value, Constraint $constraint)
     {
         if (!$value instanceof AbstractProductProcessor) {
-            return;
+            return null;
         }
 
         if ($channel = $this->channelManager->getChannelByCode($value->getChannel())) {
             foreach ($channel->getLocales() as $locale) {
                 if ($locale->getCode() === $value->getDefaultLocale()) {
-                    return;
+                    return null;
                 }
             }
         }
