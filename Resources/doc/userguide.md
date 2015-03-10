@@ -39,7 +39,7 @@ You can now create export jobs.
 <td>Image</td><td>Media image</td>
 </tr>
 <tr>
-<td>Metric</td><td>see below</td>
+<td>Metric</td><td>Text field</td>
 </tr>
 <tr>
 <td>Multi select</td><td>Multiple select</td>
