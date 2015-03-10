@@ -17,9 +17,7 @@ use Akeneo\Bundle\BatchBundle\Item\InvalidItemException;
  */
 class PruneStep extends AbstractStep
 {
-    /**
-     * @var Cleaner
-     */
+    /** @var Cleaner */
     protected $cleaner;
 
     /**
@@ -78,8 +76,6 @@ class PruneStep extends AbstractStep
     }
 
     /**
-     * Get cleaner.
-     *
      * @return Cleaner
      */
     public function getCleaner()
@@ -88,8 +84,6 @@ class PruneStep extends AbstractStep
     }
 
     /**
-     * Get cleaner.
-     *
      * @param Cleaner $cleaner
      */
     public function setCleaner(Cleaner $cleaner)

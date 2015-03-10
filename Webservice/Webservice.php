@@ -13,75 +13,175 @@ use Pim\Bundle\CatalogBundle\Model\ProductInterface;
  */
 class Webservice
 {
+    /** @staticvar string */
     const SOAP_ACTION_CATALOG_PRODUCT_CREATE                 = 'catalog_product.create';
+
+    /** @staticvar string */
     const SOAP_ACTION_CATALOG_PRODUCT_UPDATE                 = 'catalog_product.update';
+
+    /** @staticvar string */
     const SOAP_ACTION_CATALOG_PRODUCT_DELETE                 = 'catalog_product.delete';
+
+    /** @staticvar string */
     const SOAP_ACTION_CATALOG_PRODUCT_CURRENT_STORE          = 'catalog_product.currentStore';
+
+    /** @staticvar string */
     const SOAP_ACTION_CATALOG_PRODUCT_LIST                   = 'catalog_product.list';
+
+    /** @staticvar string */
     const SOAP_ACTION_PRODUCT_ATTRIBUTE_SET_LIST             = 'product_attribute_set.list';
+
+    /** @staticvar string */
     const SOAP_ACTION_PRODUCT_ATTRIBUTE_SET_ATTRIBUTE_ADD    = 'product_attribute_set.attributeAdd';
+
+    /** @staticvar string */
     const SOAP_ACTION_PRODUCT_ATTRIBUTE_SET_ATTRIBUTE_REMOVE = 'product_attribute_set.attributeRemove';
+
+    /** @staticvar string */
     const SOAP_ACTION_PRODUCT_ATTRIBUTE_SET_CREATE           = 'product_attribute_set.create';
+
+    /** @staticvar string */
     const SOAP_ACTION_PRODUCT_ATTRIBUTE_SET_GROUP_ADD        = 'product_attribute_set.groupAdd';
+
+    /** @staticvar string */
     const SOAP_ACTION_PRODUCT_ATTRIBUTE_SET_GROUP_REMOVE     = 'product_attribute_set.groupRemove';
+
+    /** @staticvar string */
     const SOAP_ACTION_PRODUCT_ATTRIBUTE_SET_GROUP_RENAME     = 'product_attribute_set.groupRename';
+
+    /** @staticvar string */
     const SOAP_ACTION_PRODUCT_ATTRIBUTE_SET_REMOVE           = 'product_attribute_set.remove';
+
+    /** @staticvar string */
     const SOAP_ACTION_PRODUCT_ATTRIBUTE_LIST                 = 'catalog_product_attribute.list';
+
+    /** @staticvar string */
     const SOAP_ACTION_ATTRIBUTE_OPTION_LIST                  = 'catalog_product_attribute.options';
+
+    /** @staticvar string */
     const SOAP_ACTION_ATTRIBUTE_OPTION_ADD                   = 'catalog_product_attribute.addOption';
+
+    /** @staticvar string */
     const SOAP_ACTION_ATTRIBUTE_OPTION_REMOVE                = 'catalog_product_attribute.removeOption';
+
+    /** @staticvar string */
     const SOAP_ACTION_ATTRIBUTE_CREATE                       = 'product_attribute.create';
+
+    /** @staticvar string */
     const SOAP_ACTION_ATTRIBUTE_UPDATE                       = 'product_attribute.update';
+
+    /** @staticvar string */
     const SOAP_ACTION_ATTRIBUTE_REMOVE                       = 'product_attribute.remove';
+
+    /** @staticvar string */
     const SOAP_ACTION_STORE_LIST                             = 'store.list';
+
+    /** @staticvar string */
     const SOAP_ACTION_PRODUCT_MEDIA_CREATE                   = 'catalog_product_attribute_media.create';
+
+    /** @staticvar string */
     const SOAP_ACTION_PRODUCT_MEDIA_LIST                     = 'catalog_product_attribute_media.list';
+
+    /** @staticvar string */
     const SOAP_ACTION_PRODUCT_MEDIA_REMOVE                   = 'catalog_product_attribute_media.remove';
+
+    /** @staticvar string */
     const SOAP_ACTION_CATEGORY_TREE                          = 'catalog_category.tree';
+
+    /** @staticvar string */
     const SOAP_ACTION_CATEGORY_CREATE                        = 'catalog_category.create';
+
+    /** @staticvar string */
     const SOAP_ACTION_CATEGORY_UPDATE                        = 'catalog_category.update';
+
+    /** @staticvar string */
     const SOAP_ACTION_CATEGORY_DELETE                        = 'catalog_category.delete';
+
+    /** @staticvar string */
     const SOAP_ACTION_CATEGORY_MOVE                          = 'catalog_category.move';
+
+    /** @staticvar string */
     const SOAP_ACTION_LINK_LIST                              = 'catalog_product_link.list';
+
+    /** @staticvar string */
     const SOAP_ACTION_LINK_REMOVE                            = 'catalog_product_link.remove';
+
+    /** @staticvar string */
     const SOAP_ACTION_LINK_CREATE                            = 'catalog_product_link.assign';
 
+    /** @staticvar string */
     const SOAP_DEFAULT_STORE_VIEW                            = 'default';
+
+    /** @staticvar string */
     const IMAGES                                             = 'images';
+
+    /** @staticvar string */
     const SOAP_ATTRIBUTE_ID                                  = 'attribute_id';
+
+    /** @staticvar string */
     const SMALL_IMAGE                                        = 'small_image';
+
+    /** @staticvar string */
     const BASE_IMAGE                                         = 'image';
+
+    /** @staticvar string */
     const THUMBNAIL                                          = 'thumbnail';
+
+    /** @staticvar string */
     const SELECT                                             = 'select';
+
+    /** @staticvar string */
     const MULTI_SELECT                                       = 'multiselect';
 
+    /** @staticvar int */
     const MAXIMUM_CALLS                                      = 1;
+
+    /** @staticvar int */
     const CREATE_PRODUCT_SIZE                                = 5;
+
+    /** @staticvar int */
     const CREATE_CONFIGURABLE_SIZE                           = 4;
 
+    /** @staticvar string */
     const CONFIGURABLE_IDENTIFIER_PATTERN                    = 'conf-%s';
 
+    /** @staticvar int */
     const MAGENTO_STATUS_DISABLE                             = 2;
 
+    /** @staticvar int */
     const MAGENTO_PRODUCT_UPDATE_USELESS                     = 2;
 
+    /** @staticvar int */
     const ADMIN_STOREVIEW                                    = 0;
 
+    /** @var MagentoSoapClient */
     protected $client;
 
+    /** @var array */
     protected $magentoAttributeSets;
+
+    /** @var array */
     protected $magentoStoreViewList;
+
+    /** @var array */
     protected $magentoAttributes = [];
 
+    /** @var array */
     protected $attributeList       = [];
+
+    /** @var array */
     protected $attributes          = [];
+
+    /** @var array */
     protected $attributeSetList    = [];
+
+    /** @var array */
     protected $attributeOptionList = [];
+
+    /** @var array */
     protected $categories          = [];
 
     /**
-     * Constructor.
-     *
      * @param MagentoSoapClient $client
      */
     public function __construct(MagentoSoapClient $client)
@@ -135,7 +235,7 @@ class Webservice
     /**
      * Get attribute list for a given attribute set code.
      *
-     * @param string $attributeSetCode the attribute set code
+     * @param string $attributeSetCode
      *
      * @return array
      */
@@ -156,7 +256,7 @@ class Webservice
     /**
      * Get products status in magento (do they exist ?).
      *
-     * @param array $products the given products
+     * @param array $products
      *
      * @return array
      */
@@ -170,7 +270,7 @@ class Webservice
     /**
      * Get configurables status in magento (do they exist ?).
      *
-     * @param array $configurables the given configurables
+     * @param array $configurables
      *
      * @return array
      */
@@ -184,7 +284,7 @@ class Webservice
     /**
      * Get magento attributeSets from the magento api.
      *
-     * @param string $code the attributeSet id
+     * @param string $code
      *
      * @throws AttributeSetNotFoundException If If the attribute doesn't exist on Magento side
      *
@@ -222,7 +322,7 @@ class Webservice
     /**
      * Get all images attached to a product.
      *
-     * @param string $sku               The product sku
+     * @param string $sku
      * @param string $defaultLocalStore
      *
      * @return array
@@ -248,7 +348,7 @@ class Webservice
     /**
      * Send all product images.
      *
-     * @param array $images All images to send
+     * @param array $images
      */
     public function sendImages($images)
     {
@@ -711,8 +811,8 @@ class Webservice
     /**
      *  Allows you to remove an existing attribute from an attribute set.
      *
-     * @param integer $attributeId Attribute ID
-     * @param integer $setId       Attribute set ID
+     * @param integer $attributeId
+     * @param integer $setId
      *
      * @return boolean True if the attribute is removed from an attribute set
      */
@@ -753,8 +853,8 @@ class Webservice
     /**
      *  Allows you to add a new group for attributes to the attribute set.
      *
-     * @param integer $attributeSetId Attribute set Id
-     * @param string  $groupName      Group name
+     * @param integer $attributeSetId
+     * @param string  $groupName
      *
      * @return integer ID of the created group
      */
@@ -813,8 +913,8 @@ class Webservice
     /**
      *  Allows you to remove an existing attribute set.
      *
-     * @param integer $attributeSetId      Attribute set ID
-     * @param boolean $forceProductsRemove Force product remove flag (optional)
+     * @param integer $attributeSetId
+     * @param boolean $forceProductsRemove
      *
      * @return boolean True (1) if the attribute set is removed
      */

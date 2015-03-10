@@ -15,9 +15,7 @@ use Pim\Bundle\MagentoConnectorBundle\Webservice\SoapCallException;
  */
 class MagentoFamilyMapper extends MagentoMapper
 {
-    /**
-     * @var WebserviceGuesser
-     */
+    /** @var WebserviceGuesser */
     protected $webserviceGuesser;
 
     /**
@@ -34,9 +32,7 @@ class MagentoFamilyMapper extends MagentoMapper
     }
 
     /**
-     * Get all targets.
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function getAllTargets()
     {
@@ -58,11 +54,7 @@ class MagentoFamilyMapper extends MagentoMapper
     }
 
     /**
-     * Get mapper identifier.
-     *
-     * @param string $rootIdentifier
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getIdentifier($rootIdentifier = 'family')
     {

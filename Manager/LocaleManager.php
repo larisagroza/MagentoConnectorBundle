@@ -15,7 +15,7 @@ use Pim\Bundle\CatalogBundle\Manager\LocaleManager as BaseLocaleManager;
  */
 class LocaleManager
 {
-    /** @var BaseLocaleManager $baseLocaleManager */
+    /** @var BaseLocaleManager */
     protected $baseLocaleManager;
 
     /**
@@ -29,7 +29,6 @@ class LocaleManager
     /**
      * @Deprecated
      *
-     * Get locale choices
      * Allow to list locales in an array like array[<code>] = <code>
      *
      * @return string[]
@@ -49,7 +48,7 @@ class LocaleManager
     /**
      * Get active locales.
      *
-     * @return Locale[]
+     * @return \Pim\Bundle\CatalogBundle\Entity\Locale[]
      */
     public function getActiveLocales()
     {
@@ -57,9 +56,7 @@ class LocaleManager
     }
 
     /**
-     * Get disabled locales.
-     *
-     * @return Locale[]
+     * @return \Pim\Bundle\CatalogBundle\Entity\Locale[]
      */
     public function getDisabledLocales()
     {
@@ -67,23 +64,21 @@ class LocaleManager
     }
 
     /**
-     * Get locales with criterias.
+     * Get locales with criteria.
      *
-     * @param array $criterias
+     * @param array $criteria
      *
-     * @return Locale[]
+     * @return \Pim\Bundle\CatalogBundle\Entity\Locale[]
      */
-    public function getLocales($criterias = array())
+    public function getLocales($criteria = array())
     {
-        return $this->baseLocaleManager->getLocales($criterias);
+        return $this->baseLocaleManager->getLocales($criteria);
     }
 
     /**
-     * Get locale by code.
-     *
      * @param string $code
      *
-     * @return Locale
+     * @return \Pim\Bundle\CatalogBundle\Entity\Locale
      */
     public function getLocaleByCode($code)
     {
@@ -91,8 +86,6 @@ class LocaleManager
     }
 
     /**
-     * Get active codes.
-     *
      * @return string[]
      */
     public function getActiveCodes()

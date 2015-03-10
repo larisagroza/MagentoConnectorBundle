@@ -116,6 +116,8 @@ class ConfigurableProcessor extends AbstractProductProcessor
 
     /**
      * {@inheritdoc}
+     *
+     * @throws InvalidItemException
      */
     public function process($items)
     {
@@ -248,7 +250,7 @@ class ConfigurableProcessor extends AbstractProductProcessor
      *
      * @param array $configurable
      *
-     * @return \Pim\Bundle\CatalogBundle\Entity\Family;
+     * @return \Pim\Bundle\CatalogBundle\Entity\Family
      */
     protected function getGroupFamily(array $configurable)
     {

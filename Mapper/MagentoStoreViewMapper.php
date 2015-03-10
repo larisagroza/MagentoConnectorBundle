@@ -14,9 +14,7 @@ use Pim\Bundle\MagentoConnectorBundle\Validator\Constraints\HasValidCredentialsV
  */
 class MagentoStoreViewMapper extends MagentoMapper
 {
-    /**
-     * @var WebserviceGuesser
-     */
+    /** @var WebserviceGuesser */
     protected $webserviceGuesser;
 
     /**
@@ -33,9 +31,7 @@ class MagentoStoreViewMapper extends MagentoMapper
     }
 
     /**
-     * Get all targets.
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function getAllTargets()
     {
@@ -55,11 +51,7 @@ class MagentoStoreViewMapper extends MagentoMapper
     }
 
     /**
-     * Get mapper identifier.
-     *
-     * @param string $rootIdentifier
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getIdentifier($rootIdentifier = 'storeview')
     {

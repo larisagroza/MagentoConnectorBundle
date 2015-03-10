@@ -14,17 +14,13 @@ use Doctrine\Common\Persistence\ObjectManager;
  */
 class FamilyMappingManager
 {
-    /**
-     * @var ObjectManager
-     */
+    /** @var ObjectManager */
     protected $objectManager;
 
     /** @var string */
     protected $className;
 
     /**
-     * Constructor.
-     *
      * @param ObjectManager $objectManager
      * @param string        $className
      */
@@ -60,7 +56,7 @@ class FamilyMappingManager
      * @param Family $family
      * @param string $magentoUrl
      *
-     * @return integer
+     * @return integer|null
      */
     public function getIdFromFamily(Family $family, $magentoUrl)
     {
@@ -120,7 +116,7 @@ class FamilyMappingManager
     /**
      * Get the entity manager.
      *
-     * @return EntityRepository
+     * @return \Doctrine\ORM\EntityRepository
      */
     protected function getEntityRepository()
     {

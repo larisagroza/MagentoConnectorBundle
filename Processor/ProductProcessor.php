@@ -25,14 +25,10 @@ use Pim\Bundle\TransformBundle\Converter\MetricConverter;
  */
 class ProductProcessor extends AbstractProductProcessor
 {
-    /**
-     * @var metricConverter
-     */
+    /** @var metricConverter */
     protected $metricConverter;
 
-    /**
-     * @var AssociationTypeManager
-     */
+    /** @var AssociationTypeManager */
     protected $associationTypeManager;
 
     /** @var string */
@@ -84,8 +80,6 @@ class ProductProcessor extends AbstractProductProcessor
     }
 
     /**
-     * Get pim grouped.
-     *
      * @return string
      */
     public function getPimGrouped()
@@ -94,8 +88,6 @@ class ProductProcessor extends AbstractProductProcessor
     }
 
     /**
-     * Set pim grouped.
-     *
      * @param string $pimGrouped
      *
      * @return ProductProcessor
@@ -183,8 +175,8 @@ class ProductProcessor extends AbstractProductProcessor
     /**
      * Normalize the given product.
      *
-     * @param ProductInterface $product [description]
-     * @param array            $context The context
+     * @param ProductInterface $product
+     * @param array            $context
      *
      * @throws InvalidItemException If a normalization error occurs
      *
@@ -204,8 +196,8 @@ class ProductProcessor extends AbstractProductProcessor
     /**
      * Test if a product already exists on magento platform.
      *
-     * @param ProductInterface $product         The product
-     * @param array            $magentoProducts Magento products
+     * @param ProductInterface $product
+     * @param array            $magentoProducts
      *
      * @return bool
      */
@@ -223,8 +215,8 @@ class ProductProcessor extends AbstractProductProcessor
     /**
      * Test if the product attribute set changed.
      *
-     * @param ProductInterface $product         The product
-     * @param array            $magentoProducts Magento products
+     * @param ProductInterface $product
+     * @param array            $magentoProducts
      *
      * @return bool
      */

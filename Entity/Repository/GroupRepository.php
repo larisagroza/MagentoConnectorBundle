@@ -14,7 +14,7 @@ use Pim\Bundle\MagentoConnectorBundle\Webservice\Webservice;
  */
 class GroupRepository extends BaseGroupRepository
 {
-    /** @const string */
+    /** @staticvar string */
     const VARIANT_GROUP_CODE = 'VARIANT';
 
     /**
@@ -64,7 +64,7 @@ class GroupRepository extends BaseGroupRepository
     /**
      * Get variant group query builder.
      *
-     * @return QueryBuilder
+     * @return \Doctrine\ORM\QueryBuilder
      */
     protected function getVariantGroupsQb()
     {

@@ -84,8 +84,6 @@ abstract class AbstractProductCleaner extends Cleaner
     }
 
     /**
-     * get channel.
-     *
      * @return string channel
      */
     public function getChannel()
@@ -94,11 +92,9 @@ abstract class AbstractProductCleaner extends Cleaner
     }
 
     /**
-     * Set channel.
-     *
      * @param string $channel channel
      *
-     * @return ProductCleaner
+     * @return AbstractProductCleaner
      */
     public function setChannel($channel)
     {
@@ -108,9 +104,7 @@ abstract class AbstractProductCleaner extends Cleaner
     }
 
     /**
-     * get notCompleteAnymoreAction.
-     *
-     * @return string notCompleteAnymoreAction
+     * @return string
      */
     public function getNotCompleteAnymoreAction()
     {
@@ -118,11 +112,9 @@ abstract class AbstractProductCleaner extends Cleaner
     }
 
     /**
-     * Set notCompleteAnymoreAction.
+     * @param string $notCompleteAnymoreAction
      *
-     * @param string $notCompleteAnymoreAction notCompleteAnymoreAction
-     *
-     * @return ProductCleaner
+     * @return AbstractProductCleaner
      */
     public function setNotCompleteAnymoreAction($notCompleteAnymoreAction)
     {
@@ -142,7 +134,7 @@ abstract class AbstractProductCleaner extends Cleaner
     /**
      * @param boolean $removeProductsNotHandledByPim
      *
-     * @return ProductCleaner
+     * @return AbstractProductCleaner
      */
     public function setRemoveProductsNotHandledByPim($removeProductsNotHandledByPim)
     {

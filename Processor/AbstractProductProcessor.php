@@ -6,8 +6,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 use Pim\Bundle\CatalogBundle\Manager\ChannelManager;
 use Pim\Bundle\MagentoConnectorBundle\Guesser\WebserviceGuesser;
 use Pim\Bundle\MagentoConnectorBundle\Guesser\NormalizerGuesser;
-use Pim\Bundle\MagentoConnectorBundle\Validator\Constraints\HasValidDefaultLocale;
-use Pim\Bundle\MagentoConnectorBundle\Validator\Constraints\HasValidCurrency;
 use Pim\Bundle\MagentoConnectorBundle\Manager\LocaleManager;
 use Pim\Bundle\MagentoConnectorBundle\Merger\MagentoMappingMerger;
 use Pim\Bundle\MagentoConnectorBundle\Manager\CurrencyManager;
@@ -26,27 +24,23 @@ use Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClientParametersRegi
  */
 abstract class AbstractProductProcessor extends AbstractProcessor
 {
+    /** @staticvar int */
     const MAGENTO_VISIBILITY_CATALOG_SEARCH = 4;
 
+    /** @staticvar int */
     const MAGENTO_VISIBILITY_NONE = 1;
 
-    /**
-     * @var ProductNormalizer
-     */
+    /** @var \Pim\Bundle\MagentoConnectorBundle\Normalizer\ProductNormalizerInterface */
     protected $productNormalizer;
 
-    /**
-     * @var ChannelManager
-     */
+    /** @var ChannelManager */
     protected $channelManager;
 
-    /**
-     * @var CurrencyManager
-     */
+    /** @var CurrencyManager */
     protected $currencyManager;
 
     /**
-     * @var Currency
+     * @var \Pim\Bundle\CatalogBundle\Entity\Currency
      * @Assert\NotBlank(groups={"Execution"})
      */
     protected $currency;
@@ -56,9 +50,7 @@ abstract class AbstractProductProcessor extends AbstractProcessor
      */
     protected $channel;
 
-    /**
-     * @var boolean
-     */
+    /** @var boolean */
     protected $enabled;
 
     /** @var integer */
@@ -70,22 +62,16 @@ abstract class AbstractProductProcessor extends AbstractProcessor
     /** @var string */
     protected $categoryMapping;
 
-    /**
-     * @var MagentoMappingMerger
-     */
+    /** @var MagentoMappingMerger */
     protected $categoryMappingMerger;
 
-    /**
-     * @var AttributeManager
-     */
+    /** @var AttributeManager */
     protected $attributeManager;
 
     /** @var string */
     protected $attributeCodeMapping;
 
-    /**
-     * @var MagentoMappingMerger
-     */
+    /** @var MagentoMappingMerger */
     protected $attributeMappingMerger;
 
     /** @var string */
@@ -104,14 +90,16 @@ abstract class AbstractProductProcessor extends AbstractProcessor
     protected $skuFirst;
 
     /**
-     * @param WebserviceGuesser        $webserviceGuesser
-     * @param ProductNormalizerGuesser $normalizerGuesser
-     * @param LocaleManager            $localeManager
-     * @param MagentoMappingMerger     $storeViewMappingMerger
-     * @param CurrencyManager          $currencyManager
-     * @param ChannelManager           $channelManager
-     * @param MagentoMappingMerger     $categoryMappingMerger
-     * @param MagentoMappingMerger     $attributeMappingMerger
+     * @param WebserviceGuesser                   $webserviceGuesser
+     * @param NormalizerGuesser                   $normalizerGuesser
+     * @param LocaleManager                       $localeManager
+     * @param MagentoMappingMerger                $storeViewMappingMerger
+     * @param CurrencyManager                     $currencyManager
+     * @param ChannelManager                      $channelManager
+     * @param MagentoMappingMerger                $categoryMappingMerger
+     * @param MagentoMappingMerger                $attributeMappingMerger
+     * @param MagentoSoapClientParametersRegistry $clientParametersRegistry,
+     * @param AttributeManager                    $attributeManager
      */
     public function __construct(
         WebserviceGuesser $webserviceGuesser,
@@ -141,9 +129,7 @@ abstract class AbstractProductProcessor extends AbstractProcessor
     }
 
     /**
-     * get channel.
-     *
-     * @return string channel
+     * @return string
      */
     public function getChannel()
     {
@@ -151,11 +137,9 @@ abstract class AbstractProductProcessor extends AbstractProcessor
     }
 
     /**
-     * Set channel.
+     * @param string $channel
      *
-     * @param string $channel channel
-     *
-     * @return AbstractProcessor
+     * @return AbstractProductProcessor
      */
     public function setChannel($channel)
     {
@@ -165,9 +149,7 @@ abstract class AbstractProductProcessor extends AbstractProcessor
     }
 
     /**
-     * get currency.
-     *
-     * @return string currency
+     * @return string
      */
     public function getCurrency()
     {
@@ -175,11 +157,9 @@ abstract class AbstractProductProcessor extends AbstractProcessor
     }
 
     /**
-     * Set currency.
+     * @param string $currency
      *
-     * @param string $currency currency
-     *
-     * @return AbstractProcessor
+     * @return AbstractProductProcessor
      */
     public function setCurrency($currency)
     {
@@ -189,9 +169,7 @@ abstract class AbstractProductProcessor extends AbstractProcessor
     }
 
     /**
-     * get enabled.
-     *
-     * @return string enabled
+     * @return string
      */
     public function getEnabled()
     {
@@ -199,11 +177,9 @@ abstract class AbstractProductProcessor extends AbstractProcessor
     }
 
     /**
-     * Set enabled.
+     * @param string $enabled
      *
-     * @param string $enabled enabled
-     *
-     * @return AbstractProcessor
+     * @return AbstractProductProcessor
      */
     public function setEnabled($enabled)
     {
@@ -213,9 +189,7 @@ abstract class AbstractProductProcessor extends AbstractProcessor
     }
 
     /**
-     * get visibility.
-     *
-     * @return string visibility
+     * @return string
      */
     public function getVisibility()
     {
@@ -223,11 +197,9 @@ abstract class AbstractProductProcessor extends AbstractProcessor
     }
 
     /**
-     * Set variant member visibility.
+     * @param string $visibility
      *
-     * @param string $visibility visibility
-     *
-     * @return AbstractProcessor
+     * @return AbstractProductProcessor
      */
     public function setVariantMemberVisibility($visibility)
     {
@@ -237,9 +209,7 @@ abstract class AbstractProductProcessor extends AbstractProcessor
     }
 
     /**
-     * get visibility for variant member.
-     *
-     * @return string visibility
+     * @return string
      */
     public function getVariantMemberVisibility()
     {
@@ -247,11 +217,9 @@ abstract class AbstractProductProcessor extends AbstractProcessor
     }
 
     /**
-     * Set visibility.
+     * @param string $visibility
      *
-     * @param string $visibility visibility
-     *
-     * @return AbstractProcessor
+     * @return AbstractProductProcessor
      */
     public function setVisibility($visibility)
     {
@@ -261,8 +229,6 @@ abstract class AbstractProductProcessor extends AbstractProcessor
     }
 
     /**
-     * Get small image.
-     *
      * @return string
      */
     public function getSmallImageAttribute()
@@ -271,11 +237,9 @@ abstract class AbstractProductProcessor extends AbstractProcessor
     }
 
     /**
-     * Set small image.
-     *
      * @param string $smallImageAttribute
      *
-     * @return ProductProcessor
+     * @return AbstractProductProcessor
      */
     public function setSmallImageAttribute($smallImageAttribute)
     {
@@ -285,8 +249,6 @@ abstract class AbstractProductProcessor extends AbstractProcessor
     }
 
     /**
-     * Get base image attribute.
-     *
      * @return string
      */
     public function getBaseImageAttribute()
@@ -295,11 +257,9 @@ abstract class AbstractProductProcessor extends AbstractProcessor
     }
 
     /**
-     * Set base image attribute.
-     *
      * @param string $baseImageAttribute
      *
-     * @return ProductProcessor
+     * @return AbstractProductProcessor
      */
     public function setBaseImageAttribute($baseImageAttribute)
     {
@@ -309,8 +269,6 @@ abstract class AbstractProductProcessor extends AbstractProcessor
     }
 
     /**
-     * Get thumbnail attribute.
-     *
      * @return string
      */
     public function getThumbnailAttribute()
@@ -319,11 +277,9 @@ abstract class AbstractProductProcessor extends AbstractProcessor
     }
 
     /**
-     * Set thumbnail attribute.
-     *
      * @param string $thumbnailAttribute
      *
-     * @return ProductProcessor
+     * @return AbstractProductProcessor
      */
     public function setThumbnailAttribute($thumbnailAttribute)
     {
@@ -333,9 +289,9 @@ abstract class AbstractProductProcessor extends AbstractProcessor
     }
 
     /**
-     * get categoryMapping.
+     * Get category mapping from merger.
      *
-     * @return string categoryMapping
+     * @return string JSON
      */
     public function getCategoryMapping()
     {
@@ -349,11 +305,11 @@ abstract class AbstractProductProcessor extends AbstractProcessor
     }
 
     /**
-     * Set categoryMapping.
+     * Set category mapping ni parameters AND in database.
      *
-     * @param string $categoryMapping categoryMapping
+     * @param string $categoryMapping JSON
      *
-     * @return AbstractProcessor
+     * @return AbstractProductProcessor
      */
     public function setCategoryMapping($categoryMapping)
     {
@@ -371,9 +327,9 @@ abstract class AbstractProductProcessor extends AbstractProcessor
     }
 
     /**
-     * get attribute code mapping.
+     * Get attribute code mapping from merger.
      *
-     * @return string attributeCodeMapping
+     * @return string JSON
      */
     public function getAttributeCodeMapping()
     {
@@ -387,11 +343,11 @@ abstract class AbstractProductProcessor extends AbstractProcessor
     }
 
     /**
-     * Set attribute code mapping.
+     * Set attribute code mapping in parameters AND in database.
      *
-     * @param string $attributeCodeMapping attributeCodeMapping
+     * @param string $attributeCodeMapping JSON
      *
-     * @return AbstractProcessor
+     * @return AbstractProductProcessor
      */
     public function setAttributeCodeMapping($attributeCodeMapping)
     {
@@ -409,8 +365,6 @@ abstract class AbstractProductProcessor extends AbstractProcessor
     }
 
     /**
-     * Get url key.
-     *
      * @return boolean
      */
     public function isUrlKey()
@@ -419,11 +373,9 @@ abstract class AbstractProductProcessor extends AbstractProcessor
     }
 
     /**
-     * Set url key.
-     *
      * @param boolean $urlKey
      *
-     * @return ProductProcessor
+     * @return AbstractProductProcessor
      */
     public function setUrlKey($urlKey)
     {
@@ -433,8 +385,6 @@ abstract class AbstractProductProcessor extends AbstractProcessor
     }
 
     /**
-     * Get skuFirst.
-     *
      * @return boolean
      */
     public function isSkuFirst()
@@ -443,11 +393,9 @@ abstract class AbstractProductProcessor extends AbstractProcessor
     }
 
     /**
-     * Set skuFirst.
-     *
      * @param boolean $skuFirst
      *
-     * @return ProductProcessor
+     * @return AbstractProductProcessor
      */
     public function setSkuFirst($skuFirst)
     {

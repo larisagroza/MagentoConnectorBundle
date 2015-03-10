@@ -15,14 +15,10 @@ use Pim\Bundle\MagentoConnectorBundle\Validator\Constraints\HasValidCredentialsV
  */
 class ORMPimMapper extends ORMMapper
 {
-    /**
-     * @var MagentoSoapClientParameters
-     */
+    /** @var MagentoSoapClientParameters */
     protected $clientParameters;
 
-    /**
-     * @var HasValidCredentialsValidator
-     */
+    /** @var HasValidCredentialsValidator */
     protected $hasValidCredentialsValidator;
 
     /**
@@ -50,11 +46,7 @@ class ORMPimMapper extends ORMMapper
     }
 
     /**
-     * Get mapper identifier.
-     *
-     * @param string $rootIdentifier
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getIdentifier($rootIdentifier = 'generic')
     {
@@ -66,9 +58,7 @@ class ORMPimMapper extends ORMMapper
     }
 
     /**
-     * Is the mapper valid ?
-     *
-     * @return boolean
+     * {@inheritdoc}
      */
     public function isValid()
     {

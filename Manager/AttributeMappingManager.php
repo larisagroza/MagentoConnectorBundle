@@ -14,17 +14,13 @@ use Doctrine\Common\Persistence\ObjectManager;
  */
 class AttributeMappingManager
 {
-    /**
-     * @var \Doctrine\Common\Persistence\ObjectManager
-     */
+    /** @var \Doctrine\Common\Persistence\ObjectManager */
     protected $objectManager;
 
     /** @var string */
     protected $className;
 
     /**
-     * Constructor.
-     *
      * @param ObjectManager $objectManager
      * @param string        $className
      */
@@ -40,7 +36,7 @@ class AttributeMappingManager
      * @param integer $id
      * @param string  $magentoUrl
      *
-     * @return AbstractAttribute
+     * @return AbstractAttribute|null
      */
     public function getAttributeFromId($id, $magentoUrl)
     {
@@ -60,7 +56,7 @@ class AttributeMappingManager
      * @param AbstractAttribute $attribute
      * @param string            $magentoUrl
      *
-     * @return integer
+     * @return integer|null
      */
     public function getIdFromAttribute(AbstractAttribute $attribute, $magentoUrl)
     {
@@ -83,13 +79,11 @@ class AttributeMappingManager
      */
     public function getAllMagentoAttribute($magentoUrl)
     {
-        $attributeMappings = $this->getEntityRepository()->findAll(
+        return $this->getEntityRepository()->findAll(
             [
                 'magentoUrl' => $magentoUrl,
             ]
         );
-
-        return $attributeMappings;
     }
 
     /**
@@ -138,7 +132,7 @@ class AttributeMappingManager
     /**
      * Get the entity repository.
      *
-     * @return EntityRepository
+     * @return \Doctrine\ORM\EntityRepository
      */
     protected function getEntityRepository()
     {

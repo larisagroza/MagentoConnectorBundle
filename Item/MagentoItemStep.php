@@ -8,7 +8,6 @@ use Pim\Bundle\MagentoConnectorBundle\Guesser\WebserviceGuesser;
 use Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClientParametersRegistry;
 use Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClientParameters;
 use Pim\Bundle\MagentoConnectorBundle\Webservice\Webservice;
-use Pim\Bundle\MagentoConnectorBundle\Validator\Constraints\HasValidCredentials;
 use Akeneo\Bundle\BatchBundle\Step\StepExecutionAwareInterface;
 use Akeneo\Bundle\BatchBundle\Entity\StepExecution;
 use Akeneo\Bundle\BatchBundle\Event\InvalidItemEvent;
@@ -61,39 +60,25 @@ abstract class MagentoItemStep extends AbstractConfigurableStepElement implement
      */
     protected $soapApiKey;
 
-    /**
-     * @var string Http login
-     */
+    /** @var string */
     protected $httpLogin;
 
-    /**
-     * @var string Http password
-     */
+    /** @var string */
     protected $httpPassword;
 
-    /**
-     * @var MagentoSoapClientParameters
-     */
+    /** @var MagentoSoapClientParameters */
     protected $clientParameters;
 
-    /**
-     * @var MagentoSoapClientParametersRegistry
-     */
+    /** @var MagentoSoapClientParametersRegistry */
     protected $clientParametersRegistry;
 
-    /**
-     * @var boolean
-     */
+    /** @var boolean */
     protected $beforeExecute = false;
 
-    /**
-     * @var boolean
-     */
+    /** @var boolean */
     protected $afterConfiguration = false;
 
-    /**
-     * @var EventDispatcherInterface
-     */
+    /** @var EventDispatcherInterface */
     protected $eventDispatcher;
 
     /**
@@ -131,8 +116,6 @@ abstract class MagentoItemStep extends AbstractConfigurableStepElement implement
     }
 
     /**
-     * Set the event dispatcher.
-     *
      * @param EventDispatcherInterface $eventDispatcher
      */
     public function setEventDispatcher(EventDispatcherInterface $eventDispatcher)
@@ -206,9 +189,7 @@ abstract class MagentoItemStep extends AbstractConfigurableStepElement implement
     }
 
     /**
-     * Get soap username.
-     *
-     * @return string Soap magento soapUsername
+     * @return string
      */
     public function getSoapUsername()
     {
@@ -216,9 +197,7 @@ abstract class MagentoItemStep extends AbstractConfigurableStepElement implement
     }
 
     /**
-     * Set soap username.
-     *
-     * @param string $soapUsername Soap magento soapUsername
+     * @param string $soapUsername
      *
      * @return MagentoItemStep
      */
@@ -230,9 +209,7 @@ abstract class MagentoItemStep extends AbstractConfigurableStepElement implement
     }
 
     /**
-     * Get default store view.
-     *
-     * @return string Default store view
+     * @return string
      */
     public function getDefaultStoreView()
     {
@@ -240,8 +217,6 @@ abstract class MagentoItemStep extends AbstractConfigurableStepElement implement
     }
 
     /**
-     * Set default store view.
-     *
      * @param string $defaultStoreView
      *
      * @return MagentoItemStep
@@ -254,9 +229,7 @@ abstract class MagentoItemStep extends AbstractConfigurableStepElement implement
     }
 
     /**
-     * Get soap api key.
-     *
-     * @return string Soap magento soapApiKey
+     * @return string
      */
     public function getSoapApiKey()
     {
@@ -264,9 +237,7 @@ abstract class MagentoItemStep extends AbstractConfigurableStepElement implement
     }
 
     /**
-     * Set soap api key.
-     *
-     * @param string $soapApiKey Soap magento soapApiKey
+     * @param string $soapApiKey
      *
      * @return MagentoItemStep
      */
@@ -278,9 +249,7 @@ abstract class MagentoItemStep extends AbstractConfigurableStepElement implement
     }
 
     /**
-     * Get wsdl url.
-     *
-     * @return string magento wsdl relative url
+     * @return string
      */
     public function getWsdlUrl()
     {
@@ -288,9 +257,7 @@ abstract class MagentoItemStep extends AbstractConfigurableStepElement implement
     }
 
     /**
-     * Set wsdl url.
-     *
-     * @param string $wsdlUrl wsdl relative url
+     * @param string $wsdlUrl
      *
      * @return MagentoItemStep
      */
@@ -302,9 +269,7 @@ abstract class MagentoItemStep extends AbstractConfigurableStepElement implement
     }
 
     /**
-     * Get magento url.
-     *
-     * @return string Soap magento url
+     * @return string
      */
     public function getMagentoUrl()
     {
@@ -312,8 +277,6 @@ abstract class MagentoItemStep extends AbstractConfigurableStepElement implement
     }
 
     /**
-     * Set magento url.
-     *
      * @param string $magentoUrl
      *
      * @return MagentoItemStep
@@ -326,8 +289,6 @@ abstract class MagentoItemStep extends AbstractConfigurableStepElement implement
     }
 
     /**
-     * Get soap url.
-     *
      * @return string magento soap url
      */
     public function getSoapUrl()
@@ -336,8 +297,6 @@ abstract class MagentoItemStep extends AbstractConfigurableStepElement implement
     }
 
     /**
-     * Set http login.
-     *
      * @param string $httpLogin
      *
      * @return MagentoItemStep
@@ -350,9 +309,7 @@ abstract class MagentoItemStep extends AbstractConfigurableStepElement implement
     }
 
     /**
-     * Get http login.
-     *
-     * @return string Http login
+     * @return string
      */
     public function getHttpLogin()
     {
@@ -360,8 +317,6 @@ abstract class MagentoItemStep extends AbstractConfigurableStepElement implement
     }
 
     /**
-     * Set http password.
-     *
      * @param string $httpPassword
      *
      * @return MagentoItemStep
@@ -374,9 +329,7 @@ abstract class MagentoItemStep extends AbstractConfigurableStepElement implement
     }
 
     /**
-     * Get http password.
-     *
-     * @return string Http password
+     * @return string
      */
     public function getHttpPassword()
     {

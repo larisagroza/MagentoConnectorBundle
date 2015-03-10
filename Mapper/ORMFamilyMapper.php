@@ -16,9 +16,7 @@ use Pim\Bundle\MagentoConnectorBundle\Validator\Constraints\HasValidCredentialsV
  */
 class ORMFamilyMapper extends ORMPimMapper
 {
-    /**
-     * @var FamilyMappingManager
-     */
+    /** @var FamilyMappingManager */
     protected $familyManager;
 
     /**
@@ -39,8 +37,6 @@ class ORMFamilyMapper extends ORMPimMapper
     }
 
     /**
-     * Get all sources.
-     *
      * @param Family $family
      *
      * @return array

@@ -23,45 +23,40 @@ use Gedmo\Sluggable\Util\Urlizer;
  */
 class ProductNormalizer extends AbstractNormalizer implements ProductNormalizerInterface
 {
+    /** @staticvar string */
     const VISIBILITY = 'visibility';
+
+    /** @staticvar string */
     const URL_KEY    = 'url_key';
+
+    /** @staticvar string */
     const NAME       = 'name';
+
+    /** @staticvar string */
     const ENABLED    = 'status';
 
-    /**
-     * @var boolean
-     */
+    /** @var boolean */
     protected $enabled;
 
-    /**
-     * @var boolean
-     */
+    /** @var boolean */
     protected $visibility;
 
     /** @var string */
     protected $currencyCode;
 
-    /**
-     * @var MediaManager
-     */
+    /** @var MediaManager */
     protected $mediaManager;
 
-    /**
-     * @var AssociationTypeManager
-     */
+    /** @var AssociationTypeManager */
     protected $associationTypeManager;
 
-    /**
-     * @var ProductValueNormalizer
-     */
+    /** @var ProductValueNormalizer */
     protected $productValueNormalizer;
 
     /** @var ExportableLocaleFilter */
     protected $localeFilter;
 
     /**
-     * Constructor.
-     *
      * @param ChannelManager         $channelManager
      * @param MediaManager           $mediaManager
      * @param ProductValueNormalizer $productValueNormalizer
@@ -104,12 +99,12 @@ class ProductNormalizer extends AbstractNormalizer implements ProductNormalizerI
     /**
      * {@inheritdoc}
      */
-    public function normalize($object, $format = null, array $context = [])
+    public function normalize($product, $format = null, array $context = [])
     {
         $processedItem = [];
 
         $processedItem[$context['defaultStoreView']] = $this->getDefaultProduct(
-            $object,
+            $product,
             $context['magentoAttributes'],
             $context['magentoAttributesOptions'],
             $context['attributeSetId'],
@@ -126,8 +121,8 @@ class ProductNormalizer extends AbstractNormalizer implements ProductNormalizerI
         );
 
         $images = $this->getNormalizedImages(
-            $object,
-            $object->getIdentifier(),
+            $product,
+            $product->getIdentifier(),
             $context['smallImageAttribute'],
             $context['baseImageAttribute'],
             $context['thumbnailAttribute']
@@ -138,7 +133,7 @@ class ProductNormalizer extends AbstractNormalizer implements ProductNormalizerI
         }
 
         $channel = $this->channelManager->getChannelByCode($context['channel']);
-        $exportableLocales = $this->localeFilter->apply($object, $channel);
+        $exportableLocales = $this->localeFilter->apply($product, $channel);
         //For each storeview, we update the product only with localized attributes
         foreach ($exportableLocales as $locale) {
             $storeView = $this->getStoreViewForLocale(
@@ -150,7 +145,7 @@ class ProductNormalizer extends AbstractNormalizer implements ProductNormalizerI
             //If a locale for this storeview exist in PIM, we create a translated product in this locale
             if ($storeView && $storeView['code'] !== $context['defaultStoreView']) {
                 $values = $this->getValues(
-                    $object,
+                    $product,
                     $context['magentoAttributes'],
                     $context['magentoAttributesOptions'],
                     $locale->getCode(),
@@ -164,7 +159,7 @@ class ProductNormalizer extends AbstractNormalizer implements ProductNormalizerI
                 );
 
                 $processedItem[$storeView['code']] = [
-                    (string) $object->getIdentifier(),
+                    (string) $product->getIdentifier(),
                     $values,
                     $storeView['code'],
                     'sku',
@@ -184,6 +179,9 @@ class ProductNormalizer extends AbstractNormalizer implements ProductNormalizerI
      *
      * @param ProductInterface $product
      * @param string           $sku
+     * @param string           $smallImageAttribute
+     * @param string           $baseImageAttribute
+     * @param string           $thumbnailAttribute
      *
      * @return array
      */
@@ -416,6 +414,8 @@ class ProductNormalizer extends AbstractNormalizer implements ProductNormalizerI
      * @param string            $scopeCode
      *
      * @return array
+     *
+     * @throws CategoryNotFoundException
      */
     protected function getProductCategories(ProductInterface $product, MappingCollection $categoryMapping, $scopeCode)
     {
@@ -455,7 +455,7 @@ class ProductNormalizer extends AbstractNormalizer implements ProductNormalizerI
      * @param MappingCollection $attributeCodeMapping
      * @param array             $parameters
      *
-     * @return mixed
+     * @return array
      */
     protected function getCustomValue(
         ProductInterface $product,

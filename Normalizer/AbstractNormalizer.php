@@ -17,34 +17,40 @@ use Pim\Bundle\CatalogBundle\Entity\Locale;
  */
 abstract class AbstractNormalizer implements NormalizerInterface
 {
+    /** @staticvar string */
     const MAGENTO_SIMPLE_PRODUCT_KEY       = 'simple';
+
+    /** @staticvar string */
     const MAGENTO_CONFIGURABLE_PRODUCT_KEY = 'configurable';
+
+    /** @staticvar string */
     const MAGENTO_GROUPED_PRODUCT_KEY      = 'grouped';
+
+    /** @staticvar string */
     const MAGENTO_BUNDLE_PRODUCT_KEY       = 'bundle';
+
+    /** @staticvar string */
     const MAGENTO_DOWNLOADABLE_PRODUCT_KEY = 'downloadable';
+
+    /** @staticvar string */
     const MAGENTO_VIRTUAL_PRODUCT_KEY      = 'virtual';
+
+    /** @staticvar string */
     const DATE_FORMAT                      = 'Y-m-d H:i:s';
 
+    /** @staticvar string */
     const MAGENTO_FORMAT = 'MagentoArray';
 
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $pimLocales;
 
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $supportedFormats = [self::MAGENTO_FORMAT];
 
-    /**
-     * @var ChannelManager
-     */
+    /** @var ChannelManager */
     protected $channelManager;
 
     /**
-     * Constructor.
-     *
      * @param ChannelManager $channelManager
      */
     public function __construct(ChannelManager $channelManager)
@@ -65,7 +71,7 @@ abstract class AbstractNormalizer implements NormalizerInterface
      *
      * @param string $channel
      *
-     * @return array The locales
+     * @return array
      */
     protected function getPimLocales($channel)
     {

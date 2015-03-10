@@ -25,14 +25,10 @@ class MagentoFamilyMapping
     /** @var string */
     protected $pimFamilyCode;
 
-    /**
-     * @var Family
-     */
+    /** @var Family */
     protected $family;
 
     /**
-     * Get id.
-     *
      * @return integer
      */
     public function getId()
@@ -41,8 +37,6 @@ class MagentoFamilyMapping
     }
 
     /**
-     * Set magentoUrl.
-     *
      * @param string $magentoUrl
      *
      * @return MagentoFamilyMapping
@@ -55,8 +49,6 @@ class MagentoFamilyMapping
     }
 
     /**
-     * Get magentoUrl.
-     *
      * @return string
      */
     public function getMagentoUrl()
@@ -65,8 +57,6 @@ class MagentoFamilyMapping
     }
 
     /**
-     * Set magentoFamilyId.
-     *
      * @param integer $magentoFamilyId
      *
      * @return MagentoFamilyMapping
@@ -79,8 +69,6 @@ class MagentoFamilyMapping
     }
 
     /**
-     * Get magentoFamilyId.
-     *
      * @return integer
      */
     public function getMagentoFamilyId()
@@ -89,8 +77,6 @@ class MagentoFamilyMapping
     }
 
     /**
-     * Set pim family code.
-     *
      * @param string $pimFamilyCode
      *
      * @return MagentoFamilyMapping
@@ -103,8 +89,6 @@ class MagentoFamilyMapping
     }
 
     /**
-     * Get pim family code.
-     *
      * @return string
      */
     public function getPimFamilyCode()
@@ -113,8 +97,6 @@ class MagentoFamilyMapping
     }
 
     /**
-     * Set family.
-     *
      * @param Family $family
      *
      * @return MagentoFamilyMapping
@@ -127,8 +109,6 @@ class MagentoFamilyMapping
     }
 
     /**
-     * Get family.
-     *
      * @return Family
      */
     public function getFamily()

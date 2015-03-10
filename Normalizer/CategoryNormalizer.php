@@ -18,12 +18,10 @@ use Gedmo\Sluggable\Util\Urlizer;
  */
 class CategoryNormalizer extends AbstractNormalizer
 {
-    /**
-     * @var CategoryMappingManager
-     */
+    /** @var CategoryMappingManager */
     protected $categoryMappingManager;
 
-    /** @var  CategoryRepository */
+    /** @var CategoryRepository */
     protected $categoryRepository;
 
     /**
@@ -45,12 +43,12 @@ class CategoryNormalizer extends AbstractNormalizer
     /**
      * {@inheritdoc}
      */
-    public function normalize($object, $format = null, array $context = [])
+    public function normalize($category, $format = null, array $context = [])
     {
-        $normalizedCategory = $this->getDefaultCategory($object, $context);
+        $normalizedCategory = $this->getDefaultCategory($category, $context);
 
         //For each storeview, we update the product only with localized attributes
-        foreach ($object->getTranslations() as $translation) {
+        foreach ($category->getTranslations() as $translation) {
             $storeView = $this->getStoreViewForLocale(
                 $translation->getLocale(),
                 $context['magentoStoreViews'],
@@ -60,7 +58,7 @@ class CategoryNormalizer extends AbstractNormalizer
             //If a locale for this storeview exist in PIM, we create a translated product in this locale
             if ($storeView) {
                 $normalizedCategory['variation'][] = $this->getNormalizedVariationCategory(
-                    $object,
+                    $category,
                     $translation->getLocale(),
                     $storeView['code'],
                     $context['urlKey']

@@ -5,6 +5,7 @@ namespace Pim\Bundle\MagentoConnectorBundle\Manager;
 use Doctrine\Common\Persistence\ObjectManager;
 use Pim\Bundle\CatalogBundle\Manager\AttributeManager as BaseAttributeManager;
 use Pim\Bundle\CatalogBundle\Entity\Repository\AttributeRepository;
+use Pim\Bundle\CatalogBundle\Model\AbstractAttribute;
 
 /**
  * @Deprecated
@@ -17,10 +18,10 @@ use Pim\Bundle\CatalogBundle\Entity\Repository\AttributeRepository;
  */
 class AttributeManager
 {
-    /** @var BaseAttributeManager $baseAttributeManager */
+    /** @var BaseAttributeManager */
     protected $baseAttributeManager;
 
-    /** @var ObjectManager $objectManager */
+    /** @var ObjectManager */
     protected $objectManager;
 
     /** @var string */
@@ -44,21 +45,17 @@ class AttributeManager
     /**
      * @Deprecated
      *
-     * Get attributes
+     * @param array $criteria
      *
-     * @param array $criterias
-     *
-     * @return array
+     * @return \Pim\Bundle\CatalogBundle\Entity\Attribute[]
      */
-    public function getAttributes(array $criterias = [])
+    public function getAttributes(array $criteria = [])
     {
-        return $this->getRepository()->findBy($criterias);
+        return $this->getRepository()->findBy($criteria);
     }
 
     /**
      * @Deprecated
-     *
-     * Get choices for image attributes
      *
      * @return array
      */
@@ -80,7 +77,7 @@ class AttributeManager
      *
      * @param string $type
      *
-     * @return \Pim\Bundle\CatalogBundle\Model\AbstractAttribute
+     * @return AbstractAttribute
      */
     public function createAttribute($type = null)
     {

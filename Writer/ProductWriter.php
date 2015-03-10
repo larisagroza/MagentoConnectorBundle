@@ -18,9 +18,7 @@ use Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClientParametersRegi
  */
 class ProductWriter extends AbstractWriter
 {
-    /**
-     * @var ChannelManager
-     */
+    /** @var ChannelManager */
     protected $channelManager;
 
     /**
@@ -29,8 +27,6 @@ class ProductWriter extends AbstractWriter
     protected $channel;
 
     /**
-     * Constructor.
-     *
      * @param WebserviceGuesser                   $webserviceGuesser
      * @param ChannelManager                      $channelManager
      * @param MagentoSoapClientParametersRegistry $clientParametersRegistry
@@ -46,9 +42,7 @@ class ProductWriter extends AbstractWriter
     }
 
     /**
-     * get channel.
-     *
-     * @return string channel
+     * @return string
      */
     public function getChannel()
     {
@@ -56,11 +50,9 @@ class ProductWriter extends AbstractWriter
     }
 
     /**
-     * Set channel.
+     * @param string $channel
      *
-     * @param string $channel channel
-     *
-     * @return AbstractWriter
+     * @return ProductWriter
      */
     public function setChannel($channel)
     {
@@ -112,7 +104,7 @@ class ProductWriter extends AbstractWriter
     /**
      * Compute an individual product and all his parts (translations).
      *
-     * @param array $product The product and his parts
+     * @param array $product
      */
     protected function computeProduct($product)
     {

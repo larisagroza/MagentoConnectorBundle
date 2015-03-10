@@ -29,9 +29,7 @@ class MagentoMappingMerger extends MappingMerger
     }
 
     /**
-     * Get configuration field for the merger.
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function getConfigurationField()
     {

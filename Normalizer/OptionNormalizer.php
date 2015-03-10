@@ -16,20 +16,20 @@ class OptionNormalizer extends AbstractNormalizer
     /**
      * {@inheritdoc}
      */
-    public function normalize($object, $format = null, array $context = [])
+    public function normalize($attributeOption, $format = null, array $context = [])
     {
         $label = [
             [
                 'store_id' => '0',
-                'value'    => $object->getCode(),
+                'value'    => $attributeOption->getCode(),
             ],
             [
                 'store_id' => '1',
-                'value'    => $this->getOptionLabel($object, $context['defaultLocale']),
+                'value'    => $this->getOptionLabel($attributeOption, $context['defaultLocale']),
             ],
         ];
 
-        foreach ($this->getOptionLocales($object) as $locale) {
+        foreach ($this->getOptionLocales($attributeOption) as $locale) {
             $storeView = $this->getStoreViewForLocale(
                 $locale,
                 $context['magentoStoreViews'],
@@ -40,7 +40,7 @@ class OptionNormalizer extends AbstractNormalizer
                 $label[] = [
                     'store_id' => (string) $storeView['store_id'],
                     'value'    => $this->getOptionLabel(
-                        $object,
+                        $attributeOption,
                         $locale
                     ),
                 ];
@@ -51,7 +51,7 @@ class OptionNormalizer extends AbstractNormalizer
             $context['attributeCode'],
             [
                 'label'      => $label,
-                'order'      => $object->getSortOrder(),
+                'order'      => $attributeOption->getSortOrder(),
             ],
         ];
     }

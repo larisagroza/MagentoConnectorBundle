@@ -15,9 +15,7 @@ use Pim\Bundle\MagentoConnectorBundle\Webservice\SoapCallException;
  */
 class MagentoAttributeCodeMapper extends MagentoMapper
 {
-    /**
-     * @var WebserviceGuesser
-     */
+    /** @var WebserviceGuesser */
     protected $webserviceGuesser;
 
     /**
@@ -34,9 +32,7 @@ class MagentoAttributeCodeMapper extends MagentoMapper
     }
 
     /**
-     * Get mapping.
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function getMapping()
     {
@@ -67,9 +63,7 @@ class MagentoAttributeCodeMapper extends MagentoMapper
     }
 
     /**
-     * Get all sources.
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function getAllTargets()
     {
@@ -89,11 +83,7 @@ class MagentoAttributeCodeMapper extends MagentoMapper
     }
 
     /**
-     * Get mapper identifier.
-     *
-     * @param string $rootIdentifier
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getIdentifier($rootIdentifier = 'attribute')
     {
@@ -101,9 +91,7 @@ class MagentoAttributeCodeMapper extends MagentoMapper
     }
 
     /**
-     * Get mandatory attributes.
-     *
-     * @return array
+     * @return string[]
      */
     protected function mandatoryAttributes()
     {

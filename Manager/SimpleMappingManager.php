@@ -14,17 +14,13 @@ use Pim\Bundle\MagentoConnectorBundle\Entity\SimpleMapping;
  */
 class SimpleMappingManager
 {
-    /**
-     * @var \Doctrine\Common\Persistence\ObjectManager
-     */
+    /** @var \Doctrine\Common\Persistence\ObjectManager */
     protected $objectManager;
 
     /** @var string */
     protected $className;
 
     /**
-     * Constructor.
-     *
      * @param ObjectManager $objectManager
      * @param string        $className
      */
@@ -99,7 +95,7 @@ class SimpleMappingManager
     /**
      * Get the entity manager.
      *
-     * @return EntityRepository
+     * @return \Doctrine\ORM\EntityRepository
      */
     protected function getEntityRepository()
     {

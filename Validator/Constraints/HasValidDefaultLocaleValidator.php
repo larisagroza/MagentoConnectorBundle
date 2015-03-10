@@ -16,14 +16,10 @@ use Pim\Bundle\MagentoConnectorBundle\Processor\AbstractProductProcessor;
  */
 class HasValidDefaultLocaleValidator extends ConstraintValidator
 {
-    /**
-     * @var ChannelManager
-     */
+    /** @var ChannelManager */
     protected $channelManager;
 
-    /**
-     * @param ChannelManager $channelManager
-     */
+    /** @param ChannelManager $channelManager */
     public function __construct(ChannelManager $channelManager)
     {
         $this->channelManager = $channelManager;
@@ -32,8 +28,8 @@ class HasValidDefaultLocaleValidator extends ConstraintValidator
     /**
      * Checks if the passed value is valid.
      *
-     * @param mixed      $value      The value that should be validated
-     * @param Constraint $constraint The constraint for the validation
+     * @param AbstractProductProcessor $value      The value that should be validated
+     * @param Constraint               $constraint The constraint for the validation
      *
      * @api
      */

@@ -16,19 +16,13 @@ use Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClientParameters;
  */
 class ORMExportedAttributeMapper extends Mapper
 {
-    /**
-     * @var MagentoSoapClientParameters
-     */
+    /** @var MagentoSoapClientParameters */
     protected $clientParameters;
 
-    /**
-     * @var HasValidCredentialsValidator
-     */
+    /** @var HasValidCredentialsValidator */
     protected $hasValidCredentialsValidator;
 
-    /**
-     * @var
-     */
+    /** @var AttributeMappingManager */
     protected $attributeMappingManager;
 
     /** @var string */
@@ -37,9 +31,7 @@ class ORMExportedAttributeMapper extends Mapper
     /** @var string */
     protected $defaultStoreView;
 
-    /**
-     * @var MagentoMappingMerger
-     */
+    /** @var MagentoMappingMerger */
     protected $attributeCodeMappingMerger;
 
     /**
@@ -61,9 +53,7 @@ class ORMExportedAttributeMapper extends Mapper
     }
 
     /**
-     * Return magento akeneo mapping.
-     *
-     * @return array|MappingCollection
+     * {@inheritdoc}
      */
     public function getMapping()
     {
@@ -103,11 +93,7 @@ class ORMExportedAttributeMapper extends Mapper
     }
 
     /**
-     * Get mapper identifier.
-     *
-     * @param string $rootIdentifier
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getIdentifier($rootIdentifier = 'attribute_id')
     {
@@ -119,9 +105,7 @@ class ORMExportedAttributeMapper extends Mapper
     }
 
     /**
-     * Is the mapper valid ?
-     *
-     * @return boolean
+     * {@inheritdoc}
      */
     public function isValid()
     {
