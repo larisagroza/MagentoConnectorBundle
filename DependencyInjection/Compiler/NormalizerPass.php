@@ -28,10 +28,10 @@ class NormalizerPass implements CompilerPassInterface
 
         foreach ($container->findTaggedServiceIds(static::TAG_NAME) as $serviceId => $tags) {
             foreach ($tags as $tag) {
-                if (isset($tag['normalizerKey'])) {
+                if (isset($tag['normalizer_key'])) {
                     $registryDef->addMethodCall(
                         'addNormalizer',
-                        [$tag['normalizerKey'], new Reference($serviceId)]
+                        [$tag['normalizer_key'], new Reference($serviceId)]
                     );
                 }
             }

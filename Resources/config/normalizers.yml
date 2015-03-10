@@ -67,6 +67,5 @@ services:
         tags:
             - { name: magento_normalizer, normalizer_key: 'configurable' }
 
-
     pim_magento_connector.normalizer.registry:
         class: %pim_magento_connector.normalizer.registry.class%
