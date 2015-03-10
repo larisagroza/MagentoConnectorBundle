@@ -21,6 +21,18 @@ You can now create export jobs.
 
 ## Attribute type mapping
 
+<table>
+<header>
+<tr>
+<th>Akeneo Attribute type</th>
+<th>Magento attribute type</th>
+</tr>
+<tr>
+<td></td>
+<td></td>
+</tr>
+</header>
+</table>
 =====================  ====================================
 Akeneo Attribute type   Magento attribute type
 =====================  ====================================
