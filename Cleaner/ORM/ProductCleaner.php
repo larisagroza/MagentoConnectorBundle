@@ -46,8 +46,6 @@ class ProductCleaner extends AbstractProductCleaner
             ->setParameter(':identifier_type', 'pim_catalog_identifier')
             ->setParameter('enabled', true);
 
-        var_dump($qb->getQuery()->getSQL());
-
         return $this->getProductsSkus($qb);
     }
 
