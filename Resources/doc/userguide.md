@@ -24,31 +24,46 @@ You can now create export jobs.
 <table>
 <header>
 <tr>
-<th>Akeneo Attribute type</th>
-<th>Magento attribute type</th>
+<th>Akeneo Attribute type</th><th>Magento attribute type</th>
 </tr>
 <tr>
-<td></td>
-<td></td>
+<td>Date</td><td>Date</td>
+</tr>
+<tr>
+<td>File</td><td>N.A.</td>
+</tr>
+<tr>
+<td>Identifier</td><td>Text field with unique value</td>
+</tr>
+<tr>
+<td>Image</td><td>Media image</td>
+</tr>
+<tr>
+<td>Metric</td><td>see below</td>
+</tr>
+<tr>
+<td>Multi select</td><td>Multiple select</td>
+</tr>
+<tr>
+<td>Number</td><td>Text field</td>
+</tr>
+<tr>
+<td>Price</td><td>Price</td>
+</tr>
+<tr>
+<td>Simple Select</td><td>Dropdown</td>
+</tr>
+<tr>
+<td>Text</td><td>Text field</td>
+</tr>
+<tr>
+<td>Text area</td><td>Text Area</td>
+</tr>
+<tr>
+<td>Yes/No</td><td>Yes/No</td>
 </tr>
 </header>
 </table>
-=====================  ====================================
-Akeneo Attribute type   Magento attribute type
-=====================  ====================================
-Date                         Date
-File                         N.A.
-Identifier                   Text field with unique value
-Image                        Media image
-Metric                       see below
-Multi select                 Multiple select
-Number                       Text field
-Price                        Price
-Simple Select                Dropdown
-Text                         Text field
-Text area                    Text Area
-Yes/No                       Yes/No
-=====================  ====================================
 
 ## Exporting structure
 
