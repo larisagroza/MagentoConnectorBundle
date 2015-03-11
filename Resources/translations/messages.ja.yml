@@ -71,9 +71,9 @@ pim_magento_connector:
         visibility:
             label: Magento上の表示方法
             help: 1: 非表示, 2: カタログ, 3: 検索, 4: カタログ, 検索
-                    variant_member_visibility:
-                        label: コンフィグ商品に紐づくシンプル商品の表示
-                        help: 1: 非表示, 2: カタログ, 3: 検索, 4: カタログ, 検索。 コンフィグ商品に紐づくシンプル商品に対して適用されます。
+        variant_member_visibility:
+            label: コンフィグ商品に紐づくシンプル商品の表示
+            help: 1: 非表示, 2: カタログ, 3: 検索, 4: カタログ, 検索。 コンフィグ商品に紐づくシンプル商品に対して適用されます。
         website:
             label: ウェブサイト
             help: 商品を登録するMagento上のウェブサイト
@@ -129,14 +129,14 @@ pim_magento_connector:
             label: サムネイル画像属性
             help: Magentoのサムネイル画像に対応するAkeneo上の画像を選択してください
         isAnchor:
-                    label: アンカー属性
-                    help: カテゴリをアンカーにするか否か
-                forceAttributeSetRemoval:
-                    label: 属性セットを強制削除する
-                    help: 商品が属していない属性セットのみを削除するか、属性セットと所属する商品を削除するかを選択
-                urlKey:
-                    label: Magentoにurl_keyの生成を委任する
-                    help: 注意: Magentoにurl_keyの生成を委任した場合、重複に注意してください。
+            label: アンカー属性
+            help: カテゴリをアンカーにするか否か
+        forceAttributeSetRemoval:
+            label: 属性セットを強制削除する
+            help: 商品が属していない属性セットのみを削除するか、属性セットと所属する商品を削除するかを選択
+        urlKey:
+            label: Magentoにurl_keyの生成を委任する
+            help: 注意: Magentoにurl_keyの生成を委任した場合、重複に注意してください。
 
         job_execution.summary:
             attribute_created:         作成済み属性
