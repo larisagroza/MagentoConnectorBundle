@@ -135,7 +135,7 @@ where `job_instance_code` is the code you give to your export job. Remember that
 
 If you want to perform a full product export again, you need to clean the information contained in the delta tables. For that, just run:
 
-    php app/console magento-connector:delta:purge
+    php app/console magento-connector:delta:purge job_instance_code
 
 As for the mapping tables, `job_instance_code` is the code you give to your export job. You still can retrieve the list of all your export jobs by running:
 
@@ -166,3 +166,7 @@ So don't add specific attributes to products you want to export to Magento.
 ## Product url key updates on Magento EE
 
 Due to a bug in Magento EE, it is not possible to update product url keys with the soap api.
+
+## Map an Akeneo attribute with several Magento attributes
+
+We know that's a user case but for now it's not possible to map an Akeneo attribute with several Magento attributes (for example PIM Description -> Mag Description AND PIM Description -> Mag Short description).

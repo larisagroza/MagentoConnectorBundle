@@ -10,11 +10,25 @@ Warning: this connector is not production ready and is intended for evaluation a
 [![SensioLabsInsight](https://insight.sensiolabs.com/projects/2f3066f2-316f-4ed1-8df0-f48d7a1d7f12/mini.png)](https://insight.sensiolabs.com/projects/2f3066f2-316f-4ed1-8df0-f48d7a1d7f12)
 [![Build Status](https://travis-ci.org/akeneo/MagentoConnectorBundle.png?branch=master)](https://travis-ci.org/akeneo/MagentoConnectorBundle)
 
+# Summary
+
+ * [Requirements](#requirements)
+ * [How to install Magento connector in Akeneo ?](#installation-instructions)
+   * [On a PIM standard for production](#installing-the-magento-connector-in-an-akeneo-pim-standard-installation)
+   * [On a PIM dev for development](#installing-the-magento-connector-in-an-akeneo-pim-development-environment-master)
+   * [Get demonstration data](#demo-fixtures)
+ * [How to configure Magento to work with connector ?](#magento-side-configuration)
+ * [User guide](./Resources/doc/userguide.md)
+ * [Advanced connector configuration](./Resources/doc/fields_list.md)
+ * [Bugs and issues](#bug-and-issues)
+ * [Troubleshooting section](./Resources/doc/troubleshooting.md)
+ * [Actions not supported](./Resources/doc/userguide.md#not-supported)
+
 # Requirements
 
  - php5-xml
  - php5-soap
- - Akeneo PIM CE 1.2.x stable
+ - Akeneo PIM CE 1.2.x stable or PIM CE 1.3.x stable
  - Magento from CE 1.6 to 1.9 and EE 1.11 to 1.14
  - MongoDB (optional)
 
@@ -61,6 +75,15 @@ Then clone the git repository of the Magento connector bundle anywhere on your f
 
 You can now update your database and reinstall pim assets as explained previously.
 
+## Demo fixtures
+
+To test the connector with the minimum data requirements, you can load the demo fixtures. Change the `installer_data` line from the `app/config/parameters.yml` file to:
+
+    installer_data: PimMagentoConnectorBundle:demo_magento
+
+Two locales are activated by default, so for the export jobs to work out of the box, you need to add an extra storeview to your Magento environment, and map this store view with the Akeneo `fr_FR` locale.
+
+
 # Magento side configuration
 
 In order to export products to Magento, a SOAP user with full rights has to be created on Magento.
@@ -86,14 +109,6 @@ Now you can create a soap user. Go to `Web Services > SOAP/XML-RPC - Users` and 
 ![Magento soap user role setup](./Resources/doc/images/main/user-role-setup.png)
 
 After that you can go to `Spread > Export profiles` on Akeneo PIM and create your first Magento export job. For more informations, go take a look to the [user guide](./Resources/doc/userguide.md).
-
-# Demo fixtures
-
-To test the connector with the minimum data requirements, you can load the demo fixtures. Change the `installer_data` line from the `app/config/parameters.yml` file to:
-
-    installer_data: PimMagentoConnectorBundle:demo_magento
-
-Two locales are activated by default, so for the export jobs to work out of the box, you need to add an extra storeview to your Magento environment, and map this store view with the Akeneo `fr_FR` locale.
 
 # Bug and issues
 
