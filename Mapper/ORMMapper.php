@@ -36,10 +36,6 @@ class ORMMapper extends Mapper
      */
     public function getMapping()
     {
-        if (!$this->isValid()) {
-            return new MappingCollection();
-        }
-
         $simpleMappingItems = $this->simpleMappingManager->getMapping($this->getIdentifier($this->rootIdentifier));
 
         $mapping = new MappingCollection();
@@ -61,10 +57,6 @@ class ORMMapper extends Mapper
      */
     public function setMapping(array $mapping)
     {
-        if (!$this->isValid()) {
-            return null;
-        }
-
         $this->simpleMappingManager->setMapping($mapping, $this->getIdentifier($this->rootIdentifier));
     }
 
