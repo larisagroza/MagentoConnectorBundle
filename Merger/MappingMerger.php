@@ -13,10 +13,8 @@ use Pim\Bundle\MagentoConnectorBundle\Mapper\MappingCollection;
  */
 class MappingMerger
 {
-    /**
-     * @var array
-     */
-    protected $mappers = array();
+    /** @var array */
+    protected $mappers = [];
 
     /** @var string */
     protected $name;
@@ -24,21 +22,17 @@ class MappingMerger
     /** @var string */
     protected $direction;
 
-    /**
-     * @var boolean
-     */
+    /** @var boolean */
     protected $hasParametersSet = false;
 
-    /**
-     * @var boolean
-     */
+    /** @var boolean */
     protected $allowAddition = true;
 
     /**
-     * @param array   $mappers
-     * @param string  $name
-     * @param string  $direction
-     * @param boolean $allowAddition
+     * @param \Pim\Bundle\MagentoConnectorBundle\Mapper\MapperInterface[] $mappers
+     * @param string                                                      $name
+     * @param string                                                      $direction
+     * @param boolean                                                     $allowAddition
      */
     public function __construct(array $mappers, $name, $direction, $allowAddition)
     {
@@ -48,7 +42,7 @@ class MappingMerger
 
         foreach ($mappers as $mapper) {
             if (!isset($this->mappers[$mapper->getPriority()])) {
-                $this->mappers[$mapper->getPriority()] = array();
+                $this->mappers[$mapper->getPriority()] = [];
             }
 
             $this->mappers[$mapper->getPriority()][] = $mapper;
@@ -98,22 +92,22 @@ class MappingMerger
      */
     public function getConfigurationField()
     {
-        return array(
-            $this->name.'Mapping' => array(
+        return [
+            $this->name.'Mapping' => [
                 'type'    => 'textarea',
-                'options' => array(
+                'options' => [
                     'required' => false,
-                    'attr'     => array(
+                    'attr'     => [
                         'class' => 'mapping-field',
                         'data-sources' => json_encode($this->getAllSources()),
                         'data-targets' => json_encode($this->getAllTargets()),
                         'data-name'    => $this->name,
-                    ),
+                    ],
                     'label' => 'pim_connector_mapping.'.$this->direction.'.'.$this->name.'Mapping.label',
                     'help'  => 'pim_connector_mapping.'.$this->direction.'.'.$this->name.'Mapping.help',
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
     }
 
     /**
@@ -123,12 +117,12 @@ class MappingMerger
      */
     protected function getAllSources()
     {
-        $sources = array();
+        $sources = [];
         foreach ($this->getOrderedMappers() as $mapper) {
             $sources = array_merge($sources, $mapper->getAllSources());
         }
 
-        return array('sources' => $sources);
+        return ['sources' => $sources];
     }
 
     /**
@@ -138,7 +132,7 @@ class MappingMerger
      */
     protected function getAllTargets()
     {
-        $targets = array();
+        $targets = [];
 
         if ($this->hasParametersSet) {
             foreach ($this->getOrderedMappers() as $mapper) {
@@ -146,17 +140,17 @@ class MappingMerger
             }
         }
 
-        return array('targets' => $targets, 'allowAddition' => $this->allowAddition);
+        return ['targets' => $targets, 'allowAddition' => $this->allowAddition];
     }
 
     /**
      * Get mappers ordered by priority.
      *
-     * @return array
+     * @return \Pim\Bundle\MagentoConnectorBundle\Mapper\MapperInterface[]
      */
     protected function getOrderedMappers()
     {
-        $orderedMappers = array();
+        $orderedMappers = [];
 
         foreach ($this->mappers as $mappers) {
             foreach ($mappers as $mapper) {

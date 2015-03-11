@@ -17,18 +17,19 @@ use Pim\Bundle\MagentoConnectorBundle\Mapper\MappingCollection;
  */
 class AttributeNormalizer implements NormalizerInterface
 {
+    /** @staticvar string */
     const STORE_SCOPE    = 'store';
+
+    /** @staticvar string */
     const GLOBAL_SCOPE   = 'global';
+
+    /** @staticvar string */
     const MAGENTO_FORMAT = 'MagentoArray';
 
-    /**
-     * @var ProductValueNormalizer
-     */
+    /** @var ProductValueNormalizer */
     protected $productValueNormalizer;
 
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $supportedFormats = [self::MAGENTO_FORMAT];
 
     /**
@@ -50,17 +51,17 @@ class AttributeNormalizer implements NormalizerInterface
     /**
      * {@inheritdoc}
      */
-    public function normalize($object, $format = null, array $context = [])
+    public function normalize($attribute, $format = null, array $context = [])
     {
         $normalizedAttribute = [
-            'scope'                         => $this->getNormalizedScope($object),
+            'scope'                         => $this->getNormalizedScope($attribute),
             'is_unique'                     => '0',
-            'is_required'                   => $this->getNormalizedRequired($object),
+            'is_required'                   => $this->getNormalizedRequired($attribute),
             'apply_to'                      => '',
-            'is_configurable'               => $this->getNormalizedConfigurable($object, $context['axisAttributes']),
+            'is_configurable'               => $this->getNormalizedConfigurable($attribute, $context['axisAttributes']),
             'additional_fields'             => [],
             'frontend_label'                => $this->getNormalizedLabels(
-                $object,
+                $attribute,
                 $context['magentoStoreViews'],
                 $context['defaultLocale'],
                 $context['storeViewMapping'],
@@ -68,18 +69,18 @@ class AttributeNormalizer implements NormalizerInterface
             ),
         ];
 
-        $mappedAttributeType = $this->getNormalizedType($object);
+        $mappedAttributeType = $this->getNormalizedType($attribute);
 
         if ($context['create']) {
             $normalizedAttribute = array_merge(
                 [
-                    'attribute_code' => $this->getNormalizedCode($object, $context['attributeCodeMapping']),
+                    'attribute_code' => $this->getNormalizedCode($attribute, $context['attributeCodeMapping']),
                     'frontend_input' => $mappedAttributeType,
                 ],
                 $normalizedAttribute
             );
         } else {
-            $magentoAttributeCode = strtolower($context['attributeCodeMapping']->getTarget($object->getCode()));
+            $magentoAttributeCode = strtolower($context['attributeCodeMapping']->getTarget($attribute->getCode()));
             $magentoAttributeType = $context['magentoAttributes'][$magentoAttributeCode]['type'];
             if ($mappedAttributeType !== $magentoAttributeType &&
                 !in_array($magentoAttributeCode, $this->getIgnoredAttributesForTypeChangeDetection())) {
@@ -88,7 +89,7 @@ class AttributeNormalizer implements NormalizerInterface
                         'The type for the attribute "%s" has changed (Is "%s" in Magento and is %s in Akeneo PIM. '.
                         'This operation is not permitted by Magento. Please delete it first on Magento and try to '.
                         'export again.',
-                        $object->getCode(),
+                        $attribute->getCode(),
                         $context['magentoAttributes'][$magentoAttributeCode]['type'],
                         $mappedAttributeType
                     )
@@ -121,7 +122,7 @@ class AttributeNormalizer implements NormalizerInterface
     /**
      * Get attribute type mapping.
      *
-     * @return array
+     * @return string[]
      */
     protected function getTypeMapping()
     {
@@ -182,7 +183,7 @@ class AttributeNormalizer implements NormalizerInterface
     }
 
     /**
-     * Get normalized unquie value for attribute.
+     * Get normalized unique value for attribute.
      *
      * @param AbstractAttribute $attribute
      *
@@ -230,7 +231,7 @@ class AttributeNormalizer implements NormalizerInterface
      * @param MappingCollection $storeViewMapping
      * @param MappingCollection $attributeMapping
      *
-     * @return string
+     * @return array
      */
     protected function getNormalizedLabels(
         AbstractAttribute $attribute,
@@ -289,7 +290,7 @@ class AttributeNormalizer implements NormalizerInterface
     /**
      * Get all ignored attribute for type change detection.
      *
-     * @return array
+     * @return string[]
      */
     protected function getIgnoredAttributesForTypeChangeDetection()
     {

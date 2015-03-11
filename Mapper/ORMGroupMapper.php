@@ -16,9 +16,7 @@ use Pim\Bundle\MagentoConnectorBundle\Validator\Constraints\HasValidCredentialsV
  */
 class ORMGroupMapper extends ORMMapper
 {
-    /**
-     * @var AttributeGroupMappingManager
-     */
+    /** @var AttributeGroupMappingManager */
     protected $attributeGroupManager;
 
     /**
@@ -39,8 +37,6 @@ class ORMGroupMapper extends ORMMapper
     }
 
     /**
-     * Get all sources.
-     *
      * @param AttributeGroup $group
      *
      * @return array

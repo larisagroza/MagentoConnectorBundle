@@ -14,19 +14,13 @@ use Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClientParameters;
  */
 class MagentoMapper extends Mapper
 {
-    /**
-     * @var MagentoSoapClientParameters
-     */
+    /** @var MagentoSoapClientParameters */
     protected $clientParameters = null;
 
-    /**
-     * @var HasValidCredentialsValidator
-     */
+    /** @var HasValidCredentialsValidator */
     protected $hasValidCredentialsValidator;
 
-    /*
-     * @var string Default store view parameter
-     */
+    /* @var string */
     protected $defaultStoreView;
 
     /**
@@ -50,11 +44,7 @@ class MagentoMapper extends Mapper
     }
 
     /**
-     * Get mapper identifier.
-     *
-     * @param string $rootIdentifier
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getIdentifier($rootIdentifier = 'generic')
     {
@@ -66,9 +56,7 @@ class MagentoMapper extends Mapper
     }
 
     /**
-     * Is the mapper valid ?
-     *
-     * @return boolean
+     * {@inheritdoc}
      */
     public function isValid()
     {

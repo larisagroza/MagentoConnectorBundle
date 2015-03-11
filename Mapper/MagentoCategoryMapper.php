@@ -15,11 +15,10 @@ use Pim\Bundle\MagentoConnectorBundle\Webservice\SoapCallException;
  */
 class MagentoCategoryMapper extends MagentoMapper
 {
+    /** @staticvar int */
     const ROOT_CATEGORY_ID = 1;
 
-    /**
-     * @var WebserviceGuesser
-     */
+    /** @var WebserviceGuesser */
     protected $webserviceGuesser;
 
     /**
@@ -36,9 +35,7 @@ class MagentoCategoryMapper extends MagentoMapper
     }
 
     /**
-     * Get all targets.
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function getAllTargets()
     {
@@ -62,11 +59,7 @@ class MagentoCategoryMapper extends MagentoMapper
     }
 
     /**
-     * Get mapper identifier.
-     *
-     * @param string $rootIdentifier
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getIdentifier($rootIdentifier = 'category')
     {

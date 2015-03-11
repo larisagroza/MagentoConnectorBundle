@@ -15,9 +15,7 @@ use Pim\Bundle\MagentoConnectorBundle\Validator\Constraints\HasValidCredentialsV
  */
 class ORMStoreViewMapper extends ORMPimMapper
 {
-    /**
-     * @var LocaleManager
-     */
+    /** @var LocaleManager */
     protected $localeManager;
 
     /**
@@ -38,9 +36,7 @@ class ORMStoreViewMapper extends ORMPimMapper
     }
 
     /**
-     * Get all sources.
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function getAllSources()
     {
@@ -58,9 +54,7 @@ class ORMStoreViewMapper extends ORMPimMapper
     }
 
     /**
-     * Get all targets.
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function getAllTargets()
     {

@@ -61,8 +61,6 @@ class NormalizerGuesser extends AbstractGuesser
     protected $localeFilter;
 
     /**
-     * Constructor.
-     *
      * @param MagentoSoapClientFactory $magentoSoapClientFactory
      * @param ChannelManager           $channelManager
      * @param MediaManager             $mediaManager
@@ -210,6 +208,8 @@ class NormalizerGuesser extends AbstractGuesser
      * @param MagentoSoapClientParameters $clientParameters
      *
      * @return AbstractNormalizer
+     *
+     * @throws NotSupportedVersionException
      */
     public function getCategoryNormalizer(MagentoSoapClientParameters $clientParameters)
     {
@@ -237,6 +237,8 @@ class NormalizerGuesser extends AbstractGuesser
      * @param MagentoSoapClientParameters $clientParameters
      *
      * @return AbstractNormalizer
+     *
+     * @throws NotSupportedVersionException
      */
     public function getOptionNormalizer(MagentoSoapClientParameters $clientParameters)
     {
@@ -264,6 +266,8 @@ class NormalizerGuesser extends AbstractGuesser
      * @param MagentoSoapClientParameters $clientParameters
      *
      * @return AbstractNormalizer
+     *
+     * @throws NotSupportedVersionException
      */
     public function getAttributeNormalizer(MagentoSoapClientParameters $clientParameters)
     {

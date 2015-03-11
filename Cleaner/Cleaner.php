@@ -15,13 +15,13 @@ use Pim\Bundle\MagentoConnectorBundle\Item\MagentoItemStep;
  */
 abstract class Cleaner extends MagentoItemStep implements StepExecutionAwareInterface
 {
-    /** @const string */
+    /** @staticvar string */
     const DO_NOTHING = 'do_nothing';
 
-    /** @const string */
+    /** staticvar string */
     const DISABLE    = 'disable';
 
-    /** @const string */
+    /** staticvar string */
     const DELETE     = 'delete';
 
     /** @var StepExecution */
@@ -31,7 +31,7 @@ abstract class Cleaner extends MagentoItemStep implements StepExecutionAwareInte
     protected $notInPimAnymoreAction;
 
     /**
-     * @return string notInPimAnymoreAction
+     * @return string
      */
     public function getNotInPimAnymoreAction()
     {
@@ -39,7 +39,7 @@ abstract class Cleaner extends MagentoItemStep implements StepExecutionAwareInte
     }
 
     /**
-     * @param string $notInPimAnymoreAction notInPimAnymoreAction
+     * @param string $notInPimAnymoreAction
      *
      * @return Cleaner
      */

@@ -83,7 +83,6 @@ class FamilyCleaner extends Cleaner
      * @param int    $id
      *
      * @throws InvalidItemException
-     * @throws SoapCallException
      */
     protected function handleFamilyNotInPimAnymore($name, $id)
     {

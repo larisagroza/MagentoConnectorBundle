@@ -18,14 +18,10 @@ use Pim\Bundle\MagentoConnectorBundle\Webservice\Webservice;
  */
 class CategoryWriter extends AbstractWriter
 {
-    /**
-     * @var CategoryMappingManager
-     */
+    /** @var CategoryMappingManager */
     protected $categoryMappingManager;
 
     /**
-     * Constructor.
-     *
      * @param WebserviceGuesser                   $webserviceGuesser
      * @param CategoryMappingManager              $categoryMappingManager
      * @param MagentoSoapClientParametersRegistry $clientParametersRegistry

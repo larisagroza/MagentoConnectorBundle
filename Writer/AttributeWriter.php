@@ -31,34 +31,22 @@ class AttributeWriter extends AbstractWriter
     /** @staticvar string */
     const SOAP_FAULT_GROUP_ALREADY_IN_SET     = '112';
 
-    /**
-     * @var AttributeMappingManager
-     */
+    /** @var AttributeMappingManager */
     protected $attributeMappingManager;
 
-    /**
-     * @var AbstractAttribute
-     */
+    /** @var AbstractAttribute */
     protected $attribute;
 
-    /**
-     * @var FamilyMappingManager
-     */
+    /** @var FamilyMappingManager */
     protected $familyMappingManager;
 
-    /**
-     * @var AttributeGroupMappingManager
-     */
+    /** @var AttributeGroupMappingManager */
     protected $attributeGroupMappingManager;
 
-    /**
-     * @var MagentoMappingMerger
-     */
+    /** @var MagentoMappingMerger */
     protected $attributeIdMappingMerger;
 
     /**
-     * Constructor.
-     *
      * @param WebserviceGuesser                   $webserviceGuesser
      * @param FamilyMappingManager                $familyMappingManager
      * @param AttributeMappingManager             $attributeMappingManager
@@ -172,7 +160,7 @@ class AttributeWriter extends AbstractWriter
     /**
      * Add attribute to corresponding attribute sets.
      *
-     * @param integer           $magentoAttributeId ID of magento attribute
+     * @param integer           $magentoAttributeId
      * @param AbstractAttribute $pimAttribute
      *
      * @throws SoapCallException

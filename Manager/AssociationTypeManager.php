@@ -13,17 +13,13 @@ use Doctrine\Common\Persistence\ObjectManager;
  */
 class AssociationTypeManager
 {
-    /**
-     * @var \Doctrine\Common\Persistence\ObjectManager
-     */
+    /** @var \Doctrine\Common\Persistence\ObjectManager */
     protected $objectManager;
 
     /** @var string */
     protected $className;
 
     /**
-     * Constructor.
-     *
      * @param ObjectManager $objectManager
      * @param string        $className
      */
@@ -34,27 +30,27 @@ class AssociationTypeManager
     }
 
     /**
-     * Get association types with criterias.
+     * Get association types with criteria.
      *
-     * @param string[] $criterias
+     * @param string[] $criteria
      *
-     * @return array
+     * @return \Pim\Bundle\CatalogBundle\Entity\AssociationType[]|null
      */
-    public function getAssociationTypes($criterias = [])
+    public function getAssociationTypes($criteria = [])
     {
-        return $this->getEntityRepository()->findBy($criterias);
+        return $this->getEntityRepository()->findBy($criteria);
     }
 
     /**
-     * Get association types with criterias.
+     * Get association types with criteria.
      *
-     * @param string[] $criterias
+     * @param string[] $criteria
      *
-     * @return AssociationType|null
+     * @return \Pim\Bundle\CatalogBundle\Entity\AssociationType|null
      */
-    public function getAssociationType($criterias = [])
+    public function getAssociationType($criteria = [])
     {
-        return $this->getEntityRepository()->findOneBy($criterias);
+        return $this->getEntityRepository()->findOneBy($criteria);
     }
 
     /**
@@ -70,21 +66,21 @@ class AssociationTypeManager
     }
 
     /**
-     * Get assiociation type choices with criterias
+     * Get association type choices with criteria
      * Allow to list association types in an array like array[<code>] = <label>.
      *
-     * @param array $criterias
+     * @param array $criteria
      *
      * @return string[]
      */
-    public function getAssociationTypeChoices($criterias = [])
+    public function getAssociationTypeChoices($criteria = [])
     {
-        $associationTypes = $this->getAssociationTypes($criterias);
+        $associationTypes = $this->getAssociationTypes($criteria);
 
         $choices = [];
 
-        foreach ($associationTypes as $assiociationType) {
-            $choices[$assiociationType->getCode()] = $assiociationType->getLabel();
+        foreach ($associationTypes as $associationType) {
+            $choices[$associationType->getCode()] = $associationType->getLabel();
         }
 
         return $choices;
@@ -93,7 +89,7 @@ class AssociationTypeManager
     /**
      * Get the entity manager.
      *
-     * @return EntityRepository
+     * @return \Doctrine\ORM\EntityRepository
      */
     protected function getEntityRepository()
     {

@@ -15,7 +15,7 @@ use Pim\Bundle\CatalogBundle\Manager\CurrencyManager as BaseCurrencyManager;
  */
 class CurrencyManager
 {
-    /** @var BaseCurrencyManager $baseCurrencyManager */
+    /** @var BaseCurrencyManager */
     protected $baseCurrencyManager;
 
     /**
@@ -31,8 +31,7 @@ class CurrencyManager
      *
      * Get active code choices
      *
-     * Prior to PHP 5.4 array_combine() does not accept
-     * empty array as argument.
+     * Prior to PHP 5.4 array_combine() does not accept empty array as argument.
      * @see http://php.net/array_combine#refsect1-function.array-combine-changelog
      *
      * @return array
@@ -51,7 +50,7 @@ class CurrencyManager
      * @Deprecated
      *
      * Get currency choices
-     * Allow to list currencys in an array like array[<code>] = <code>
+     * Allow to list currencies in an array like array[<code>] = <code>
      *
      * @return string[]
      */
@@ -78,15 +77,15 @@ class CurrencyManager
     }
 
     /**
-     * Get currencies with criterias.
+     * Get currencies with criteria.
      *
-     * @param array $criterias
+     * @param array $criteria
      *
      * @return \Doctrine\Common\Persistence\mixed
      */
-    public function getCurrencies($criterias = array())
+    public function getCurrencies($criteria = array())
     {
-        return $this->baseCurrencyManager->getCurrencies($criterias);
+        return $this->baseCurrencyManager->getCurrencies($criteria);
     }
 
     /**

@@ -14,19 +14,37 @@ use Pim\Bundle\MagentoConnectorBundle\Webservice\SoapCallException;
  */
 abstract class AbstractGuesser
 {
+    /** @staticvar string */
     const MAGENTO_VERSION_1_14 = '1.14';
+
+    /** @staticvar string */
     const MAGENTO_VERSION_1_13 = '1.13';
+
+    /** @staticvar string */
     const MAGENTO_VERSION_1_12 = '1.12';
+
+    /** @staticvar string */
     const MAGENTO_VERSION_1_11 = '1.11';
+
+    /** @staticvar string */
     const MAGENTO_VERSION_1_9  = '1.9';
+
+    /** @staticvar string */
     const MAGENTO_VERSION_1_8  = '1.8';
+
+    /** @staticvar string */
     const MAGENTO_VERSION_1_7  = '1.7';
+
+    /** @staticvar string */
     const MAGENTO_VERSION_1_6  = '1.6';
 
+    /** @staticvar string */
     const MAGENTO_CORE_ACCESS_DENIED = 'Access denied.';
 
+    /** @staticvar string */
     const UNKNOWN_VERSION = 'unknown_version';
 
+    /** @staticvar string */
     const MAGENTO_VERSION_NOT_SUPPORTED_MESSAGE = 'Your Magento version is not supported yet.';
 
     /** @var string */

@@ -20,14 +20,19 @@ use Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClientParametersRegi
  */
 class ProductAssociationProcessor extends AbstractProcessor
 {
+    /** @staticvar string */
     const MAGENTO_UP_SELL    = 'up_sell';
+
+    /** @staticvar string */
     const MAGENTO_CROSS_SELL = 'cross_sell';
+
+    /** @staticvar string */
     const MAGENTO_RELATED    = 'related';
+
+    /** @staticvar string */
     const MAGENTO_GROUPED    = 'grouped';
 
-    /**
-     * @var AssociationTypeManager
-     */
+    /** @var AssociationTypeManager */
     protected $associationTypeManager;
 
     /** @var string */
@@ -44,7 +49,7 @@ class ProductAssociationProcessor extends AbstractProcessor
 
     /**
      * @param WebserviceGuesser                   $webserviceGuesser
-     * @param ProductNormalizerGuesser            $normalizerGuesser
+     * @param NormalizerGuesser                   $normalizerGuesser
      * @param LocaleManager                       $localeManager
      * @param MagentoMappingMerger                $storeViewMappingMerger
      * @param AssociationTypeManager              $associationTypeManager

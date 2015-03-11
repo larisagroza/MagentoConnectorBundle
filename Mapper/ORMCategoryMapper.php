@@ -16,9 +16,7 @@ use Pim\Bundle\CatalogBundle\Model\CategoryInterface;
  */
 class ORMCategoryMapper extends ORMPimMapper
 {
-    /**
-     * @var CategoryManager
-     */
+    /** @var CategoryManager */
     protected $categoryManager;
 
     /**
@@ -39,8 +37,6 @@ class ORMCategoryMapper extends ORMPimMapper
     }
 
     /**
-     * Get all sources.
-     *
      * @param CategoryInterface $category
      *
      * @return array

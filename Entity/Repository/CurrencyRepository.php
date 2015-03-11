@@ -14,14 +14,14 @@ use Pim\Bundle\CatalogBundle\Entity\Repository\CurrencyRepository as BaseCurrenc
 class CurrencyRepository extends BaseCurrencyRepository
 {
     /**
-     * Get all categories for the given criterias.
+     * Get all categories for the given criteria.
      *
-     * @param array $criterias
+     * @param array $criteria
      *
-     * @return Currency[]
+     * @return \Pim\Bundle\CatalogBundle\Entity\Currency[]
      */
-    public function getCategories(array $criterias)
+    public function getCategories(array $criteria)
     {
-        return $this->findBy($criterias);
+        return $this->findBy($criteria);
     }
 }

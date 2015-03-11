@@ -11,9 +11,7 @@ namespace Pim\Bundle\MagentoConnectorBundle\Reader\ORM;
  */
 class GroupedOptionReader extends BulkEntityReader
 {
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $groupedOptions;
 
     /**
@@ -64,7 +62,7 @@ class GroupedOptionReader extends BulkEntityReader
     /**
      * Get all ignored attributes.
      *
-     * @return array
+     * @return string[]
      */
     protected function getIgnoredAttributes()
     {

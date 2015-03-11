@@ -14,15 +14,22 @@ use Symfony\Component\Stopwatch\Stopwatch;
  */
 class MagentoSoapClient
 {
+    /** @staticvar string */
     const MAGENTO_BAD_CREDENTIALS     = '2';
+
+    /** @staticvar string */
     const MAGENTO_CLIENT_NOT_CALLABLE = 'Client';
 
+    /** @var string */
     protected $session;
 
+    /** @var \SoapClient */
     protected $client;
 
+    /** @var array */
     protected $calls;
 
+    /** @var MagentoSoapClientParameters */
     protected $clientParameters;
 
     /** @var MagentoSoapClientProfiler */

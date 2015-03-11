@@ -15,9 +15,7 @@ use Pim\Bundle\MagentoConnectorBundle\Validator\Constraints\HasValidCredentialsV
  */
 class ORMAttributeCodeMapper extends ORMPimMapper
 {
-    /**
-     * @var AttributeManager
-     */
+    /** @var AttributeManager */
     protected $attributeManager;
 
     /**
@@ -38,9 +36,7 @@ class ORMAttributeCodeMapper extends ORMPimMapper
     }
 
     /**
-     * Get all targets.
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function getAllSources()
     {

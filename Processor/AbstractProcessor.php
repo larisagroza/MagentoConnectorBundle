@@ -22,14 +22,10 @@ use Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClientParametersRegi
  */
 abstract class AbstractProcessor extends MagentoItemStep implements ItemProcessorInterface
 {
-    /**
-     * @var NormalizerGuesser
-     */
+    /** @var NormalizerGuesser */
     protected $normalizerGuesser;
 
-    /**
-     * @var LocaleManager
-     */
+    /** @var LocaleManager */
     protected $localeManager;
 
     /**
@@ -42,17 +38,13 @@ abstract class AbstractProcessor extends MagentoItemStep implements ItemProcesso
      */
     protected $website = 'base';
 
-    /**
-     * @var MagentoMappingMerger
-     */
+    /** @var MagentoMappingMerger */
     protected $storeViewMappingMerger;
 
     /** @var string */
     protected $storeviewMapping = '';
 
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $globalContext = [];
 
     /**
@@ -77,8 +69,6 @@ abstract class AbstractProcessor extends MagentoItemStep implements ItemProcesso
     }
 
     /**
-     * get defaultLocale.
-     *
      * @return string defaultLocale
      */
     public function getDefaultLocale()
@@ -87,9 +77,7 @@ abstract class AbstractProcessor extends MagentoItemStep implements ItemProcesso
     }
 
     /**
-     * Set defaultLocale.
-     *
-     * @param string $defaultLocale defaultLocale
+     * @param string $defaultLocale
      *
      * @return AbstractProcessor
      */
@@ -101,9 +89,7 @@ abstract class AbstractProcessor extends MagentoItemStep implements ItemProcesso
     }
 
     /**
-     * get website.
-     *
-     * @return string website
+     * @return string
      */
     public function getWebsite()
     {
@@ -111,9 +97,7 @@ abstract class AbstractProcessor extends MagentoItemStep implements ItemProcesso
     }
 
     /**
-     * Set website.
-     *
-     * @param string $website website
+     * @param string $website
      *
      * @return AbstractProcessor
      */
@@ -125,9 +109,9 @@ abstract class AbstractProcessor extends MagentoItemStep implements ItemProcesso
     }
 
     /**
-     * Set attribute mapping.
+     * Set store view mapping mapping in parameters AND in database
      *
-     * @param string $storeViewMapping
+     * @param string $storeViewMapping JSON
      *
      * @return AbstractProcessor
      */
@@ -147,9 +131,7 @@ abstract class AbstractProcessor extends MagentoItemStep implements ItemProcesso
     }
 
     /**
-     * Get attribute mapping.
-     *
-     * @return string
+     * @return string JSON
      */
     public function getStoreViewMapping()
     {
@@ -196,7 +178,7 @@ abstract class AbstractProcessor extends MagentoItemStep implements ItemProcesso
      * @param string $familyCode
      * @param mixed  $relatedItem
      *
-     * @throws InvalidItemException If The attribute set doesn't exist on Mangento
+     * @throws InvalidItemException If The attribute set doesn't exist on Magento
      *
      * @return integer
      */

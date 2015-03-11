@@ -22,17 +22,13 @@ use Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClientParametersRegi
  */
 class AttributeProcessor extends AbstractProcessor
 {
-    /**
-     * @var MagentoMappingMerger
-     */
+    /** @var MagentoMappingMerger */
     protected $attributeMappingMerger;
 
-    /** @var  AttributeNormalizer */
+    /** @var \Pim\Bundle\MagentoConnectorBundle\Normalizer\AttributeNormalizer */
     protected $attributeNormalizer;
 
-    /**
-     * @var GroupManager
-     */
+    /** @var GroupManager */
     protected $groupManager;
 
     /** @var string */
@@ -40,7 +36,7 @@ class AttributeProcessor extends AbstractProcessor
 
     /**
      * @param WebserviceGuesser                   $webserviceGuesser
-     * @param ProductNormalizerGuesser            $normalizerGuesser
+     * @param NormalizerGuesser                   $normalizerGuesser
      * @param LocaleManager                       $localeManager
      * @param MagentoMappingMerger                $storeViewMappingMerger
      * @param MagentoMappingMerger                $attributeMappingMerger
@@ -69,9 +65,9 @@ class AttributeProcessor extends AbstractProcessor
     }
 
     /**
-     * Set attribute code mapping.
+     * Set attribute code mapping in parameters AND in database.
      *
-     * @param string $attributeCodeMapping
+     * @param string $attributeCodeMapping JSON
      *
      * @return AttributeProcessor
      */
@@ -93,7 +89,7 @@ class AttributeProcessor extends AbstractProcessor
     /**
      * Get attribute code mapping.
      *
-     * @return string
+     * @return string JSON
      */
     public function getAttributeCodeMapping()
     {
@@ -128,9 +124,8 @@ class AttributeProcessor extends AbstractProcessor
             $attribute,
             $this->globalContext['magentoAttributes']
         );
-        $result = [$attribute, $this->normalizeAttribute($attribute, $this->globalContext)];
 
-        return $result;
+        return [$attribute, $this->normalizeAttribute($attribute, $this->globalContext)];
     }
 
     /**

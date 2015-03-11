@@ -14,7 +14,7 @@ class WebserviceEE extends Webservice
     /**
      * Get options for the given attribute.
      *
-     * @param string $attributeCode Attribute code
+     * @param string $attributeCode
      *
      * @return array the formated options for the given attribute
      */
@@ -38,6 +38,9 @@ class WebserviceEE extends Webservice
         return $formatedOptions;
     }
 
+    /**
+     * @return array
+     */
     protected function getIgnoredAttributes()
     {
         return [

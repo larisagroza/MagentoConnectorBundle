@@ -11,56 +11,39 @@ namespace Pim\Bundle\MagentoConnectorBundle\Webservice;
  */
 class MagentoSoapClientParameters
 {
+    /** @staticvar string */
     const SOAP_WSDL_URL = '/api/soap/?wsdl';
 
-    /**
-     * @var string Soap Username
-     */
+    /** @var string */
     protected $soapUsername;
 
-    /**
-     * @var string Soap Api Key
-     */
+    /** @var string */
     protected $soapApiKey;
 
-    /**
-     * @var string Wsdl extension
-     */
+    /** @var string */
     protected $wsdlUrl;
 
-    /**
-     * @var string Magento Url (only the domain)
-     */
+    /** @var string Magento Url (only the domain) */
     protected $magentoUrl;
 
-    /**
-     * @var string Default store view
-     */
+    /** @var string */
     protected $defaultStoreView;
 
-    /**
-     * @var string Login for http authentication
-     */
+    /** @var string */
     protected $httpLogin;
 
-    /**
-     * @var string Password for http authentication
-     */
+    /** @var string */
     protected $httpPassword;
 
-    /**
-     * @var boolean Are parameters valid or not ?
-     */
+    /** @var boolean Are parameters valid or not ? */
     protected $isValid;
 
     /**
-     * Constructor.
-     *
      * @param string $soapUsername     Magento soap username
      * @param string $soapApiKey       Magento soap api key
      * @param string $magentoUrl       Magento url (only the domain)
      * @param string $wsdlUrl          Only wsdl soap api extension
-     * @param string $defaultStoreView Default stroe view
+     * @param string $defaultStoreView Default store view
      * @param string $httpLogin        Login http authentication
      * @param string $httpPassword     Password http authentication
      */
@@ -83,7 +66,7 @@ class MagentoSoapClientParameters
     }
 
     /**
-     * get hash to uniquely identify parameters even in different instances.
+     * Get hash to uniquely identify parameters even in different instances.
      *
      * @return string
      */
@@ -103,7 +86,7 @@ class MagentoSoapClientParameters
     /**
      * Are parameters valid or not ?
      *
-     * @return boolean Is valid
+     * @return boolean
      */
     public function isValid()
     {
@@ -111,8 +94,6 @@ class MagentoSoapClientParameters
     }
 
     /**
-     * Allows to change the state of validation.
-     *
      * @param boolean $state
      */
     public function setValidation($state)
@@ -121,9 +102,7 @@ class MagentoSoapClientParameters
     }
 
     /**
-     * Get soapUsername.
-     *
-     * @return string Soap magento soapUsername
+     * @return string
      */
     public function getSoapUsername()
     {
@@ -131,9 +110,7 @@ class MagentoSoapClientParameters
     }
 
     /**
-     * Get the soap api key.
-     *
-     * @return string Soap magento soapApiKey
+     * @return string
      */
     public function getSoapApiKey()
     {
@@ -141,9 +118,9 @@ class MagentoSoapClientParameters
     }
 
     /**
-     * Get the soap Url.
+     * Soap url is concatenation between magento url and wsdl url
      *
-     * @return string Soap Url
+     * @return string
      */
     public function getSoapUrl()
     {
@@ -151,9 +128,7 @@ class MagentoSoapClientParameters
     }
 
     /**
-     * Get the wsdl Url.
-     *
-     * @return string Wsdl Url
+     * @return string
      */
     public function getWsdlUrl()
     {
@@ -161,9 +136,9 @@ class MagentoSoapClientParameters
     }
 
     /**
-     * Get the magento Url.
+     * Magento url is the domain name
      *
-     * @return string Magento Domain Url
+     * @return string
      */
     public function getMagentoUrl()
     {
@@ -171,9 +146,7 @@ class MagentoSoapClientParameters
     }
 
     /**
-     * Get the default store view.
-     *
-     * @return string Default store view
+     * @return string
      */
     public function getDefaultstoreView()
     {
@@ -181,9 +154,7 @@ class MagentoSoapClientParameters
     }
 
     /**
-     * Get the http authentication login.
-     *
-     * @return string Http login
+     * @return string
      */
     public function getHttpLogin()
     {
@@ -191,9 +162,7 @@ class MagentoSoapClientParameters
     }
 
     /**
-     * Get the http authentication password.
-     *
-     * @return string Http password
+     * @return string
      */
     public function getHttpPassword()
     {

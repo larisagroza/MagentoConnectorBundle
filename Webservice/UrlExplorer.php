@@ -17,17 +17,16 @@ use Guzzle\Service\ClientInterface;
  */
 class UrlExplorer
 {
+    /** @staticvar int */
     const TIMEOUT = 10;
+
+    /** @staticvar int */
     const CONNECT_TIMEOUT = 10;
 
-    /**
-     * @var ClientInterface
-     */
+    /** @var ClientInterface */
     protected $client;
 
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $resultCache;
 
     /**
@@ -71,7 +70,7 @@ class UrlExplorer
      *
      * @param MagentoSoapClientParameters $clientParameters
      *
-     * @return Guzzle\Http\Message\Response
+     * @return \Guzzle\Http\Message\Response
      *
      * @throws \Exception
      */

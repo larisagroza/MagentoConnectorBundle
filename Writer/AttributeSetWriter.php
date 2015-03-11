@@ -18,19 +18,13 @@ use Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClientParametersRegi
  */
 class AttributeSetWriter extends AbstractWriter
 {
-    /**
-     * @var FamilyMappingManager
-     */
+    /** @var FamilyMappingManager */
     protected $familyMappingManager;
 
-    /**
-     * @var AttributeMappingManager
-     */
+    /** @var AttributeMappingManager */
     protected $attributeMappingManager;
 
     /**
-     * Constructor.
-     *
      * @param WebserviceGuesser                   $webserviceGuesser
      * @param FamilyMappingManager                $familyMappingManager
      * @param AttributeMappingManager             $attributeMappingManager

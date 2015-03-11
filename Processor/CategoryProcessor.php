@@ -25,24 +25,16 @@ class CategoryProcessor extends AbstractProcessor
     /** @var string */
     protected $categoryMapping;
 
-    /**
-     * @var MagentoMappingMerger
-     */
+    /** @var MagentoMappingMerger */
     protected $categoryMappingMerger;
 
-    /**
-     * @var CategoryNormalizer
-     */
+    /** @var CategoryNormalizer */
     protected $categoryNormalizer;
 
-    /**
-     * @var boolean
-     */
+    /** @var boolean */
     protected $isAnchor;
 
-    /**
-     * @var boolean
-     */
+    /** @var boolean */
     protected $urlKey;
 
     /**
@@ -73,9 +65,9 @@ class CategoryProcessor extends AbstractProcessor
     }
 
     /**
-     * Get categoryMapping.
+     * Get category mapping from merger.
      *
-     * @return string categoryMapping
+     * @return string JSON
      */
     public function getCategoryMapping()
     {
@@ -83,11 +75,11 @@ class CategoryProcessor extends AbstractProcessor
     }
 
     /**
-     * Set categoryMapping.
+     * Set category mapping in parameters AND in database.
      *
-     * @param string $categoryMapping categoryMapping
+     * @param string $categoryMapping JSON
      *
-     * @return AbstractProcessor
+     * @return CategoryProcessor
      */
     public function setCategoryMapping($categoryMapping)
     {
@@ -105,8 +97,6 @@ class CategoryProcessor extends AbstractProcessor
     }
 
     /**
-     * Get isAnchor.
-     *
      * @return boolean
      */
     public function isIsAnchor()
@@ -115,8 +105,6 @@ class CategoryProcessor extends AbstractProcessor
     }
 
     /**
-     * Set isAnchor.
-     *
      * @param boolean $isAnchor
      *
      * @return CategoryProcessor
@@ -177,6 +165,8 @@ class CategoryProcessor extends AbstractProcessor
 
     /**
      * {@inheritdoc}
+     *
+     * @throws InvalidItemException
      */
     public function process($categories)
     {

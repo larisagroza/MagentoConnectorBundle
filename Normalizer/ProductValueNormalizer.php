@@ -25,23 +25,18 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class ProductValueNormalizer implements NormalizerInterface
 {
+    /** @staticvar string */
     const GLOBAL_SCOPE = 'global';
 
     /**
-     * Normalizes an object into a set of arrays/scalars.
-     *
-     * @param object $object  object to normalize
-     * @param string $format  format the normalization result will be encoded as
-     * @param array  $context Context options for the normalizer
-     *
-     * @return array|scalar
+     * {@inheritdoc}
      */
-    public function normalize($object, $format = null, array $context = [])
+    public function normalize($productValue, $format = null, array $context = [])
     {
-        $attributeCode = strtolower($context['attributeCodeMapping']->getTarget($object->getAttribute()->getCode()));
+        $attributeCode = strtolower($context['attributeCodeMapping']->getTarget($productValue->getAttribute()->getCode()));
 
         if ($this->isValueNormalizable(
-            $object,
+            $productValue,
             $context['identifier'],
             $attributeCode,
             $context['scopeCode'],
@@ -49,7 +44,7 @@ class ProductValueNormalizer implements NormalizerInterface
             $context['onlyLocalized']
         )) {
             return $this->getNormalizedValue(
-                $object,
+                $productValue,
                 $attributeCode,
                 $context['magentoAttributes'],
                 $context['magentoAttributesOptions'],
@@ -62,12 +57,7 @@ class ProductValueNormalizer implements NormalizerInterface
     }
 
     /**
-     * Checks whether the given class is supported for normalization by this normalizer.
-     *
-     * @param mixed  $data   Data to normalize.
-     * @param string $format The format being (de-)serialized from or into.
-     *
-     * @return boolean
+     * {@inheritdoc}
      */
     public function supportsNormalization($data, $format = null)
     {
@@ -275,8 +265,8 @@ class ProductValueNormalizer implements NormalizerInterface
     /**
      * Does the attribute scope match with attributeScope on magento ?
      *
-     * @param Attribute $attribute
-     * @param string    $attributeScope
+     * @param AbstractAttribute $attribute
+     * @param string            $attributeScope
      *
      * @return boolean
      */

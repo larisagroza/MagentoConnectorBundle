@@ -18,7 +18,7 @@ use Pim\Bundle\MagentoConnectorBundle\Mapper\MappingCollection;
  */
 class PriceMappingManager
 {
-    /** @const string Magento price attribute */
+    /** @staticvar string Magento price attribute */
     const MAGENTO_PRICE = 'price';
 
     /** @var string */
@@ -31,8 +31,6 @@ class PriceMappingManager
     protected $channel;
 
     /**
-     * Constructor.
-     *
      * @param string $locale
      * @param string $currency
      * @param string $channel
@@ -126,11 +124,11 @@ class PriceMappingManager
     /**
      * Get sorted attributes for mapping.
      *
-     * @param ArrayCollection   $attributes
-     * @param array             $products
-     * @param float             $basePrice
-     * @param MappingCollection $attributeMapping
-     * @param boolean           $lowest
+     * @param \Doctrine\Common\Collections\ArrayCollection|array $attributes
+     * @param array                                              $products
+     * @param float                                              $basePrice
+     * @param MappingCollection                                  $attributeMapping
+     * @param boolean                                            $lowest
      *
      * @return array
      */
@@ -255,8 +253,8 @@ class PriceMappingManager
     /**
      * Get all products with the given option value.
      *
-     * @param array           $products
-     * @param AttributeOption $option
+     * @param ProductInterface[] $products
+     * @param AttributeOption    $option
      *
      * @return array
      */

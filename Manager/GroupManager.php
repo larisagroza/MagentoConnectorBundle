@@ -2,6 +2,7 @@
 
 namespace Pim\Bundle\MagentoConnectorBundle\Manager;
 
+use Pim\Bundle\CatalogBundle\Entity\Group;
 use Pim\Bundle\CatalogBundle\Manager\GroupManager as BaseGroupManager;
 use Pim\Bundle\MagentoConnectorBundle\Entity\Repository\GroupRepository;
 
@@ -33,8 +34,6 @@ class GroupManager
     }
 
     /**
-     * Get available axis.
-     *
      * @return \Pim\Bundle\CatalogBundle\Model\AbstractAttribute[]
      */
     public function getAvailableAxis()
@@ -43,8 +42,6 @@ class GroupManager
     }
 
     /**
-     * Get axis as choice list.
-     *
      * @return array
      */
     public function getAvailableAxisChoices()
@@ -53,8 +50,6 @@ class GroupManager
     }
 
     /**
-     * Get choices.
-     *
      * @return array
      */
     public function getChoices()

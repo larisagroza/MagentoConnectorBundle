@@ -25,24 +25,16 @@ use Pim\Bundle\MagentoConnectorBundle\Item\MagentoItemStep;
  */
 class HasValidCredentialsValidator extends ConstraintValidator
 {
-    /**
-     * @var WebserviceGuesser
-     */
+    /** @var WebserviceGuesser */
     protected $webserviceGuesser;
 
-    /**
-     * @var UrlExplorer
-     */
+    /** @var UrlExplorer */
     protected $urlExplorer;
 
-    /**
-     * @var XmlChecker
-     */
+    /** @var XmlChecker */
     protected $xmlChecker;
 
-    /**
-     * @var MagentoSoapClientParametersRegistry
-     */
+    /** @var MagentoSoapClientParametersRegistry */
     protected $clientParametersRegistry;
 
     /**
@@ -66,8 +58,8 @@ class HasValidCredentialsValidator extends ConstraintValidator
     /**
      * Checks if the passed value is valid.
      *
-     * @param AbstractConfigurableStepElement $protocol   The value that should be validated
-     * @param Constraint                      $constraint The constraint for the validation
+     * @param \Akeneo\Bundle\BatchBundle\Item\AbstractConfigurableStepElement $protocol   Value to validate
+     * @param Constraint                                                      $constraint Constraint for validation
      *
      * @api
      */

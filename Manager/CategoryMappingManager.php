@@ -15,17 +15,13 @@ use Pim\Bundle\MagentoConnectorBundle\Mapper\MappingCollection;
  */
 class CategoryMappingManager
 {
-    /**
-     * @var \Doctrine\Common\Persistence\ObjectManager
-     */
+    /** @var \Doctrine\Common\Persistence\ObjectManager */
     protected $objectManager;
 
     /** @var string */
     protected $className;
 
     /**
-     * Constructor.
-     *
      * @param ObjectManager $objectManager
      * @param string        $className
      */
@@ -41,7 +37,7 @@ class CategoryMappingManager
      * @param int    $id
      * @param string $magentoUrl
      *
-     * @return CategoryInterface
+     * @return CategoryInterface|null
      */
     public function getCategoryFromId($id, $magentoUrl)
     {
@@ -62,7 +58,7 @@ class CategoryMappingManager
      * @param string            $magentoUrl
      * @param MappingCollection $categoryMapping
      *
-     * @return int
+     * @return int|null
      */
     public function getIdFromCategory(
         CategoryInterface $category,
@@ -131,7 +127,7 @@ class CategoryMappingManager
     /**
      * Get the entity manager.
      *
-     * @return EntityRepository
+     * @return \Doctrine\ORM\EntityRepository
      */
     protected function getEntityRepository()
     {

@@ -15,17 +15,13 @@ use Pim\Bundle\CatalogBundle\Entity\Family;
  */
 class AttributeGroupMappingManager
 {
-    /**
-     * @var \Doctrine\Common\Persistence\ObjectManager
-     */
+    /** @var \Doctrine\Common\Persistence\ObjectManager */
     protected $objectManager;
 
     /** @var string */
     protected $className;
 
     /**
-     * Constructor.
-     *
      * @param ObjectManager $objectManager
      * @param string        $className
      */
@@ -95,8 +91,6 @@ class AttributeGroupMappingManager
     }
 
     /**
-     * Return all the mappings.
-     *
      * @return array
      */
     public function getAllMappings()
@@ -107,7 +101,7 @@ class AttributeGroupMappingManager
     /**
      * Get the entity manager.
      *
-     * @return EntityRepository
+     * @return \Doctrine\ORM\EntityRepository
      */
     protected function getEntityRepository()
     {

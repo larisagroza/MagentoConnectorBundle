@@ -126,7 +126,7 @@ class OptionCleaner extends Cleaner
      * @param string            $optionLabel
      * @param AbstractAttribute $attribute
      *
-     * @return AttributeOption
+     * @return \Pim\Bundle\CatalogBundle\Entity\AttributeOption
      */
     protected function getOption($optionLabel, AbstractAttribute $attribute)
     {
@@ -156,9 +156,7 @@ class OptionCleaner extends Cleaner
     }
 
     /**
-     * Get all ignored attributes.
-     *
-     * @return array
+     * @return string[]
      */
     protected function getIgnoredAttributes()
     {

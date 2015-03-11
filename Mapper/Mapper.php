@@ -11,12 +11,11 @@ namespace Pim\Bundle\MagentoConnectorBundle\Mapper;
  */
 class Mapper implements MapperInterface
 {
+    /** @staticvar string */
     const IDENTIFIER_FORMAT = '%s-%s';
 
     /**
-     * Get mapping.
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function getMapping()
     {
@@ -24,38 +23,30 @@ class Mapper implements MapperInterface
     }
 
     /**
-     * Set mapping.
-     *
-     * @param array $mapping
+     * {@inheritdoc}
      */
     public function setMapping(array $mapping)
     {
     }
 
     /**
-     * Get all targets.
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function getAllTargets()
     {
-        return array();
+        return [];
     }
 
     /**
-     * Get all sources.
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function getAllSources()
     {
-        return array();
+        return [];
     }
 
     /**
-     * Get mapper priority.
-     *
-     * @return integer
+     * {@inheritdoc}
      */
     public function getPriority()
     {
@@ -63,11 +54,7 @@ class Mapper implements MapperInterface
     }
 
     /**
-     * Get mapper identifier.
-     *
-     * @param string $rootIdentifier
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getIdentifier($rootIdentifier = 'generic')
     {
@@ -79,9 +66,7 @@ class Mapper implements MapperInterface
     }
 
     /**
-     * Is the mapper valid ?
-     *
-     * @return boolean
+     * {@inheritdoc}
      */
     public function isValid()
     {

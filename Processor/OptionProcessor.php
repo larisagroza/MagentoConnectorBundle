@@ -22,14 +22,10 @@ use Pim\Bundle\MagentoConnectorBundle\Webservice\MagentoSoapClientParametersRegi
  */
 class OptionProcessor extends AbstractProcessor
 {
-    /**
-     * @var OptionNormalizer
-     */
+    /** @var \Pim\Bundle\MagentoConnectorBundle\Normalizer\OptionNormalizer */
     protected $optionNormalizer;
 
-    /**
-     * @var MagentoMappingMerger
-     */
+    /** @var MagentoMappingMerger */
     protected $attributeMappingMerger;
 
     /** @var string */
@@ -37,7 +33,7 @@ class OptionProcessor extends AbstractProcessor
 
     /**
      * @param WebserviceGuesser                   $webserviceGuesser
-     * @param ProductNormalizerGuesser            $normalizerGuesser
+     * @param NormalizerGuesser                   $normalizerGuesser
      * @param LocaleManager                       $localeManager
      * @param MagentoMappingMerger                $storeViewMappingMerger
      * @param MagentoMappingMerger                $attributeMappingMerger
@@ -63,11 +59,11 @@ class OptionProcessor extends AbstractProcessor
     }
 
     /**
-     * Set attribute code mapping.
+     * Set attribute code mapping in parameters AND in database.
      *
-     * @param string $attributeCodeMapping
+     * @param string $attributeCodeMapping JSON
      *
-     * @return AttributeProcessor
+     * @return OptionProcessor
      */
     public function setAttributeCodeMapping($attributeCodeMapping)
     {
@@ -85,9 +81,9 @@ class OptionProcessor extends AbstractProcessor
     }
 
     /**
-     * Get attribute code mapping.
+     * Get attribute code mapping from merger.
      *
-     * @return string
+     * @return string JSON
      */
     public function getAttributeCodeMapping()
     {
@@ -154,12 +150,14 @@ class OptionProcessor extends AbstractProcessor
     }
 
     /**
-     * Get the normalized.
+     * Get the normalized option.
      *
      * @param AttributeOption $option
      * @param array           $context
      *
      * @return array
+     *
+     * @throws InvalidItemException
      */
     protected function getNormalizedOption(AttributeOption $option, array $context)
     {

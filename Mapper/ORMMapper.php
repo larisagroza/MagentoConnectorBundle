@@ -13,9 +13,7 @@ use Pim\Bundle\MagentoConnectorBundle\Manager\SimpleMappingManager;
  */
 class ORMMapper extends Mapper
 {
-    /**
-     * @var SimpleMappingManager
-     */
+    /** @var SimpleMappingManager */
     protected $simpleMappingManager;
 
     /** @var string */
@@ -34,9 +32,7 @@ class ORMMapper extends Mapper
     }
 
     /**
-     * Get mapping.
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function getMapping()
     {
@@ -61,9 +57,7 @@ class ORMMapper extends Mapper
     }
 
     /**
-     * Set mapping.
-     *
-     * @param array $mapping
+     * {@inheritdoc}
      */
     public function setMapping(array $mapping)
     {
@@ -75,9 +69,7 @@ class ORMMapper extends Mapper
     }
 
     /**
-     * Get all targets.
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function getAllTargets()
     {
@@ -95,9 +87,7 @@ class ORMMapper extends Mapper
     }
 
     /**
-     * Get all sources.
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function getAllSources()
     {
@@ -115,9 +105,7 @@ class ORMMapper extends Mapper
     }
 
     /**
-     * Get mapper priority.
-     *
-     * @return integer
+     * {@inheritdoc}
      */
     public function getPriority()
     {

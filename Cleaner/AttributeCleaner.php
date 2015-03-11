@@ -32,7 +32,7 @@ class AttributeCleaner extends Cleaner
 
     /**
      * @param WebserviceGuesser                   $webserviceGuesser
-     * @param MagentoMappingMerger                $attributeMappingMerger
+     * @param MagentoMappingMerger                $attributeCodeMappingMerger
      * @param EntityManager                       $em
      * @param string                              $attributeClassName
      * @param MagentoSoapClientParametersRegistry $clientParametersRegistry
@@ -52,8 +52,6 @@ class AttributeCleaner extends Cleaner
     }
 
     /**
-     * Set attribute code mapping.
-     *
      * @param string $attributeCodeMapping
      *
      * @return AttributeCleaner
@@ -74,8 +72,6 @@ class AttributeCleaner extends Cleaner
     }
 
     /**
-     * Get attribute code mapping.
-     *
      * @return string
      */
     public function getAttributeCodeMapping()
@@ -182,7 +178,7 @@ class AttributeCleaner extends Cleaner
     /**
      * Get all ignored attributes.
      *
-     * @return array
+     * @return string[]
      */
     protected function getIgnoredAttributes()
     {

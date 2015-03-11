@@ -19,9 +19,7 @@ class MappingProcessor extends AbstractConfigurableStepElement implements
     ItemProcessorInterface,
     StepExecutionAwareInterface
 {
-    /**
-     * @var StepExecution
-     */
+    /** @var StepExecution */
     protected $stepExecution;
 
     /**
@@ -45,8 +43,11 @@ class MappingProcessor extends AbstractConfigurableStepElement implements
         $this->stepExecution = $stepExecution;
     }
 
+    /**
+     * @return array
+     */
     public function getConfigurationFields()
     {
-        return array();
+        return [];
     }
 }

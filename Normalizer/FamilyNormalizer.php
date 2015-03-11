@@ -14,21 +14,18 @@ use Symfony\Component\Serializer\Normalizer\NormalizerInterface;
  */
 class FamilyNormalizer implements NormalizerInterface
 {
+    /** @staticvar string */
     const MAGENTO_FORMAT = 'MagentoArray';
 
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $supportedFormats = [self::MAGENTO_FORMAT];
 
     /**
      * {@inheritdoc}
      */
-    public function normalize($object, $format = null, array $context = [])
+    public function normalize($family, $format = null, array $context = [])
     {
-        $normalizedFamily = ['attributeSetName' => $object->getCode()];
-
-        return $normalizedFamily;
+        return ['attributeSetName' => $family->getCode()];
     }
 
     /**

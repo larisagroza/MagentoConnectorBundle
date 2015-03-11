@@ -17,14 +17,10 @@ use Pim\Bundle\TransformBundle\Normalizer\Flat\FamilyNormalizer;
  */
 class FamilyProcessor extends AbstractProcessor
 {
-    /**
-     * @var FamilyNormalizer
-     */
+    /** @var FamilyNormalizer */
     protected $familyNormalizer;
 
-    /**
-     * @var array
-     */
+    /** @var array */
     protected $globalContext;
 
     /**

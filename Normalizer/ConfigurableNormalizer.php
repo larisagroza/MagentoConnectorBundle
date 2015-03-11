@@ -19,23 +19,22 @@ use Pim\Bundle\MagentoConnectorBundle\Mapper\MappingCollection;
  */
 class ConfigurableNormalizer extends AbstractNormalizer
 {
+    /** @staticvar string */
     const BASE_PRICE      = 'price';
+
+    /** @staticvar string */
     const PRICE_CHANGES   = 'price_changes';
+
+    /** @staticvar string */
     const ASSOCIATED_SKUS = 'associated_skus';
 
-    /**
-     * @var ProductNormalizer
-     */
+    /** @var ProductNormalizer */
     protected $productNormalizer;
 
-    /**
-     * @var boolean
-     */
+    /** @var boolean */
     protected $visibility;
 
     /**
-     * Constructor.
-     *
      * @param ChannelManager      $channelManager
      * @param ProductNormalizer   $productNormalizer
      * @param PriceMappingManager $priceMappingManager

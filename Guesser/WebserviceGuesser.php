@@ -24,8 +24,6 @@ class WebserviceGuesser extends AbstractGuesser
     protected $magentoSoapClientFactory;
 
     /**
-     * Constructor.
-     *
      * @param MagentoSoapClientFactory $magentoSoapClientFactory
      */
     public function __construct(MagentoSoapClientFactory $magentoSoapClientFactory)

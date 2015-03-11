@@ -17,20 +17,31 @@ use Pim\Bundle\MagentoConnectorBundle\Mapper\MappingCollection;
  */
 class AttributeReader extends EntityReader
 {
+    /** @staticvar string */
     const IMAGE_ATTRIBUTE_TYPE = 'pim_catalog_image';
 
-    /**
-     * @var MagentoMappingMerger
-     */
+    /** @var MagentoMappingMerger */
     protected $attributeCodeMappingMerger;
 
     /** @var string */
     protected $attributeCodeMapping = '';
 
     /**
-     * Set attribute code mapping.
+     * @param EntityManager        $em
+     * @param string               $className
+     * @param MagentoMappingMerger $attributeMappingMerger
+     */
+    public function __construct(EntityManager $em, $className, MagentoMappingMerger $attributeCodeMappingMerger)
+    {
+        parent::__construct($em, $className);
+
+        $this->attributeCodeMappingMerger = $attributeCodeMappingMerger;
+    }
+
+    /**
+     * Set attribute code mapping in parameters AND in database.
      *
-     * @param string $attributeCodeMapping
+     * @param string $attributeCodeMapping JSON
      *
      * @return AttributeReader
      */
@@ -48,25 +59,13 @@ class AttributeReader extends EntityReader
     }
 
     /**
-     * Get attribute id mapping.
+     * Get attribute mapping from merger.
      *
-     * @return string
+     * @return string JSON
      */
     public function getAttributeCodeMapping()
     {
         return json_encode($this->attributeCodeMappingMerger->getMapping()->toArray());
-    }
-
-    /**
-     * @param EntityManager        $em                     The entity manager
-     * @param string               $className              The entity class name used
-     * @param MagentoMappingMerger $attributeMappingMerger Attribute mapping merger
-     */
-    public function __construct(EntityManager $em, $className, MagentoMappingMerger $attributeCodeMappingMerger)
-    {
-        parent::__construct($em, $className);
-
-        $this->attributeCodeMappingMerger = $attributeCodeMappingMerger;
     }
 
     /**
@@ -118,7 +117,7 @@ class AttributeReader extends EntityReader
     /**
      * Get all ignored attributes.
      *
-     * @return array
+     * @return string[]
      */
     protected function getIgnoredAttributes()
     {

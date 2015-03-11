@@ -89,8 +89,6 @@ class CategoryReader extends EntityReader
     }
 
     /**
-     * Set channel code.
-     *
      * @param string $channel
      */
     public function setChannel($channel)
@@ -99,8 +97,6 @@ class CategoryReader extends EntityReader
     }
 
     /**
-     * Get channel code.
-     *
      * @return string
      */
     public function getChannel()
