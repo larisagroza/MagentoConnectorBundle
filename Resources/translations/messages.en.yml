@@ -1,6 +1,14 @@
+pim_base_connector:
+    jobs:
+        magento_attribute_export:
+            title: Magento attribute export
+        magento_category_export:
+            title: Magento category export
+        magento_product_export:
+            title: Magento product export delta
+
 pim_magento_connector:
     jobs:
-        product_export.title: Export products to Magento
         product_export_delta.title: Delta export on products
         category_export.title: Export categories to Magento
         attribute_export.title: Export attribute and attribute sets to Magento
