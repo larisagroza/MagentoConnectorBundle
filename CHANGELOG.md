@@ -34,6 +34,7 @@
  - Add ExportableLocaleFilter parameter in NormalizerGuesser
  - Remove ProductValueManager class (used only to calculate default value which is not a feature anymore)
  - Remove ProductValueManager injection in NormalizerGuesser and AttributeNormalizer
+ - Add translations for jobs: `pim_base_connector.jobs.magento_attribute_export.title`, `pim_base_connector.jobs.magento_category_export.title`, and `pim_base_connector.jobs.magento_product_export.title`
 
 # 1.1.24 (2015-03-09)
 ## Bug fix
