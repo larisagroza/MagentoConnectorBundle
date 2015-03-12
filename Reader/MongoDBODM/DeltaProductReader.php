@@ -83,7 +83,7 @@ class DeltaProductReader extends ODMProductReader
 
         if ($result) {
             while (!$this->needsUpdate($result)) {
-                $result = $this->products->next();
+                $result = $this->products->getNext();
                 if (null === $result) {
                     return null;
                 }
