@@ -7,6 +7,9 @@ pim_base_connector:
         magento_product_export:
             title: Export delta des produits vers Magento
 
+General properties.title: Proprietés générales
+History.title: Historique
+
 pim_magento_connector:
     jobs:
         product_export_delta.title: Export delta des produits vers Magento
