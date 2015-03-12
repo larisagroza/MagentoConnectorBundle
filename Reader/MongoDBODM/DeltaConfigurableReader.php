@@ -63,7 +63,9 @@ class DeltaConfigurableReader extends DeltaProductReader
         $variantGroupIds = $this->groupRepository->getVariantGroupIds();
 
         $qb = parent::prepareQB();
-        $qb->field('groupIds')->in($variantGroupIds);
+        $qb->addAnd(
+            $qb->expr()->field('groupIds')->in($variantGroupIds)
+        );
 
         return $qb;
     }
