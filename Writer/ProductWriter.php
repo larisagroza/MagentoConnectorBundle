@@ -113,6 +113,9 @@ class ProductWriter extends AbstractWriter
 
         $this->pruneImages($sku, $images);
 
+        $pdfs = $this->webservice->getPdfs($sku, $this->defaultStoreView);
+        $this->prunePdfs($pdfs);
+
         foreach (array_keys($product) as $storeViewCode) {
             $this->createCall($product[$storeViewCode], $storeViewCode);
         }
@@ -134,6 +137,10 @@ class ProductWriter extends AbstractWriter
             case Webservice::IMAGES:
                 $this->webservice->sendImages($productPart);
                 $this->stepExecution->incrementSummaryInfo('product_image_sent');
+                break;
+            case Webservice::PDFS:
+                $this->webservice->sendPdfs($productPart);
+                $this->stepExecution->incrementSummaryInfo('product_pdf_sent');
                 break;
             default:
                 $this->webservice->updateProductPart($productPart);
@@ -171,6 +178,24 @@ class ProductWriter extends AbstractWriter
     {
         foreach ($images as $image) {
             $this->webservice->deleteImage($sku, $image['file']);
+        }
+    }
+    /**
+     * Clean old pdfs on magento product
+     *
+     * @param array  $pdfs
+     */
+    protected function prunePdfs(array $pdfs = [])
+    {
+        if (isset($pdfs['links']) && sizeof($pdfs['links'])) {
+            foreach (@$pdfs['links'] as $pdf) {
+                $this->webservice->deletePdf($pdf['link_id'], "link");
+            }
+        }
+        if (isset($pdfs['samples']) && sizeof($pdfs['samples'])) {
+            foreach (@$pdfs['samples'] as $pdf) {
+                $this->webservice->deletePdf($pdf['sample_id'], "sample");
+            }
         }
     }
 }

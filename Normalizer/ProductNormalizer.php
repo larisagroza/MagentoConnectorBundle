@@ -132,6 +132,15 @@ class ProductNormalizer extends AbstractNormalizer implements ProductNormalizerI
             $processedItem[Webservice::IMAGES] = $images;
         }
 
+        $pdfs = $this->getNormalizedPdf(
+            $product,
+            $product->getIdentifier()
+        );
+
+        if (count($pdfs) > 0) {
+            $processedItem[Webservice::PDFS] = $pdfs;
+        }
+
         $channel = $this->channelManager->getChannelByCode($context['channel']);
         $exportableLocales = $this->localeFilter->apply($product, $channel);
         //For each storeview, we update the product only with localized attributes
@@ -295,6 +304,10 @@ class ProductNormalizer extends AbstractNormalizer implements ProductNormalizerI
                 $productType = self::MAGENTO_GROUPED_PRODUCT_KEY;
             } else {
                 $productType = self::MAGENTO_SIMPLE_PRODUCT_KEY;
+            }
+
+            if (isset($defaultValues['is_downloadable']) && $defaultValues['is_downloadable'] == 1) {
+                $productType = self::MAGENTO_DOWNLOADABLE_PRODUCT_KEY;
             }
 
             //For the default storeview we create an entire product
@@ -548,5 +561,57 @@ class ProductNormalizer extends AbstractNormalizer implements ProductNormalizerI
         }
 
         return $url;
+    }
+
+    /**
+     * Get the pdfs of a product normalized
+     *
+     * @param ProductInterface $product
+     * @param string $sku
+     * @return array
+     */
+    public function getNormalizedPdf(
+        ProductInterface $product,
+        $sku = ''
+    ) {
+
+        $pdfsValues = $product->getValues()->filter(
+            function ($value) {
+                return $value->getData() instanceof ProductMedia &&
+                in_array($value->getData()->getMimeType(), array('application/pdf'));
+            }
+        );
+
+        if ($sku === '') {
+            $sku = $product->getIdentifier();
+        }
+
+        $pdfs = [];
+
+        foreach ($pdfsValues as $pdfValue) {
+            $data = $pdfValue->getData();
+
+            if ($pdfData = $this->mediaManager->getBase64($data)) {
+                $pdfs[] = [
+                    (string) $sku,
+                    [
+                        'title'                 => (string) $sku,
+                        'is_unlimited'          => 1,
+                        'number_of_downloads'   => 0,
+                        'sample'                => [],
+                        'type'                  => 'file',
+                        'file'                  =>
+                            [
+                                'name'              => $data->getFilename(),
+                                'base64_content'    => $pdfData,
+                                'type'              => 'file'
+                            ],
+                    ],
+                    0,
+                    'sku'
+                ];
+            }
+        }
+        return $pdfs;
     }
 }

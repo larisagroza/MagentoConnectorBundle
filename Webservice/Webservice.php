@@ -116,6 +116,9 @@ class Webservice
     const IMAGES                                             = 'images';
 
     /** @staticvar string */
+    const PDFS                                               = 'pdfs';
+
+    /** @staticvar string */
     const SOAP_ATTRIBUTE_ID                                  = 'attribute_id';
 
     /** @staticvar string */
@@ -389,6 +392,11 @@ class Webservice
      */
     public function updateProductPart($productPart)
     {
+        if (isset($productPart['is_downloadable']) && $productPart['is_downloadable']) {
+            $productPart['type_id'] = "downloadable";
+            $productPart['links_purchased_separately'] = 0;
+        }
+
         $this->client->addCall(
             [self::SOAP_ACTION_CATALOG_PRODUCT_UPDATE, $productPart]
         );
@@ -402,6 +410,11 @@ class Webservice
     public function sendProduct($productPart)
     {
         $storeViewList = $this->getStoreViewsList();
+
+        if (isset($productPart[1]['is_downloadable']) && $productPart[1]['is_downloadable']) {
+            $productPart[1]['type_id'] = "downloadable";
+            $productPart[1]['links_purchased_separately'] = 0;
+        }
 
         if (count($productPart) === static::CREATE_PRODUCT_SIZE ||
             count($productPart) === static::CREATE_CONFIGURABLE_SIZE &&
@@ -1041,5 +1054,67 @@ class Webservice
 
         $category[2] = static::ADMIN_STOREVIEW;
         $this->client->addCall([static::SOAP_ACTION_CATEGORY_UPDATE, $category]);
+    }
+
+    /**
+     * Get all pdfs attached to a product
+     *
+     * @param string $sku
+     * @param string $defaultLocalStore
+     * @return array
+     */
+    public function getPdfs($sku, $defaultLocalStore)
+    {
+        try {
+            $pdfs = $this->client->call(
+                self::SOAP_ACTION_PRODUCT_DOWNLOADABLE_LINK_LIST,
+                [
+                    $sku,
+                    "",
+                    'sku'
+                ]
+            );
+        } catch (\Exception $e) {
+            $pdfs = [];
+
+        }
+        return $pdfs;
+    }
+
+
+    /**
+     * Send all product pdfs
+     * @param array $pdfs All pdfs to send
+
+     */
+    public function sendPdfs($pdfs)
+    {
+
+        foreach ($pdfs as $pdf) {
+            $this->client->addCall(
+                [
+                    self::SOAP_ACTION_PRODUCT_DOWNLOADABLE_LINK_CREATE,
+                    [$pdf[0], $pdf[1], 'link', "", 'sku']
+                ]
+            );
+        }
+    }
+
+    /**
+     * Delete pdf for a given link id
+     *
+     * @param int $pdfId
+     * @param string $type
+     * @return string
+     */
+    public function deletePdf($pdfId, $type)
+    {
+        return $this->client->call(
+            self::SOAP_ACTION_PRODUCT_DOWNLOADABLE_LINK_DELETE,
+            [
+                $pdfId,
+                $type
+            ]
+        );
     }
 }
